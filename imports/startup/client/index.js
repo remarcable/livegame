@@ -1,1 +1,2 @@
-// Import client startup through a single index entry point
+import '/imports/api/users';
+import './renderApp.js';

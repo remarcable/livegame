@@ -6,6 +6,7 @@ const style = {
   paddingBottom: spacing.desktopGutterMini,
   textAlign: 'center',
   fontWeight: 300,
+  fontSize: '.75em',
 };
 
 const App = () => (

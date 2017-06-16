@@ -3,7 +3,6 @@ import { spacing } from 'material-ui/styles';
 
 const style = {
   width: '100%',
-  paddingTop: spacing.desktopGutterMini,
   paddingBottom: spacing.desktopGutterMini,
   textAlign: 'center',
   fontWeight: 300,

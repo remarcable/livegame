@@ -1,7 +1,7 @@
 import React from 'react';
 import { spacing } from 'material-ui/styles';
 
-import ActiveGamePage from '../../Pages/ActiveGame';
+import WaitingPage from '../../Pages/Waiting';
 
 const styles = {
   width: '100%',
@@ -17,7 +17,7 @@ const wrapperStyles = {
 
 const ContentWrapper = () => (
   <div style={styles}>
-    <ActiveGamePage wrapperStyles={wrapperStyles} />
+    <WaitingPage wrapperStyles={wrapperStyles} />
   </div>
 );
 

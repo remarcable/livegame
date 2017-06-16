@@ -1,0 +1,14 @@
+@keyframes heart-animation {
+  0% {
+    transform: scale(0);
+    opacity: .8;
+  }
+  50% {
+    transform: scale(2);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}

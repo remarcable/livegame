@@ -1,7 +1,6 @@
 import React from 'react';
 
 import AppBar from 'material-ui/AppBar';
-import StarIcon from 'material-ui/svg-icons/action/stars';
 
 import ContentWrapper from '../../components/ContentWrapper';
 import Footer from '../../components/Footer';

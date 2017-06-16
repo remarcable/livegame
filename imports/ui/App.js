@@ -6,7 +6,7 @@ import 'normalize.css';
 import 'roboto-fontface/css/roboto/roboto-fontface.css';
 
 import muiTheme from './components/theme';
-import MainLayout from './components/MainLayout';
+import MainLayout from './Layouts/MainLayout';
 
 injectTapEventPlugin();
 

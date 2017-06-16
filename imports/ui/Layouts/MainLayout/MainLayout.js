@@ -2,8 +2,8 @@ import React from 'react';
 
 import AppBar from 'material-ui/AppBar';
 
-import ContentWrapper from '../ContentWrapper';
-import Footer from '../Footer';
+import ContentWrapper from '../../components/ContentWrapper';
+import Footer from '../../components/Footer';
 
 const layoutStyles = {
   minHeight: '100vh',

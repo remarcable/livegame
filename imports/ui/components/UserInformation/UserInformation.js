@@ -12,6 +12,22 @@ const propTypes = {
   alias: PropTypes.string,
 };
 
+const UserInformation = ({ firstName, lastName, ownRank, maxRank, alias }) => (
+  <div style={styles}>
+    <span>{ownRank} / {maxRank}</span>
+    <Divider style={dividerStyles} />
+    { alias
+      ? <span style={{ fontWeight: 200 }}>{alias}</span>
+      : <span style={{ fontWeight: 200 }}>{firstName} {lastName}</span>
+    }
+    {
+      alias
+      && <span style={aliasStyles}>{firstName} {lastName}</span>}
+  </div>
+);
+
+UserInformation.propTypes = propTypes;
+
 const styles = {
   width: '100%',
   margin: theme.spacing.desktopGutter,
@@ -34,20 +50,12 @@ const aliasStyles = {
   fontSize: '.5em',
 };
 
-const UserInformation = ({ firstName, lastName, ownRank, maxRank, alias }) => (
-  <div style={styles}>
-    <span>{ownRank} / {maxRank}</span>
-    <Divider style={dividerStyles} />
-    { alias
-      ? <span style={{ fontWeight: 200 }}>{alias}</span>
-      : <span style={{ fontWeight: 200 }}>{firstName} {lastName}</span>
-    }
-    {
-      alias
-      && <span style={aliasStyles}>{firstName} {lastName}</span>}
-  </div>
+export default () => (
+  <UserInformation
+    firstName="Marc"
+    lastName="Nitzsche"
+    alias="Lustiger Kängurufrosch"
+    ownRank={12}
+    maxRank={100}
+  />
 );
-
-UserInformation.propTypes = propTypes;
-
-export default UserInformation;

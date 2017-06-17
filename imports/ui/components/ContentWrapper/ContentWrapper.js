@@ -1,7 +1,14 @@
 import React from 'react';
 import { spacing } from 'material-ui/styles';
 
-import ActiveVotingPage from '../../Pages/ActiveVoting';
+import WaitingPage from '../../Pages/Waiting';
+
+
+const ContentWrapper = () => (
+  <div style={styles}>
+    <WaitingPage wrapperStyles={wrapperStyles} />
+  </div>
+);
 
 const styles = {
   width: '100%',
@@ -14,11 +21,5 @@ const styles = {
 const wrapperStyles = {
   margin: spacing.desktopGutterLess,
 };
-
-const ContentWrapper = () => (
-  <div style={styles}>
-    <ActiveVotingPage wrapperStyles={wrapperStyles} />
-  </div>
-);
 
 export default ContentWrapper;

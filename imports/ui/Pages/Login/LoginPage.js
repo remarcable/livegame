@@ -9,13 +9,6 @@ const propTypes = {
   wrapperStyles: PropTypes.object,
 };
 
-const styles = {
-  width: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  flexDirection: 'column',
-};
-
 const LoginPage = ({ wrapperStyles = {} }) => (
   <div style={{ ...wrapperStyles, ...styles }}>
     <TextField
@@ -26,11 +19,22 @@ const LoginPage = ({ wrapperStyles = {} }) => (
       floatingLabelText="Nachname"
       fullWidth
     />
-    <div style={{ height: theme.spacing.desktopGutter }} />
-    <RaisedButton label="Anmelden" secondary labelStyle={{ color: '#fff' }} />
+    <RaisedButton
+      label="Anmelden"
+      secondary
+      labelStyle={{ color: '#fff' }}
+      style={{ marginTop: theme.spacing.desktopGutter }}
+    />
   </div>
 );
 
 LoginPage.propTypes = propTypes;
+
+const styles = {
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  flexDirection: 'column',
+};
 
 export default LoginPage;

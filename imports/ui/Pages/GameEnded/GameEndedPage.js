@@ -9,6 +9,16 @@ const propTypes = {
   wrapperStyles: PropTypes.object,
 };
 
+const GameEnded = ({ wrapperStyles = {} }) => (
+  <div style={{ ...wrapperStyles, ...styles }}>
+    <HeartAnimation />
+    <span style={gameEndedMessageStyles}>Vielen Dank für Ihre Teilnahme.</span>
+    <UserInformation />
+  </div>
+);
+
+GameEnded.propTypes = propTypes;
+
 const styles = {
   width: '100%',
   display: 'flex',
@@ -23,21 +33,5 @@ const gameEndedMessageStyles = {
   textAlign: 'center',
   fontWeight: 200,
 };
-
-const GameEnded = ({ wrapperStyles = {} }) => (
-  <div style={{ ...wrapperStyles, ...styles }}>
-    <HeartAnimation />
-    <span style={gameEndedMessageStyles}>Vielen Dank für Ihre Teilnahme.</span>
-    <UserInformation
-      firstName="Marc"
-      lastName="Nitzsche"
-      alias="Lustiger Kängurufrosch"
-      ownRank={12}
-      maxRank={100}
-    />
-  </div>
-);
-
-GameEnded.propTypes = propTypes;
 
 export default GameEnded;

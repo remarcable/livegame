@@ -7,7 +7,25 @@ import UserInformation from '../../components/UserInformation';
 
 const propTypes = {
   wrapperStyles: PropTypes.object,
+  hintText: PropTypes.string,
 };
+
+const Waiting = ({
+  wrapperStyles = {},
+  hintText,
+}) => (
+  <div style={{ ...wrapperStyles, ...styles }}>
+    <UserInformation />
+    <span style={{ margin: theme.spacing.desktopGutter, textAlign: 'center' }}>Bitte warten Sie auf die nächste Runde</span>
+    <CircularProgress size={60} />
+    {
+      hintText &&
+      <span style={hintTextStyles}>{hintText}</span>
+    }
+  </div>
+);
+
+Waiting.propTypes = propTypes;
 
 const styles = {
   width: '100%',
@@ -23,21 +41,9 @@ const hintTextStyles = {
   fontSize: '.75em',
 };
 
-const Waiting = ({ wrapperStyles = {} }) => (
-  <div style={{ ...wrapperStyles, ...styles }}>
-    <UserInformation
-      firstName="Marc"
-      lastName="Nitzsche"
-      alias="Lustiger Kängurufrosch"
-      ownRank={12}
-      maxRank={100}
-    />
-    <span style={{ margin: theme.spacing.desktopGutter, textAlign: 'center' }}>Bitte warten Sie auf die nächste Runde</span>
-    <CircularProgress size={60} />
-    <span style={hintTextStyles}>1972 – In Stockholm endet die erste Konferenz der Vereinten Nationen über die Umwelt des Menschen, die den Beginn der global koordinierten Umweltpolitik markiert.</span>
-  </div>
+export default props => (
+  <Waiting
+    hintText="1972 – In Stockholm endet die erste Konferenz der Vereinten Nationen über die Umwelt des Menschen, die den Beginn der global koordinierten Umweltpolitik markiert."
+    {...props}
+  />
 );
-
-Waiting.propTypes = propTypes;
-
-export default Waiting;

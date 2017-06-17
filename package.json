@@ -64,7 +64,8 @@
             "no-use-before-define": [
                 "warn",
                 {
-                    "functions": false
+                    "functions": false,
+                    "variables": false
                 }
             ],
             "consistent-this": [

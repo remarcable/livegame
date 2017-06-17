@@ -4,28 +4,65 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 const propTypes = {
   wrapperStyles: PropTypes.object,
+  question: PropTypes.string.isRequired,
+  questionNumber: PropTypes.number.isRequired,
+  answerOption1: PropTypes.string.isRequired,
+  answerOption2: PropTypes.string.isRequired,
 };
 
-const styles = {
-  width: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  flexDirection: 'column',
-};
+const questionNumberString = questionNumber => `${questionNumber}`.padStart(2, '0');
 
-const ActiveVoting = ({ wrapperStyles = {} }) => (
+const ActiveVoting = ({
+  wrapperStyles = {},
+  question,
+  questionNumber,
+  answerOption1,
+  answerOption2,
+}) => (
   <div style={{ ...wrapperStyles, ...styles }}>
     <p style={{ fontWeight: 200 }}>
-      <span style={{ textTransform: 'uppercase', fontWeight: 700, fontSize: '.8em', paddingRight: '.75em' }}>03. Frage</span>
-      Haben Sie weiße Schuhe an?
+      <span style={questionNumberStyles}>{questionNumberString(questionNumber)}. Frage</span>
+      {question}
     </p>
     <div style={{ display: 'flex' }}>
-      <RaisedButton label="Ja" primary style={{ margin: '.5em' }} labelStyle={{ color: '#fff' }} />
-      <RaisedButton label="Nein" secondary style={{ margin: '.5em' }} labelStyle={{ color: '#fff' }} />
+      <RaisedButton
+        label={answerOption1}
+        primary
+        style={{ margin: '.5em' }}
+        labelStyle={{ color: '#fff' }}
+      />
+      <RaisedButton
+        label={answerOption2}
+        secondary
+        style={{ margin: '.5em' }}
+        labelStyle={{ color: '#fff' }}
+      />
     </div>
   </div>
 );
 
 ActiveVoting.propTypes = propTypes;
 
-export default ActiveVoting;
+const styles = {
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+};
+
+const questionNumberStyles = {
+  paddingRight: '.75em',
+  fontSize: '.8em',
+  fontWeight: 700,
+  textTransform: 'uppercase',
+};
+
+export default props => (
+  <ActiveVoting
+    question="Haben Sie weiße Schuhe an?"
+    questionNumber={3}
+    answerOption1="Ja"
+    answerOption2="Nein"
+    {...props}
+  />
+);

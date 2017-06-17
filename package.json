@@ -9,6 +9,7 @@
     "dependencies": {
         "babel-runtime": "^6.23.0",
         "bcrypt": "^1.0.2",
+        "just-random": "^1.0.0",
         "material-ui": "^0.18.3",
         "meteor-node-stubs": "^0.2.11",
         "normalize.css": "^7.0.0",

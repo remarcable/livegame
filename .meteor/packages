@@ -19,3 +19,5 @@ ecmascript@0.8.0              # Enable ECMAScript2015+ syntax in app code
 static-html
 accounts-base
 react-meteor-data
+mdg:validated-method
+aldeed:simple-schema

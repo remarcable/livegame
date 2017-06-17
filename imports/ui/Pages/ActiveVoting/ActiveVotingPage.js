@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 
+import Question from '../../components/Question';
+
 const propTypes = {
   wrapperStyles: PropTypes.object,
   question: PropTypes.string.isRequired,
@@ -9,8 +11,6 @@ const propTypes = {
   answerOption1: PropTypes.string.isRequired,
   answerOption2: PropTypes.string.isRequired,
 };
-
-const questionNumberString = questionNumber => `${questionNumber}`.padStart(2, '0');
 
 const ActiveVoting = ({
   wrapperStyles = {},
@@ -20,10 +20,10 @@ const ActiveVoting = ({
   answerOption2,
 }) => (
   <div style={{ ...wrapperStyles, ...styles }}>
-    <p style={{ fontWeight: 200 }}>
-      <span style={questionNumberStyles}>{questionNumberString(questionNumber)}. Frage</span>
-      {question}
-    </p>
+    <Question
+      questionNumber={questionNumber}
+      question={question}
+    />
     <div style={{ display: 'flex' }}>
       <RaisedButton
         label={answerOption1}

@@ -2,17 +2,16 @@ import { Meteor } from 'meteor/meteor';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
-
 import Submissions from '../submissions/collection';
 import Games from '../games/collection';
 
 
-export const submitScore = new ValidatedMethod({
+export const submitAnswer = new ValidatedMethod({
   name: 'submissions.insert',
   validate: new SimpleSchema({
-    answer: { type: Number },
+    guess: { type: Number },
   }).validator(),
-  run({ answer }) {
+  run({ guess }) {
     // TODO: Add proper authentication
     if (this.isSimulation) return;
     const userId = Meteor.userId();
@@ -22,6 +21,6 @@ export const submitScore = new ValidatedMethod({
     const hasAlreadyAnswered = Submissions.findOne({ userId, gameId });
     if (hasAlreadyAnswered) throw new Meteor.Error('User has already submitted for this game');
 
-    Submissions.insert({ userId, gameId, answer });
+    Submissions.insert({ userId, gameId, guess });
   },
 });

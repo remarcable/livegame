@@ -7,7 +7,7 @@ const submissionSchema = new SimpleSchema({
   gameId: {
     type: SimpleSchema.RegEx.Id,
   },
-  answer: {
+  guess: {
     type: Number,
     decimal: true,
   },

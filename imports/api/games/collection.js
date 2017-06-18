@@ -1,5 +1,5 @@
 import { Mongo } from 'meteor/mongo';
-import { gameSchema } from './schema';
+import gameSchema from './schema';
 
 const Games = new Mongo.Collection('games');
 Games.attachSchema(gameSchema);

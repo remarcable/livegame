@@ -1,4 +1,6 @@
 import { Meteor } from 'meteor/meteor';
+import { Counts } from 'meteor/tmeasday:publish-counts';
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -61,6 +63,7 @@ const aliasStyles = {
 
 export default UserInformationContainer = createContainer(() => {
   const userHandle = Meteor.subscribe('users.loggedIn');
+  const maxRank = Counts.get('users.loggedInCount');
   const isReady = userHandle.ready();
   const user = Meteor.user() || {};
   const { firstName, lastName, alias, rank } = user;
@@ -70,5 +73,6 @@ export default UserInformationContainer = createContainer(() => {
     lastName,
     alias,
     ownRank: rank,
+    maxRank,
   };
 }, UserInformation);

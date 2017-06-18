@@ -1,5 +1,7 @@
+import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { spacing } from 'material-ui/styles';
+import { createContainer } from 'meteor/react-meteor-data';
 
 import WaitingPage from '../../Pages/Waiting';
 
@@ -22,4 +24,8 @@ const wrapperStyles = {
   margin: spacing.desktopGutterLess,
 };
 
-export default ContentWrapper;
+export default ContentWrapperContainer = createContainer(() => {
+  const gamesHandle = Meteor.subscribe('games.active');
+  const submissionsHandle = Meteor.subscribe('submissions.own');
+  return {};
+}, ContentWrapper);

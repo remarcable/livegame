@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+
+import { submitAnswer } from '../../../api/submissions/methods';
 
 import Question from '../../components/Question';
 import { theme } from '../../components/theme';
@@ -9,7 +12,7 @@ import { theme } from '../../components/theme';
 const propTypes = {
   wrapperStyles: PropTypes.object,
   question: PropTypes.string.isRequired,
-  questionNumber: PropTypes.number.isRequired,
+  questionNumber: PropTypes.number,
 };
 
 const ActiveGame = ({
@@ -17,23 +20,35 @@ const ActiveGame = ({
   question,
   questionNumber,
 }) => (
-  <div style={{ ...wrapperStyles, ...styles }}>
+  <form style={{ ...wrapperStyles, ...styles }} onSubmit={handleOnSubmit}>
     <Question
       questionNumber={questionNumber}
       question={question}
     />
     <TextField
       floatingLabelText="Antwort"
+      name="guess"
+      type="number"
       fullWidth
     />
     <RaisedButton
       label="Tipp abgeben"
       secondary
+      type="submit"
       labelStyle={{ color: '#fff' }}
       style={{ marginTop: theme.spacing.desktopGutter }}
     />
-  </div>
+  </form>
 );
+
+const handleOnSubmit = (e) => {
+  e.preventDefault();
+
+  const guess = parseInt(e.target.guess.value, 10);
+  if (!guess) return;
+
+  submitAnswer.call({ guess });
+};
 
 ActiveGame.propTypes = propTypes;
 
@@ -44,10 +59,4 @@ const styles = {
   flexDirection: 'column',
 };
 
-export default props => (
-  <ActiveGame
-    question="Wie viele Menschen waren bereits auf dem Mond?"
-    questionNumber={4}
-    {...props}
-  />
-);
+export default ActiveGame;

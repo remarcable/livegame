@@ -17,9 +17,10 @@ const propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   gameIsActive: PropTypes.bool.isRequired,
   userHasSubmittedForCurrentGame: PropTypes.bool.isRequired,
+  gameQuestion: PropTypes.string,
 };
 
-const ContentWrapper = ({ isLoggedIn, gameIsActive, userHasSubmittedForCurrentGame }) => {
+const ContentWrapper = ({ isLoggedIn, gameIsActive, userHasSubmittedForCurrentGame, gameQuestion }) => {
   if (!isLoggedIn) {
     return (
       <div style={styles}>
@@ -31,7 +32,7 @@ const ContentWrapper = ({ isLoggedIn, gameIsActive, userHasSubmittedForCurrentGa
   if (gameIsActive && !userHasSubmittedForCurrentGame) {
     return (
       <div style={styles}>
-        <ActiveGamePage wrapperStyles={wrapperStyles} />
+        <ActiveGamePage wrapperStyles={wrapperStyles} question={gameQuestion} />
       </div>
     );
   }
@@ -64,9 +65,10 @@ export default ContentWrapperContainer = createContainer(() => {
   const userId = Meteor.userId();
   const currentGame = Games.findOne({ state: 'active' }) || {};
   const gameId = currentGame._id;
+  const gameQuestion = currentGame.question;
 
   const isLoggedIn = !!userId;
   const gameIsActive = !!gameId;
   const userHasSubmittedForCurrentGame = !!Submissions.findOne({ userId, gameId });
-  return { isLoggedIn, gameIsActive, userHasSubmittedForCurrentGame };
+  return { isLoggedIn, gameIsActive, userHasSubmittedForCurrentGame, gameQuestion };
 }, ContentWrapper);

@@ -22,7 +22,8 @@ const propTypes = {
 const UserInformation = ({ isReady, firstName, lastName, ownRank, maxRank, alias }) => (
   isReady
   ? <div style={styles}>
-    <span>{ownRank} / {maxRank}</span>
+    {/* If no ownRank is supplied, usw maxRank */}
+    <span>{ownRank || maxRank} / {maxRank}</span>
     <Divider style={dividerStyles} />
     { alias
       ? <span style={{ fontWeight: 200 }}>{alias}</span>

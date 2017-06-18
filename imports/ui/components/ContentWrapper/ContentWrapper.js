@@ -13,9 +13,11 @@ import Submissions from '../../../api/submissions/collection';
 import LoginPage from '../../Pages/Login';
 import ActiveGamePage from '../../Pages/ActiveGame';
 import GameEndedPage from '../../Pages/GameEnded';
+import LoadingPage from '../../Pages/Loading';
 import WaitingPage from '../../Pages/Waiting';
 
 const propTypes = {
+  isReady: PropTypes.bool.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   gameIsActive: PropTypes.bool.isRequired,
   liveGameEnded: PropTypes.bool.isRequired,
@@ -23,11 +25,19 @@ const propTypes = {
   gameQuestion: PropTypes.string,
 };
 
-const ContentWrapper = ({ isLoggedIn, gameIsActive, liveGameEnded, userHasSubmittedForCurrentGame, gameQuestion }) => {
+const ContentWrapper = ({ isReady, isLoggedIn, gameIsActive, liveGameEnded, userHasSubmittedForCurrentGame, gameQuestion }) => {
   if (!isLoggedIn) {
     return (
       <div style={styles}>
         <LoginPage wrapperStyles={wrapperStyles} />
+      </div>
+    );
+  }
+
+  if (!isReady) {
+    return (
+      <div style={styles}>
+        <LoadingPage wrapperStyles={wrapperStyles} />
       </div>
     );
   }
@@ -74,6 +84,8 @@ export default ContentWrapperContainer = createContainer(() => {
   const submissionsHandle = Meteor.subscribe('submissions.own');
   const appStateHandle = Meteor.subscribe('appState');
 
+  const isReady = gamesHandle.ready() && submissionsHandle.ready() && appStateHandle.ready();
+
   const userId = Meteor.userId();
   const currentGame = Games.findOne({ state: 'active' }) || {};
   const appState = AppState.findOne() || {};
@@ -81,10 +93,11 @@ export default ContentWrapperContainer = createContainer(() => {
   const gameQuestion = currentGame.question;
 
   const isLoggedIn = !!userId;
+  const liveGameEnded = appState.gameEnded || false;
   const gameIsActive = !!gameId;
-  const liveGameEnded = appState.gameEnded;
   const userHasSubmittedForCurrentGame = !!Submissions.findOne({ userId, gameId });
   return {
+    isReady,
     isLoggedIn,
     gameIsActive,
     liveGameEnded,

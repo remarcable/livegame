@@ -6,25 +6,36 @@ import { createContainer } from 'meteor/react-meteor-data';
 
 import { spacing } from 'material-ui/styles';
 
+import AppState from '../../../api/appState/collection';
 import Games from '../../../api/games/collection';
 import Submissions from '../../../api/submissions/collection';
 
 import LoginPage from '../../Pages/Login';
 import ActiveGamePage from '../../Pages/ActiveGame';
+import GameEndedPage from '../../Pages/GameEnded';
 import WaitingPage from '../../Pages/Waiting';
 
 const propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   gameIsActive: PropTypes.bool.isRequired,
+  liveGameEnded: PropTypes.bool.isRequired,
   userHasSubmittedForCurrentGame: PropTypes.bool.isRequired,
   gameQuestion: PropTypes.string,
 };
 
-const ContentWrapper = ({ isLoggedIn, gameIsActive, userHasSubmittedForCurrentGame, gameQuestion }) => {
+const ContentWrapper = ({ isLoggedIn, gameIsActive, liveGameEnded, userHasSubmittedForCurrentGame, gameQuestion }) => {
   if (!isLoggedIn) {
     return (
       <div style={styles}>
         <LoginPage wrapperStyles={wrapperStyles} />
+      </div>
+    );
+  }
+
+  if (liveGameEnded) {
+    return (
+      <div style={styles}>
+        <GameEndedPage wrapperStyles={wrapperStyles} />
       </div>
     );
   }
@@ -61,14 +72,23 @@ const wrapperStyles = {
 export default ContentWrapperContainer = createContainer(() => {
   const gamesHandle = Meteor.subscribe('games.active');
   const submissionsHandle = Meteor.subscribe('submissions.own');
+  const appStateHandle = Meteor.subscribe('appState');
 
   const userId = Meteor.userId();
   const currentGame = Games.findOne({ state: 'active' }) || {};
+  const appState = AppState.findOne() || {};
   const gameId = currentGame._id;
   const gameQuestion = currentGame.question;
 
   const isLoggedIn = !!userId;
   const gameIsActive = !!gameId;
+  const liveGameEnded = appState.gameEnded;
   const userHasSubmittedForCurrentGame = !!Submissions.findOne({ userId, gameId });
-  return { isLoggedIn, gameIsActive, userHasSubmittedForCurrentGame, gameQuestion };
+  return {
+    isLoggedIn,
+    gameIsActive,
+    liveGameEnded,
+    userHasSubmittedForCurrentGame,
+    gameQuestion,
+  };
 }, ContentWrapper);

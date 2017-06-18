@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const propTypes = {
   question: PropTypes.string.isRequired,
-  questionNumber: PropTypes.number.isRequired,
+  questionNumber: PropTypes.number,
 };
 
 // Convert the questionNumber to a string allow leftpad
@@ -14,7 +14,10 @@ const Question = ({
   questionNumber,
 }) => (
   <p style={{ fontWeight: 200 }}>
-    <span style={questionNumberStyles}>{questionNumberString(questionNumber)}. Frage</span>
+    {
+      questionNumber
+      && <span style={questionNumberStyles}>{questionNumberString(questionNumber)}. Frage</span>
+    }
     {question}
   </p>
 );

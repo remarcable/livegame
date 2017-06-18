@@ -21,3 +21,5 @@ accounts-base
 react-meteor-data
 mdg:validated-method
 aldeed:simple-schema
+shell-server
+aldeed:collection2

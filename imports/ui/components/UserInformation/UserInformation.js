@@ -1,19 +1,25 @@
+import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import { createContainer } from 'meteor/react-meteor-data';
+
 import Divider from 'material-ui/Divider';
 
 import { theme } from '../theme';
 
 const propTypes = {
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
-  ownRank: PropTypes.number.isRequired,
-  maxRank: PropTypes.number.isRequired,
+  isReady: PropTypes.bool.isRequired,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  ownRank: PropTypes.number,
+  maxRank: PropTypes.number,
   alias: PropTypes.string,
 };
 
-const UserInformation = ({ firstName, lastName, ownRank, maxRank, alias }) => (
-  <div style={styles}>
+const UserInformation = ({ isReady, firstName, lastName, ownRank, maxRank, alias }) => (
+  isReady
+  ? <div style={styles}>
     <span>{ownRank} / {maxRank}</span>
     <Divider style={dividerStyles} />
     { alias
@@ -22,8 +28,10 @@ const UserInformation = ({ firstName, lastName, ownRank, maxRank, alias }) => (
     }
     {
       alias
-      && <span style={aliasStyles}>{firstName} {lastName}</span>}
+      && <span style={aliasStyles}>{firstName} {lastName}</span>
+    }
   </div>
+  : <div>Lädt...</div>
 );
 
 UserInformation.propTypes = propTypes;
@@ -34,6 +42,7 @@ const styles = {
   display: 'flex',
   alignItems: 'center',
   flexDirection: 'column',
+  textAlign: 'center',
   fontSize: '1.5em',
 };
 
@@ -50,12 +59,16 @@ const aliasStyles = {
   fontSize: '.5em',
 };
 
-export default () => (
-  <UserInformation
-    firstName="Marc"
-    lastName="Nitzsche"
-    alias="Lustiger Kängurufrosch"
-    ownRank={12}
-    maxRank={100}
-  />
-);
+export default UserInformationContainer = createContainer(() => {
+  const userHandle = Meteor.subscribe('users.loggedIn');
+  const isReady = userHandle.ready();
+  const user = Meteor.user() || {};
+  const { firstName, lastName, alias, rank } = user;
+  return {
+    isReady,
+    firstName,
+    lastName,
+    alias,
+    ownRank: rank,
+  };
+}, UserInformation);

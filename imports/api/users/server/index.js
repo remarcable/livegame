@@ -1,1 +1,2 @@
 import './loginMethod';
+import './publications';

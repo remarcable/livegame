@@ -4,6 +4,10 @@ const appStateSchema = new SimpleSchema({
   gameEnded: {
     type: Boolean,
   },
+  hintText: {
+    type: String,
+    optional: true,
+  },
   scoreboard: {
     type: String,
     allowedValues: ['scores', 'voting'],

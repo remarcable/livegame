@@ -23,9 +23,18 @@ const propTypes = {
   liveGameEnded: PropTypes.bool.isRequired,
   userHasSubmittedForCurrentGame: PropTypes.bool.isRequired,
   gameQuestion: PropTypes.string,
+  hintText: PropTypes.string,
 };
 
-const ContentWrapper = ({ isReady, isLoggedIn, gameIsActive, liveGameEnded, userHasSubmittedForCurrentGame, gameQuestion }) => {
+const ContentWrapper = ({
+  isReady,
+  isLoggedIn,
+  gameIsActive,
+  liveGameEnded,
+  userHasSubmittedForCurrentGame,
+  gameQuestion,
+  hintText,
+}) => {
   if (!isLoggedIn) {
     return (
       <div style={styles}>
@@ -60,7 +69,7 @@ const ContentWrapper = ({ isReady, isLoggedIn, gameIsActive, liveGameEnded, user
 
   return (
     <div style={styles}>
-      <WaitingPage wrapperStyles={wrapperStyles} />
+      <WaitingPage wrapperStyles={wrapperStyles} hintText={hintText} />
     </div>
   );
 };
@@ -91,6 +100,7 @@ export default ContentWrapperContainer = createContainer(() => {
   const appState = AppState.findOne() || {};
   const gameId = currentGame._id;
   const gameQuestion = currentGame.question;
+  const hintText = appState.hintText;
 
   const isLoggedIn = !!userId;
   const liveGameEnded = appState.gameEnded || false;
@@ -103,5 +113,6 @@ export default ContentWrapperContainer = createContainer(() => {
     liveGameEnded,
     userHasSubmittedForCurrentGame,
     gameQuestion,
+    hintText,
   };
 }, ContentWrapper);

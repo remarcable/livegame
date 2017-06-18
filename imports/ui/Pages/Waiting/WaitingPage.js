@@ -41,9 +41,4 @@ const hintTextStyles = {
   fontSize: '.75em',
 };
 
-export default props => (
-  <Waiting
-    hintText="1972 – In Stockholm endet die erste Konferenz der Vereinten Nationen über die Umwelt des Menschen, die den Beginn der global koordinierten Umweltpolitik markiert."
-    {...props}
-  />
-);
+export default Waiting;

@@ -6,6 +6,7 @@ Meteor.publish('appState', function () {
   return AppState.find({}, {
     fields: {
       gameEnded: 1,
+      hintText: 1,
     },
     limit: 1,
   });

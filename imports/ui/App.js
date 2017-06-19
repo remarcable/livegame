@@ -12,6 +12,7 @@ import 'normalize.css';
 import 'roboto-fontface/css/roboto/roboto-fontface.css';
 
 import muiTheme from './components/theme';
+import MainLayout from './Layouts/MainLayout';
 import LoadingPage from './Pages/Loading';
 
 injectTapEventPlugin();
@@ -20,9 +21,9 @@ const App = () => (
   <MuiThemeProvider muiTheme={muiTheme}>
     <Router>
       <Switch>
-        <Route exact path="/admin" component={AdminArea} />
-        <Route exact path="/admin/scoreboard" component={Scoreboard} />
-        <Route component={LoadableComponent} />
+        <Route exact path="/admin" component={AdminLayoutLoadable} />
+        <Route exact path="/admin/scoreboard" component={ScoreboardLayoutLoadable} />
+        <Route component={MainLayout} />
       </Switch>
     </Router>
   </MuiThemeProvider>
@@ -30,10 +31,14 @@ const App = () => (
 
 export default App;
 
-const AdminArea = () => <h1>Hello World!</h1>;
-const Scoreboard = () => <h1>Scoreboard</h1>;
-
-const LoadableComponent = Loadable({
-  loader: () => import('../ui/Layouts/MainLayout'),
+const AdminLayoutLoadable = Loadable({
+  loader: () => import('./Layouts/AdminLayout'),
   loading: LoadingPage,
+  delay: 200,
+});
+
+const ScoreboardLayoutLoadable = Loadable({
+  loader: () => import('./Layouts/ScoreboardLayout'),
+  loading: LoadingPage,
+  delay: 200,
 });

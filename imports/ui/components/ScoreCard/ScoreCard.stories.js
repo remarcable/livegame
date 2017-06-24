@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf, addDecorator } from '@storybook/react';
 import { muiTheme } from 'storybook-addon-material-ui';
-import ScoreCard from './ScoreCard';
+import ScoreCard from './ScoreCard.js';
 import { ownValues } from '../theme';
 
 addDecorator(muiTheme([

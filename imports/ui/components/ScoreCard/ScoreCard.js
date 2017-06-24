@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Paper from 'material-ui/Paper';
+import muiThemeable from 'material-ui/styles/muiThemeable';
 import { orange500 } from 'material-ui/styles/colors';
 
 import padLeft from '../../../api/helpers/padLeft';
@@ -9,15 +10,14 @@ import padLeft from '../../../api/helpers/padLeft';
 const propTypes = {
   fullName: PropTypes.string.isRequired,
   rank: PropTypes.number.isRequired,
+  style: PropTypes.object,
 };
 
 
-const ScoreCard = ({
-  fullName,
-  rank,
-}) => (
-  <Paper zDepth={3} style={styles}>
-    <span style={rankStyles}>{padLeft(rank)}.</span> {fullName}
+const ScoreCard = ({ fullName, rank, style }) => (
+  <Paper zDepth={3} style={{ ...styles, ...style }}>
+    <span style={rankStyles}>{padLeft(rank)}.</span>
+    <span>{fullName}</span>
   </Paper>
 );
 
@@ -29,6 +29,7 @@ const styles = {
   marginBottom: '.25rem',
   fontWeight: 200,
   fontSize: '1.5em',
+  width: '100%',
 };
 
 const rankStyles = { fontWeight: 600, textTransform: 'uppercase', marginRight: '.5em' };

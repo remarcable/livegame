@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { muiTheme } from 'storybook-addon-material-ui';
 import { ownValues } from '../theme';
-import ScoreboardList from './ScoreboardList';
+import ScoreboardListTester from './ScoreboardListTester';
 
 
 storiesOf('ScoreboardList', module)
@@ -19,26 +19,8 @@ storiesOf('ScoreboardList', module)
     ownValues,
   ]))
   .add('classic', () => (
-    <ScoreboardList entries={entries1} />
+    <ScoreboardListTester />
   ))
   .add('with different rank', () => (
-    <ScoreboardList entries={entries2} />
+    <ScoreboardListTester />
   ));
-
-const entries1 = [
-  { fullName: 'Marc Nitzsche', rank: 1, id: 'fjlöadsjfadsgp' },
-  { fullName: 'Jonas Kirsch', rank: 2, id: 'adgadgadsgadfa' },
-  { fullName: 'Peter Lustig', rank: 3, id: 'fasdhfklasjfja' },
-  { fullName: 'Hannah Klein', rank: 4, id: 'adshfakdjflsad' },
-  { fullName: 'Finn Nicht-Haag', rank: 5, id: 'adfjasöldfnagd' },
-  { fullName: 'Paul Konrad', rank: 6, id: 'sdfidsovmdsfda' },
-];
-
-const entries2 = [
-  { fullName: 'Jonas Kirsch', rank: 1, id: 'adgadgadsgadfa' },
-  { fullName: 'Peter Lustig', rank: 2, id: 'fasdhfklasjfja' },
-  { fullName: 'Marc Nitzsche', rank: 3, id: 'fjlöadsjfadsgp' },
-  { fullName: 'Hannah Klein', rank: 4, id: 'adshfakdjflsad' },
-  { fullName: 'Finn Nicht-Haag', rank: 5, id: 'adfjasöldfnagd' },
-  { fullName: 'Paul Konrad', rank: 6, id: 'sdfidsovmdsfda' },
-];

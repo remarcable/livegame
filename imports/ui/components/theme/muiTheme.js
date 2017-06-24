@@ -8,16 +8,24 @@ import {
   grey800, grey600,
 } from 'material-ui/styles/colors';
 
-export const theme = {
-  ...darkBaseTheme,
+export const ownValues = {
+  themeName: 'wbplive',
   palette: {
-    ...darkBaseTheme.palette,
     primary1Color: orange500,
     primary2Color: orange600,
     primary3Color: blueGrey700,
     accent1Color: blue700,
     accent2Color: grey800,
     accent3Color: grey600,
+  },
+};
+
+export const theme = {
+  ...darkBaseTheme,
+  ...ownValues,
+  palette: {
+    ...darkBaseTheme.palette,
+    ...ownValues.palette,
   },
 };
 

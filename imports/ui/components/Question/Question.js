@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import PadLeft from '../PadLeft';
+import padLeft from '../../../api/helpers/padLeft';
 
 const propTypes = {
   question: PropTypes.string.isRequired,
@@ -15,7 +15,7 @@ const Question = ({
   <p style={{ fontWeight: 200 }}>
     {
       questionNumber
-      && <span style={questionNumberStyles}><PadLeft>{questionNumber}</PadLeft>. Frage</span>
+      && <span style={questionNumberStyles}>{padLeft(questionNumber)}. Frage</span>
     }
     {question}
   </p>

@@ -88,7 +88,7 @@ const wrapperStyles = {
   margin: spacing.desktopGutterLess,
 };
 
-export default ContentWrapperContainer = createContainer(() => {
+export default createContainer(() => {
   const gamesHandle = Meteor.subscribe('games.active');
   const submissionsHandle = Meteor.subscribe('submissions.own');
   const appStateHandle = Meteor.subscribe('appState');

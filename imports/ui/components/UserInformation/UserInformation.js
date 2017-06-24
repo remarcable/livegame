@@ -62,7 +62,7 @@ const aliasStyles = {
   fontSize: '.5em',
 };
 
-export default UserInformationContainer = createContainer(() => {
+export default createContainer(() => {
   const userHandle = Meteor.subscribe('users.loggedIn');
   const maxRank = Counts.get('users.loggedInCount');
   const isReady = userHandle.ready();

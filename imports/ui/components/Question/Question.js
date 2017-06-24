@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import PadLeft from '../PadLeft';
+
 const propTypes = {
   question: PropTypes.string.isRequired,
   questionNumber: PropTypes.number,
 };
-
-// Convert the questionNumber to a string allow leftpad
-const questionNumberString = questionNumber => `${questionNumber}`.padStart(2, '0');
 
 const Question = ({
   question,
@@ -16,7 +15,7 @@ const Question = ({
   <p style={{ fontWeight: 200 }}>
     {
       questionNumber
-      && <span style={questionNumberStyles}>{questionNumberString(questionNumber)}. Frage</span>
+      && <span style={questionNumberStyles}><PadLeft>{questionNumber}</PadLeft>. Frage</span>
     }
     {question}
   </p>

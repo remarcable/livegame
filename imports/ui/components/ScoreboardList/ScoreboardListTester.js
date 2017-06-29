@@ -50,9 +50,9 @@ const entries3 = [
   { fullName: 'Peter Lustig', rank: 1, id: 'fasdhfklasjfja' },
   { fullName: 'Jonas Haug', rank: 2, id: 'asdfjlkadsjfls' },
   { fullName: 'Marc Nitzsche', rank: 3, id: 'fjlöadsjfadsgp' },
-  { fullName: 'Hannah Klein', rank: 4, id: 'adshfakdjflsad' },
-  { fullName: 'Finn Nicht-Haag', rank: 5, id: 'adfjasöldfnagd' },
   { fullName: 'Paul Konrad', rank: 6, id: 'sdfidsovmdsfda' },
+  { fullName: 'Hannah Klein', rank: 4, id: 'adshfakdjflsad' },
+  { fullName: 'Neuer Typ', rank: 6, id: 'dfalsdjfalsdfjls' },
 ];
 
 

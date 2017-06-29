@@ -14,8 +14,8 @@ const propTypes = {
 };
 
 const myPreset = {
-  stiffness: 60,
-  damping: 13,
+  stiffness: 50,
+  damping: 12,
 };
 
 const ScoreboardList = ({ entries }) => (
@@ -23,18 +23,19 @@ const ScoreboardList = ({ entries }) => (
     <TransitionMotion
       willLeave={() => ({ transform: spring(1500, myPreset) })}
       willEnter={() => ({ transform: 1500 })}
-      styles={entries.map(entry => ({
+      styles={entries.map((entry, index) => ({
         key: entry.id,
-        data: { fullName: entry.fullName, rank: entry.rank },
-        style: { transform: spring(105 * entry.rank, myPreset) },
+        data: { fullName: entry.fullName, rank: entry.rank, zIndex: entries.length - index },
+        style: { transform: spring(105 * (index + 1), myPreset) },
       }))}
     >
       {entryStyles =>
         <div>
-          {entryStyles.map(({ data: { fullName, rank }, key, style }) => (
+          {entryStyles.map(({ data: { fullName, rank, zIndex }, key, style }) => (
             <div
               style={{
                 transform: `translate3d(0, ${style.transform}%, 0)`,
+                zIndex,
                 ...wrapperStyle }}
               key={key}
             >

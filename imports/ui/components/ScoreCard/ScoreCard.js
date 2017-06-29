@@ -15,7 +15,7 @@ const propTypes = {
 
 
 const ScoreCard = ({ fullName, rank, style }) => (
-  <Paper zDepth={3} style={{ ...styles, ...style }}>
+  <Paper zDepth={4} style={{ ...styles, ...style }}>
     <span style={rankStyles}>{padLeft(rank)}.</span>
     <span>{fullName}</span>
   </Paper>

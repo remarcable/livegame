@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Paper from 'material-ui/Paper';
-import muiThemeable from 'material-ui/styles/muiThemeable';
 import { orange500 } from 'material-ui/styles/colors';
 
 import padLeft from '../../../api/helpers/padLeft';

@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { TransitionMotion, spring } from 'react-motion';
 
-import ScoreCard from '../ScoreCard/ScoreCard.js';
+import { animationPreset } from '../theme';
+import StyledScoreCard from '../ScoreCard/StyledScoreCard.js';
+
 
 const propTypes = {
   entries: PropTypes.arrayOf(PropTypes.shape({
@@ -13,34 +14,29 @@ const propTypes = {
   })).isRequired,
 };
 
-const myPreset = {
-  stiffness: 50,
-  damping: 12,
-};
+const entriesStyles = entries => entries.map((entry, index) => ({
+  key: entry.id,
+  data: { fullName: entry.fullName, rank: entry.rank, zIndex: entries.length - index },
+  style: { translateY: spring(105 * (index + 1), animationPreset) },
+}));
 
 const ScoreboardList = ({ entries }) => (
   <div style={{ position: 'relative' }}>
     <TransitionMotion
-      willLeave={() => ({ transform: spring(1500, myPreset) })}
-      willEnter={() => ({ transform: 1500 })}
-      styles={entries.map((entry, index) => ({
-        key: entry.id,
-        data: { fullName: entry.fullName, rank: entry.rank, zIndex: entries.length - index },
-        style: { transform: spring(105 * (index + 1), myPreset) },
-      }))}
+      willLeave={() => ({ translateY: spring(1500, animationPreset) })}
+      willEnter={() => ({ translateY: 1500 })}
+      styles={entriesStyles(entries)}
     >
       {entryStyles =>
         <div>
-          {entryStyles.map(({ data: { fullName, rank, zIndex }, key, style }) => (
-            <div
-              style={{
-                transform: `translate3d(0, ${style.transform}%, 0)`,
-                zIndex,
-                ...wrapperStyle }}
+          {entryStyles.map(({ data: { fullName, rank, zIndex }, key, style: { translateY } }) => (
+            <StyledScoreCard
+              translateY={translateY}
+              zIndex={zIndex}
+              fullName={fullName}
+              rank={rank}
               key={key}
-            >
-              <ScoreCard fullName={fullName} rank={rank} />
-            </div>
+            />
           ),
           )}
         </div>
@@ -48,11 +44,6 @@ const ScoreboardList = ({ entries }) => (
     </TransitionMotion>
   </div>
 );
-
-const wrapperStyle = {
-  position: 'absolute',
-  width: '100%',
-};
 
 ScoreboardList.propTypes = propTypes;
 

@@ -15,12 +15,12 @@ const submissionSchema = new SimpleSchema({
     type: Date,
     autoValue() {
       if (this.isInsert) {
-        return new Date;
+        return new Date();
       } else if (this.isUpsert) {
-        return { $setOnInsert: new Date };
-      } else {
-        this.unset();  // Prevent user from supplying their own value
+        return { $setOnInsert: new Date() };
       }
+
+      this.unset();  // Prevent user from supplying their own value
     },
   },
 });

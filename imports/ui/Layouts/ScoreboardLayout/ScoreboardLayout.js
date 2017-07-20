@@ -1,8 +1,49 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+import { Meteor } from 'meteor/meteor';
+import { createContainer } from 'meteor/react-meteor-data';
 
 import AppBar from 'material-ui/AppBar';
 import Footer from '../../components/Footer';
-import ScoreCard from '../../components/ScoreCard';
+import ScoreboardList from '../../components/ScoreboardList';
+
+import AppState from '../../../api/appState/collection';
+
+const propTypes = {
+  users: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    alias: PropTypes.string,
+    rank: PropTypes.number.isRequired,
+  })),
+  isReady: PropTypes.bool.isRequired,
+  showVoting: PropTypes.bool,
+};
+
+const ScoreboardLayout = ({ users, isReady, showVoting }) => (
+  <div style={layoutStyles}>
+    <AppBar
+      title="LIVESPIEL"
+      showMenuIconButton={false}
+      titleStyle={{ textAlign: 'center', fontWeight: 300 }}
+    />
+    <div style={mainContentStyle}>
+      {showVoting && 'should show voting'}
+      {isReady && <ScoreboardList entries={users} />}
+    </div>
+    <Footer />
+  </div>
+);
+
+ScoreboardLayout.propTypes = propTypes;
+
+const mainContentStyle = {
+  flexGrow: 1,
+  padding: '1em',
+  minWidth: '50%',
+};
 
 const layoutStyles = {
   minHeight: '100vh',
@@ -12,28 +53,34 @@ const layoutStyles = {
   justifyContent: 'center',
 };
 
-const AdminLayout = () => (
-  <div style={layoutStyles}>
-    <AppBar
-      title="LIVESPIEL"
-      showMenuIconButton={false}
-      titleStyle={{ textAlign: 'center', fontWeight: 300 }}
-    />
-    <div style={mainContentStyle}>
-      <ScoreCard fullName="Jonas Nitzsche" rank={1} />
-      <ScoreCard fullName="Paul Nitzsche" rank={2} />
-      <ScoreCard fullName="Marc Nitzsche" rank={3} />
-      <ScoreCard fullName="Finn Nitzsche" rank={4} />
-      <ScoreCard fullName="Pauli Nitzsche" rank={5} />
-    </div>
-    <Footer />
-  </div>
-);
+export default createContainer(() => {
+  const scoreboardHandle = Meteor.subscribe('users.scoreboard.topTen');
+  const appStateHandle = Meteor.subscribe('appState.scoreboard');
+  const isReady = scoreboardHandle.ready() && appStateHandle.ready();
 
-const mainContentStyle = {
-  flexGrow: 1,
-  padding: '1em',
-  minWidth: '50%',
-};
+  const appState = AppState.findOne();
+  const showVoting = isReady && appState.scoreboard === 'voting';
 
-export default AdminLayout;
+  const rawUsers = Meteor.users.find({}, {
+    fields: {
+      firstName: 1,
+      lastName: 1,
+      alias: 1,
+      rank: 1,
+    },
+    sort: {
+      rank: 1,
+    },
+  }).fetch();
+
+  const users = rawUsers
+    .filter(user => user.firstName && user.lastName && user.rank)
+    .map(user => ({
+      id: user._id,
+      fullName: user.alias ? user.alias : `${user.firstName} ${user.lastName}`,
+      rank: user.rank,
+      hasAlias: !!user.alias,
+    }));
+
+  return isReady ? { users, isReady, showVoting } : { isReady };
+}, ScoreboardLayout);

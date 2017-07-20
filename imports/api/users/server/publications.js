@@ -13,3 +13,19 @@ Meteor.publish('users.loggedIn', function () {
     },
   });
 });
+
+Meteor.publish('users.scoreboard.topTen', function () {
+  if (!this.userId) return this.ready();
+  return Meteor.users.find({}, {
+    fields: {
+      firstName: 1,
+      lastName: 1,
+      alias: 1,
+      rank: 1,
+    },
+    sort: {
+      rank: 1,
+    },
+    limit: 10,
+  });
+});

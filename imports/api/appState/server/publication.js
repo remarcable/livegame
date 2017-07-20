@@ -11,3 +11,15 @@ Meteor.publish('appState', function () {
     limit: 1,
   });
 });
+
+Meteor.publish('appState.scoreboard', function () {
+  if (!this.userId) return this.ready();
+  return AppState.find({}, {
+    fields: {
+      gameEnded: 1,
+      hintText: 1,
+      scoreboard: 1,
+    },
+    limit: 1,
+  });
+});

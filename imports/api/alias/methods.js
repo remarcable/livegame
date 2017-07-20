@@ -19,3 +19,18 @@ export const setAlias = new ValidatedMethod({
     });
   },
 });
+
+export const unsetAlias = new ValidatedMethod({
+  name: 'users.unsetAlias',
+  validate: new SimpleSchema({
+    userId: { type: String },
+  }).validator(),
+  run({ userId }) {
+    // TODO: Add proper authentication
+    const user = Meteor.users.findOne(userId);
+    if (!user) throw new Meteor.Error('userId not found');
+    Meteor.users.update(userId, {
+      $unset: { alias: '' },
+    });
+  },
+});

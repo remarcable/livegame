@@ -12,7 +12,7 @@ Meteor.publish('appState', function () {
   });
 });
 
-Meteor.publish('appState.scoreboard', function () {
+Meteor.publish('appState.admin', function () {
   if (!this.userId) return this.ready();
   return AppState.find({}, {
     fields: {

@@ -5,11 +5,13 @@ import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import AppBar from 'material-ui/AppBar';
+import RaisedButton from 'material-ui/RaisedButton';
 import Footer from '../../components/Footer';
 
 import GamesList from '../../components/GamesList';
 
 import Games from '../../../api/games/collection';
+import AppState from '../../../api/appState/collection';
 
 import {
   startGame as startGameMethod,
@@ -29,16 +31,8 @@ import {
   unsetAlias as unsetAliasMethod,
 } from '../../../api/alias/methods';
 
-const layoutStyles = {
-  minHeight: '100vh',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-};
-
-const AdminLayout = ({ isReady, games }) => (
-  <div style={layoutStyles}>
+const AdminLayout = ({ isReady, games, isVoting, gameEnded, hintText }) => (
+  <div style={wrapperStyles}>
     <AppBar
       title="LIVESPIEL"
       showMenuIconButton={false}
@@ -61,26 +55,41 @@ const AdminLayout = ({ isReady, games }) => (
         <button>Stop voting</button>
       </div> */}
       <div>
-        <button onClick={endLiveGame}>End the world (livegame)</button>
-        <button onClick={unendLiveGame}>Undo End the world (livegame)</button>
+        {
+          gameEnded
+          ? <RaisedButton onTouchTap={unendLiveGame} label="Undo End the world (livegame)" />
+          : <RaisedButton onTouchTap={endLiveGame} label="End the world (livegame)" />
+        }
       </div>
       <div>
+        {hintText}
         <input type="text" placeholder="text" ref={(c) => { AdminLayout.hintText = c; }} />
-        <button onClick={() => setHintText(AdminLayout.hintText.value)}>Set hintText</button>
+        <RaisedButton onTouchTap={() => setHintText(AdminLayout.hintText.value)} label="Set hintText" />
       </div>
       <div>
-        <button onClick={showScoresOnScoreboard}>Show scoreboard</button>
-        <button onClick={showVotingOnScoreboard}>Show voting</button>
+        {
+          isVoting
+          ? <RaisedButton onTouchTap={showScoresOnScoreboard} label="Show scoreboard" />
+          : <RaisedButton onTouchTap={showVotingOnScoreboard} label="Show voting" />
+        }
       </div>
       <div>
         <input type="text" placeholder="userId" ref={(c) => { AdminLayout.aliasUserId = c; }} />
-        <button onClick={() => setAlias(AdminLayout.aliasUserId.value)}>Set alias</button>
-        <button onClick={() => unsetAlias(AdminLayout.aliasUserId.value)}>Remove alias</button>
+        <RaisedButton onTouchTap={() => setAlias(AdminLayout.aliasUserId.value)} label="Set alias" />
+        <RaisedButton onTouchTap={() => unsetAlias(AdminLayout.aliasUserId.value)} label="Remove alias" />
       </div>
     </div>
     <Footer />
   </div>
 );
+
+const wrapperStyles = {
+  minHeight: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+};
 
 const startGame = gameId => startGameMethod.call({ gameId });
 const stopGame = gameId => stopGameMethod.call({ gameId });
@@ -99,8 +108,15 @@ const unsetAlias = userId => unsetAliasMethod.call({ userId });
 
 export default createContainer(() => {
   const gamesHandle = Meteor.subscribe('games.allGames');
-  const isReady = gamesHandle.ready();
+  const appStateHandle = Meteor.subscribe('appState.admin');
+
+  const isReady = gamesHandle.ready() && appStateHandle.ready();
 
   const games = Games.find().fetch();
-  return { isReady, games };
+
+  const appState = AppState.findOne() || {};
+  const isVoting = appState.scoreboard === 'voting';
+  const { gameEnded, hintText } = appState;
+
+  return { isReady, games, isVoting, gameEnded, hintText };
 }, AdminLayout);

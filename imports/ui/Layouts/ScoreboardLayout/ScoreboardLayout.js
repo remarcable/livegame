@@ -55,7 +55,7 @@ const layoutStyles = {
 
 export default createContainer(() => {
   const scoreboardHandle = Meteor.subscribe('users.scoreboard.topTen');
-  const appStateHandle = Meteor.subscribe('appState.scoreboard');
+  const appStateHandle = Meteor.subscribe('appState.admin');
   const isReady = scoreboardHandle.ready() && appStateHandle.ready();
 
   const appState = AppState.findOne();

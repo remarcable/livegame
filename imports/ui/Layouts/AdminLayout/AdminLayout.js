@@ -1,7 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+import { Meteor } from 'meteor/meteor';
+import { createContainer } from 'meteor/react-meteor-data';
 
 import AppBar from 'material-ui/AppBar';
 import Footer from '../../components/Footer';
+
+import GamesList from '../../components/GamesList';
+
+import Games from '../../../api/games/collection';
 
 import {
   startGame as startGameMethod,
@@ -29,7 +37,7 @@ const layoutStyles = {
   justifyContent: 'center',
 };
 
-const AdminLayout = () => (
+const AdminLayout = ({ isReady, games }) => (
   <div style={layoutStyles}>
     <AppBar
       title="LIVESPIEL"
@@ -39,9 +47,13 @@ const AdminLayout = () => (
     <div style={{ flexGrow: 1 }}>
       <h1>Admin</h1>
       <div>
-        <input type="text" placeholder="gameId" ref={(c) => { AdminLayout.gameId = c; }} />
-        <button onClick={() => startGame(AdminLayout.gameId.value)}>Start game</button>
-        <button onClick={() => stopGame(AdminLayout.gameId.value)}>Stop game</button>
+        {
+          isReady && <GamesList
+            games={games}
+            startGame={startGame}
+            stopGame={stopGame}
+          />
+        }
       </div>
       {/* <div>
         <input type="number" placeholder="votingNumber" />
@@ -84,4 +96,11 @@ const showVotingOnScoreboard = () => showVotingOnScoreboardMethod.call();
 const setAlias = userId => setAliasMethod.call({ userId });
 const unsetAlias = userId => unsetAliasMethod.call({ userId });
 
-export default AdminLayout;
+
+export default createContainer(() => {
+  const gamesHandle = Meteor.subscribe('games.allGames');
+  const isReady = gamesHandle.ready();
+
+  const games = Games.find().fetch();
+  return { isReady, games };
+}, AdminLayout);

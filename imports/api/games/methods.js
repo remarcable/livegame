@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
@@ -11,6 +10,10 @@ export const startGame = new ValidatedMethod({
   }).validator(),
   run({ gameId }) {
     // TODO: Add proper authentication
+    Games.update({ state: 'active' }, {
+      $set: { state: 'closed' },
+    });
+
     Games.update(gameId, {
       $set: { state: 'active' },
     });

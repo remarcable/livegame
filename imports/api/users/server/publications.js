@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Counts } from 'meteor/tmeasday:publish-counts';
 
 Meteor.publish('users.loggedIn', function () {
+  // TODO: Don't count admin users!
   Counts.publish(this, 'users.loggedInCount', Meteor.users.find(), { noReady: true });
   if (!this.userId) return this.ready();
   return Meteor.users.find({ _id: this.userId }, {

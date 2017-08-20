@@ -12,7 +12,7 @@ const heartStyle = {
 
 const heartAnimationStyle = {
   position: 'absolute',
-  animation: 'heart-animation 5s infinite cubic-bezier(0.23, 1, 0.32, 1)',
+  animation: 'pop-out 5s infinite cubic-bezier(0.23, 1, 0.32, 1)',
 };
 
 const HeartAnimation = () => (

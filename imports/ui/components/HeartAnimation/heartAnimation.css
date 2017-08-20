@@ -1,4 +1,4 @@
-@keyframes heart-animation {
+@keyframes pop-out {
   0% {
     transform: scale(0);
     opacity: .8;

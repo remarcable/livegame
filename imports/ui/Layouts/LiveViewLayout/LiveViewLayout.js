@@ -22,7 +22,7 @@ const propTypes = {
   showVoting: PropTypes.bool,
 };
 
-const ScoreboardLayout = ({ users, isReady, showVoting }) => (
+const LiveViewLayout = ({ users, isReady, showVoting }) => (
   <div style={layoutStyles}>
     <AppBar
       title="LIVESPIEL"
@@ -37,7 +37,7 @@ const ScoreboardLayout = ({ users, isReady, showVoting }) => (
   </div>
 );
 
-ScoreboardLayout.propTypes = propTypes;
+LiveViewLayout.propTypes = propTypes;
 
 const mainContentStyle = {
   flexGrow: 1,
@@ -83,4 +83,4 @@ export default createContainer(() => {
     }));
 
   return isReady ? { users, isReady, showVoting } : { isReady };
-}, ScoreboardLayout);
+}, LiveViewLayout);

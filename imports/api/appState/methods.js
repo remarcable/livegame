@@ -3,8 +3,8 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 import AppState from './collection';
 
-export const showScoresOnScoreboard = new ValidatedMethod({
-  name: 'app.showScoresOnScoreboard',
+export const showScoresOnLiveView = new ValidatedMethod({
+  name: 'app.showScoresOnLiveView',
   validate: null,
   run() {
     // TODO: Add proper authentication
@@ -12,8 +12,8 @@ export const showScoresOnScoreboard = new ValidatedMethod({
   },
 });
 
-export const showVotingOnScoreboard = new ValidatedMethod({
-  name: 'app.showVotingOnScoreboard',
+export const showVotingOnLiveView = new ValidatedMethod({
+  name: 'app.showVotingOnLiveView',
   validate: null,
   run() {
     // TODO: Add proper authentication

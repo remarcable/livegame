@@ -26,8 +26,8 @@ import {
   endLiveGame,
   unendLiveGame,
   setHintText,
-  showScoresOnScoreboard,
-  showVotingOnScoreboard,
+  showScoresOnLiveView,
+  showVotingOnLiveView,
 } from '../../../api/appState/methods';
 
 const propTypes = {
@@ -63,8 +63,8 @@ const AdminLayout = ({ isReady, games, isVoting, gameEnded = false, hintText, nu
       <AdminMethods
         isVoting={isVoting}
         setHintText={newHintText => setHintText.call({ hintText: newHintText })}
-        showVotingOnScoreboard={() => showVotingOnScoreboard.call()}
-        showScoresOnScoreboard={() => showScoresOnScoreboard.call()}
+        showVotingOnLiveView={() => showVotingOnLiveView.call()}
+        showScoresOnLiveView={() => showScoresOnLiveView.call()}
       />
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <Chip

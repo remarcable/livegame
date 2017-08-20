@@ -8,22 +8,22 @@ import { blueGrey900 } from 'material-ui/styles/colors';
 const propTypes = {
   isVoting: PropTypes.bool.isRequired,
   setHintText: PropTypes.func.isRequired,
-  showVotingOnScoreboard: PropTypes.func.isRequired,
-  showScoresOnScoreboard: PropTypes.func.isRequired,
+  showVotingOnLiveView: PropTypes.func.isRequired,
+  showScoresOnLiveView: PropTypes.func.isRequired,
 };
 
 const AdminMethods = ({
   isVoting,
   setHintText,
-  showVotingOnScoreboard,
-  showScoresOnScoreboard,
+  showVotingOnLiveView,
+  showScoresOnLiveView,
 }) => (
   <div style={styles}>
     <div>
       <Toggle
         label="Voting on Liveview"
         labelPosition="right"
-        onToggle={(e, isChecked) => isChecked ? showVotingOnScoreboard() : showScoresOnScoreboard()}
+        onToggle={(e, isChecked) => isChecked ? showVotingOnLiveView() : showScoresOnLiveView()}
         toggled={isVoting}
       />
     </div>

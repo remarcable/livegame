@@ -22,7 +22,7 @@ const App = () => (
     <Router>
       <Switch>
         <Route exact path="/admin" component={AdminLayoutLoadable} />
-        <Route exact path="/admin/scoreboard" component={ScoreboardLayoutLoadable} />
+        <Route exact path="/admin/liveview" component={LiveViewLayoutLoadable} />
         <Route component={MainLayout} />
       </Switch>
     </Router>
@@ -37,8 +37,8 @@ const AdminLayoutLoadable = Loadable({
   delay: 200,
 });
 
-const ScoreboardLayoutLoadable = Loadable({
-  loader: () => import('./Layouts/ScoreboardLayout'),
+const LiveViewLayoutLoadable = Loadable({
+  loader: () => import('./Layouts/LiveViewLayout'),
   loading: LoadingPage,
   delay: 200,
 });

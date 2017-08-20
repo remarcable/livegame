@@ -53,7 +53,7 @@ const AdminLayout = ({ isReady, games, isVoting, gameEnded, hintText }) => (
         <input type="number" placeholder="votingNumber" />
         <button>Start voting</button>
         <button>Stop voting</button>
-      </div> */}
+      </div>
       <div>
         {
           gameEnded
@@ -77,7 +77,7 @@ const AdminLayout = ({ isReady, games, isVoting, gameEnded, hintText }) => (
         <input type="text" placeholder="userId" ref={(c) => { AdminLayout.aliasUserId = c; }} />
         <RaisedButton onTouchTap={() => setAlias(AdminLayout.aliasUserId.value)} label="Set alias" />
         <RaisedButton onTouchTap={() => unsetAlias(AdminLayout.aliasUserId.value)} label="Remove alias" />
-      </div>
+      </div> */}
     </div>
     <Footer />
   </div>

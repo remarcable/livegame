@@ -1,15 +1,6 @@
 import React from 'react';
-import { storiesOf, addDecorator } from '@storybook/react';
-import { muiTheme } from 'storybook-addon-material-ui';
+import { storiesOf } from '@storybook/react';
 import ScoreCard from './ScoreCard.js';
-import { ownValues } from '../theme';
-
-addDecorator(muiTheme([
-  'Light Theme',
-  'Dark Theme',
-  ownValues,
-]));
-
 
 storiesOf('ScoreCard', module)
   .addDecorator(story => (

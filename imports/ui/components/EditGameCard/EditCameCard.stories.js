@@ -18,5 +18,5 @@ storiesOf('EditGameCard', module)
     <EditGameCard id="myId" state="active" question="Wie wird das Wetter morgen?" startGame={console.log} stopGame={console.log} />
   ))
   .add('closed', () => (
-    <EditGameCard id="myId2" state="closed" question="Wie werden die Kühe morgen sterben?" startGame={console.log} stopGame={console.log} />
+    <EditGameCard id="myId2" state="closed" question="Wie wird das Wetter morgen?" startGame={console.log} stopGame={console.log} />
   ));

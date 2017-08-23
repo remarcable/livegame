@@ -7,7 +7,7 @@ export const showScoresOnLiveView = new ValidatedMethod({
   name: 'app.showScoresOnLiveView',
   validate: null,
   run() {
-    // TODO: Add proper authentication
+    Meteor.ensureUserIsAdmin(this.userId);
     AppState.update({}, { $set: { scoreboard: 'scores' } });
   },
 });
@@ -16,7 +16,7 @@ export const showVotingOnLiveView = new ValidatedMethod({
   name: 'app.showVotingOnLiveView',
   validate: null,
   run() {
-    // TODO: Add proper authentication
+    Meteor.ensureUserIsAdmin(this.userId);
     AppState.update({}, { $set: { scoreboard: 'voting' } });
   },
 });
@@ -27,7 +27,7 @@ export const setHintText = new ValidatedMethod({
     hintText: { type: String },
   }).validator(),
   run({ hintText }) {
-    // TODO: Add proper authentication
+    Meteor.ensureUserIsAdmin(this.userId);
     AppState.update({}, { $set: { hintText } });
   },
 });
@@ -36,7 +36,7 @@ export const endLiveGame = new ValidatedMethod({
   name: 'app.endLiveGame',
   validate: null,
   run() {
-    // TODO: Add proper authentication
+    Meteor.ensureUserIsAdmin(this.userId);
     AppState.update({}, {
       $set: { gameEnded: true },
     });
@@ -47,7 +47,7 @@ export const unendLiveGame = new ValidatedMethod({
   name: 'app.unendLiveGame',
   validate: null,
   run() {
-    // TODO: Add proper authentication
+    Meteor.ensureUserIsAdmin(this.userId);
     AppState.update({}, {
       $set: { gameEnded: false },
     });

@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
@@ -10,14 +11,9 @@ export const startGame = new ValidatedMethod({
     gameId: { type: String },
   }).validator(),
   run({ gameId }) {
-    // TODO: Add proper authentication
-    Games.update({ state: 'active' }, {
-      $set: { state: 'closed' },
-    });
-
-    Games.update(gameId, {
-      $set: { state: 'active' },
-    });
+    Meteor.ensureUserIsAdmin(this.userId);
+    Games.update({ state: 'active' }, { $set: { state: 'closed' } });
+    Games.update(gameId, { $set: { state: 'active' } });
   },
 });
 
@@ -27,10 +23,8 @@ export const stopGame = new ValidatedMethod({
     gameId: { type: String },
   }).validator(),
   run({ gameId }) {
-    // TODO: Add proper authentication
-    Games.update(gameId, {
-      $set: { state: 'closed' },
-    });
+    Meteor.ensureUserIsAdmin(this.userId);
+    Games.update(gameId, { $set: { state: 'closed' } });
   },
 });
 
@@ -41,7 +35,7 @@ export const createGame = new ValidatedMethod({
     answer: { type: Number },
   }).validator(),
   run({ question, answer }) {
-    // TODO: Add proper authentication
+    Meteor.ensureUserIsAdmin(this.userId);
     const gameId = Games.insert({ question, answer });
     AppState.update({}, { $push: { gamesOrder: gameId } });
 
@@ -55,7 +49,7 @@ export const removeGame = new ValidatedMethod({
     id: { type: String },
   }).validator(),
   run({ id }) {
-    // TODO: Add proper authentication
+    Meteor.ensureUserIsAdmin(this.userId);
     Games.remove({ _id: id });
     AppState.update({}, { $pull: { gamesOrder: id } });
   },
@@ -69,7 +63,7 @@ export const updateGame = new ValidatedMethod({
     answer: { type: Number },
   }).validator(),
   run({ id, question, answer }) {
-    // TODO: Add proper authentication
+    Meteor.ensureUserIsAdmin(this.userId);
     return Games.update({ _id: id }, { $set: { question, answer } });
   },
 });
@@ -80,7 +74,7 @@ export const updateGamesOrder = new ValidatedMethod({
     newOrder: { type: [String] },
   }).validator(),
   run({ newOrder }) {
-    // TODO: Add proper authentication
+    Meteor.ensureUserIsAdmin(this.userId);
     return AppState.update({}, { $set: { gamesOrder: newOrder } });
   },
 });

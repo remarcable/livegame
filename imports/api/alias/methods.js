@@ -10,7 +10,8 @@ export const setAlias = new ValidatedMethod({
     userId: { type: String },
   }).validator(),
   run({ userId }) {
-    // TODO: Add proper authentication
+    Meteor.ensureUserIsAdmin(this.userId);
+
     const user = Meteor.users.findOne(userId);
     if (!user) throw new Meteor.Error('userId not found');
     const randomAlias = getAlias();
@@ -26,7 +27,8 @@ export const unsetAlias = new ValidatedMethod({
     userId: { type: String },
   }).validator(),
   run({ userId }) {
-    // TODO: Add proper authentication
+    Meteor.ensureUserIsAdmin(this.userId);
+
     const user = Meteor.users.findOne(userId);
     if (!user) throw new Meteor.Error('userId not found');
     Meteor.users.update(userId, {

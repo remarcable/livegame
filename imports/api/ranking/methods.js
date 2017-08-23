@@ -10,9 +10,9 @@ export const calculateScores = new ValidatedMethod({
   name: 'ranking.calculateScore',
   validate: null,
   run() {
-    // TODO: Add proper authentication
+    Meteor.ensureUserIsAdmin(this.userId);
     if (this.isSimulation) return;
-    const users = Meteor.users.find().fetch();
+    const users = Meteor.users.find({ role: { $ne: 'admin' } }).fetch();
     const submissions = Submissions.find().fetch();
     const games = Games.find().fetch();
     const ranks = calculateRanks(users, games, submissions);

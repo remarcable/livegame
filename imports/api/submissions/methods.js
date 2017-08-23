@@ -12,8 +12,9 @@ export const submitAnswer = new ValidatedMethod({
     guess: { type: Number },
   }).validator(),
   run({ guess }) {
-    // TODO: Add proper authentication
+    if (!Meteor.userId()) throw new Error('not-authorized');
     if (this.isSimulation) return;
+
     const userId = Meteor.userId();
     const currentGame = Games.findOne({ state: 'active' });
     if (!currentGame) throw new Meteor.Error('There is no game active');

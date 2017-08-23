@@ -1,6 +1,6 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-const gameSchema = new SimpleSchema({
+const votingSchema = new SimpleSchema({
   question: {
     type: String,
     label: 'Frage',
@@ -11,16 +11,6 @@ const gameSchema = new SimpleSchema({
     allowedValues: ['active', 'closed'],
     optional: true,
   },
-  answer: {
-    type: Number,
-    label: 'Richtige Antwort',
-    optional: true,
-  },
-  votingId: {
-    type: String,
-    label: 'VotingId',
-    optional: true,
-  },
 });
 
-export default gameSchema;
+export default votingSchema;

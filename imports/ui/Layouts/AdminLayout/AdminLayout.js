@@ -9,6 +9,8 @@ import AppBar from 'material-ui/AppBar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import EditIcon from 'material-ui/svg-icons/content/create';
 
+import Login from '../../Pages/AdminLogin';
+
 import ShowLayout from './ShowLayout';
 import EditLayout from './EditLayout';
 import Footer from '../../components/Footer';
@@ -26,6 +28,7 @@ const propTypes = {
     }),
   ).isRequired,
   isVoting: PropTypes.bool.isRequired,
+  userIsAdmin: PropTypes.bool.isRequired,
   gameEnded: PropTypes.bool,
   hintText: PropTypes.string,
   numberOfUsers: PropTypes.number.isRequired,
@@ -34,8 +37,18 @@ const propTypes = {
 class AdminLayout extends Component {
   state = { editMode: false }
   render() {
-    const { isReady, games, isVoting, gameEnded = false, hintText, numberOfUsers } = this.props;
+    const {
+      isReady,
+      games,
+      isVoting,
+      gameEnded = false,
+      hintText,
+      numberOfUsers,
+      userIsAdmin,
+    } = this.props;
     const { editMode } = this.state;
+
+    if (!Meteor.userId() || !userIsAdmin) return <Login />;
 
     return (
       <div style={wrapperStyles}>
@@ -100,5 +113,7 @@ export default createContainer(() => {
     (a, b) => gamesOrder.indexOf(a._id) - gamesOrder.indexOf(b._id),
   );
 
-  return { isReady, games: sortedGames, isVoting, gameEnded, hintText, numberOfUsers };
+  const userIsAdmin = Meteor.userIsAdmin();
+
+  return { isReady, games: sortedGames, isVoting, gameEnded, hintText, numberOfUsers, userIsAdmin };
 }, AdminLayout);

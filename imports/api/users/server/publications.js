@@ -11,6 +11,7 @@ Meteor.publish('users.loggedIn', function () {
       lastName: 1,
       alias: 1,
       rank: 1,
+      role: 1,
     },
   });
 });

@@ -19,6 +19,7 @@ Meteor.publish('appState.admin', function () {
       gameEnded: 1,
       hintText: 1,
       scoreboard: 1,
+      gamesOrder: 1,
     },
     limit: 1,
   });

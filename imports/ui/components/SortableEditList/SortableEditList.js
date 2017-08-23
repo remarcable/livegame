@@ -20,13 +20,14 @@ const propTypes = {
 };
 
 const EditList = ({ games, currentlyEditedItemId, saveEntry, startEditing, deleteGame }) => (
-  <div>
+  <div style={{ minWidth: '70%' }}>
     {games.map(({ _id: gameId, question, answer }, index) => (
       <SortableEditGameCard
         id={gameId}
         key={gameId}
         index={index}
         isEditing={currentlyEditedItemId === gameId}
+        allowSorting={!!currentlyEditedItemId}
         onStartEditing={itemId => startEditing(itemId)}
         saveEntry={(itemId, ...data) => saveEntry(itemId, ...data)}
         question={question}

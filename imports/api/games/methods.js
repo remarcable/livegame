@@ -2,6 +2,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 import Games from './collection';
+import AppState from '../appState/collection';
 
 export const startGame = new ValidatedMethod({
   name: 'games.startGame',
@@ -30,5 +31,56 @@ export const stopGame = new ValidatedMethod({
     Games.update(gameId, {
       $set: { state: 'closed' },
     });
+  },
+});
+
+export const createGame = new ValidatedMethod({
+  name: 'games.create',
+  validate: new SimpleSchema({
+    question: { type: String },
+    answer: { type: Number },
+  }).validator(),
+  run({ question, answer }) {
+    // TODO: Add proper authentication
+    const gameId = Games.insert({ question, answer });
+    AppState.update({}, { $push: { gamesOrder: gameId } });
+
+    return gameId;
+  },
+});
+
+export const removeGame = new ValidatedMethod({
+  name: 'games.remove',
+  validate: new SimpleSchema({
+    id: { type: String },
+  }).validator(),
+  run({ id }) {
+    // TODO: Add proper authentication
+    Games.remove({ _id: id });
+    AppState.update({}, { $pull: { gamesOrder: id } });
+  },
+});
+
+export const updateGame = new ValidatedMethod({
+  name: 'games.update',
+  validate: new SimpleSchema({
+    id: { type: String },
+    question: { type: String },
+    answer: { type: Number },
+  }).validator(),
+  run({ id, question, answer }) {
+    // TODO: Add proper authentication
+    return Games.update({ _id: id }, { $set: { question, answer } });
+  },
+});
+
+export const updateGamesOrder = new ValidatedMethod({
+  name: 'games.updateOrder',
+  validate: new SimpleSchema({
+    newOrder: { type: [String] },
+  }).validator(),
+  run({ newOrder }) {
+    // TODO: Add proper authentication
+    return AppState.update({}, { $set: { gamesOrder: newOrder } });
   },
 });

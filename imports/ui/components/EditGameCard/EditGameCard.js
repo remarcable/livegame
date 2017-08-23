@@ -10,10 +10,10 @@ import SortHandleIcon from 'material-ui/svg-icons/navigation/menu';
 import DeleteIcon from 'material-ui/svg-icons/navigation/close';
 
 import {
-  blueGrey100,
   blueGrey600,
   blueGrey800,
-  blueA200,
+  minBlack,
+  faintBlack,
   blueA400,
   orange500,
   redA200,
@@ -26,6 +26,7 @@ const propTypes = {
   question: PropTypes.string.isRequired,
   answer: PropTypes.number.isRequired,
   isEditing: PropTypes.bool.isRequired,
+  allowSorting: PropTypes.bool.isRequired,
   saveEntry: PropTypes.func.isRequired,
   onStartEditing: PropTypes.func.isRequired,
   onRequestDelete: PropTypes.func.isRequired,
@@ -37,6 +38,7 @@ const EditGameCard = ({
   question,
   answer,
   saveEntry,
+  allowSorting,
   onStartEditing,
   onRequestDelete,
 }) => (
@@ -45,7 +47,7 @@ const EditGameCard = ({
       <form onSubmit={onSubmitFactory(id, saveEntry)}>
         <div style={cardStyle}>
           <div style={questionWrapperStyle}>
-            <DragHandle isEditing={isEditing} />
+            <DragHandle isEditing={allowSorting} />
             <Chip style={chipStyles} backgroundColor={blueGrey800}>Frage</Chip>
             <span>{question}</span>
           </div>
@@ -79,7 +81,7 @@ EditGameCard.propTypes = propTypes;
 
 const DragHandle = SortableHandle(({ isEditing }) => (
   <div style={{ ...handleIconWrapperStyle, cursor: isEditing ? 'initial' : 'ns-resize' }}>
-    <SortHandleIcon color={isEditing ? blueA200 : blueGrey100} />
+    <SortHandleIcon color={isEditing ? faintBlack : minBlack} />
   </div>
 ));
 
@@ -105,6 +107,8 @@ const cardStyle = {
 };
 
 const handleIconWrapperStyle = {
+  position: 'absolute',
+  left: 2,
   width: 24,
   height: 24,
   marginLeft: -5,

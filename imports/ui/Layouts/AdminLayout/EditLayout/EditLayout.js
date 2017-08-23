@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { arrayMove } from 'react-sortable-hoc';
+
 import RaisedButton from 'material-ui/RaisedButton';
 import PlusIcon from 'material-ui/svg-icons/content/add';
 import { blueGrey900 } from 'material-ui/styles/colors';
 
 import EditList from '../../../components/SortableEditList';
+
+import {
+  createGame,
+  removeGame,
+  updateGame,
+  updateGamesOrder,
+} from '../../../../api/games/methods';
 
 const propTypes = {
   games: PropTypes.arrayOf(
@@ -19,44 +28,32 @@ const propTypes = {
 };
 
 class EditLayout extends Component {
-  state = {
-    currentlyEditedItemId: null,
-  }
+  state = { currentlyEditedItemId: null }
   onSortEnd = ({ oldIndex, newIndex }) => {
-    const { games } = this.state;
-
-    // this.setState({
-    //   games: arrayMove(games, oldIndex, newIndex),
-    // });
+    const { games } = this.props;
+    const gamesOrder = games.map(game => game._id);
+    updateGamesOrder.call({ newOrder: arrayMove(gamesOrder, oldIndex, newIndex) });
   };
   onStartEditing = (itemId) => {
-    this.setState({
-      currentlyEditedItemId: itemId,
-    });
+    this.setState({ currentlyEditedItemId: itemId });
   };
-  onDeleteGame = (itemId) => {
-    // this.setState({
-    //   games: this.state.games.filter(item => item._id !== itemId),
-    // });
+  onDeleteGame = (id) => {
+    removeGame.call({ id });
   };
-  onSaveEntry = (itemId, { question, answer }) => {
-    // const { games } = this.state;
-    // const index = games.findIndex(({ _id }) => _id === itemId);
-    // const newGames = [...games];
-    //
-    // newGames[index].question = question;
-    // newGames[index].answer = answer;
-    // this.setState({
-    //   games: newGames,
-    //   currentlyEditedItemId: null,
-    // });
+  onCreateGame = () => {
+    const itemId = createGame.call({ question: 'Neue Frage', answer: 0 });
+    this.setState({ currentlyEditedItemId: itemId });
+  };
+  onSaveEntry = (id, { question, answer }) => {
+    updateGame.call({ id, question, answer });
+    this.setState({ currentlyEditedItemId: null });
   };
   render() {
     const { games, isReady } = this.props;
     const { currentlyEditedItemId } = this.state;
 
     return (
-      <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+      <div style={wrapperStyle}>
         {
           isReady &&
           <EditList
@@ -67,12 +64,13 @@ class EditLayout extends Component {
             currentlyEditedItemId={currentlyEditedItemId}
             onSortEnd={this.onSortEnd}
             useDragHandle
+            shouldCancelStart={() => !!currentlyEditedItemId}
             lockAxis="y"
           />
         }
-        <div style={{ alignSelf: 'center' }}>
+        <div>
           <RaisedButton
-            onTouchTap={() => console.log('hey')}
+            onTouchTap={this.onCreateGame}
             label="New"
             backgroundColor={blueGrey900}
             style={{ marginTop: 20 }}
@@ -85,5 +83,14 @@ class EditLayout extends Component {
 }
 
 EditLayout.propTypes = propTypes;
+
+const wrapperStyle = {
+  width: '100%',
+  marginTop: 110,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  flexGrow: 1,
+};
 
 export default EditLayout;

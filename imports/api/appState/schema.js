@@ -12,6 +12,9 @@ const appStateSchema = new SimpleSchema({
     type: String,
     allowedValues: ['scores', 'voting'],
   },
+  gamesOrder: {
+    type: [String],
+  },
 });
 
 export default appStateSchema;

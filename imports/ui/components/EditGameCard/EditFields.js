@@ -12,6 +12,7 @@ const propTypes = {
 const EditFields = ({ question, answer }) => (
   <div style={textFieldWrapperStyles}>
     <TextField
+      autoFocus
       fullWidth
       name="question"
       defaultValue={question}

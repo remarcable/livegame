@@ -16,7 +16,7 @@ const propTypes = {
 };
 
 const GamesList = ({ games, startGame, stopGame }) => (
-  <div style={{ minWidth: '70%' }}>
+  <div style={{ minWidth: '50%' }}>
     {
       games.map(({ question, _id, state }) => (
         <div key={_id}>

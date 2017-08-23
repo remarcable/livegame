@@ -59,6 +59,8 @@ const paperStyles = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
+  userSelect: 'none',
+  cursor: 'default',
 };
 
 const closedPaperStyles = {

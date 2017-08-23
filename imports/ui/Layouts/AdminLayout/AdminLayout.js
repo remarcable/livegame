@@ -6,29 +6,13 @@ import { Counts } from 'meteor/tmeasday:publish-counts';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import AppBar from 'material-ui/AppBar';
-import RaisedButton from 'material-ui/RaisedButton';
-import Chip from 'material-ui/Chip';
-import { blueGrey900 } from 'material-ui/styles/colors';
 
+import ShowLayout from './ShowLayout';
+import EditLayout from './EditLayout';
 import Footer from '../../components/Footer';
-import GamesList from '../../components/GamesList';
-import AdminMethods from '../../components/AdminMethods';
 
 import Games from '../../../api/games/collection';
 import AppState from '../../../api/appState/collection';
-
-import {
-  startGame,
-  stopGame,
-} from '../../../api/games/methods';
-
-import {
-  endLiveGame,
-  unendLiveGame,
-  setHintText,
-  showScoresOnLiveView,
-  showVotingOnLiveView,
-} from '../../../api/appState/methods';
 
 const propTypes = {
   isReady: PropTypes.bool.isRequired,
@@ -59,38 +43,14 @@ const AdminLayout = ({ isReady, games, isVoting, gameEnded = false, hintText, nu
         </div>
       }
     />
-    <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-      <AdminMethods
-        isVoting={isVoting}
-        setHintText={newHintText => setHintText.call({ hintText: newHintText })}
-        showVotingOnLiveView={() => showVotingOnLiveView.call()}
-        showScoresOnLiveView={() => showScoresOnLiveView.call()}
-      />
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <Chip
-          backgroundColor={blueGrey900}
-          style={{ fontStyle: !hintText && 'italic' }}
-        >
-          {hintText || 'Kein Text'}
-        </Chip>
-
-        {
-          isReady && <GamesList
-            games={games}
-            startGame={gameId => startGame.call({ gameId })}
-            stopGame={gameId => stopGame.call({ gameId })}
-          />
-        }
-
-        <div>
-          {
-            gameEnded
-            ? <RaisedButton onTouchTap={() => unendLiveGame.call()} label="Reopen Livegame" backgroundColor={blueGrey900} />
-            : <RaisedButton onTouchTap={() => endLiveGame.call()} label="Close Livegame" backgroundColor={blueGrey900} />
-          }
-        </div>
-      </div>
-    </div>
+    {/* <ShowLayout
+      isReady={isReady}
+      isVoting={isVoting}
+      games={games}
+      gameEnded={gameEnded}
+      hintText={hintText}
+    /> */}
+    <EditLayout />
     <Footer />
   </div>
 );

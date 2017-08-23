@@ -1,8 +1,6 @@
 import React from 'react';
 import HeartIcon from 'material-ui/svg-icons/action/favorite';
 
-import './heartAnimation.css';
-
 const heartStyle = {
   width: '4em',
   height: '4em',

@@ -22,9 +22,43 @@ storiesOf('EditGameCard', module)
   .add('EditGameCardTester', () => (
     <EditGameCardTester />
   ))
-  .add('active', () => (
-    <EditGameCard id="myId" state="active" question="Wie wird das Wetter morgen?" startGame={console.log} stopGame={console.log} />
+  .add('isEditing', () => (
+    <EditGameCard
+      isEditing
+      onStartEditing={() => console.log('onStartEditing')}
+      saveEntry={() => console.log('onSaveEntry')}
+      question="Wie wird das Wetter morgen?"
+      answer={210}
+      onRequestDelete={() => console.log('onRequestDelete')}
+    />
   ))
-  .add('closed', () => (
-    <EditGameCard id="myId2" state="closed" question="Wie wird das Wetter morgen?" startGame={console.log} stopGame={console.log} />
+  .add('not isEditing', () => (
+    <EditGameCard
+      isEditing={false}
+      onStartEditing={() => console.log('onStartEditing')}
+      saveEntry={() => console.log('onSaveEntry')}
+      question="Wie wird das Wetter morgen?"
+      answer={210}
+      onRequestDelete={() => console.log('onRequestDelete')}
+    />
+  ))
+  .add('not isEditing with long question', () => (
+    <EditGameCard
+      isEditing={false}
+      onStartEditing={() => console.log('onStartEditing')}
+      saveEntry={() => console.log('onSaveEntry')}
+      question="Wie wird das Wetter morgen, also eigentlich meine ich: Wieviel ist 200 + 10?"
+      answer={210}
+      onRequestDelete={() => console.log('onRequestDelete')}
+    />
+  ))
+  .add('isEditing with long question', () => (
+    <EditGameCard
+      isEditing
+      onStartEditing={() => console.log('onStartEditing')}
+      saveEntry={() => console.log('onSaveEntry')}
+      question="Wie wird das Wetter morgen, also eigentlich meine ich: Wieviel ist 200 + 10?"
+      answer={210}
+      onRequestDelete={() => console.log('onRequestDelete')}
+    />
   ));

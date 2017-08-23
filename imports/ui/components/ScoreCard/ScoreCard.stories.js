@@ -1,5 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { muiTheme } from 'storybook-addon-material-ui';
+import { ownValues } from '../theme';
 import ScoreCard from './ScoreCard.js';
 
 storiesOf('ScoreCard', module)
@@ -10,6 +12,11 @@ storiesOf('ScoreCard', module)
       </div>
     </div>
   ))
+  .addDecorator(muiTheme([
+    'Light Theme',
+    'Dark Theme',
+    ownValues,
+  ]))
   .add('classic', () => (
     <ScoreCard fullName="Marc Nitzsche" rank={1} />
   ))

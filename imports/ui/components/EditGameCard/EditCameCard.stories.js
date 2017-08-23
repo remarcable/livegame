@@ -1,6 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { muiTheme } from 'storybook-addon-material-ui';
 import EditGameCard from './EditGameCard.js';
+import EditGameCardTester from './EditGameCardTester.js';
+import { ownValues } from '../theme';
 
 
 storiesOf('EditGameCard', module)
@@ -11,8 +14,13 @@ storiesOf('EditGameCard', module)
       </div>
     </div>
   ))
-  .add('no state', () => (
-    <EditGameCard id="myId" question="Wie wird das Wetter morgen?" startGame={console.log} stopGame={console.log} />
+  .addDecorator(muiTheme([
+    'Light Theme',
+    'Dark Theme',
+    ownValues,
+  ]))
+  .add('EditGameCardTester', () => (
+    <EditGameCardTester />
   ))
   .add('active', () => (
     <EditGameCard id="myId" state="active" question="Wie wird das Wetter morgen?" startGame={console.log} stopGame={console.log} />

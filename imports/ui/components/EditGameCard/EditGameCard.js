@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { SortableHandle } from 'react-sortable-hoc';
+
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import Chip from 'material-ui/Chip';
@@ -36,14 +38,12 @@ const EditGameCard = ({
   onStartEditing,
   onRequestDelete,
 }) => (
-  <div>
+  <div style={{ marginTop: 10 }}>
     <Paper style={{ ...paperStyle, backgroundColor: isEditing ? blueA400 : blueGrey600 }}>
       <form onSubmit={onSubmitFactory(saveEntry)}>
         <div style={cardStyle}>
           <div style={questionWrapperStyle}>
-            <div style={{ ...handleIconWrapperStyle, cursor: isEditing ? 'initial' : 'ns-resize' }}>
-              <SortHandleIcon color={isEditing ? blueA200 : blueGrey100} />
-            </div>
+            <DragHandle isEditing={isEditing} />
             <Chip style={chipStyles} backgroundColor={blueGrey800}>Frage</Chip>
             <span>{question}</span>
           </div>
@@ -75,6 +75,12 @@ const EditGameCard = ({
 
 EditGameCard.propTypes = propTypes;
 
+const DragHandle = SortableHandle(({ isEditing }) => (
+  <div style={{ ...handleIconWrapperStyle, cursor: isEditing ? 'initial' : 'ns-resize' }}>
+    <SortHandleIcon color={isEditing ? blueA200 : blueGrey100} />
+  </div>
+));
+
 const onSubmitFactory = saveEntry => (e) => {
   e.preventDefault();
   const question = e.target.question.value;
@@ -85,7 +91,6 @@ const onSubmitFactory = saveEntry => (e) => {
 
 const paperStyle = {
   position: 'relative',
-  marginTop: 10,
   userSelect: 'none',
   cursor: 'default',
 };

@@ -1,16 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import EditGameCardTester from '../../../components/EditGameCard/EditGameCardTester';
+import SortableEditListTester from '../../../components/SortableEditList/SortableEditListTester';
 
 const propTypes = {};
 
 const EditLayout = () => (
   <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-    <EditGameCardTester />
-    <EditGameCardTester />
-    <EditGameCardTester />
-    <EditGameCardTester />
+    <SortableEditListTester />
   </div>
 );
 

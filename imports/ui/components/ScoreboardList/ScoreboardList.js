@@ -1,8 +1,6 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { TransitionMotion, spring } from 'react-motion';
 
-import { animationPreset } from '../theme';
+import ScoreboardListFactory from './ScoreboardListFactory';
 import StyledScoreCard from '../ScoreCard/StyledScoreCard.js';
 
 
@@ -14,36 +12,7 @@ const propTypes = {
   })).isRequired,
 };
 
-const entriesStyles = entries => entries.map((entry, index) => ({
-  key: entry.id,
-  data: { fullName: entry.fullName, rank: entry.rank, zIndex: entries.length - index },
-  style: { translateY: spring(105 * (index + 1), animationPreset) },
-}));
-
-const ScoreboardList = ({ entries }) => (
-  <div style={{ position: 'relative' }}>
-    <TransitionMotion
-      willLeave={() => ({ translateY: spring(1500, animationPreset) })}
-      willEnter={() => ({ translateY: 1500 })}
-      styles={entriesStyles(entries)}
-    >
-      {entryStyles =>
-        <div>
-          {entryStyles.map(({ data: { fullName, rank, zIndex }, key, style: { translateY } }) => (
-            <StyledScoreCard
-              translateY={translateY}
-              zIndex={zIndex}
-              fullName={fullName}
-              rank={rank}
-              key={key}
-            />
-          ),
-          )}
-        </div>
-      }
-    </TransitionMotion>
-  </div>
-);
+const ScoreboardList = ({ entries }) => ScoreboardListFactory(StyledScoreCard)({ entries });
 
 ScoreboardList.propTypes = propTypes;
 

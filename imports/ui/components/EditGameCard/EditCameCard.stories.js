@@ -26,6 +26,7 @@ storiesOf('EditGameCard', module)
     <EditGameCard
       isEditing
       id="id"
+      allowSorting={false}
       onStartEditing={() => console.log('onStartEditing')}
       saveEntry={() => console.log('onSaveEntry')}
       question="Wie wird das Wetter morgen?"
@@ -37,6 +38,7 @@ storiesOf('EditGameCard', module)
     <EditGameCard
       isEditing={false}
       id="id"
+      allowSorting={false}
       onStartEditing={() => console.log('onStartEditing')}
       saveEntry={() => console.log('onSaveEntry')}
       question="Wie wird das Wetter morgen?"
@@ -48,6 +50,7 @@ storiesOf('EditGameCard', module)
     <EditGameCard
       isEditing={false}
       id="id"
+      allowSorting={false}
       onStartEditing={() => console.log('onStartEditing')}
       saveEntry={() => console.log('onSaveEntry')}
       question="Wie wird das Wetter morgen, also eigentlich meine ich: Wieviel ist 200 + 10?"
@@ -59,6 +62,7 @@ storiesOf('EditGameCard', module)
     <EditGameCard
       isEditing
       id="id"
+      allowSorting={false}
       onStartEditing={() => console.log('onStartEditing')}
       saveEntry={() => console.log('onSaveEntry')}
       question="Wie wird das Wetter morgen, also eigentlich meine ich: Wieviel ist 200 + 10?"

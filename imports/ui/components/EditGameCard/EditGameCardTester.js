@@ -21,6 +21,7 @@ class EditGameCardTester extends Component {
         <EditGameCard
           isEditing={this.state.isEditing}
           id="id"
+          allowSorting={false}
           onStartEditing={this.handleOnStartEdit}
           saveEntry={this.handleOnSave}
           question={this.state.question}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { muiTheme } from 'storybook-addon-material-ui';
-import { ownValues } from '../theme';
+import { theme } from '../theme';
 import SortableEditListTester from './SortableEditListTester.js';
 
 storiesOf('SortableEditListTester', module)
@@ -15,7 +15,7 @@ storiesOf('SortableEditListTester', module)
   .addDecorator(muiTheme([
     'Light Theme',
     'Dark Theme',
-    ownValues,
+    theme,
   ]))
   .add('classic', () => (
     <SortableEditListTester />

@@ -12,7 +12,7 @@ class EditGameCardTester extends Component {
   handleOnStartEdit() {
     this.setState({ isEditing: !this.state.isEditing });
   }
-  handleOnSave({ question, answer }) {
+  handleOnSave(id, { question, answer }) {
     this.setState({ question, answer, isEditing: false });
   }
   render() {
@@ -20,6 +20,7 @@ class EditGameCardTester extends Component {
       <div>
         <EditGameCard
           isEditing={this.state.isEditing}
+          id="id"
           onStartEditing={this.handleOnStartEdit}
           saveEntry={this.handleOnSave}
           question={this.state.question}

@@ -1,24 +1,42 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import { SortableContainer } from 'react-sortable-hoc';
 
 import SortableEditGameCard from '../EditGameCard/SortableEditGameCard';
 
+const propTypes = {
+  games: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      question: PropTypes.string.isRequired,
+      state: PropTypes.string,
+    }),
+  ).isRequired,
+  startEditing: PropTypes.func.isRequired,
+  deleteGame: PropTypes.func.isRequired,
+  saveEntry: PropTypes.func.isRequired,
+  currentlyEditedItemId: PropTypes.string,
+};
 
-const EditList = ({ items }) => (
+const EditList = ({ games, currentlyEditedItemId, saveEntry, startEditing, deleteGame }) => (
   <div>
-    {items.map((value, index) => (
+    {games.map(({ _id: gameId, question, answer }, index) => (
       <SortableEditGameCard
-        key={`item-${index}`}
+        id={gameId}
+        key={gameId}
         index={index}
-        isEditing={false}
-        onStartEditing={() => console.log('onStartEditing')}
-        saveEntry={() => console.log('onSaveEntry')}
-        question={`${value} Testtext-Frage im SortableEditGameCardTester`}
-        answer={210}
-        onRequestDelete={() => console.log('onRequestDelete')}
+        isEditing={currentlyEditedItemId === gameId}
+        onStartEditing={itemId => startEditing(itemId)}
+        saveEntry={(itemId, ...data) => saveEntry(itemId, ...data)}
+        question={question}
+        answer={answer}
+        onRequestDelete={itemId => deleteGame(itemId)}
       />
     ))}
   </div>
 );
+
+EditList.propTypes = propTypes;
 
 export default SortableContainer(EditList);

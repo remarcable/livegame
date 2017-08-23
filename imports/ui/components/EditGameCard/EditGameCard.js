@@ -22,6 +22,7 @@ import {
 import EditFields from './EditFields';
 
 const propTypes = {
+  id: PropTypes.string.isRequired,
   question: PropTypes.string.isRequired,
   answer: PropTypes.number.isRequired,
   isEditing: PropTypes.bool.isRequired,
@@ -31,6 +32,7 @@ const propTypes = {
 };
 
 const EditGameCard = ({
+  id,
   isEditing,
   question,
   answer,
@@ -40,7 +42,7 @@ const EditGameCard = ({
 }) => (
   <div style={{ marginTop: 10 }}>
     <Paper style={{ ...paperStyle, backgroundColor: isEditing ? blueA400 : blueGrey600 }}>
-      <form onSubmit={onSubmitFactory(saveEntry)}>
+      <form onSubmit={onSubmitFactory(id, saveEntry)}>
         <div style={cardStyle}>
           <div style={questionWrapperStyle}>
             <DragHandle isEditing={isEditing} />
@@ -59,7 +61,7 @@ const EditGameCard = ({
                 : <RaisedButton
                   label="Edit"
                   // setTimeout because form is otherwise directly submitted onClick (bug)
-                  onClick={() => setTimeout(onStartEditing, 0)}
+                  onClick={() => setTimeout(() => onStartEditing(id), 0)}
                   style={{ margin: 5 }}
                   backgroundColor={blueGrey800}
                 />
@@ -68,7 +70,7 @@ const EditGameCard = ({
         </div>
         {isEditing && <EditFields question={question} answer={answer} />}
       </form>
-      {isEditing && <DeleteIcon style={deleteIconStyle} onClick={onRequestDelete} />}
+      {isEditing && <DeleteIcon style={deleteIconStyle} onClick={() => onRequestDelete(id)} />}
     </Paper>
   </div>
 );
@@ -81,11 +83,11 @@ const DragHandle = SortableHandle(({ isEditing }) => (
   </div>
 ));
 
-const onSubmitFactory = saveEntry => (e) => {
+const onSubmitFactory = (id, saveEntry) => (e) => {
   e.preventDefault();
   const question = e.target.question.value;
   const answer = +e.target.answer.value;
-  saveEntry({ question, answer });
+  saveEntry(id, { question, answer });
 };
 
 

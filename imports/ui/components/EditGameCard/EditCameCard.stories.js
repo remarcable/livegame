@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { muiTheme } from 'storybook-addon-material-ui';
 import EditGameCard from './EditGameCard.js';
 import EditGameCardTester from './EditGameCardTester.js';
-import { ownValues } from '../theme';
+import { theme } from '../theme';
 
 
 storiesOf('EditGameCard', module)
@@ -17,7 +17,7 @@ storiesOf('EditGameCard', module)
   .addDecorator(muiTheme([
     'Light Theme',
     'Dark Theme',
-    ownValues,
+    theme,
   ]))
   .add('EditGameCardTester', () => (
     <EditGameCardTester />
@@ -25,6 +25,7 @@ storiesOf('EditGameCard', module)
   .add('isEditing', () => (
     <EditGameCard
       isEditing
+      id="id"
       onStartEditing={() => console.log('onStartEditing')}
       saveEntry={() => console.log('onSaveEntry')}
       question="Wie wird das Wetter morgen?"
@@ -35,6 +36,7 @@ storiesOf('EditGameCard', module)
   .add('not isEditing', () => (
     <EditGameCard
       isEditing={false}
+      id="id"
       onStartEditing={() => console.log('onStartEditing')}
       saveEntry={() => console.log('onSaveEntry')}
       question="Wie wird das Wetter morgen?"
@@ -45,6 +47,7 @@ storiesOf('EditGameCard', module)
   .add('not isEditing with long question', () => (
     <EditGameCard
       isEditing={false}
+      id="id"
       onStartEditing={() => console.log('onStartEditing')}
       saveEntry={() => console.log('onSaveEntry')}
       question="Wie wird das Wetter morgen, also eigentlich meine ich: Wieviel ist 200 + 10?"
@@ -55,6 +58,7 @@ storiesOf('EditGameCard', module)
   .add('isEditing with long question', () => (
     <EditGameCard
       isEditing
+      id="id"
       onStartEditing={() => console.log('onStartEditing')}
       saveEntry={() => console.log('onSaveEntry')}
       question="Wie wird das Wetter morgen, also eigentlich meine ich: Wieviel ist 200 + 10?"

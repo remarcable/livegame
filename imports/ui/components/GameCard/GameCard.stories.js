@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { muiTheme } from 'storybook-addon-material-ui';
-import { ownValues } from '../theme';
+import { theme } from '../theme';
 import GameCard from './GameCard.js';
 
 
@@ -16,7 +16,7 @@ storiesOf('GameCard', module)
   .addDecorator(muiTheme([
     'Light Theme',
     'Dark Theme',
-    ownValues,
+    theme,
   ]))
   .add('no state', () => (
     <GameCard id="myId" question="Wie wird das Wetter morgen?" startGame={console.log} stopGame={console.log} />

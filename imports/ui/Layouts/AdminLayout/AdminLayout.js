@@ -50,7 +50,10 @@ const AdminLayout = ({ isReady, games, isVoting, gameEnded = false, hintText, nu
       gameEnded={gameEnded}
       hintText={hintText}
     /> */}
-    <EditLayout />
+    <EditLayout
+      isReady={isReady}
+      games={games}
+    />
     <Footer />
   </div>
 );

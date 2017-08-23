@@ -11,7 +11,7 @@ const gameSchema = new SimpleSchema({
     allowedValues: ['active', 'closed'],
     optional: true,
   },
-  correctAnswer: {
+  answer: {
     type: Number,
     label: 'Richtige Antwort',
     optional: true,

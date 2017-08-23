@@ -45,6 +45,7 @@ class AdminLayout extends Component {
       hintText,
       numberOfUsers,
       userIsAdmin,
+      scoreboardUsers,
     } = this.props;
     const { editMode } = this.state;
 
@@ -71,6 +72,7 @@ class AdminLayout extends Component {
             games={games}
             gameEnded={gameEnded}
             hintText={hintText}
+            scoreboardUsers={scoreboardUsers}
           />
         }
         <FloatingActionButton
@@ -97,11 +99,15 @@ const wrapperStyles = {
 
 export default createContainer(() => {
   const userHandle = Meteor.subscribe('users.loggedIn');
+  const scoreboardHandle = Meteor.subscribe('users.scoreboard.topTen');
   const gamesHandle = Meteor.subscribe('games.allGames');
   const appStateHandle = Meteor.subscribe('appState.admin');
   const numberOfUsers = Counts.get('users.loggedInCount');
 
-  const isReady = gamesHandle.ready() && appStateHandle.ready() && userHandle.ready();
+  const isReady = gamesHandle.ready()
+    && appStateHandle.ready()
+    && userHandle.ready()
+    && scoreboardHandle.ready();
 
   const games = Games.find().fetch();
 
@@ -115,5 +121,35 @@ export default createContainer(() => {
 
   const userIsAdmin = Meteor.userIsAdmin();
 
-  return { isReady, games: sortedGames, isVoting, gameEnded, hintText, numberOfUsers, userIsAdmin };
+  const rawScoreboardUsers = Meteor.users.find({ role: { $ne: 'admin' } }, {
+    fields: {
+      firstName: 1,
+      lastName: 1,
+      alias: 1,
+      rank: 1,
+    },
+    sort: {
+      rank: 1,
+    },
+  }).fetch();
+
+  const scoreboardUsers = rawScoreboardUsers
+    .filter(user => user.firstName && user.lastName && user.rank)
+    .map(user => ({
+      id: user._id,
+      fullName: user.alias ? user.alias : `${user.firstName} ${user.lastName}`,
+      rank: user.rank,
+      hasAlias: !!user.alias,
+    }));
+
+  return {
+    isReady,
+    games: sortedGames,
+    isVoting,
+    gameEnded,
+    hintText,
+    numberOfUsers,
+    userIsAdmin,
+    scoreboardUsers,
+  };
 }, AdminLayout);

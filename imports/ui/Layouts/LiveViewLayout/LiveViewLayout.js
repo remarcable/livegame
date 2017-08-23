@@ -42,6 +42,7 @@ LiveViewLayout.propTypes = propTypes;
 const mainContentStyle = {
   flexGrow: 1,
   padding: '1em',
+  marginTop: 105,
   minWidth: '50%',
 };
 
@@ -61,7 +62,7 @@ export default createContainer(() => {
   const appState = AppState.findOne();
   const showVoting = isReady && appState.scoreboard === 'voting';
 
-  const rawUsers = Meteor.users.find({}, {
+  const rawUsers = Meteor.users.find({ role: { $ne: 'admin' } }, {
     fields: {
       firstName: 1,
       lastName: 1,

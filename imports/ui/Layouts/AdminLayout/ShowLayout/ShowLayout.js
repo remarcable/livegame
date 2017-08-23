@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Chip from 'material-ui/Chip';
 import { blueGrey900 } from 'material-ui/styles/colors';
 
+import ScoreboardList from '../../../components/ScoreboardList';
 import GamesList from '../../../components/GamesList';
 import AdminMethods from '../../../components/AdminMethods';
 
@@ -35,7 +36,7 @@ const propTypes = {
   hintText: PropTypes.string,
 };
 
-const ShowLayout = ({ isReady, isVoting, hintText, games, gameEnded }) => (
+const ShowLayout = ({ isReady, isVoting, hintText, games, gameEnded, scoreboardUsers }) => (
   <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
     <AdminMethods
       isVoting={isVoting}
@@ -43,26 +44,34 @@ const ShowLayout = ({ isReady, isVoting, hintText, games, gameEnded }) => (
       showVotingOnLiveView={() => showVotingOnLiveView.call()}
       showScoresOnLiveView={() => showScoresOnLiveView.call()}
     />
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-      <Chip
-        backgroundColor={blueGrey900}
-        style={{ fontStyle: !hintText && 'italic' }}
-      >
-        {hintText || 'Kein Text'}
-      </Chip>
-      {
-          isReady && <GamesList
-            games={games}
-            startGame={gameId => startGame.call({ gameId })}
-            stopGame={gameId => stopGame.call({ gameId })}
-          />
-        }
-      <div>
+    <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '65%' }}>
+        <Chip
+          backgroundColor={blueGrey900}
+          style={{ fontStyle: !hintText && 'italic' }}
+        >
+          {hintText || 'Kein Text'}
+        </Chip>
         {
-          gameEnded
-          ? <RaisedButton onTouchTap={() => unendLiveGame.call()} label="Reopen Livegame" backgroundColor={blueGrey900} />
-          : <RaisedButton onTouchTap={() => endLiveGame.call()} label="Close Livegame" backgroundColor={blueGrey900} />
-        }
+            isReady && <GamesList
+              games={games}
+              startGame={gameId => startGame.call({ gameId })}
+              stopGame={gameId => stopGame.call({ gameId })}
+            />
+          }
+        <div>
+          {
+            gameEnded
+            ? <RaisedButton onTouchTap={() => unendLiveGame.call()} label="Reopen Livegame" backgroundColor={blueGrey900} />
+            : <RaisedButton onTouchTap={() => endLiveGame.call()} label="Close Livegame" backgroundColor={blueGrey900} />
+          }
+        </div>
+      </div>
+      <div style={{ width: '30%', display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+        <RaisedButton onTouchTap={() => unendLiveGame.call()} label="Update Ranking" backgroundColor={blueGrey900} style={{ marginBottom: 8 }} />
+        <div style={{ width: '100%', transform: 'scale(.8)' }}>
+          <ScoreboardList entries={scoreboardUsers} />
+        </div>
       </div>
     </div>
   </div>

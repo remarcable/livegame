@@ -26,7 +26,7 @@ const styles = {
   backgroundColor: orange500,
   padding: '1rem',
   marginBottom: '.25rem',
-  fontWeight: 200,
+  fontWeight: 300,
   fontSize: '1.5em',
   width: '100%',
 };

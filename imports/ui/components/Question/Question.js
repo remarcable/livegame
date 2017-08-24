@@ -12,7 +12,7 @@ const Question = ({
   question,
   questionNumber,
 }) => (
-  <p style={{ fontWeight: 200 }}>
+  <p style={{ fontWeight: 300 }}>
     {
       questionNumber
       && <span style={questionNumberStyles}>{padLeft(questionNumber)}. Frage</span>

@@ -26,8 +26,8 @@ const UserInformation = ({ isReady, firstName, lastName, ownRank, maxRank, alias
     <span>{ownRank || maxRank} / {maxRank}</span>
     <Divider style={dividerStyles} />
     { alias
-      ? <span style={{ fontWeight: 200 }}>{alias}</span>
-      : <span style={{ fontWeight: 200 }}>{firstName} {lastName}</span>
+      ? <span style={{ fontWeight: 300 }}>{alias}</span>
+      : <span style={{ fontWeight: 300 }}>{firstName} {lastName}</span>
     }
     {
       alias
@@ -58,7 +58,7 @@ const dividerStyles = {
 
 const aliasStyles = {
   marginTop: theme.spacing.desktopGutterMini / 2,
-  fontWeight: 200,
+  fontWeight: 300,
   fontSize: '.5em',
 };
 

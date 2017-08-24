@@ -31,7 +31,7 @@ const gameEndedMessageStyles = {
   margin: theme.spacing.desktopGutter,
   fontSize: '1.25em',
   textAlign: 'center',
-  fontWeight: 200,
+  fontWeight: 300,
 };
 
 export default GameEnded;

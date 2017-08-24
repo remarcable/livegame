@@ -8,7 +8,7 @@ const appStateSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
-  scoreboard: {
+  liveview: {
     type: String,
     allowedValues: ['scores', 'voting'],
   },

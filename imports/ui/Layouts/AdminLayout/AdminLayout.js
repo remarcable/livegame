@@ -16,6 +16,7 @@ import EditLayout from './EditLayout';
 import Footer from '../../components/Footer';
 
 import Games from '../../../api/games/collection';
+import Votings from '../../../api/votings/collection';
 import AppState from '../../../api/appState/collection';
 
 const propTypes = {
@@ -105,9 +106,10 @@ export default createContainer(() => {
   const userIsAdmin = Meteor.userIsAdmin();
 
   const games = Games.find().fetch();
+  const votings = Votings.find().fetch();
 
   const appState = AppState.findOne() || {};
-  const isVoting = appState.scoreboard === 'voting';
+  const isVoting = appState.liveview === 'voting';
   const { gameEnded, hintText, gamesOrder } = appState;
 
   const sortedGames = games.sort(

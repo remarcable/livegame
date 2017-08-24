@@ -7,17 +7,13 @@ import Question from '../../components/Question';
 const propTypes = {
   wrapperStyles: PropTypes.object,
   question: PropTypes.string.isRequired,
-  questionNumber: PropTypes.number.isRequired,
-  answerOption1: PropTypes.string.isRequired,
-  answerOption2: PropTypes.string.isRequired,
+  questionNumber: PropTypes.number,
 };
 
 const ActiveVoting = ({
   wrapperStyles = {},
   question,
   questionNumber,
-  answerOption1,
-  answerOption2,
 }) => (
   <div style={{ ...wrapperStyles, ...styles }}>
     <Question
@@ -26,13 +22,13 @@ const ActiveVoting = ({
     />
     <div style={{ display: 'flex' }}>
       <RaisedButton
-        label={answerOption1}
+        label="Ja"
         primary
         style={{ margin: '.5em' }}
         labelStyle={{ color: '#fff' }}
       />
       <RaisedButton
-        label={answerOption2}
+        label="Nein"
         secondary
         style={{ margin: '.5em' }}
         labelStyle={{ color: '#fff' }}
@@ -50,12 +46,4 @@ const styles = {
   alignItems: 'center',
 };
 
-export default props => (
-  <ActiveVoting
-    question="Haben Sie weiße Schuhe an?"
-    questionNumber={3}
-    answerOption1="Ja"
-    answerOption2="Nein"
-    {...props}
-  />
-);
+export default ActiveVoting;

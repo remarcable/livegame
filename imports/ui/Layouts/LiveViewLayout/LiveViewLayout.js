@@ -19,10 +19,10 @@ const propTypes = {
     rank: PropTypes.number.isRequired,
   })),
   isReady: PropTypes.bool.isRequired,
-  showVoting: PropTypes.bool,
+  showVotingOnLiveView: PropTypes.bool,
 };
 
-const LiveViewLayout = ({ users, isReady, showVoting }) => (
+const LiveViewLayout = ({ users, isReady, showVotingOnLiveView }) => (
   <div style={layoutStyles}>
     <AppBar
       title="LIVESPIEL"
@@ -30,7 +30,7 @@ const LiveViewLayout = ({ users, isReady, showVoting }) => (
       titleStyle={{ textAlign: 'center', fontWeight: 300 }}
     />
     <div style={mainContentStyle}>
-      {showVoting && 'should show voting'}
+      {showVotingOnLiveView && 'should show voting'}
       {isReady && <ScoreboardList entries={users} />}
     </div>
     <Footer />
@@ -54,12 +54,12 @@ const layoutStyles = {
 };
 
 export default createContainer(() => {
-  const scoreboardHandle = Meteor.subscribe('users.scoreboard.topTen');
+  const scoreboardHandle = Meteor.subscribe('users.liveview.topTen');
   const appStateHandle = Meteor.subscribe('appState.admin');
   const isReady = scoreboardHandle.ready() && appStateHandle.ready();
 
   const appState = AppState.findOne();
-  const showVoting = isReady && appState.scoreboard === 'voting';
+  const showVotingOnLiveView = isReady && appState.liveview === 'voting';
 
   const rawUsers = Meteor.users.find({}, {
     fields: {
@@ -82,5 +82,5 @@ export default createContainer(() => {
       hasAlias: !!user.alias,
     }));
 
-  return isReady ? { users, isReady, showVoting } : { isReady };
+  return isReady ? { users, isReady, showVotingOnLiveView } : { isReady };
 }, LiveViewLayout);

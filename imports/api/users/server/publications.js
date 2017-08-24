@@ -15,7 +15,7 @@ Meteor.publish('users.loggedIn', function () {
   });
 });
 
-Meteor.publish('users.scoreboard.topTen', function () {
+Meteor.publish('users.liveview.topTen', function () {
   if (!this.userId || !Meteor.userIsAdmin(this.userId)) return this.ready();
   return Meteor.users.find({ role: { $ne: 'admin' } }, {
     fields: {

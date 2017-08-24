@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
@@ -8,7 +9,7 @@ export const showScoresOnLiveView = new ValidatedMethod({
   validate: null,
   run() {
     Meteor.ensureUserIsAdmin(this.userId);
-    AppState.update({}, { $set: { scoreboard: 'scores' } });
+    AppState.update({}, { $set: { liveview: 'scores' } });
   },
 });
 
@@ -17,7 +18,7 @@ export const showVotingOnLiveView = new ValidatedMethod({
   validate: null,
   run() {
     Meteor.ensureUserIsAdmin(this.userId);
-    AppState.update({}, { $set: { scoreboard: 'voting' } });
+    AppState.update({}, { $set: { liveview: 'voting' } });
   },
 });
 

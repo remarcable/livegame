@@ -13,15 +13,21 @@ const propTypes = {
       state: PropTypes.string,
     }),
   ).isRequired,
+  votings: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      question: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
   startEditing: PropTypes.func.isRequired,
   deleteGame: PropTypes.func.isRequired,
   saveEntry: PropTypes.func.isRequired,
   currentlyEditedItemId: PropTypes.string,
 };
 
-const EditList = ({ games, currentlyEditedItemId, saveEntry, startEditing, deleteGame }) => (
-  <div style={{ minWidth: '50%' }}>
-    {games.map(({ _id: gameId, question, answer }, index) => (
+const EditList = ({ games, currentlyEditedItemId, saveEntry, startEditing, deleteGame, votings }) => (
+  <div style={{ width: '70%' }}>
+    {games.map(({ _id: gameId, question, answer, votingId }, index) => (
       <SortableEditGameCard
         id={gameId}
         key={gameId}
@@ -32,7 +38,9 @@ const EditList = ({ games, currentlyEditedItemId, saveEntry, startEditing, delet
         saveEntry={(itemId, ...data) => saveEntry(itemId, ...data)}
         question={question}
         answer={answer}
+        votingId={votingId}
         onRequestDelete={itemId => deleteGame(itemId)}
+        votings={votings}
       />
     ))}
   </div>

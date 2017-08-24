@@ -50,11 +50,13 @@ class SortableEditListTester extends Component {
     return (
       <SortableEditList
         games={games}
+        votings={[{ _id: '01', question: 'Das ist Voting 01' }]}
         startEditing={this.onStartEditing}
         deleteGame={this.onDeleteGame}
         saveEntry={this.onSaveEntry}
         currentlyEditedItemId={currentlyEditedItemId}
         onSortEnd={this.onSortEnd}
+        shouldCancelStart={() => !!currentlyEditedItemId}
         useDragHandle
         lockAxis="y"
       />

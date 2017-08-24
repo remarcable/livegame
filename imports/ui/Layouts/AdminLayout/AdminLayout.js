@@ -25,6 +25,14 @@ const propTypes = {
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
       question: PropTypes.string.isRequired,
+      answer: PropTypes.number,
+      state: PropTypes.string,
+    }),
+  ).isRequired,
+  votings: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      question: PropTypes.string.isRequired,
       state: PropTypes.string,
     }),
   ).isRequired,
@@ -41,6 +49,7 @@ class AdminLayout extends Component {
     const {
       isReady,
       games,
+      votings,
       liveViewShowsVoting,
       gameEnded = false,
       hintText,
@@ -65,7 +74,7 @@ class AdminLayout extends Component {
         />
         {
           editMode
-          ? <EditLayout isReady={isReady} games={games} />
+          ? <EditLayout isReady={isReady} games={games} votings={votings} />
           : <ShowLayout
             isReady={isReady}
             liveViewShowsVoting={liveViewShowsVoting}
@@ -107,12 +116,14 @@ export default createContainer(() => {
     && votingsHandle.ready()
     && appStateHandle.ready()
     && userHandle.ready();
+
   const userIsAdmin = Meteor.userIsAdmin();
 
   const games = Games.find().fetch();
+  const votings = Votings.find().fetch();
 
   const appState = AppState.findOne() || {};
-  const liveViewShowsVoting = appState.liveview === 'voting';
+  // const liveViewShowsVoting = appState.liveview === 'voting';
   const { gameEnded, hintText, gamesOrder = [] } = appState || {};
 
   const sortedGamesWithVotings = games
@@ -125,7 +136,8 @@ export default createContainer(() => {
   return {
     isReady,
     games: sortedGamesWithVotings,
-    liveViewShowsVoting,
+    votings,
+    liveViewShowsVoting: false,
     gameEnded,
     hintText,
     numberOfUsers,

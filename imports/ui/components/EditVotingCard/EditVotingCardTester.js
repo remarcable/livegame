@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import EditGameCard from './EditGameCard.js';
+import EditVotingCard from './EditVotingCard.js';
 
 
-class EditGameCardTester extends Component {
+class EditVotingCardTester extends Component {
   constructor() {
     super();
     this.state = { isEditing: false, question: 'Wie wird das Wetter morgen?', answer: 210 };
@@ -18,15 +18,12 @@ class EditGameCardTester extends Component {
   render() {
     return (
       <div>
-        <EditGameCard
-          allowSorting={false}
+        <EditVotingCard
           isEditing={this.state.isEditing}
           id="id"
           onStartEditing={this.handleOnStartEdit}
           saveEntry={this.handleOnSave}
           question={this.state.question}
-          answer={this.state.answer}
-          votings={[{ _id: '01', question: 'Das ist Voting 01' }]}
           onRequestDelete={() => console.log('onRequestDelete')}
         />
       </div>
@@ -34,4 +31,4 @@ class EditGameCardTester extends Component {
   }
 }
 
-export default EditGameCardTester;
+export default EditVotingCardTester;

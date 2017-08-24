@@ -64,11 +64,13 @@ export const updateGame = new ValidatedMethod({
   validate: new SimpleSchema({
     id: { type: String },
     question: { type: String },
-    answer: { type: Number },
+    answer: { type: Number, optional: true },
+    votingId: { type: String, optional: true },
   }).validator(),
-  run({ id, question, answer }) {
+  run({ id, question, answer, votingId }) {
     Meteor.ensureUserIsAdmin(this.userId);
-    return Games.update({ _id: id }, { $set: { question, answer } });
+    if (answer !== undefined) return Games.update({ _id: id }, { $unset: { votingId: 1 }, $set: { question, answer } });
+    if (votingId) return Games.update({ _id: id }, { $unset: { answer: 1 }, $set: { question, votingId } });
   },
 });
 

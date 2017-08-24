@@ -1,1 +1,1 @@
-export * from './EditGameCard';
+export * from './EditGameCard.js';

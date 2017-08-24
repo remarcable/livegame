@@ -46,6 +46,7 @@ const GamesList = ({ games, startGame, stopGame, startVoting, stopVoting, showVo
           <GameCard
             id={_id}
             state={state}
+            isDisabled={!!voting && voting.state !== 'closed'}
             question={question}
             startGame={startGame}
             stopGame={stopGame}

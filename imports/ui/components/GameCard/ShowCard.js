@@ -26,6 +26,7 @@ const propTypes = {
   stopGame: PropTypes.func.isRequired,
   showVotingOnLiveView: PropTypes.func,
   isVoting: PropTypes.bool.isRequired,
+  isDisabled: PropTypes.bool,
   isOnLiveview: PropTypes.bool,
 };
 
@@ -36,6 +37,7 @@ const ShowCard = ({
   startGame,
   stopGame,
   isVoting,
+  isDisabled,
   showVotingOnLiveView,
   isOnLiveview,
 }) => (
@@ -57,13 +59,14 @@ const ShowCard = ({
           <RaisedButton
             backgroundColor={blueGrey800}
             label={state === 'closed' ? 'Restart' : 'Start'}
+            disabled={isDisabled}
             onTouchTap={() => startGame(id)}
             style={{ margin: 5 }}
           />
         }
     </div>
     {
-      isVoting &&
+      isVoting && state === 'closed' &&
       <FloatingActionButton
         mini
         style={{ position: 'absolute', right: 0, transform: 'translateX(38%) scale(0.75)' }}

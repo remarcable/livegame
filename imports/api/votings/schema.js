@@ -11,6 +11,14 @@ const votingSchema = new SimpleSchema({
     allowedValues: ['active', 'closed'],
     optional: true,
   },
+  yesVotes: {
+    type: Number,
+    optional: true,
+  },
+  noVotes: {
+    type: Number,
+    optional: true,
+  },
 });
 
 export default votingSchema;

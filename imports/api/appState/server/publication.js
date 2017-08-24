@@ -18,7 +18,7 @@ Meteor.publish('appState.admin', function () {
     fields: {
       gameEnded: 1,
       hintText: 1,
-      liveview: 1,
+      votingToShow: 1,
       gamesOrder: 1,
     },
     limit: 1,

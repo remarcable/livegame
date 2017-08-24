@@ -8,9 +8,9 @@ const appStateSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
-  liveview: {
+  votingToShow: {
     type: String,
-    allowedValues: ['scores', 'voting'],
+    optional: true,
   },
   gamesOrder: {
     type: [String],

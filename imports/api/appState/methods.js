@@ -9,16 +9,18 @@ export const showScoresOnLiveView = new ValidatedMethod({
   validate: null,
   run() {
     Meteor.ensureUserIsAdmin(this.userId);
-    AppState.update({}, { $set: { liveview: 'scores' } });
+    AppState.update({}, { $unset: { votingToShow: 1 } });
   },
 });
 
 export const showVotingOnLiveView = new ValidatedMethod({
   name: 'app.showVotingOnLiveView',
-  validate: null,
-  run() {
+  validate: new SimpleSchema({
+    votingId: { type: String },
+  }).validator(),
+  run({ votingId }) {
     Meteor.ensureUserIsAdmin(this.userId);
-    AppState.update({}, { $set: { liveview: 'voting' } });
+    AppState.update({}, { $set: { votingToShow: votingId } });
   },
 });
 

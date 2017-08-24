@@ -2,13 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Meteor } from 'meteor/meteor';
+import { Tracker } from 'meteor/tracker';
+import { ReactiveVar } from 'meteor/reactive-var';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import AppBar from 'material-ui/AppBar';
 import Footer from '../../components/Footer';
 import ScoreboardList from '../../components/ScoreboardList';
+import VotingChart from '../../components/VotingChart';
 
 import AppState from '../../../api/appState/collection';
+import Votings from '../../../api/votings/collection';
+
+import { updateVotingCounts } from '../../../api/votings/methods';
 
 const propTypes = {
   users: PropTypes.arrayOf(PropTypes.shape({
@@ -20,9 +26,19 @@ const propTypes = {
   })),
   isReady: PropTypes.bool.isRequired,
   showVotingOnLiveView: PropTypes.bool,
+  voting: PropTypes.shape({
+    question: PropTypes.string,
+    yesPercentage: PropTypes.number,
+    noPercentage: PropTypes.number,
+  }),
 };
 
-const LiveViewLayout = ({ users, isReady, showVotingOnLiveView }) => (
+const LiveViewLayout = ({
+  users,
+  isReady,
+  showVotingOnLiveView,
+  voting: { question, yesPercentage, noPercentage } = {},
+}) => (
   <div style={layoutStyles}>
     <AppBar
       title="LIVESPIEL"
@@ -30,8 +46,14 @@ const LiveViewLayout = ({ users, isReady, showVotingOnLiveView }) => (
       titleStyle={{ textAlign: 'center', fontWeight: 300 }}
     />
     <div style={mainContentStyle}>
-      {showVotingOnLiveView && 'should show voting'}
-      {isReady && <ScoreboardList entries={users} />}
+      {isReady && !showVotingOnLiveView && <ScoreboardList entries={users} />}
+      {isReady && showVotingOnLiveView &&
+        <VotingChart
+          question={question}
+          yesPercentage={yesPercentage}
+          noPercentage={noPercentage}
+        />
+      }
     </div>
     <Footer />
   </div>
@@ -53,34 +75,61 @@ const layoutStyles = {
   justifyContent: 'center',
 };
 
+
+let lastVotingToShowId = null;
+const votingIsReady = new ReactiveVar(false);
+
 export default createContainer(() => {
-  const scoreboardHandle = Meteor.subscribe('users.liveview.topTen');
+  const currentUserHandle = Meteor.subscribe('users.loggedIn');
+  const liveviewHandle = Meteor.subscribe('users.liveview.topTen');
   const appStateHandle = Meteor.subscribe('appState.admin');
-  const isReady = scoreboardHandle.ready() && appStateHandle.ready();
+  const votingsHandle = Meteor.subscribe('votings.allVotings');
 
   const appState = AppState.findOne();
-  const showVotingOnLiveView = isReady && appState.liveview === 'voting';
+  const { votingToShow = false } = appState || {};
 
-  const rawUsers = Meteor.users.find({}, {
-    fields: {
-      firstName: 1,
-      lastName: 1,
-      alias: 1,
-      rank: 1,
-    },
-    sort: {
-      rank: 1,
-    },
-  }).fetch();
+  const isReady = currentUserHandle.ready()
+    && liveviewHandle.ready()
+    && appStateHandle.ready()
+    && votingsHandle.ready()
+    && votingIsReady.get();
 
-  const users = rawUsers
+  // We have to update the votes count to keep it correct
+  Tracker.autorun(() => {
+    const userDataReady = currentUserHandle.ready(); // wait for data for userIsAdmin-check
+    const votingIdUpdated = votingToShow !== lastVotingToShowId;
+
+    if (userDataReady && votingIdUpdated) {
+      votingIsReady.set(false);
+      updateVotingCounts.call({ votingId: votingToShow }, () => {
+        lastVotingToShowId = votingToShow;
+        votingIsReady.set(true);
+      });
+    }
+  });
+
+  const showVotingOnLiveView = votingIsReady.get() && !!votingToShow;
+
+  const users = Meteor.users
+    .find({}, {
+      fields: { firstName: 1, lastName: 1, alias: 1, rank: 1 },
+      sort: { rank: 1 },
+    }).fetch()
     .filter(user => user.firstName && user.lastName && user.rank)
-    .map(user => ({
-      id: user._id,
-      fullName: user.alias ? user.alias : `${user.firstName} ${user.lastName}`,
-      rank: user.rank,
-      hasAlias: !!user.alias,
+    .map(({ _id: id, alias, firstName, lastName, rank }) => ({
+      id,
+      rank,
+      fullName: alias || `${firstName} ${lastName}`,
+      hasAlias: !!alias,
     }));
 
-  return isReady ? { users, isReady, showVotingOnLiveView } : { isReady };
+  const { question, yesVotes, noVotes } = Votings.findOne({ _id: votingToShow }) || {};
+
+  const totalVotes = yesVotes + noVotes;
+  const yesPercentage = Math.round((yesVotes / totalVotes) * 100);
+  const noPercentage = 100 - yesPercentage;
+
+  return isReady
+    ? { users, isReady, showVotingOnLiveView, voting: { yesPercentage, noPercentage, question } }
+    : { isReady };
 }, LiveViewLayout);

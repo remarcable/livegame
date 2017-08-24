@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
-import Submissions from '../submissions/collection';
+import Submissions from './collection';
 import Games from '../games/collection';
 
 

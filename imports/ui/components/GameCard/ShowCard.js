@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import RaisedButton from 'material-ui/RaisedButton';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import LightBulbIcon from 'material-ui/svg-icons/action/lightbulb-outline';
 import Paper from 'material-ui/Paper';
 import Chip from 'material-ui/Chip';
 
@@ -22,10 +24,21 @@ const propTypes = {
   question: PropTypes.string.isRequired,
   startGame: PropTypes.func.isRequired,
   stopGame: PropTypes.func.isRequired,
+  showVotingOnLiveView: PropTypes.func,
   isVoting: PropTypes.bool.isRequired,
+  isOnLiveview: PropTypes.bool,
 };
 
-const ShowCard = ({ id, state, question, startGame, stopGame, isVoting }) => (
+const ShowCard = ({
+  id,
+  state,
+  question,
+  startGame,
+  stopGame,
+  isVoting,
+  showVotingOnLiveView,
+  isOnLiveview,
+}) => (
   <Paper style={styleForPaper(state)}>
     <div style={questionStyles}>
       <StatusIndicator isActive={state === 'active'} />
@@ -49,6 +62,17 @@ const ShowCard = ({ id, state, question, startGame, stopGame, isVoting }) => (
           />
         }
     </div>
+    {
+      isVoting &&
+      <FloatingActionButton
+        mini
+        style={{ position: 'absolute', right: 0, transform: 'translateX(38%) scale(0.75)' }}
+        secondary={!isOnLiveview}
+        onClick={() => showVotingOnLiveView(id)}
+      >
+        <LightBulbIcon style={{ fill: 'white' }} />
+      </FloatingActionButton>
+    }
   </Paper>
 );
 

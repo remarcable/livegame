@@ -16,7 +16,13 @@ const propTypes = {
   currentlyEditedItemId: PropTypes.string,
 };
 
-const VotingEditList = ({ votings, currentlyEditedItemId, saveEntry, startEditing, deleteVoting }) => (
+const VotingEditList = ({
+  votings,
+  currentlyEditedItemId,
+  saveEntry,
+  startEditing,
+  deleteVoting,
+}) => (
   <div style={{ width: '70%' }}>
     {votings.map(({ _id: votingId, question }) => (
       <EditVotingCard

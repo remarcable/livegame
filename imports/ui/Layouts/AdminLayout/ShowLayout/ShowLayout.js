@@ -37,15 +37,22 @@ const propTypes = {
   ).isRequired,
   liveViewShowsVoting: PropTypes.bool.isRequired,
   gameEnded: PropTypes.bool.isRequired,
+  votingIdOnLiveview: PropTypes.string,
   hintText: PropTypes.string,
 };
 
-const ShowLayout = ({ isReady, liveViewShowsVoting, hintText, games, gameEnded }) => (
+const ShowLayout = ({
+  isReady,
+  liveViewShowsVoting,
+  hintText,
+  games,
+  gameEnded,
+  votingIdOnLiveview,
+}) => (
   <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
     <AdminMethods
       liveViewShowsVoting={liveViewShowsVoting}
       setHintText={newHintText => setHintText.call({ hintText: newHintText })}
-      showVotingOnLiveView={() => showVotingOnLiveView.call()}
       showScoresOnLiveView={() => showScoresOnLiveView.call()}
     />
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
@@ -62,6 +69,8 @@ const ShowLayout = ({ isReady, liveViewShowsVoting, hintText, games, gameEnded }
             stopGame={gameId => stopGame.call({ gameId })}
             startVoting={votingId => startVoting.call({ votingId })}
             stopVoting={votingId => stopVoting.call({ votingId })}
+            showVotingOnLiveView={votingId => showVotingOnLiveView.call({ votingId })}
+            currentlyShownOnLiveView={votingIdOnLiveview}
           />
         }
       <div>

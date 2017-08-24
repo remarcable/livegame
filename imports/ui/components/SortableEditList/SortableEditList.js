@@ -25,7 +25,14 @@ const propTypes = {
   currentlyEditedItemId: PropTypes.string,
 };
 
-const EditList = ({ games, currentlyEditedItemId, saveEntry, startEditing, deleteGame, votings }) => (
+const EditList = ({
+  games,
+  currentlyEditedItemId,
+  saveEntry,
+  startEditing,
+  deleteGame,
+  votings,
+}) => (
   <div style={{ width: '70%' }}>
     {games.map(({ _id: gameId, question, answer, votingId }, index) => (
       <SortableEditGameCard

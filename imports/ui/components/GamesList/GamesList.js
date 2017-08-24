@@ -22,9 +22,11 @@ const propTypes = {
   stopGame: PropTypes.func.isRequired,
   startVoting: PropTypes.func.isRequired,
   stopVoting: PropTypes.func.isRequired,
+  showVotingOnLiveView: PropTypes.func.isRequired,
+  currentlyShownOnLiveView: PropTypes.string,
 };
 
-const GamesList = ({ games, startGame, stopGame, startVoting, stopVoting }) => (
+const GamesList = ({ games, startGame, stopGame, startVoting, stopVoting, showVotingOnLiveView, currentlyShownOnLiveView }) => (
   <div style={{ minWidth: '50%' }}>
     {
       games.map(({ voting, votingId, question, _id, state }) => (
@@ -37,6 +39,8 @@ const GamesList = ({ games, startGame, stopGame, startVoting, stopVoting }) => (
               question={voting.question}
               startVoting={startVoting}
               stopVoting={stopVoting}
+              isOnLiveview={voting._id === currentlyShownOnLiveView}
+              showVotingOnLiveView={showVotingOnLiveView}
             />
           }
           <GameCard

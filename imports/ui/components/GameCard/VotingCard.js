@@ -9,9 +9,19 @@ const propTypes = {
   question: PropTypes.string.isRequired,
   startVoting: PropTypes.func.isRequired,
   stopVoting: PropTypes.func.isRequired,
+  showVotingOnLiveView: PropTypes.func.isRequired,
+  isOnLiveview: PropTypes.bool.isRequired,
 };
 
-const VotingCard = ({ id, state, question, startVoting, stopVoting }) => (
+const VotingCard = ({
+  id,
+  state,
+  question,
+  startVoting,
+  stopVoting,
+  showVotingOnLiveView,
+  isOnLiveview,
+}) => (
   <ShowCard
     isVoting
     id={id}
@@ -19,6 +29,8 @@ const VotingCard = ({ id, state, question, startVoting, stopVoting }) => (
     question={question}
     startGame={startVoting}
     stopGame={stopVoting}
+    showVotingOnLiveView={showVotingOnLiveView}
+    isOnLiveview={isOnLiveview}
   />
 );
 

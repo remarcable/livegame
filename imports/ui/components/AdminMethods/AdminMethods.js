@@ -1,30 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Toggle from 'material-ui/Toggle';
+import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import { blueGrey900 } from 'material-ui/styles/colors';
+import { orange500, blueGrey900 } from 'material-ui/styles/colors';
 
 const propTypes = {
   liveViewShowsVoting: PropTypes.bool.isRequired,
   setHintText: PropTypes.func.isRequired,
-  showVotingOnLiveView: PropTypes.func.isRequired,
   showScoresOnLiveView: PropTypes.func.isRequired,
 };
 
 const AdminMethods = ({
   liveViewShowsVoting,
   setHintText,
-  showVotingOnLiveView,
   showScoresOnLiveView,
 }) => (
   <div style={styles}>
     <div>
-      <Toggle
-        label="Voting on Liveview"
-        labelPosition="right"
-        onToggle={(e, isChecked) => isChecked ? showVotingOnLiveView() : showScoresOnLiveView()}
-        toggled={liveViewShowsVoting}
+      <RaisedButton
+        label="Show Scoreboard"
+        onClick={() => showScoresOnLiveView()}
+        backgroundColor={liveViewShowsVoting ? orange500 : blueGrey900 }
       />
     </div>
     <div>

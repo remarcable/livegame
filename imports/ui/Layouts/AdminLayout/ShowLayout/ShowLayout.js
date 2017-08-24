@@ -14,6 +14,11 @@ import {
 } from '../../../../api/games/methods';
 
 import {
+  startVoting,
+  stopVoting,
+} from '../../../../api/votings/methods';
+
+import {
   endLiveGame,
   unendLiveGame,
   setHintText,
@@ -55,6 +60,8 @@ const ShowLayout = ({ isReady, liveViewShowsVoting, hintText, games, gameEnded }
             games={games}
             startGame={gameId => startGame.call({ gameId })}
             stopGame={gameId => stopGame.call({ gameId })}
+            startVoting={votingId => startVoting.call({ votingId })}
+            stopVoting={votingId => stopVoting.call({ votingId })}
           />
         }
       <div>

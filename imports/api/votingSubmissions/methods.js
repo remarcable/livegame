@@ -17,11 +17,11 @@ export const submitVote = new ValidatedMethod({
 
     const userId = Meteor.userId();
     const currentVoting = Votings.findOne({ state: 'active' });
-    if (!currentVoting) throw new Meteor.Error('There is no game active');
-    const gameId = currentVoting._id;
-    const hasAlreadyAnswered = VotingSubmissions.findOne({ userId, gameId });
-    if (hasAlreadyAnswered) throw new Meteor.Error('User has already submitted for this game');
+    if (!currentVoting) throw new Meteor.Error('There is no voting active');
+    const votingId = currentVoting._id;
+    const hasAlreadyAnswered = VotingSubmissions.findOne({ userId, votingId });
+    if (hasAlreadyAnswered) throw new Meteor.Error('User has already submitted for this voting');
 
-    VotingSubmissions.insert({ userId, gameId, vote });
+    VotingSubmissions.insert({ userId, votingId, vote });
   },
 });

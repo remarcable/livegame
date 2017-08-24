@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import RaisedButton from 'material-ui/RaisedButton';
+import { red500, green500 } from 'material-ui/styles/colors';
 
 import Question from '../../components/Question';
+
+import { submitVote } from '../../../api/votingSubmissions/methods';
 
 const propTypes = {
   wrapperStyles: PropTypes.object,
@@ -23,15 +27,17 @@ const ActiveVoting = ({
     <div style={{ display: 'flex' }}>
       <RaisedButton
         label="Ja"
-        primary
+        backgroundColor={green500}
         style={{ margin: '.5em' }}
         labelStyle={{ color: '#fff' }}
+        onClick={() => submitVote.call({ vote: 'Ja' })}
       />
       <RaisedButton
         label="Nein"
-        secondary
+        backgroundColor={red500}
         style={{ margin: '.5em' }}
         labelStyle={{ color: '#fff' }}
+        onClick={() => submitVote.call({ vote: 'Nein' })}
       />
     </div>
   </div>

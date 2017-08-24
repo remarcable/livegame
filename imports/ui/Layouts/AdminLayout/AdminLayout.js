@@ -113,7 +113,7 @@ export default createContainer(() => {
 
   const appState = AppState.findOne() || {};
   const liveViewShowsVoting = appState.liveview === 'voting';
-  const { gameEnded, hintText, gamesOrder } = appState;
+  const { gameEnded, hintText, gamesOrder = [] } = appState || {};
 
   const sortedGamesWithVotings = games
   .sort((a, b) => gamesOrder.indexOf(a._id) - gamesOrder.indexOf(b._id))

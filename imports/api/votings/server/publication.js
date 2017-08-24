@@ -14,6 +14,6 @@ Meteor.publish('votings.active', function () {
 });
 
 Meteor.publish('votings.allVotings', function () {
-  if (!this.userId) return this.ready();
+  if (!this.userId || !Meteor.userIsAdmin(this.userId)) return this.ready();
   return Votings.find();
 });

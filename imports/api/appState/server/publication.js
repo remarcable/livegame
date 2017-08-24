@@ -13,7 +13,7 @@ Meteor.publish('appState', function () {
 });
 
 Meteor.publish('appState.admin', function () {
-  if (!this.userId) return this.ready();
+  if (!this.userId || !Meteor.userIsAdmin(this.userId)) return this.ready();
   return AppState.find({}, {
     fields: {
       gameEnded: 1,

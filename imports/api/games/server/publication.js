@@ -14,6 +14,6 @@ Meteor.publish('games.active', function () {
 });
 
 Meteor.publish('games.allGames', function () {
-  if (!this.userId) return this.ready();
+  if (!this.userId || !Meteor.userIsAdmin(this.userId)) return this.ready();
   return Games.find();
 });

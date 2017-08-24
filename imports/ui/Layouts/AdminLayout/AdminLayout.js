@@ -102,6 +102,7 @@ export default createContainer(() => {
   const numberOfUsers = Counts.get('users.loggedInCount');
 
   const isReady = gamesHandle.ready() && appStateHandle.ready() && userHandle.ready();
+  const userIsAdmin = Meteor.userIsAdmin();
 
   const games = Games.find().fetch();
 
@@ -113,7 +114,6 @@ export default createContainer(() => {
     (a, b) => gamesOrder.indexOf(a._id) - gamesOrder.indexOf(b._id),
   );
 
-  const userIsAdmin = Meteor.userIsAdmin();
 
   return { isReady, games: sortedGames, isVoting, gameEnded, hintText, numberOfUsers, userIsAdmin };
 }, AdminLayout);

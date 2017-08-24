@@ -3,6 +3,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 import Games from './collection';
+import Votings from '../votings/collection';
 import AppState from '../appState/collection';
 
 export const startGame = new ValidatedMethod({
@@ -12,7 +13,10 @@ export const startGame = new ValidatedMethod({
   }).validator(),
   run({ gameId }) {
     Meteor.ensureUserIsAdmin(this.userId);
+
     Games.update({ state: 'active' }, { $set: { state: 'closed' } });
+    Votings.update({ state: 'active' }, { $set: { state: 'closed' } });
+
     Games.update(gameId, { $set: { state: 'active' } });
   },
 });

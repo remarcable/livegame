@@ -99,23 +99,36 @@ const wrapperStyles = {
 export default createContainer(() => {
   const userHandle = Meteor.subscribe('users.loggedIn');
   const gamesHandle = Meteor.subscribe('games.allGames');
+  const votingsHandle = Meteor.subscribe('votings.allVotings');
   const appStateHandle = Meteor.subscribe('appState.admin');
   const numberOfUsers = Counts.get('users.loggedInCount');
 
-  const isReady = gamesHandle.ready() && appStateHandle.ready() && userHandle.ready();
+  const isReady = gamesHandle.ready()
+    && votingsHandle.ready()
+    && appStateHandle.ready()
+    && userHandle.ready();
   const userIsAdmin = Meteor.userIsAdmin();
 
   const games = Games.find().fetch();
-  const votings = Votings.find().fetch();
 
   const appState = AppState.findOne() || {};
   const liveViewShowsVoting = appState.liveview === 'voting';
   const { gameEnded, hintText, gamesOrder } = appState;
 
-  const sortedGames = games.sort(
-    (a, b) => gamesOrder.indexOf(a._id) - gamesOrder.indexOf(b._id),
-  );
+  const sortedGamesWithVotings = games
+  .sort((a, b) => gamesOrder.indexOf(a._id) - gamesOrder.indexOf(b._id))
+  .map((game) => {
+    if (game.votingId) return { ...game, voting: Votings.findOne(game.votingId) };
+    return game;
+  });
 
-
-  return { isReady, games: sortedGames, liveViewShowsVoting, gameEnded, hintText, numberOfUsers, userIsAdmin };
+  return {
+    isReady,
+    games: sortedGamesWithVotings,
+    liveViewShowsVoting,
+    gameEnded,
+    hintText,
+    numberOfUsers,
+    userIsAdmin,
+  };
 }, AdminLayout);

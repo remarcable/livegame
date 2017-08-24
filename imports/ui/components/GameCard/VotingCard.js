@@ -7,21 +7,21 @@ const propTypes = {
   id: PropTypes.string.isRequired,
   state: PropTypes.string,
   question: PropTypes.string.isRequired,
-  startGame: PropTypes.func.isRequired,
-  stopGame: PropTypes.func.isRequired,
+  startVoting: PropTypes.func.isRequired,
+  stopVoting: PropTypes.func.isRequired,
 };
 
-const GameCard = ({ id, state, question, startGame, stopGame }) => (
+const VotingCard = ({ id, state, question, startVoting, stopVoting }) => (
   <ShowCard
-    isVoting={false}
+    isVoting
     id={id}
     state={state}
     question={question}
-    startGame={startGame}
-    stopGame={stopGame}
+    startGame={startVoting}
+    stopGame={stopVoting}
   />
 );
 
-GameCard.propTypes = propTypes;
+VotingCard.propTypes = propTypes;
 
-export default GameCard;
+export default VotingCard;

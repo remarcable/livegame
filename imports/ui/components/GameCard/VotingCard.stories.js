@@ -2,10 +2,10 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { muiTheme } from 'storybook-addon-material-ui';
 import { theme } from '../theme';
-import GameCard from './GameCard.js';
+import VotingCard from './VotingCard.js';
 
 
-storiesOf('GameCard', module)
+storiesOf('VotingCard', module)
   .addDecorator(story => (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#fff', backgroundColor: '#2d2d2d', minHeight: '100vh' }}>
       <div style={{ width: '50%', maxWidth: 800, minWidth: 200 }}>
@@ -19,28 +19,28 @@ storiesOf('GameCard', module)
     theme,
   ]))
   .add('no state', () => (
-    <GameCard
+    <VotingCard
       id="myId"
       question="Wie wird das Wetter morgen?"
-      startGame={console.log}
-      stopGame={console.log}
+      startVoting={console.log}
+      stopVoting={console.log}
     />
   ))
   .add('active', () => (
-    <GameCard
+    <VotingCard
       id="myId"
       state="active"
       question="Wie wird das Wetter morgen?"
-      startGame={console.log}
-      stopGame={console.log}
+      startVoting={console.log}
+      stopVoting={console.log}
     />
   ))
   .add('closed', () => (
-    <GameCard
+    <VotingCard
       id="myId2"
       state="closed"
       question="Wie wird das Wetter morgen?"
-      startGame={console.log}
-      stopGame={console.log}
+      startVoting={console.log}
+      stopVoting={console.log}
     />
   ));

@@ -6,14 +6,14 @@ import TextField from 'material-ui/TextField';
 import { blueGrey900 } from 'material-ui/styles/colors';
 
 const propTypes = {
-  isVoting: PropTypes.bool.isRequired,
+  liveViewShowsVoting: PropTypes.bool.isRequired,
   setHintText: PropTypes.func.isRequired,
   showVotingOnLiveView: PropTypes.func.isRequired,
   showScoresOnLiveView: PropTypes.func.isRequired,
 };
 
 const AdminMethods = ({
-  isVoting,
+  liveViewShowsVoting,
   setHintText,
   showVotingOnLiveView,
   showScoresOnLiveView,
@@ -24,7 +24,7 @@ const AdminMethods = ({
         label="Voting on Liveview"
         labelPosition="right"
         onToggle={(e, isChecked) => isChecked ? showVotingOnLiveView() : showScoresOnLiveView()}
-        toggled={isVoting}
+        toggled={liveViewShowsVoting}
       />
     </div>
     <div>

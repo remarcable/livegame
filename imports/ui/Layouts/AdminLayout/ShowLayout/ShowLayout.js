@@ -30,15 +30,15 @@ const propTypes = {
       state: PropTypes.string,
     }),
   ).isRequired,
-  isVoting: PropTypes.bool.isRequired,
+  liveViewShowsVoting: PropTypes.bool.isRequired,
   gameEnded: PropTypes.bool.isRequired,
   hintText: PropTypes.string,
 };
 
-const ShowLayout = ({ isReady, isVoting, hintText, games, gameEnded }) => (
+const ShowLayout = ({ isReady, liveViewShowsVoting, hintText, games, gameEnded }) => (
   <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
     <AdminMethods
-      isVoting={isVoting}
+      liveViewShowsVoting={liveViewShowsVoting}
       setHintText={newHintText => setHintText.call({ hintText: newHintText })}
       showVotingOnLiveView={() => showVotingOnLiveView.call()}
       showScoresOnLiveView={() => showScoresOnLiveView.call()}

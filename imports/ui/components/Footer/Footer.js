@@ -9,10 +9,10 @@ const style = {
   fontSize: '.75em',
 };
 
-const App = () => (
+const Footer = () => (
   <span style={style}>
     © { (new Date()).getFullYear() } Marc Nitzsche
   </span>
 );
 
-export default App;
+export default Footer;

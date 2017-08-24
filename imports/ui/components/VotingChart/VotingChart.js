@@ -21,6 +21,9 @@ const VotingChart = ({ question, yesPercentage, noPercentage }) => (
           { value: yesPercentage, key: 'Yes', color: green500 },
           { value: noPercentage, key: 'No', color: red500 },
         ]}
+        style={{
+          filter: 'drop-shadow(rgba(0, 0, 0, 0.16) 0px 3px 10px) drop-shadow(rgba(0, 0, 0, 0.23) 0px 3px 10px)',
+        }}
       />
       <div style={chipsWrapper}>
         <Chip backgroundColor={green500} style={chipWrapperStyles}>{yesPercentage}%</Chip>

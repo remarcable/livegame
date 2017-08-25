@@ -13,11 +13,9 @@ const votingSchema = new SimpleSchema({
   },
   yesVotes: {
     type: Number,
-    optional: true,
   },
   noVotes: {
     type: Number,
-    optional: true,
   },
 });
 

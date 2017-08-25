@@ -39,7 +39,7 @@ export const createVoting = new ValidatedMethod({
   }).validator(),
   run({ question }) {
     Meteor.ensureUserIsAdmin(this.userId);
-    return Votings.insert({ question });
+    return Votings.insert({ question, yesVotes: 0, noVotes: 0 });
   },
 });
 

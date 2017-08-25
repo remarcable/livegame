@@ -51,7 +51,7 @@ const ShowLayout = ({
 }) => (
   <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
     <AdminMethods
-      liveViewShowsVoting={liveViewShowsVoting}
+      highlightScoreboardButton={liveViewShowsVoting}
       setHintText={newHintText => setHintText.call({ hintText: newHintText })}
       showScoresOnLiveView={() => showScoresOnLiveView.call()}
     />

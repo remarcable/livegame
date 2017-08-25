@@ -6,13 +6,13 @@ import TextField from 'material-ui/TextField';
 import { orange500, blueGrey900 } from 'material-ui/styles/colors';
 
 const propTypes = {
-  liveViewShowsVoting: PropTypes.bool.isRequired,
+  highlightScoreboardButton: PropTypes.bool.isRequired,
   setHintText: PropTypes.func.isRequired,
   showScoresOnLiveView: PropTypes.func.isRequired,
 };
 
 const AdminMethods = ({
-  liveViewShowsVoting,
+  highlightScoreboardButton,
   setHintText,
   showScoresOnLiveView,
 }) => (
@@ -21,7 +21,7 @@ const AdminMethods = ({
       <RaisedButton
         label="Show Scoreboard"
         onClick={() => showScoresOnLiveView()}
-        backgroundColor={liveViewShowsVoting ? orange500 : blueGrey900 }
+        backgroundColor={highlightScoreboardButton ? orange500 : blueGrey900}
       />
     </div>
     <div>

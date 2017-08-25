@@ -36,7 +36,6 @@ const propTypes = {
       state: PropTypes.string,
     }),
   ).isRequired,
-  liveViewShowsVoting: PropTypes.bool.isRequired,
   userIsAdmin: PropTypes.bool.isRequired,
   gameEnded: PropTypes.bool,
   votingIdOnLiveview: PropTypes.string,
@@ -51,7 +50,6 @@ class AdminLayout extends Component {
       isReady,
       games,
       votings,
-      liveViewShowsVoting,
       votingIdOnLiveview,
       gameEnded = false,
       hintText,
@@ -79,7 +77,7 @@ class AdminLayout extends Component {
           ? <EditLayout isReady={isReady} games={games} votings={votings} />
           : <ShowLayout
             isReady={isReady}
-            liveViewShowsVoting={liveViewShowsVoting}
+            liveViewShowsVoting={!!votingIdOnLiveview}
             games={games}
             gameEnded={gameEnded}
             votingIdOnLiveview={votingIdOnLiveview}
@@ -126,7 +124,6 @@ export default createContainer(() => {
   const votings = Votings.find().fetch();
 
   const appState = AppState.findOne() || {};
-  // const liveViewShowsVoting = appState.liveview === 'voting';
   const { gameEnded, hintText, gamesOrder = [], votingToShow } = appState || {};
 
   const sortedGamesWithVotings = games
@@ -140,7 +137,6 @@ export default createContainer(() => {
     isReady,
     games: sortedGamesWithVotings,
     votings,
-    liveViewShowsVoting: !!votingToShow,
     votingIdOnLiveview: votingToShow,
     gameEnded,
     hintText,

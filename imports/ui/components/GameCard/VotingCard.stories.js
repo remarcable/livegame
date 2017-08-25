@@ -22,6 +22,7 @@ storiesOf('VotingCard', module)
     <VotingCard
       id="myId"
       question="Wie wird das Wetter morgen?"
+      showVotingOnLiveView={console.log}
       startVoting={console.log}
       stopVoting={console.log}
     />
@@ -31,6 +32,7 @@ storiesOf('VotingCard', module)
       id="myId"
       state="active"
       question="Wie wird das Wetter morgen?"
+      showVotingOnLiveView={console.log}
       startVoting={console.log}
       stopVoting={console.log}
     />
@@ -40,6 +42,7 @@ storiesOf('VotingCard', module)
       id="myId2"
       state="closed"
       question="Wie wird das Wetter morgen?"
+      showVotingOnLiveView={console.log}
       startVoting={console.log}
       stopVoting={console.log}
     />

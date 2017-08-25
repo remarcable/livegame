@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import EditVotingCard from '../EditVotingCard/EditVotingCard';
+import EditVotingCard from '../EditVotingCard';
 
 const propTypes = {
   votings: PropTypes.arrayOf(

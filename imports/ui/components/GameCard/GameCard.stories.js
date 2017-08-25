@@ -21,6 +21,16 @@ storiesOf('GameCard', module)
   .add('no state', () => (
     <GameCard
       id="myId"
+      isDisabled={false}
+      question="Wie wird das Wetter morgen?"
+      startGame={console.log}
+      stopGame={console.log}
+    />
+  ))
+  .add('no state with isDisabled', () => (
+    <GameCard
+      id="myId"
+      isDisabled
       question="Wie wird das Wetter morgen?"
       startGame={console.log}
       stopGame={console.log}
@@ -30,6 +40,7 @@ storiesOf('GameCard', module)
     <GameCard
       id="myId"
       state="active"
+      isDisabled={false}
       question="Wie wird das Wetter morgen?"
       startGame={console.log}
       stopGame={console.log}
@@ -39,6 +50,7 @@ storiesOf('GameCard', module)
     <GameCard
       id="myId2"
       state="closed"
+      isDisabled={false}
       question="Wie wird das Wetter morgen?"
       startGame={console.log}
       stopGame={console.log}

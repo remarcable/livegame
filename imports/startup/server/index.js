@@ -8,3 +8,5 @@ import '/imports/api/votingSubmissions/server';
 
 import '../both';
 import '../both/admin';
+
+import './initialize';

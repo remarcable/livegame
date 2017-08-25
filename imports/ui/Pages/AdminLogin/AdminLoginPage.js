@@ -15,12 +15,14 @@ const AdminLoginPage = () => (
         floatingLabelText="Username"
         name="username"
         fullWidth
+        required
       />
       <TextField
         floatingLabelText="Password"
         name="password"
         type="password"
         fullWidth
+        required
       />
       <RaisedButton
         label="Anmelden"

@@ -19,6 +19,7 @@ const LoginPage = ({ wrapperStyles = {} }) => (
       autoComplete="given-name"
       maxLength="10"
       fullWidth
+      required
     />
     <TextField
       floatingLabelText="Nachname"
@@ -26,6 +27,7 @@ const LoginPage = ({ wrapperStyles = {} }) => (
       autoComplete="family-name"
       maxLength="20"
       fullWidth
+      required
     />
     <RaisedButton
       label="Anmelden"

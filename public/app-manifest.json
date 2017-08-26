@@ -1,5 +1,8 @@
 {
     "name": "Wer besiegt Paul? Live",
+    "short_name": "WBP Live",
+    "start_url": ".",
+    "description": "Zuschauerspiel für Schätzen bei Wer besiegt Paul?",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",

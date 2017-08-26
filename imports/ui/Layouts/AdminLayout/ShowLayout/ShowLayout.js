@@ -76,8 +76,8 @@ const ShowLayout = ({
       <div>
         {
           gameEnded
-          ? <RaisedButton onTouchTap={() => unendLiveGame.call()} label="Reopen Livegame" backgroundColor={blueGrey900} />
-          : <RaisedButton onTouchTap={() => endLiveGame.call()} label="Close Livegame" backgroundColor={blueGrey900} />
+          ? <RaisedButton onClick={() => unendLiveGame.call()} label="Reopen Livegame" backgroundColor={blueGrey900} />
+          : <RaisedButton onClick={() => endLiveGame.call()} label="Close Livegame" backgroundColor={blueGrey900} />
         }
       </div>
     </div>

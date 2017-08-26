@@ -100,7 +100,7 @@ class EditLayout extends Component {
         }
         <div>
           <RaisedButton
-            onTouchTap={this.onCreateGame}
+            onClick={this.onCreateGame}
             label="New"
             backgroundColor={blueGrey900}
             style={{ marginTop: 20 }}
@@ -121,7 +121,7 @@ class EditLayout extends Component {
         }
         <div>
           <RaisedButton
-            onTouchTap={this.onCreateVoting}
+            onClick={this.onCreateVoting}
             label="New"
             backgroundColor={blueGrey900}
             style={{ marginTop: 20 }}

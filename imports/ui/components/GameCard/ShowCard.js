@@ -53,14 +53,14 @@ const ShowCard = ({
           <RaisedButton
             backgroundColor={orange500}
             label="Stop"
-            onTouchTap={() => stopGame(id)}
+            onClick={() => stopGame(id)}
             style={{ margin: 5 }}
           /> :
           <RaisedButton
             backgroundColor={blueGrey800}
             label={state === 'closed' ? 'Restart' : 'Start'}
             disabled={isDisabled}
-            onTouchTap={() => startGame(id)}
+            onClick={() => startGame(id)}
             style={{ margin: 5 }}
           />
         }

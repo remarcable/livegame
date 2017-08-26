@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import RaisedButton from 'material-ui/RaisedButton';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import LightBulbIcon from 'material-ui/svg-icons/action/lightbulb-outline';
 import Paper from 'material-ui/Paper';
 import Chip from 'material-ui/Chip';
 
@@ -24,10 +22,9 @@ const propTypes = {
   question: PropTypes.string.isRequired,
   startGame: PropTypes.func.isRequired,
   stopGame: PropTypes.func.isRequired,
-  showVotingOnLiveView: PropTypes.func,
   isVoting: PropTypes.bool.isRequired,
   isDisabled: PropTypes.bool,
-  isOnLiveview: PropTypes.bool,
+  children: PropTypes.element,
 };
 
 const ShowCard = ({
@@ -38,8 +35,7 @@ const ShowCard = ({
   stopGame,
   isVoting,
   isDisabled,
-  showVotingOnLiveView,
-  isOnLiveview,
+  children,
 }) => (
   <Paper style={styleForPaper(state)}>
     <div style={questionStyles}>
@@ -65,17 +61,7 @@ const ShowCard = ({
           />
         }
     </div>
-    {
-      isVoting && state === 'closed' &&
-      <FloatingActionButton
-        mini
-        style={{ position: 'absolute', right: 0, transform: 'translateX(38%) scale(0.75)' }}
-        secondary={!isOnLiveview}
-        onClick={() => showVotingOnLiveView(id)}
-      >
-        <LightBulbIcon style={{ fill: 'white' }} />
-      </FloatingActionButton>
-    }
+    {children}
   </Paper>
 );
 
@@ -89,6 +75,7 @@ const styleForPaper = (state) => {
 };
 
 const paperStyles = {
+  position: 'relative',
   backgroundColor: blueGrey600,
   padding: 10,
   margin: 10,

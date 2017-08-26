@@ -18,10 +18,11 @@ storiesOf('VotingCard', module)
     'Dark Theme',
     theme,
   ]))
-  .add('no state', () => (
+  .add('initial state', () => (
     <VotingCard
       id="myId"
       question="Wie wird das Wetter morgen?"
+      isOnLiveview={false}
       showVotingOnLiveView={console.log}
       startVoting={console.log}
       stopVoting={console.log}
@@ -32,6 +33,7 @@ storiesOf('VotingCard', module)
       id="myId"
       state="active"
       question="Wie wird das Wetter morgen?"
+      isOnLiveview={false}
       showVotingOnLiveView={console.log}
       startVoting={console.log}
       stopVoting={console.log}
@@ -42,6 +44,18 @@ storiesOf('VotingCard', module)
       id="myId2"
       state="closed"
       question="Wie wird das Wetter morgen?"
+      isOnLiveview={false}
+      showVotingOnLiveView={console.log}
+      startVoting={console.log}
+      stopVoting={console.log}
+    />
+  ))
+  .add('closed and is on liveview', () => (
+    <VotingCard
+      id="myId2"
+      state="closed"
+      question="Wie wird das Wetter morgen?"
+      isOnLiveview
       showVotingOnLiveView={console.log}
       startVoting={console.log}
       stopVoting={console.log}

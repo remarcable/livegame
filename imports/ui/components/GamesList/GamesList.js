@@ -30,7 +30,7 @@ const GamesList = ({ games, startGame, stopGame, startVoting, stopVoting, showVo
   <div style={{ minWidth: '50%' }}>
     {
       games.map(({ voting, votingId, question, _id, state }) => (
-        <div key={_id} style={{ position: 'relative' }}>
+        <div key={_id}>
           {
             votingId &&
             <VotingCard

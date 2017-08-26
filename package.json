@@ -4,14 +4,15 @@
   "scripts": {
     "start": "meteor run",
     "lint": "eslint .",
-    "pretest": "npm run lint --silent",
+    "prelint": "npm run lint --silent",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "babel-runtime": "^6.23.0",
-    "bcrypt": "^1.0.2",
-    "calculate-ranks": "file:../../Codesnippets/calculate-points",
+    "bcrypt": "^1.0.3",
     "just-random": "^1.0.0",
     "material-ui": "^0.18.3",
     "meteor-node-stubs": "^0.2.11",
@@ -42,6 +43,7 @@
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-meteor": "^4.0.1",
     "eslint-plugin-react": "^6.8.0",
+    "jest": "^20.0.4",
     "storybook-addon-material-ui": "^0.7.9"
   },
   "eslintConfig": {

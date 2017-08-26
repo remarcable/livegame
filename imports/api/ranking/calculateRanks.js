@@ -1,4 +1,4 @@
-import { rankUsers } from 'calculate-ranks';
+import { rankUsers } from './calculate-points/scoringAlgorithm';
 
 export default function calculateRanks(users, games, submissions) {
   const adaptedUsers = users.map(user => Object.assign(user, { userId: user._id }));

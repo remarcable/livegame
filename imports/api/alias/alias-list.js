@@ -67,7 +67,6 @@ export default [
   'Sprachloses Schlangenlama',
   'Stürmische Rattenlaus',
   'Stürmischer Eisbärhamster',
-  'Sympathischer Erdmännchenschmetterling',
   'Sympathischer Mauskoala',
   'Traumhafte Schleiereulenkrake',
   'Traumhafter Schildkrötenpiranha',

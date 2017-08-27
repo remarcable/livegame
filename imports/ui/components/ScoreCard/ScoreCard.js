@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Paper from 'material-ui/Paper';
-import { orange500 } from 'material-ui/styles/colors';
-
-import padLeft from '../../../api/helpers/padLeft';
+import BaseScoreCard from './BaseScoreCard';
 
 const propTypes = {
   fullName: PropTypes.string.isRequired,
@@ -14,24 +11,9 @@ const propTypes = {
 
 
 const ScoreCard = ({ fullName, rank, style }) => (
-  <Paper zDepth={4} style={{ ...styles, ...style }}>
-    <span style={rankStyles}>{padLeft(rank)}.</span>
-    <span>{fullName}</span>
-  </Paper>
+  <BaseScoreCard fullName={fullName} rank={rank} style={style} />
 );
 
 ScoreCard.propTypes = propTypes;
-
-const styles = {
-  backgroundColor: orange500,
-  padding: '1rem',
-  marginBottom: '.25rem',
-  fontWeight: 300,
-  fontSize: '1.5em',
-  width: '100%',
-};
-
-const rankStyles = { fontWeight: 600, textTransform: 'uppercase', marginRight: '.5em' };
-
 
 export default ScoreCard;

@@ -17,9 +17,9 @@ storiesOf('ScoreCard', module)
     'Dark Theme',
     theme,
   ]))
-  .add('classic', () => (
+  .add('classic, bad rank', () => (
     <ScoreCard fullName="Marc Nitzsche" rank={1} />
   ))
-  .add('with different rank', () => (
+  .add('classic, top rank', () => (
     <ScoreCard fullName="Jonas Klein" rank={4} />
   ));

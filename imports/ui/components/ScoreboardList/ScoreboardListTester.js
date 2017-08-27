@@ -40,7 +40,7 @@ const entries1 = [
 const entries2 = [
   { fullName: 'Jonas Kirsch', rank: 1, id: 'adgadgadsgadfa' },
   { fullName: 'Peter Lustig', rank: 2, id: 'fasdhfklasjfja' },
-  { fullName: 'Marc Nitzsche', rank: 3, id: 'fjlöadsjfadsgp' },
+  { fullName: 'Marc Nitzsche', rank: 4, id: 'fjlöadsjfadsgp' },
   { fullName: 'Hannah Klein', rank: 4, id: 'adshfakdjflsad' },
   { fullName: 'Finn Nicht-Haag', rank: 5, id: 'adfjasöldfnagd' },
   { fullName: 'Paul Konrad', rank: 6, id: 'sdfidsovmdsfda' },

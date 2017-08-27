@@ -24,8 +24,8 @@ storiesOf('AdminScoreCard', module)
       firstName="Marc"
       lastName="Nitzsche"
       rank={12}
-      addAlias={console.log}
-      removeAlias={console.log}
+      setAlias={console.log}
+      unsetAlias={console.log}
     />
   ))
   .add('classic, top rank', () => (
@@ -34,8 +34,8 @@ storiesOf('AdminScoreCard', module)
       firstName="Marc"
       lastName="Nitzsche"
       rank={2}
-      addAlias={console.log}
-      removeAlias={console.log}
+      setAlias={console.log}
+      unsetAlias={console.log}
     />
   ))
   .add('with alias, bad rank', () => (
@@ -45,8 +45,8 @@ storiesOf('AdminScoreCard', module)
       lastName="Nitzsche"
       alias="Brillianter Steinbockschmetterling"
       rank={12}
-      addAlias={console.log}
-      removeAlias={console.log}
+      setAlias={console.log}
+      unsetAlias={console.log}
     />
   ))
   .add('with alias, top rank', () => (
@@ -56,7 +56,7 @@ storiesOf('AdminScoreCard', module)
       lastName="Nitzsche"
       alias="Brillianter Steinbockschmetterling"
       rank={2}
-      addAlias={console.log}
-      removeAlias={console.log}
+      setAlias={console.log}
+      unsetAlias={console.log}
     />
   ));

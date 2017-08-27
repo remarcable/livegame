@@ -3,25 +3,28 @@ import PropTypes from 'prop-types';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import { orange500, blueGrey900 } from 'material-ui/styles/colors';
+import { red500, blueGrey800, blueGrey900 } from 'material-ui/styles/colors';
 
 const propTypes = {
   highlightScoreboardButton: PropTypes.bool.isRequired,
   setHintText: PropTypes.func.isRequired,
   showScoresOnLiveView: PropTypes.func.isRequired,
+  calculateScores: PropTypes.func.isRequired,
 };
 
 const AdminMethods = ({
   highlightScoreboardButton,
   setHintText,
   showScoresOnLiveView,
+  calculateScores,
 }) => (
   <div style={styles}>
     <div>
       <RaisedButton
         label="Show Scoreboard"
-        onClick={() => showScoresOnLiveView()}
-        backgroundColor={highlightScoreboardButton ? orange500 : blueGrey900}
+        onClick={showScoresOnLiveView}
+        backgroundColor={highlightScoreboardButton ? red500 : blueGrey800}
+        disabled={!highlightScoreboardButton}
       />
     </div>
     <div>
@@ -31,6 +34,13 @@ const AdminMethods = ({
           name="livemessage"
         />
       </form>
+    </div>
+    <div>
+      <RaisedButton
+        label="Update Scores"
+        onClick={calculateScores}
+        backgroundColor={blueGrey800}
+      />
     </div>
   </div>
 );

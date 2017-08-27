@@ -50,6 +50,7 @@ class AdminLayout extends Component {
       isReady,
       games,
       votings,
+      topUsers,
       votingIdOnLiveview,
       gameEnded = false,
       hintText,
@@ -79,6 +80,7 @@ class AdminLayout extends Component {
             isReady={isReady}
             liveViewShowsVoting={!!votingIdOnLiveview}
             games={games}
+            topUsers={topUsers}
             gameEnded={gameEnded}
             votingIdOnLiveview={votingIdOnLiveview}
             hintText={hintText}
@@ -111,17 +113,24 @@ export default createContainer(() => {
   const gamesHandle = Meteor.subscribe('games.allGames');
   const votingsHandle = Meteor.subscribe('votings.allVotings');
   const appStateHandle = Meteor.subscribe('appState.admin');
+  const topUsersHandle = Meteor.subscribe('users.liveview.topTen');
+
   const numberOfUsers = Counts.get('users.loggedInCount');
 
   const isReady = gamesHandle.ready()
     && votingsHandle.ready()
     && appStateHandle.ready()
-    && userHandle.ready();
+    && userHandle.ready()
+    && topUsersHandle.ready();
 
   const userIsAdmin = Meteor.userIsAdmin();
 
   const games = Games.find().fetch();
   const votings = Votings.find().fetch();
+  const topUsers = Meteor.users.find({ role: { $ne: 'admin' } }, {
+    sort: { rank: 1 },
+    limit: 10,
+  }).fetch().map(u => ({ ...u, rank: u.rank || numberOfUsers })); // always render a rank
 
   const appState = AppState.findOne() || {};
   const { gameEnded, hintText, gamesOrder = [], votingToShow } = appState || {};
@@ -136,6 +145,7 @@ export default createContainer(() => {
   return {
     isReady,
     games: sortedGamesWithVotings,
+    topUsers,
     votings,
     votingIdOnLiveview: votingToShow,
     gameEnded,

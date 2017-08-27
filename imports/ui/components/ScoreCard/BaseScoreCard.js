@@ -16,7 +16,7 @@ const propTypes = {
 
 
 const BaseScoreCard = ({ fullName, rank, style, children }) => (
-  <Paper zDepth={4} style={{ ...styles, ...style, backgroundColor: isTopRank(rank) ? orange500 : blueGrey600 }}>
+  <Paper zDepth={4} style={{ ...styles, backgroundColor: isTopRank(rank) ? orange500 : blueGrey600, ...style }}>
     <span style={rankStyles}>{padLeft(rank)}.</span>
     <span>{fullName}</span>
     {children}

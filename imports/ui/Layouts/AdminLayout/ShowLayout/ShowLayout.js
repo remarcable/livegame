@@ -28,14 +28,15 @@ import {
   showVotingOnLiveView,
 } from '../../../../api/appState/methods';
 
-import {
-  calculateScores,
-} from '../../../../api/ranking/methods';
+import { calculateScores } from '../../../../api/ranking/methods';
 
 import {
   setAlias,
   unsetAlias,
 } from '../../../../api/alias/methods';
+
+import getAlias from '../../../../api/alias/get-alias';
+
 
 const propTypes = {
   isReady: PropTypes.bool.isRequired,
@@ -110,7 +111,7 @@ const ShowLayout = ({
           {
               isReady && <AdminScoreboardList
                 entries={topUsers}
-                setAlias={userId => setAlias.call({ userId })}
+                setAlias={userId => setAlias.call({ userId, alias: getAlias() })}
                 unsetAlias={userId => unsetAlias.call({ userId })}
               />
             }

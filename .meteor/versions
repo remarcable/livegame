@@ -45,10 +45,12 @@ launch-screen@1.1.1
 livedata@1.0.18
 localstorage@1.1.1
 logging@1.1.17
+mdg:meteor-apm-agent@3.0.0
 mdg:validated-method@1.1.0
 mdg:validation-error@0.2.0
 meteor@1.7.1
 meteor-base@1.1.0
+meteorhacks:meteorx@1.4.1
 minifier-css@1.2.16
 minifier-js@2.1.1
 minimongo@1.2.1
@@ -58,6 +60,7 @@ modules@0.9.4
 modules-runtime@0.8.0
 mongo@1.1.22
 mongo-id@1.0.6
+mongo-livedata@1.0.12
 npm-bcrypt@0.9.3
 npm-mongo@2.2.30
 observe-sequence@1.0.16

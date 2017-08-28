@@ -17,7 +17,7 @@ const propTypes = {
 const entriesStyles = entries => entries.map((entry, index) => ({
   key: entry.id,
   data: { fullName: entry.fullName, rank: entry.rank, zIndex: entries.length - index },
-  style: { translateY: spring(105 * (index + 1), animationPreset) },
+  style: { translateY: spring(105 * index, animationPreset) },
 }));
 
 const ScoreboardList = ({ entries }) => (

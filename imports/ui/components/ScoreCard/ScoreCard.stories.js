@@ -22,4 +22,7 @@ storiesOf('ScoreCard', module)
   ))
   .add('classic, top rank', () => (
     <ScoreCard fullName="Jonas Klein" rank={4} />
+  ))
+  .add('has alias', () => (
+    <ScoreCard fullName="Marc Nitzsche" rank={1} hasAlias />
   ));

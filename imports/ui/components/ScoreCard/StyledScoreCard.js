@@ -7,11 +7,12 @@ const propTypes = {
   translateY: PropTypes.number.isRequired,
   zIndex: PropTypes.number.isRequired,
   fullName: PropTypes.string.isRequired,
+  hasAlias: PropTypes.bool.isRequired,
   rank: PropTypes.number.isRequired,
 };
 
 
-const StyledScoreCard = ({ translateY, zIndex, fullName, rank }) => (
+const StyledScoreCard = ({ translateY, zIndex, fullName, hasAlias, rank }) => (
   <div
     style={{
       transform: `translate3d(0, ${translateY}%, 0)`,
@@ -19,7 +20,7 @@ const StyledScoreCard = ({ translateY, zIndex, fullName, rank }) => (
       ...wrapperStyle,
     }}
   >
-    <ScoreCard fullName={fullName} rank={rank} />
+    <ScoreCard fullName={fullName} rank={rank} hasAlias={hasAlias} />
   </div>
 );
 

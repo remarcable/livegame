@@ -29,6 +29,7 @@ const ActiveGame = ({
       floatingLabelText="Antwort"
       name="guess"
       type="number"
+      required
       fullWidth
     />
     <RaisedButton

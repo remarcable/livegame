@@ -40,7 +40,9 @@ const handleOnSubmit = (e) => {
   const username = e.target.username.value;
   const password = e.target.password.value;
 
-  Meteor.loginWithPassword(username, password);
+  Meteor.loginWithPassword(username, password, (err) => {
+    if (err) { window.alert('Login fehlgeschlagen'); }
+  });
 };
 
 const wrapperStyles = {

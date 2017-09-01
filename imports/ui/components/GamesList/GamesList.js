@@ -26,7 +26,15 @@ const propTypes = {
   currentlyShownOnLiveView: PropTypes.string,
 };
 
-const GamesList = ({ games, startGame, stopGame, startVoting, stopVoting, showVotingOnLiveView, currentlyShownOnLiveView }) => (
+const GamesList = ({
+  games,
+  startGame,
+  stopGame,
+  startVoting,
+  stopVoting,
+  showVotingOnLiveView,
+  currentlyShownOnLiveView,
+}) => (
   <div style={{ width: '100%' }}>
     {
       games.map(({ voting, votingId, question, _id, state }) => (

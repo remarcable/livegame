@@ -12,13 +12,13 @@ const AdminLoginPage = () => (
     <h1 style={{ textAlign: 'center' }}>Admin</h1>
     <form style={styles} onSubmit={handleOnSubmit}>
       <TextField
-        floatingLabelText="Username"
+        floatingLabelText="Benutzername"
         name="username"
         fullWidth
         required
       />
       <TextField
-        floatingLabelText="Password"
+        floatingLabelText="Passwort"
         name="password"
         type="password"
         fullWidth

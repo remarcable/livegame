@@ -21,7 +21,7 @@ const AdminMethods = ({
   <div style={styles}>
     <div>
       <RaisedButton
-        label="Show Scoreboard"
+        label="Zeige Scoreboard"
         onClick={showScoresOnLiveView}
         backgroundColor={highlightScoreboardButton ? red500 : blueGrey800}
         disabled={!highlightScoreboardButton}
@@ -37,7 +37,7 @@ const AdminMethods = ({
     </div>
     <div>
       <RaisedButton
-        label="Update Scores"
+        label="Scores updaten"
         onClick={calculateScores}
         backgroundColor={blueGrey800}
       />

@@ -54,7 +54,7 @@ const ShowCard = ({
           /> :
           <RaisedButton
             backgroundColor={blueGrey800}
-            label={state === 'closed' ? 'Restart' : 'Start'}
+            label={state === 'closed' ? 'Neustart' : 'Start'}
             disabled={isDisabled}
             onClick={() => startGame(id)}
             style={{ margin: 5 }}

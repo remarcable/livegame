@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { theme } from '../../components/theme';
 import UserInformation from '../../components/UserInformation';
-import HeartAnimation from '../../components/HeartAnimation';
+import AnimatedHeart from '../../components/AnimatedHeart';
 
 const propTypes = {
   wrapperStyles: PropTypes.object,
@@ -11,7 +11,7 @@ const propTypes = {
 
 const GameEnded = ({ wrapperStyles = {} }) => (
   <div style={{ ...wrapperStyles, ...styles }}>
-    <HeartAnimation />
+    <AnimatedHeart />
     <span style={gameEndedMessageStyles}>Vielen Dank für Ihre Teilnahme.</span>
     <UserInformation />
   </div>

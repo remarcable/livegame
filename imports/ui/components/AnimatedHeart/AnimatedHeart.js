@@ -13,11 +13,11 @@ const heartAnimationStyle = {
   animation: 'pop-out 5s infinite cubic-bezier(0.23, 1, 0.32, 1)',
 };
 
-const HeartAnimation = () => (
+const AnimatedHeart = () => (
   <div style={{ position: 'relative' }}>
     <HeartIcon style={heartStyle} />
     <HeartIcon style={{ ...heartStyle, ...heartAnimationStyle }} />
   </div>
 );
 
-export default HeartAnimation;
+export default AnimatedHeart;

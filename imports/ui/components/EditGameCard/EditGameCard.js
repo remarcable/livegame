@@ -64,7 +64,7 @@ const EditGameCard = ({
             {
               isEditing
                 ? <RaisedButton
-                  label="Save"
+                  label="Speichern"
                   type="submit"
                   style={{ margin: 5 }}
                   backgroundColor={orange500}

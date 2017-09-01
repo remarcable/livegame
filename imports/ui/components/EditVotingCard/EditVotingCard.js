@@ -48,13 +48,13 @@ const EditVotingCard = ({
             {
               isEditing
                 ? <RaisedButton
-                  label="Save"
+                  label="Speichern"
                   type="submit"
                   style={{ margin: 5 }}
                   backgroundColor={orange500}
                 />
                 : <RaisedButton
-                  label="Edit"
+                  label="Bearbeiten"
                   // setTimeout because form is otherwise directly submitted onClick (bug)
                   onClick={() => setTimeout(() => onStartEditing(id), 0)}
                   style={{ margin: 5 }}

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import { spacing } from 'material-ui/styles';
+import Snackbar from 'material-ui/Snackbar';
 
 import AppState from '../../../api/appState/collection';
 import Games from '../../../api/games/collection';
@@ -25,6 +26,9 @@ const propTypes = {
   liveGameEnded: PropTypes.bool.isRequired,
   hintText: PropTypes.string,
 
+  alias: PropTypes.string,
+  rank: PropTypes.string,
+
   gameIsActive: PropTypes.bool.isRequired,
   gameQuestion: PropTypes.string,
   userHasSubmittedForCurrentGame: PropTypes.bool.isRequired,
@@ -34,66 +38,117 @@ const propTypes = {
   userHasSubmittedForCurrentVoting: PropTypes.bool.isRequired,
 };
 
-const ContentWrapper = ({
-  isReady,
-  isLoggedIn,
-  liveGameEnded,
-  hintText,
+class ContentWrapper extends Component {
+  state = {
+    snackbarMessage: '',
+    snackbarOpen: false,
+    oldAlias: null,
+    firstAlias: null,
+    oldRank: null,
+    firstRank: null,
+  };
 
-  gameIsActive,
-  gameQuestion,
-  userHasSubmittedForCurrentGame,
+  componentWillReceiveProps({ alias, rank }) {
+    this.updateSnackbarAliasIfNeeded(alias);
+    this.updateSnackbarRankIfNeeded(rank);
+  }
 
-  votingIsActive,
-  votingQuestion,
-  userHasSubmittedForCurrentVoting,
-}) => {
-  if (!isLoggedIn) {
+  setMessage = (snackbarMessage) => {
+    this.setState({ snackbarMessage, snackbarOpen: true });
+  }
+
+  handleSnackbarRequestClose = () => {
+    this.setState({ snackbarOpen: false });
+  }
+
+  updateSnackbarMessageIfNeeded({ value, oldValue, firstValue, onFirstValue, onNewValue }) {
+    const firstValueIsSet = firstValue !== null;
+    const isFirstValue = value === firstValue;
+    const equalsOldValue = value === oldValue;
+    const newValueIsUnset = value === null;
+
+    if (!firstValueIsSet && !isFirstValue) {
+      onFirstValue();
+    } else if (!isFirstValue && !equalsOldValue && !newValueIsUnset) {
+      onNewValue();
+    }
+  }
+
+  updateSnackbarAliasIfNeeded(alias) {
+    const { oldAlias, firstAlias } = this.state;
+
+    this.updateSnackbarMessageIfNeeded({
+      value: alias,
+      oldValue: oldAlias,
+      firstValue: firstAlias,
+      onFirstValue: () => { this.setState({ firstAlias: alias }); },
+      onNewValue: () => {
+        this.setState({ oldAlias: alias });
+        this.setMessage('Ihnen wurden ein neuer Deckname zugewiesen.');
+      },
+    });
+  }
+
+  updateSnackbarRankIfNeeded(rank) {
+    const { oldRank, firstRank } = this.state;
+
+    this.updateSnackbarMessageIfNeeded({
+      value: rank,
+      oldValue: oldRank,
+      firstValue: firstRank,
+      onFirstValue: () => { this.setState({ firstRank: rank }); },
+      onNewValue: () => {
+        this.setState({ oldRank: rank });
+        this.setMessage('Rang wurde aktualisiert.');
+      },
+    });
+  }
+
+  renderPage = () => {
+    const {
+      isReady,
+      isLoggedIn,
+      liveGameEnded,
+      hintText,
+
+      gameIsActive,
+      gameQuestion,
+      userHasSubmittedForCurrentGame,
+
+      votingIsActive,
+      votingQuestion,
+      userHasSubmittedForCurrentVoting,
+    } = this.props;
+
+    if (!isReady) return <LoadingPage wrapperStyles={wrapperStyles} />;
+    if (!isLoggedIn) return <LoginPage wrapperStyles={wrapperStyles} />;
+    if (liveGameEnded) return <GameEndedPage wrapperStyles={wrapperStyles} />;
+
+    if (gameIsActive && !userHasSubmittedForCurrentGame) {
+      return <ActiveGamePage wrapperStyles={wrapperStyles} question={gameQuestion} />;
+    }
+
+    if (votingIsActive && !userHasSubmittedForCurrentVoting) {
+      return <ActiveVotingPage wrapperStyles={wrapperStyles} question={votingQuestion} />;
+    }
+
+    return <WaitingPage wrapperStyles={wrapperStyles} hintText={hintText} />;
+  }
+
+  render() {
     return (
       <div style={styles}>
-        <LoginPage wrapperStyles={wrapperStyles} />
+        {this.renderPage()}
+        <Snackbar
+          open={this.state.snackbarOpen}
+          message={this.state.snackbarMessage}
+          autoHideDuration={3000}
+          onRequestClose={this.handleSnackbarRequestClose}
+        />
       </div>
     );
   }
-
-  if (!isReady) {
-    return (
-      <div style={styles}>
-        <LoadingPage wrapperStyles={wrapperStyles} />
-      </div>
-    );
-  }
-
-  if (liveGameEnded) {
-    return (
-      <div style={styles}>
-        <GameEndedPage wrapperStyles={wrapperStyles} />
-      </div>
-    );
-  }
-
-  if (gameIsActive && !userHasSubmittedForCurrentGame) {
-    return (
-      <div style={styles}>
-        <ActiveGamePage wrapperStyles={wrapperStyles} question={gameQuestion} />
-      </div>
-    );
-  }
-
-  if (votingIsActive && !userHasSubmittedForCurrentVoting) {
-    return (
-      <div style={styles}>
-        <ActiveVotingPage wrapperStyles={wrapperStyles} question={votingQuestion} />
-      </div>
-    );
-  }
-
-  return (
-    <div style={styles}>
-      <WaitingPage wrapperStyles={wrapperStyles} hintText={hintText} />
-    </div>
-  );
-};
+}
 
 ContentWrapper.propTypes = propTypes;
 
@@ -111,18 +166,22 @@ const wrapperStyles = {
 
 export default createContainer(() => {
   const gamesHandle = Meteor.subscribe('games.active');
+  const userHandle = Meteor.subscribe('users.loggedIn');
   const votingsHandle = Meteor.subscribe('votings.active');
   const gameSubmissionsHandle = Meteor.subscribe('submissions.own');
   const votingSubmissionsHandle = Meteor.subscribe('votingSubmissions.own');
   const appStateHandle = Meteor.subscribe('appState');
 
   const isReady = gamesHandle.ready()
-    && votingsHandle.ready()
-    && gameSubmissionsHandle.ready()
-    && votingSubmissionsHandle.ready()
-    && appStateHandle.ready();
+  && userHandle.ready()
+  && votingsHandle.ready()
+  && gameSubmissionsHandle.ready()
+  && votingSubmissionsHandle.ready()
+  && appStateHandle.ready();
 
   const userId = Meteor.userId();
+  const { alias = null, rank = null } = Meteor.user() || {};
+
   const appState = AppState.findOne() || {};
   const hintText = appState.hintText;
 
@@ -146,6 +205,9 @@ export default createContainer(() => {
     isLoggedIn,
     liveGameEnded,
     hintText,
+
+    rank,
+    alias,
 
     gameIsActive,
     gameQuestion,

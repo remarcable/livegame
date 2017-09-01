@@ -5,6 +5,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import Chip from 'material-ui/Chip';
 import DeleteIcon from 'material-ui/svg-icons/navigation/close';
+import DoneIcon from 'material-ui/svg-icons/action/done';
+import EditIcon from 'material-ui/svg-icons/content/create';
 
 import {
   blueGrey600,
@@ -48,13 +50,13 @@ const EditVotingCard = ({
             {
               isEditing
                 ? <RaisedButton
-                  label="Speichern"
+                  icon={<DoneIcon />}
                   type="submit"
                   style={{ margin: 5 }}
                   backgroundColor={orange500}
                 />
                 : <RaisedButton
-                  label="Bearbeiten"
+                  icon={<EditIcon />}
                   // setTimeout because form is otherwise directly submitted onClick (bug)
                   onClick={() => setTimeout(() => onStartEditing(id), 0)}
                   style={{ margin: 5 }}

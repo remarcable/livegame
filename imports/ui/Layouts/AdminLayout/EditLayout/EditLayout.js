@@ -101,7 +101,7 @@ class EditLayout extends Component {
         <div>
           <RaisedButton
             onClick={this.onCreateGame}
-            label="New"
+            label="Neu"
             backgroundColor={blueGrey900}
             style={{ marginTop: 20 }}
             icon={<PlusIcon />}
@@ -122,7 +122,7 @@ class EditLayout extends Component {
         <div>
           <RaisedButton
             onClick={this.onCreateVoting}
-            label="New"
+            label="Neu"
             backgroundColor={blueGrey900}
             style={{ marginTop: 20 }}
             icon={<PlusIcon />}

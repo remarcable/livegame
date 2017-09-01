@@ -7,7 +7,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 
 import AppBar from 'material-ui/AppBar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import EditIcon from 'material-ui/svg-icons/content/create';
+import SettingsIcon from 'material-ui/svg-icons/action/settings';
 
 import Login from '../../Pages/AdminLogin';
 
@@ -91,7 +91,7 @@ class AdminLayout extends Component {
           secondary={editMode}
           onClick={() => this.setState({ editMode: !editMode })}
         >
-          <EditIcon style={{ fill: 'white' }} />
+          <SettingsIcon style={{ fill: 'white' }} />
         </FloatingActionButton>
         <Footer />
       </div>

@@ -102,8 +102,16 @@ const ShowLayout = ({
           <div>
             {
               gameEnded
-              ? <RaisedButton onClick={() => unendLiveGame.call()} label="Livespiel wieder öffnen" backgroundColor={blueGrey900} />
-              : <RaisedButton onClick={() => endLiveGame.call()} label="Livespiel beenden" backgroundColor={blueGrey900} />
+              ? <RaisedButton
+                onClick={() => confirm('Möchtest du wirklich das Livespiel wieder öffnen?') && unendLiveGame.call()}
+                label="Livespiel wieder öffnen"
+                backgroundColor={blueGrey900}
+              />
+              : <RaisedButton
+                onClick={() => confirm('Möchtest du wirklich das Livespiel beenden?') && endLiveGame.call()}
+                label="Livespiel beenden"
+                backgroundColor={blueGrey900}
+              />
             }
           </div>
         </div>

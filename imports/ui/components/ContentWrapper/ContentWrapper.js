@@ -28,6 +28,7 @@ const propTypes = {
 
   alias: PropTypes.string,
   rank: PropTypes.string,
+  email: PropTypes.string,
 
   gameIsActive: PropTypes.bool.isRequired,
   gameQuestion: PropTypes.string,
@@ -111,6 +112,8 @@ class ContentWrapper extends Component {
       liveGameEnded,
       hintText,
 
+      email,
+
       gameIsActive,
       gameQuestion,
       userHasSubmittedForCurrentGame,
@@ -122,7 +125,7 @@ class ContentWrapper extends Component {
 
     if (!isReady) return <LoadingPage wrapperStyles={wrapperStyles} />;
     if (!isLoggedIn) return <LoginPage wrapperStyles={wrapperStyles} />;
-    if (liveGameEnded) return <GameEndedPage wrapperStyles={wrapperStyles} />;
+    if (liveGameEnded) return <GameEndedPage wrapperStyles={wrapperStyles} email={email} />;
 
     if (gameIsActive && !userHasSubmittedForCurrentGame) {
       return <ActiveGamePage wrapperStyles={wrapperStyles} question={gameQuestion} />;
@@ -180,7 +183,7 @@ export default createContainer(() => {
   && appStateHandle.ready();
 
   const userId = Meteor.userId();
-  const { alias = null, rank = null } = Meteor.user() || {};
+  const { alias = null, rank = null, email = null } = Meteor.user() || {};
 
   const appState = AppState.findOne() || {};
   const hintText = appState.hintText;
@@ -208,6 +211,7 @@ export default createContainer(() => {
 
     rank,
     alias,
+    email,
 
     gameIsActive,
     gameQuestion,

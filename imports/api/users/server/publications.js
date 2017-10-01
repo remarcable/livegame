@@ -9,6 +9,7 @@ Meteor.publish('users.loggedIn', function () {
       firstName: 1,
       lastName: 1,
       alias: 1,
+      email: 1,
       rank: 1,
       role: 1,
     },

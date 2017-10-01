@@ -7,6 +7,7 @@
     "prelint": "npm run lint --silent",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
+    "deploy": "DEPLOY_HOSTNAME=eu-west-1.galaxy.meteor.com meteor deploy wbplive-test.eu.meteorapp.com --settings settings.json",
     "test": "jest",
     "test:watch": "jest --watch"
   },

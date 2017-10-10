@@ -1,1 +1,1 @@
-export * from './ActiveGamePage.js';
+export default from './ActiveGamePage.js';

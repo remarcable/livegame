@@ -1,1 +1,1 @@
-export * from './VotingEditList';
+export default from './VotingEditList';

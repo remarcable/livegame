@@ -1,1 +1,1 @@
-export * from './UserInformation.js';
+export default from './UserInformation.js';

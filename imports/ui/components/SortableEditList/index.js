@@ -1,1 +1,1 @@
-export * from './SortableEditList';
+export default from './SortableEditList';

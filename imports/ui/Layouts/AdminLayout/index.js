@@ -1,3 +1,3 @@
 import '../../../startup/client/admin';
 
-export * from './AdminLayout';
+export default from './AdminLayout';

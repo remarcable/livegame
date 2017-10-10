@@ -1,1 +1,1 @@
-export * from './VotingChart';
+export default from './VotingChart';

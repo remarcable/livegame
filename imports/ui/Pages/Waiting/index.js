@@ -1,1 +1,1 @@
-export * from './WaitingPage';
+export default from './WaitingPage';

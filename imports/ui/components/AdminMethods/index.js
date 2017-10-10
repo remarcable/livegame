@@ -1,1 +1,1 @@
-export * from './AdminMethods';
+export default from './AdminMethods';

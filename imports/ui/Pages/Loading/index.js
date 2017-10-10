@@ -1,1 +1,1 @@
-export * from './LoadingPage.js';
+export default from './LoadingPage.js';

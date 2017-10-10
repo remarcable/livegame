@@ -1,1 +1,1 @@
-export * from './EditVotingCard';
+export default from './EditVotingCard';

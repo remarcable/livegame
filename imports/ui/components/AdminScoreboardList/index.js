@@ -1,1 +1,1 @@
-export * from './AdminScoreboardList';
+export default from './AdminScoreboardList';

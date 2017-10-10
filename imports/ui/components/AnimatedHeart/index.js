@@ -1,1 +1,1 @@
-export * from './AnimatedHeart';
+export default from './AnimatedHeart';

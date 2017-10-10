@@ -1,1 +1,1 @@
-export * from './EditGameCard';
+export default from './EditGameCard';

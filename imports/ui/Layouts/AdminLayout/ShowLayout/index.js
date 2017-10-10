@@ -1,1 +1,1 @@
-export * from './ShowLayout';
+export default from './ShowLayout';

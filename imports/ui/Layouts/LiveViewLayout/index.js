@@ -1,3 +1,3 @@
 import '../../../startup/client/admin';
 
-export * from './LiveViewLayout';
+export default from './LiveViewLayout';

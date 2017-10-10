@@ -1,1 +1,1 @@
-export * from './GameEndedPage';
+export default from './GameEndedPage';

@@ -1,1 +1,1 @@
-export * from './ActiveVotingPage.js';
+export default from './ActiveVotingPage.js';

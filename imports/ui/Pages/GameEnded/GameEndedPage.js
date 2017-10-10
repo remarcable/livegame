@@ -44,7 +44,7 @@ export default class GameEnded extends Component {
         <UserInformation />
 
         <div style={actionButtonGroupStyles}>
-          <a href="https://paypal.me/werbesiegtpaul" target="_blank" rel="noopener noreferrer">
+          <a href="https://paypal.me/werbesiegtpaul/10" target="_blank" rel="noopener noreferrer">
             <RaisedButton
               label="Mit PayPal Spenden"
               primary

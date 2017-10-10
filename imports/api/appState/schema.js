@@ -12,6 +12,10 @@ const appStateSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
+  ranksToShow: {
+    type: Number,
+    allowedValues: [0, 1, 2, 3],
+  },
   gamesOrder: {
     type: [String],
   },

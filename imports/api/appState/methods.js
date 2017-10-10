@@ -56,3 +56,16 @@ export const unendLiveGame = new ValidatedMethod({
     });
   },
 });
+
+export const showRanksUpTo = new ValidatedMethod({
+  name: 'app.showRanksUpTo',
+  validate: new SimpleSchema({
+    rank: { type: Number },
+  }).validator(),
+  run({ rank }) {
+    Meteor.ensureUserIsAdmin(this.userId);
+    AppState.update({}, {
+      $set: { ranksToShow: rank },
+    });
+  },
+});

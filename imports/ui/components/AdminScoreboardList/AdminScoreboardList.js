@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import ScoreboardTypeSelector from './ScoreboardTypeSelector';
 import AdminScoreCard from '../ScoreCard/AdminScoreCard';
 
 const propTypes = {
@@ -13,12 +14,14 @@ const propTypes = {
       rank: PropTypes.number.isRequired,
     }),
   ).isRequired,
+  ranksToShow: PropTypes.number.isRequired,
   setAlias: PropTypes.func.isRequired,
   unsetAlias: PropTypes.func.isRequired,
+  showRanksUpTo: PropTypes.func.isRequired,
 };
 
 
-const AdminScoreboardList = ({ entries, setAlias, unsetAlias }) => (
+const AdminScoreboardList = ({ entries, setAlias, unsetAlias, ranksToShow, showRanksUpTo }) => (
   <div>
     {entries.map(({ _id: id, firstName, lastName, alias, rank }) => (
       <AdminScoreCard
@@ -33,6 +36,11 @@ const AdminScoreboardList = ({ entries, setAlias, unsetAlias }) => (
       />
     ))}
     {entries.length === 0 && <p style={{ textAlign: 'center', fontStyle: 'italic' }}>Keine User im Ranking.</p>}
+
+    <ScoreboardTypeSelector
+      showRanksUpTo={showRanksUpTo}
+      currentlySelected={ranksToShow}
+    />
   </div>
 );
 

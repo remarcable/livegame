@@ -64,7 +64,7 @@ LiveViewLayout.propTypes = propTypes;
 const mainContentStyle = {
   flexGrow: 1,
   padding: '1em',
-  minWidth: '50%',
+  minWidth: '60%',
 };
 
 const layoutStyles = {

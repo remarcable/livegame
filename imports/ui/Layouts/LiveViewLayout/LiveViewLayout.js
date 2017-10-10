@@ -86,7 +86,7 @@ export default createContainer(() => {
   const votingsHandle = Meteor.subscribe('votings.allVotings');
 
   const appState = AppState.findOne();
-  const { votingToShow = false } = appState || {};
+  const { votingToShow = false, ranksToShow = 0 } = appState || {};
 
   const isReady = currentUserHandle.ready()
     && liveviewHandle.ready()
@@ -116,6 +116,7 @@ export default createContainer(() => {
       sort: { rank: 1 },
     }).fetch()
     .filter(user => user.firstName && user.lastName && user.rank)
+    .filter(user => ranksToShow === 0 || (user.rank >= ranksToShow && user.rank <= 3))
     .map(({ _id: id, alias, firstName, lastName, rank }) => ({
       id,
       rank,

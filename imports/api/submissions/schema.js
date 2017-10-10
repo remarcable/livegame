@@ -20,7 +20,7 @@ const submissionSchema = new SimpleSchema({
         return { $setOnInsert: new Date() };
       }
 
-      this.unset();  // Prevent user from supplying their own value
+      this.unset(); // Prevent user from supplying their own value
     },
   },
 });

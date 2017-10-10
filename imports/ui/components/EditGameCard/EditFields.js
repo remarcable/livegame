@@ -43,25 +43,25 @@ class EditFields extends Component {
           </SelectField>
           {
             this.state.showVotings
-            ? <SelectField
-              floatingLabelText="Voting"
-              value={currentVoting._id || null}
-              onChange={(e, index, newVotingId) => this.setState({ nextVotingId: newVotingId })}
-              style={{ width: '68%' }}
-            >
-              {
-                votings.map(({ question: votingQuestion, _id }) => (
-                  <MenuItem key={_id} value={_id} primaryText={votingQuestion} />
-                ))
-              }
-            </SelectField>
-            : <TextField
-              fullWidth
-              name="answer"
-              type="number"
-              defaultValue={answer}
-              floatingLabelText="Antwort"
-            />
+              ? <SelectField
+                floatingLabelText="Voting"
+                value={currentVoting._id || null}
+                onChange={(e, index, newVotingId) => this.setState({ nextVotingId: newVotingId })}
+                style={{ width: '68%' }}
+              >
+                {
+                  votings.map(({ question: votingQuestion, _id }) => (
+                    <MenuItem key={_id} value={_id} primaryText={votingQuestion} />
+                  ))
+                }
+              </SelectField>
+              : <TextField
+                fullWidth
+                name="answer"
+                type="number"
+                defaultValue={answer}
+                floatingLabelText="Antwort"
+              />
           }
           <input type="hidden" name="votingId" value={this.state.nextVotingId} />
         </div>

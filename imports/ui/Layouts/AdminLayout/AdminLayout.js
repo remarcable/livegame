@@ -75,16 +75,16 @@ class AdminLayout extends Component {
         />
         {
           editMode
-          ? <EditLayout isReady={isReady} games={games} votings={votings} />
-          : <ShowLayout
-            isReady={isReady}
-            liveViewShowsVoting={!!votingIdOnLiveview}
-            games={games}
-            topUsers={topUsers}
-            gameEnded={gameEnded}
-            votingIdOnLiveview={votingIdOnLiveview}
-            hintText={hintText}
-          />
+            ? <EditLayout isReady={isReady} games={games} votings={votings} />
+            : <ShowLayout
+              isReady={isReady}
+              liveViewShowsVoting={!!votingIdOnLiveview}
+              games={games}
+              topUsers={topUsers}
+              gameEnded={gameEnded}
+              votingIdOnLiveview={votingIdOnLiveview}
+              hintText={hintText}
+            />
         }
         <FloatingActionButton
           style={{ position: 'absolute', bottom: 20, right: 20 }}
@@ -136,11 +136,11 @@ export default createContainer(() => {
   const { gameEnded, hintText, gamesOrder = [], votingToShow } = appState || {};
 
   const sortedGamesWithVotings = games
-  .sort((a, b) => gamesOrder.indexOf(a._id) - gamesOrder.indexOf(b._id))
-  .map((game) => {
-    if (game.votingId) return { ...game, voting: Votings.findOne(game.votingId) };
-    return game;
-  });
+    .sort((a, b) => gamesOrder.indexOf(a._id) - gamesOrder.indexOf(b._id))
+    .map((game) => {
+      if (game.votingId) return { ...game, voting: Votings.findOne(game.votingId) };
+      return game;
+    });
 
   return {
     isReady,

@@ -59,7 +59,7 @@ const ShowCard = ({
             onClick={() => startGame(id)}
             style={{ margin: 5 }}
           />
-        }
+      }
     </div>
     {children}
   </Paper>

@@ -22,8 +22,8 @@ export const calculateScores = new ValidatedMethod({
       .fetch()
       .map(game => (
         game.votingId
-        ? { ...game, answer: getPercentageForVoting(game.votingId, VotingSubmissions) }
-        : game
+          ? { ...game, answer: getPercentageForVoting(game.votingId, VotingSubmissions) }
+          : game
       ));
 
     const ranks = calculateRanks(users, games, submissions);

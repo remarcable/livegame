@@ -21,20 +21,20 @@ const propTypes = {
 
 const UserInformation = ({ isReady, firstName, lastName, ownRank, maxRank, alias }) => (
   isReady
-  ? <div style={styles}>
-    {/* If no ownRank is supplied, usw maxRank */}
-    <span>{ownRank || maxRank} / {maxRank}</span>
-    <Divider style={dividerStyles} />
-    { alias
-      ? <span style={{ fontWeight: 300 }}>{alias}</span>
-      : <span style={{ fontWeight: 300 }}>{firstName} {lastName}</span>
-    }
-    {
-      alias
+    ? <div style={styles}>
+      {/* If no ownRank is supplied, usw maxRank */}
+      <span>{ownRank || maxRank} / {maxRank}</span>
+      <Divider style={dividerStyles} />
+      { alias
+        ? <span style={{ fontWeight: 300 }}>{alias}</span>
+        : <span style={{ fontWeight: 300 }}>{firstName} {lastName}</span>
+      }
+      {
+        alias
       && <span style={aliasStyles}>{firstName} {lastName}</span>
-    }
-  </div>
-  : <div>Lädt...</div>
+      }
+    </div>
+    : <div>Lädt...</div>
 );
 
 UserInformation.propTypes = propTypes;

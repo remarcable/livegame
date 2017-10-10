@@ -88,41 +88,41 @@ const ShowLayout = ({
             {hintText || 'Kein Text'}
           </Chip>
           {
-              isReady && <GamesList
-                games={games}
-                startGame={gameId => startGame.call({ gameId })}
-                stopGame={gameId => stopGame.call({ gameId })}
-                startVoting={votingId => startVoting.call({ votingId })}
-                stopVoting={votingId => stopVoting.call({ votingId })}
-                showVotingOnLiveView={votingId => showVotingOnLiveView.call({ votingId })}
-                currentlyShownOnLiveView={votingIdOnLiveview}
-              />
-            }
+            isReady && <GamesList
+              games={games}
+              startGame={gameId => startGame.call({ gameId })}
+              stopGame={gameId => stopGame.call({ gameId })}
+              startVoting={votingId => startVoting.call({ votingId })}
+              stopVoting={votingId => stopVoting.call({ votingId })}
+              showVotingOnLiveView={votingId => showVotingOnLiveView.call({ votingId })}
+              currentlyShownOnLiveView={votingIdOnLiveview}
+            />
+          }
           <Divider style={{ width: '70%', marginTop: 10, marginBottom: 20 }} />
           <div>
             {
               gameEnded
-              ? <RaisedButton
-                onClick={() => confirm('Möchtest du wirklich das Livespiel wieder öffnen?') && unendLiveGame.call()}
-                label="Livespiel wieder öffnen"
-                backgroundColor={blueGrey900}
-              />
-              : <RaisedButton
-                onClick={() => confirm('Möchtest du wirklich das Livespiel beenden?') && endLiveGame.call()}
-                label="Livespiel beenden"
-                backgroundColor={blueGrey900}
-              />
+                ? <RaisedButton
+                  onClick={() => confirm('Möchtest du wirklich das Livespiel wieder öffnen?') && unendLiveGame.call()}
+                  label="Livespiel wieder öffnen"
+                  backgroundColor={blueGrey900}
+                />
+                : <RaisedButton
+                  onClick={() => confirm('Möchtest du wirklich das Livespiel beenden?') && endLiveGame.call()}
+                  label="Livespiel beenden"
+                  backgroundColor={blueGrey900}
+                />
             }
           </div>
         </div>
         <div style={{ padding: '0 3em', width: '30%' }}>
           {
-              isReady && <AdminScoreboardList
-                entries={topUsers}
-                setAlias={userId => setAlias.call({ userId, alias: getAlias() })}
-                unsetAlias={userId => unsetAlias.call({ userId })}
-              />
-            }
+            isReady && <AdminScoreboardList
+              entries={topUsers}
+              setAlias={userId => setAlias.call({ userId, alias: getAlias() })}
+              unsetAlias={userId => unsetAlias.call({ userId })}
+            />
+          }
         </div>
       </div>
     </div>

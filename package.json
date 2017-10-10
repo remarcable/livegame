@@ -36,7 +36,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
     "babel-root-slash-import": "^1.1.0",
-    "eslint": "^3.12.2",
+    "eslint": "^4.8.0",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-import-resolver-meteor": "^0.3.4",
     "eslint-plugin-import": "^2.2.0",

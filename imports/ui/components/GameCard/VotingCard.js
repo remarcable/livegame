@@ -45,8 +45,8 @@ const VotingCard = ({
         >
           <LightBulbIcon style={{ fill: 'white' }} />
         </FloatingActionButton>
-      : null
-      }
+        : null
+    }
   </ShowCard>
 );
 

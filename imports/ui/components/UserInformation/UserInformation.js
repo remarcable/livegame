@@ -8,13 +8,18 @@ import { createContainer } from 'meteor/react-meteor-data';
 
 import Divider from 'material-ui/Divider';
 
+import AppState from '/imports/api/appState/collection';
+
 import { theme } from '../theme';
 
 const propTypes = {
   isReady: PropTypes.bool.isRequired,
   firstName: PropTypes.string,
   lastName: PropTypes.string,
-  ownRank: PropTypes.number,
+  ownRank: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
   maxRank: PropTypes.number,
   alias: PropTypes.string,
 };
@@ -68,12 +73,14 @@ export default createContainer(() => {
   const isReady = userHandle.ready();
   const user = Meteor.user() || {};
   const { firstName, lastName, alias, rank } = user;
+
+  const { ranksToShow = 0 } = AppState.findOne();
   return {
     isReady,
     firstName,
     lastName,
     alias,
-    ownRank: rank,
+    ownRank: ranksToShow <= rank ? rank : 'TOP 3',
     maxRank,
   };
 }, UserInformation);

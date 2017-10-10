@@ -27,7 +27,7 @@ const propTypes = {
   hintText: PropTypes.string,
 
   alias: PropTypes.string,
-  rank: PropTypes.string,
+  rank: PropTypes.number,
   email: PropTypes.string,
 
   gameIsActive: PropTypes.bool.isRequired,

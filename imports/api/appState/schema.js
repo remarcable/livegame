@@ -1,5 +1,7 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
+import { rankDisplayModes } from './rank-display-modes';
+
 const appStateSchema = new SimpleSchema({
   gameEnded: {
     type: Boolean,
@@ -12,9 +14,9 @@ const appStateSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
-  ranksToShow: {
-    type: Number,
-    allowedValues: [0, 1, 2, 3],
+  rankDisplayMode: {
+    type: String,
+    allowedValues: rankDisplayModes,
   },
   gamesOrder: {
     type: [String],

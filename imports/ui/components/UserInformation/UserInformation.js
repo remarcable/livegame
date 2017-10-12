@@ -9,6 +9,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import Divider from 'material-ui/Divider';
 
 import AppState from '/imports/api/appState/collection';
+import { shouldDisplayRank } from '/imports/api/appState/rank-display-modes';
 
 import { theme } from '../theme';
 
@@ -74,13 +75,15 @@ export default createContainer(() => {
   const user = Meteor.user() || {};
   const { firstName, lastName, alias, rank } = user;
 
-  const { ranksToShow = 0 } = AppState.findOne();
+  const { rankDisplayMode } = AppState.findOne();
+  const displayedRank = shouldDisplayRank(rank, rankDisplayMode) ? rank : 'XX';
+
   return {
     isReady,
     firstName,
     lastName,
     alias,
-    ownRank: ranksToShow <= rank ? rank : 'TOP 3',
+    ownRank: displayedRank,
     maxRank,
   };
 }, UserInformation);

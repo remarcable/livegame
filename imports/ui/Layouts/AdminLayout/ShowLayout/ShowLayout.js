@@ -58,7 +58,7 @@ const propTypes = {
     }),
   ).isRequired,
   liveViewShowsVoting: PropTypes.bool.isRequired,
-  ranksToShow: PropTypes.number.isRequired,
+  rankDisplayMode: PropTypes.string.isRequired,
   gameEnded: PropTypes.bool.isRequired,
   votingIdOnLiveview: PropTypes.string,
   hintText: PropTypes.string,
@@ -67,7 +67,7 @@ const propTypes = {
 const ShowLayout = ({
   isReady,
   liveViewShowsVoting,
-  ranksToShow,
+  rankDisplayMode,
   hintText,
   games,
   topUsers,
@@ -124,8 +124,8 @@ const ShowLayout = ({
               entries={topUsers}
               setAlias={userId => setAlias.call({ userId, alias: getAlias() })}
               unsetAlias={userId => unsetAlias.call({ userId })}
-              showRanksUpTo={rank => showRanksUpTo.call({ rank })}
-              ranksToShow={ranksToShow}
+              showRanksUpTo={mode => showRanksUpTo.call({ mode })}
+              rankDisplayMode={rankDisplayMode}
             />
           }
         </div>

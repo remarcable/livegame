@@ -2,11 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import FlatButton from 'material-ui/FlatButton';
-import Divider from 'material-ui/Divider';
+
+import {
+  ALL,
+  NONE,
+  FOUR_TO_TEN,
+  THREE_TO_TEN,
+  TWO_TO_TEN,
+} from '/imports/api/appState/rank-display-modes';
 
 const propTypes = {
   showRanksUpTo: PropTypes.func.isRequired,
-  currentlySelected: PropTypes.number.isRequired,
+  currentlySelected: PropTypes.string.isRequired,
 };
 
 
@@ -14,24 +21,29 @@ const ScoreboardTypeSelector = ({ showRanksUpTo, currentlySelected }) => (
   <div>
     <div style={styles}>
       <FlatButton
-        label="Normal"
-        onClick={() => showRanksUpTo(0)}
-        primary={currentlySelected === 0}
+        label="Alle"
+        onClick={() => showRanksUpTo(ALL)}
+        primary={currentlySelected === ALL}
       />
       <FlatButton
-        label="TOP 3"
-        onClick={() => showRanksUpTo(3)}
-        primary={currentlySelected === 3}
+        label="Keine"
+        onClick={() => showRanksUpTo(NONE)}
+        primary={currentlySelected === NONE}
       />
       <FlatButton
-        label="TOP 2"
-        onClick={() => showRanksUpTo(2)}
-        primary={currentlySelected === 2}
+        label="4-10"
+        onClick={() => showRanksUpTo(FOUR_TO_TEN)}
+        primary={currentlySelected === FOUR_TO_TEN}
       />
       <FlatButton
-        label="TOP 1"
-        onClick={() => showRanksUpTo(1)}
-        primary={currentlySelected === 1}
+        label="3-10"
+        onClick={() => showRanksUpTo(THREE_TO_TEN)}
+        primary={currentlySelected === THREE_TO_TEN}
+      />
+      <FlatButton
+        label="2-10"
+        onClick={() => showRanksUpTo(TWO_TO_TEN)}
+        primary={currentlySelected === TWO_TO_TEN}
       />
     </div>
   </div>
@@ -39,6 +51,7 @@ const ScoreboardTypeSelector = ({ showRanksUpTo, currentlySelected }) => (
 
 const styles = {
   display: 'flex',
+  flexWrap: 'wrap',
 };
 
 ScoreboardTypeSelector.propTypes = propTypes;

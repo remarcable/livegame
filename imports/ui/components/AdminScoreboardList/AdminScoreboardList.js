@@ -14,14 +14,14 @@ const propTypes = {
       rank: PropTypes.number.isRequired,
     }),
   ).isRequired,
-  ranksToShow: PropTypes.number.isRequired,
+  rankDisplayMode: PropTypes.string.isRequired,
   setAlias: PropTypes.func.isRequired,
   unsetAlias: PropTypes.func.isRequired,
   showRanksUpTo: PropTypes.func.isRequired,
 };
 
 
-const AdminScoreboardList = ({ entries, setAlias, unsetAlias, ranksToShow, showRanksUpTo }) => (
+const AdminScoreboardList = ({ entries, setAlias, unsetAlias, rankDisplayMode, showRanksUpTo }) => (
   <div>
     {entries.map(({ _id: id, firstName, lastName, alias, rank }) => (
       <AdminScoreCard
@@ -39,7 +39,7 @@ const AdminScoreboardList = ({ entries, setAlias, unsetAlias, ranksToShow, showR
 
     <ScoreboardTypeSelector
       showRanksUpTo={showRanksUpTo}
-      currentlySelected={ranksToShow}
+      currentlySelected={rankDisplayMode}
     />
   </div>
 );

@@ -39,7 +39,7 @@ const propTypes = {
       state: PropTypes.string,
     }),
   ).isRequired,
-  ranksToShow: PropTypes.number.isRequired,
+  rankDisplayMode: PropTypes.string.isRequired,
   userIsAdmin: PropTypes.bool.isRequired,
   gameEnded: PropTypes.bool,
   votingIdOnLiveview: PropTypes.string,
@@ -54,7 +54,7 @@ class AdminLayout extends Component {
       isReady,
       games,
       votings,
-      ranksToShow,
+      rankDisplayMode,
       topUsers,
       votingIdOnLiveview,
       gameEnded = false,
@@ -88,7 +88,7 @@ class AdminLayout extends Component {
               topUsers={topUsers}
               gameEnded={gameEnded}
               votingIdOnLiveview={votingIdOnLiveview}
-              ranksToShow={ranksToShow}
+              rankDisplayMode={rankDisplayMode}
               hintText={hintText}
             />
         }
@@ -139,7 +139,7 @@ export default createContainer(() => {
   }).fetch().map(u => ({ ...u, rank: u.rank || numberOfUsers })); // always render a rank
 
   const appState = AppState.findOne() || {};
-  const { gameEnded, hintText, gamesOrder = [], votingToShow, ranksToShow = 0 } = appState || {};
+  const { gameEnded, hintText, gamesOrder = [], votingToShow, rankDisplayMode = 'ALL' } = appState || {};
 
   const sortedGamesWithVotings = games
     .sort((a, b) => gamesOrder.indexOf(a._id) - gamesOrder.indexOf(b._id))
@@ -154,7 +154,7 @@ export default createContainer(() => {
     topUsers,
     votings,
     votingIdOnLiveview: votingToShow,
-    ranksToShow,
+    rankDisplayMode,
     gameEnded,
     hintText,
     numberOfUsers,

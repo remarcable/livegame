@@ -18,7 +18,7 @@ Meteor.publish('users.loggedIn', function () {
 
 Meteor.publish('users.liveview.topTen', function () {
   if (!this.userId || !Meteor.userIsAdmin(this.userId)) return this.ready();
-  return Meteor.users.find({ role: { $ne: 'admin' } }, {
+  return Meteor.users.find({ role: { $ne: 'admin' }, rank: { $exists: true } }, {
     fields: {
       firstName: 1,
       lastName: 1,

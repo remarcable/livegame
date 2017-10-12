@@ -3,6 +3,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 import AppState from './collection';
+import { rankDisplayModes } from './rank-display-modes';
 
 export const showScoresOnLiveView = new ValidatedMethod({
   name: 'app.showScoresOnLiveView',
@@ -60,12 +61,12 @@ export const unendLiveGame = new ValidatedMethod({
 export const showRanksUpTo = new ValidatedMethod({
   name: 'app.showRanksUpTo',
   validate: new SimpleSchema({
-    rank: { type: Number },
+    mode: { type: String, allowedValues: rankDisplayModes },
   }).validator(),
-  run({ rank }) {
+  run({ mode }) {
     Meteor.ensureUserIsAdmin(this.userId);
     AppState.update({}, {
-      $set: { ranksToShow: rank },
+      $set: { rankDisplayMode: mode },
     });
   },
 });

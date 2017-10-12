@@ -16,6 +16,8 @@ import Votings from '../../../api/votings/collection';
 
 import { updateVotingCounts } from '../../../api/votings/methods';
 
+import { shouldDisplayRank } from '../../../api/appState/rank-display-modes';
+
 const propTypes = {
   users: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
@@ -86,7 +88,7 @@ export default createContainer(() => {
   const votingsHandle = Meteor.subscribe('votings.allVotings');
 
   const appState = AppState.findOne();
-  const { votingToShow = false, ranksToShow = 0 } = appState || {};
+  const { votingToShow = false, rankDisplayMode = 'ALL' } = appState || {};
 
   const isReady = currentUserHandle.ready()
     && liveviewHandle.ready()
@@ -116,7 +118,7 @@ export default createContainer(() => {
       sort: { rank: 1 },
     }).fetch()
     .filter(user => user.firstName && user.lastName && user.rank)
-    .filter(user => ranksToShow === 0 || (user.rank >= ranksToShow && user.rank <= 3))
+    .filter(user => shouldDisplayRank(user.rank, rankDisplayMode))
     .map(({ _id: id, alias, firstName, lastName, rank }) => ({
       id,
       rank,

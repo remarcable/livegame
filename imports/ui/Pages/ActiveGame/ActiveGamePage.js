@@ -46,7 +46,7 @@ const handleOnSubmit = (e) => {
   e.preventDefault();
 
   const guess = parseInt(e.target.guess.value, 10);
-  if (!guess) return;
+  if (guess === undefined || isNaN(guess)) return;
 
   submitAnswer.call({ guess });
 };

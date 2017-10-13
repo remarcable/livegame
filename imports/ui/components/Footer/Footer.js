@@ -11,7 +11,7 @@ const style = {
 
 const Footer = () => (
   <span style={style}>
-    © { (new Date()).getFullYear() } Marc Nitzsche
+    © { (new Date()).getFullYear() } Wer besiegt Paul?
   </span>
 );
 

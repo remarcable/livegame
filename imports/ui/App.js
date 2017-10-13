@@ -18,6 +18,7 @@ const App = () => (
     <Router>
       <Switch>
         <Route exact path="/admin" component={AdminLayoutLoadable} />
+        <Route exact path="/admin/users" component={AdminUserListLayoutLoadable} />
         <Route exact path="/admin/liveview" component={LiveViewLayoutLoadable} />
         <Route component={MainLayout} />
       </Switch>
@@ -29,6 +30,12 @@ export default App;
 
 const AdminLayoutLoadable = Loadable({
   loader: () => import('./Layouts/AdminLayout'),
+  loading: LoadingPage,
+  delay: 200,
+});
+
+const AdminUserListLayoutLoadable = Loadable({
+  loader: () => import('./Pages/UserList'),
   loading: LoadingPage,
   delay: 200,
 });

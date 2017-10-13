@@ -12,7 +12,7 @@ const propTypes = {
 
 
 const ScoreCard = ({ fullName, rank, hasAlias, style }) => (
-  <BaseScoreCard fullName={fullName} rank={rank} style={style} hasAlias={hasAlias} />
+  <BaseScoreCard fullName={fullName} rank={rank} style={{ ...style, overflow: 'hidden' }} hasAlias={hasAlias} />
 );
 
 ScoreCard.propTypes = propTypes;

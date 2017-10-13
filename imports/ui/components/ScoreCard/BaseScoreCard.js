@@ -19,7 +19,7 @@ const propTypes = {
 const BaseScoreCard = ({ fullName, rank, hasAlias = false, style, children }) => (
   <Paper zDepth={4} style={{ ...styles, backgroundColor: isTopRank(rank) ? orange500 : blueGrey600, ...style }}>
     <span style={rankStyles}>{padLeft(rank)}.</span>
-    <span>{fullName}</span>
+    <span style={{ textTransform: 'capitalize' }}>{fullName}</span>
     {children}
     {hasAlias && <div style={hasAliasCircleStyles} />}
   </Paper>
@@ -34,6 +34,8 @@ const styles = {
   marginBottom: '.25rem',
   fontWeight: 300,
   fontSize: '1.5em',
+  whiteSpace: 'nowrap',
+  textOverflow: 'ellipsis',
 };
 
 const hasAliasCircleStyles = {

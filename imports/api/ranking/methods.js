@@ -30,8 +30,8 @@ export const calculateScores = new ValidatedMethod({
     const ranks = calculateRanks(users, games, submissions);
 
     const bulk = Meteor.users.rawCollection().initializeUnorderedBulkOp();
-    ranks.forEach(({ userId, rank }) => {
-      bulk.find({ _id: userId }).update({ $set: { rank } });
+    ranks.forEach(({ userId, rank, points }) => {
+      bulk.find({ _id: userId }).update({ $set: { rank, points } });
     });
     bulk.execute();
   },

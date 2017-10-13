@@ -40,6 +40,7 @@ Meteor.publish('users.all', function publishAllUsers() {
       lastName: 1,
       alias: 1,
       rank: 1,
+      points: 1,
       role: 1,
     },
     sort: {

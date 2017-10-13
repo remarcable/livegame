@@ -17,6 +17,10 @@ import {
 
 const propTypes = {
   users: PropTypes.array.isRequired,
+  minRank: PropTypes.number.isRequired,
+  maxRank: PropTypes.number.isRequired,
+  minPoints: PropTypes.number.isRequired,
+  maxPoints: PropTypes.number.isRequired,
   isReady: PropTypes.bool.isRequired,
 };
 
@@ -26,13 +30,24 @@ const tablePropTypes = {
 
 const UserListPage = ({
   users,
+  minRank,
+  maxRank,
+  minPoints,
+  maxPoints,
   isReady,
 }) => (
   <div style={styles}>
     <h2>Teilnehmer</h2>
-    <Paper zDepth={2} style={paperStyles}>
-      {isReady && <UserTable users={users} />}
-    </Paper>
+    {
+      users.length ?
+        <div style={styles}>
+          <span>Rang von {minRank} bis {maxRank}. Punkte von {minPoints} bis {maxPoints}.</span>
+          <Paper zDepth={2} style={paperStyles}>
+            {isReady && <UserTable users={users} />}
+          </Paper>
+        </div> :
+        <span>Keine Nutzer</span>
+    }
   </div>
 );
 
@@ -40,11 +55,12 @@ const UserTable = ({ users }) => (
   <Table>
     <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
       <TableRow>
-        <TableHeaderColumn>Rank</TableHeaderColumn>
+        <TableHeaderColumn>Rang</TableHeaderColumn>
         <TableHeaderColumn>Vorname</TableHeaderColumn>
         <TableHeaderColumn>Nachname</TableHeaderColumn>
         <TableHeaderColumn>Alias</TableHeaderColumn>
         <TableHeaderColumn>ID</TableHeaderColumn>
+        <TableHeaderColumn>Punkte</TableHeaderColumn>
       </TableRow>
     </TableHeader>
     <TableBody displayRowCheckbox={false}>
@@ -55,6 +71,7 @@ const UserTable = ({ users }) => (
           <TableRowColumn>{u.lastName}</TableRowColumn>
           <TableRowColumn>{u.alias || '-'}</TableRowColumn>
           <TableRowColumn>{u._id}</TableRowColumn>
+          <TableRowColumn>{u.points || '-'}</TableRowColumn>
         </TableRow>
       ))}
     </TableBody>
@@ -90,5 +107,11 @@ export default createContainer(() => {
     .fetch()
     .filter(u => u.username === undefined) || []; // filter out admins
 
-  return { isReady, users };
+  const maxRank = Math.max(...users.map(u => u.rank)) || 0;
+  const minRank = Math.min(...users.map(u => u.rank)) || 0;
+
+  const maxPoints = Math.max(...users.map(u => u.points)) || 0;
+  const minPoints = Math.min(...users.map(u => u.points)) || 0;
+
+  return { isReady, maxRank, minRank, maxPoints, minPoints, users };
 }, UserListPage);

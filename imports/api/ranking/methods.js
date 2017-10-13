@@ -15,6 +15,7 @@ export const calculateScores = new ValidatedMethod({
     if (this.isSimulation) return;
 
     const users = Meteor.users.find({ role: { $ne: 'admin' } }).fetch();
+    if (!users.length) return;
     const submissions = Submissions.find().fetch();
 
     const games = Games

@@ -93,7 +93,7 @@ class AdminLayout extends Component {
             />
         }
         <FloatingActionButton
-          style={{ position: 'absolute', bottom: 20, right: 20 }}
+          style={{ position: 'fixed', bottom: 20, right: 20 }}
           secondary={editMode}
           onClick={() => this.setState({ editMode: !editMode })}
         >

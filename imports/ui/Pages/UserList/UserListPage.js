@@ -59,6 +59,7 @@ const UserTable = ({ users }) => (
         <TableHeaderColumn>Vorname</TableHeaderColumn>
         <TableHeaderColumn>Nachname</TableHeaderColumn>
         <TableHeaderColumn>Alias</TableHeaderColumn>
+        <TableHeaderColumn>E-Mail</TableHeaderColumn>
         <TableHeaderColumn>ID</TableHeaderColumn>
         <TableHeaderColumn>Punkte</TableHeaderColumn>
       </TableRow>
@@ -70,6 +71,7 @@ const UserTable = ({ users }) => (
           <TableRowColumn>{u.firstName}</TableRowColumn>
           <TableRowColumn>{u.lastName}</TableRowColumn>
           <TableRowColumn>{u.alias || '-'}</TableRowColumn>
+          <TableRowColumn>{u.email || '-'}</TableRowColumn>
           <TableRowColumn>{u._id}</TableRowColumn>
           <TableRowColumn>{u.points || '-'}</TableRowColumn>
         </TableRow>

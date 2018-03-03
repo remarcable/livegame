@@ -14,12 +14,12 @@ export const calculateScores = new ValidatedMethod({
     Meteor.ensureUserIsAdmin(this.userId);
     if (this.isSimulation) return;
 
-    const users = Meteor.users.find({ role: { $ne: 'admin' } }).fetch();
+    const users = Meteor.users.find({ role: { $ne: 'admin' } }, { fields: { _id: 1 } }).fetch();
     if (!users.length) return;
-    const submissions = Submissions.find().fetch();
+    const submissions = Submissions.find({}, { fields: { userId: 1, gameId: 1, guess: 1 } }).fetch();
 
     const games = Games
-      .find()
+      .find({}, { fields: { answer: 1, votingId: 1 } })
       .fetch()
       .map(game => (
         game.votingId

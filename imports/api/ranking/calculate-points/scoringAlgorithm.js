@@ -52,12 +52,6 @@ export function getAbsolutePointsForSubmissions(submissions, game) {
 export function getRankingForAbsolutePoints(absolutePoints) {
   // Turns array  [10, 11, 11, 12, 13, 13, 13, 14]
   // into  map    { 10 => 1, 11 => 2, 12 => 4, 13 => 5, 14 => 8, 'HIGHEST' => 9 }
-
-  if (
-    !(absolutePoints instanceof Array)
-    || absolutePoints.some(el => typeof el !== 'number')
-  ) throw new Error('You have to pass an array of numbers');
-
   const points = absolutePoints.sort((a, b) => a - b); // sort in ascending order
   const numberOfOccurences = getNumberOfOccurences(points);
   const ranking = new Map();

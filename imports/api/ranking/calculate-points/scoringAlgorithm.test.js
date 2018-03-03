@@ -87,15 +87,6 @@ describe('getRankingForAbsolutePoints(absolutePoints)', () => {
 
     expect(result.get('HIGHEST')).toEqual(1);
   });
-
-  it('throws if no array is passed', () => {
-    expect(() => { getRankingForAbsolutePoints(); }).toThrow();
-  });
-
-  it('throws if an array with non-numeric elements is passed', () => {
-    const elements = [1, 2, 2, 3, 3, 3, 'Foo', 'Bar', 'Foo'];
-    expect(() => { getRankingForAbsolutePoints(elements); }).toThrow();
-  });
 });
 
 describe('getAbsolutePointsForSubmissions(submissions, game)', () => {

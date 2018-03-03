@@ -1,12 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
-import calculateRanks from './calculateRanks';
+import { rankUsers as calculateRanks } from './calculate-points/scoringAlgorithm';
 
 import Games from '../games/collection';
 import VotingSubmissions from '../votingSubmissions/collection';
 import Submissions from '../submissions/collection';
 
-
+/* eslint-disable import/prefer-default-export */
 export const calculateScores = new ValidatedMethod({
   name: 'ranking.calculateScore',
   validate: null,

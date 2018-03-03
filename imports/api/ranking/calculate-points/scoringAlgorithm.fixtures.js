@@ -1,21 +1,21 @@
 export const sampleUsers = [
   {
-    userId: 101,
+    _id: 101,
     firstName: 'Jonas',
     lastName: 'Klein',
   },
   {
-    userId: 102,
+    _id: 102,
     firstName: 'Paul',
     lastName: 'Aurin',
   },
   {
-    userId: 103,
+    _id: 103,
     firstName: 'Marc',
     lastName: 'Nitzsche',
   },
   {
-    userId: 104,
+    _id: 104,
     firstName: 'Finn',
     lastName: 'Haag',
   },
@@ -23,17 +23,17 @@ export const sampleUsers = [
 
 export const sampleGames = [
   {
-    id: 1,
+    _id: 1,
     question: 'How many things are there in the universe?',
     answer: 400,
   },
   {
-    id: 2,
+    _id: 2,
     question: 'How many objects does JavaScript have?',
     answer: 1000,
   },
   {
-    id: 3,
+    _id: 3,
     question: 'How many books does Marc have at home?',
     answer: 50,
   },

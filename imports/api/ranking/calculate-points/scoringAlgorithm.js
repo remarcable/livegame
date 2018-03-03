@@ -9,7 +9,7 @@ export function rankUsers(users, games, submissions) {
   summedPointsForUsers.forEach(userPoints => listOfAllPoints.push(userPoints));
   const ranks = getRankingForAbsolutePoints(listOfAllPoints);
 
-  return users.map(({ userId }) => {
+  return users.map(({ _id: userId }) => {
     const points = summedPointsForUsers.get(userId);
     const rank = ranks.get(points);
     return { userId, points, rank };
@@ -27,10 +27,10 @@ export function sumPoints(unorderedPoints) {
 
 export function getAbsoluteUserPointsForGame(users, game, submissions) {
   const userPoints = new Map();
-  const gameSubmissions = submissions.filter(submission => submission.gameId === game.id);
+  const gameSubmissions = submissions.filter(submission => submission.gameId === game._id);
   const pointsToRanking = getAbsolutePointsForSubmissions(gameSubmissions, game);
 
-  users.forEach(({ userId }) => {
+  users.forEach(({ _id: userId }) => {
     const userGuess = gameSubmissions.find(submission => submission.userId === userId);
     if (userGuess) {
       const userDeviation = getDeviation(userGuess.guess, game.answer);

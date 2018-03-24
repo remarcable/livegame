@@ -9,7 +9,10 @@
     "build-storybook": "build-storybook",
     "deploy": "DEPLOY_HOSTNAME=eu-west-1.galaxy.meteor.com meteor deploy wbplive-test.eu.meteorapp.com --settings settings.json",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "prettier": "prettier --write \"./{imports,.storybook,client,server}/**/*.js\"",
+    "preprettier:watch": "npm run prettier",
+    "prettier:watch": "onchange '**/*.js' -- prettier --write {{changed}}"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.38",
@@ -40,22 +43,28 @@
     "babel-root-slash-import": "^1.1.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-prettier": "^2.9.0",
     "eslint-import-resolver-meteor": "^0.4.0",
     "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-meteor": "^4.2.0",
+    "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.7.0",
     "jest": "^22.4.3",
+    "onchange": "^3.3.0",
+    "prettier": "1.11.1",
     "storybook-addon-material-ui": "^0.8.2"
   },
   "eslintConfig": {
     "parser": "babel-eslint",
     "plugins": [
-      "meteor"
+      "meteor",
+      "prettier"
     ],
     "extends": [
       "airbnb",
-      "plugin:meteor/recommended"
+      "plugin:meteor/recommended",
+      "prettier"
     ],
     "settings": {
       "import/resolver": "meteor"
@@ -93,7 +102,14 @@
             "_id"
           ]
         }
-      ]
+      ],
+      "prettier/prettier": "error"
     }
+  },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "arrowParens": "always"
   }
 }

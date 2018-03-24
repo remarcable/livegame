@@ -20,9 +20,8 @@ static-html
 accounts-base@1.4.2
 react-meteor-data
 mdg:validated-method
-aldeed:simple-schema
 shell-server@0.3.1
-aldeed:collection2
+aldeed:collection2@3.0.0
 tmeasday:publish-counts
 accounts-password@1.5.0
 mdg:meteor-apm-agent

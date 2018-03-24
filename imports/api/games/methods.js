@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
-import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import SimpleSchema from 'simpl-schema';
 
 import Games from './collection';
 import Votings from '../votings/collection';
@@ -78,7 +78,8 @@ export const updateGame = new ValidatedMethod({
 export const updateGamesOrder = new ValidatedMethod({
   name: 'games.updateOrder',
   validate: new SimpleSchema({
-    newOrder: { type: [String] },
+    newOrder: { type: Array },
+    'newOrder.$': { type: String },
   }).validator(),
   run({ newOrder }) {
     Meteor.ensureUserIsAdmin(this.userId);

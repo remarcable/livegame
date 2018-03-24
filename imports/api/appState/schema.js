@@ -1,4 +1,4 @@
-import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import SimpleSchema from 'simpl-schema';
 
 import { rankDisplayModes } from './rank-display-modes';
 
@@ -19,7 +19,10 @@ const appStateSchema = new SimpleSchema({
     allowedValues: rankDisplayModes,
   },
   gamesOrder: {
-    type: [String],
+    type: Array,
+  },
+  'gamesOrder.$': {
+    type: String,
   },
 });
 

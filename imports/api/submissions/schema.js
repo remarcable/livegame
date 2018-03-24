@@ -1,4 +1,4 @@
-import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import SimpleSchema from 'simpl-schema';
 
 const submissionSchema = new SimpleSchema({
   userId: {
@@ -9,7 +9,6 @@ const submissionSchema = new SimpleSchema({
   },
   guess: {
     type: Number,
-    decimal: true,
   },
   createdAt: {
     type: Date,

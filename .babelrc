@@ -1,11 +1,7 @@
 {
-  "presets": [
-    "es2015",
-    "es2016",
-    "react",
-    "stage-1"
-  ],
+  "presets": ["env"],
   "plugins": [
-    "babel-root-slash-import"
+    "babel-root-slash-import",
+    "transform-class-properties"
   ]
 }

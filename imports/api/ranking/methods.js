@@ -14,9 +14,12 @@ export const calculateScores = new ValidatedMethod({
     Meteor.ensureUserIsAdmin(this.userId);
     if (this.isSimulation) return;
 
-    const users = Meteor.users.find({ role: { $ne: 'admin' } }, { fields: { _id: 1 } }).fetch();
+    const usersCursor = Meteor.users.find({ role: { $ne: 'admin' } }, { fields: { _id: 1 } });
+    const users = usersCursor.fetch();
     if (!users.length) return;
-    const submissions = Submissions.find({}, { fields: { userId: 1, gameId: 1, guess: 1 } }).fetch();
+    const submissions = Submissions
+      .find({}, { fields: { userId: 1, gameId: 1, guess: 1, rank: 1 } })
+      .fetch();
 
     const games = Games
       .find({}, { fields: { answer: 1, votingId: 1 } })
@@ -28,10 +31,9 @@ export const calculateScores = new ValidatedMethod({
       ));
 
     const ranks = calculateRanks(users, games, submissions);
-
     const bulk = Meteor.users.rawCollection().initializeUnorderedBulkOp();
     ranks.forEach(({ userId, rank, points }) => {
-      bulk.find({ _id: userId }).update({ $set: { rank, points } });
+      bulk.find({ _id: userId }).updateOne({ $set: { rank, points } });
     });
     bulk.execute();
   },
@@ -50,3 +52,10 @@ function getPercentageForVoting(votingId, VotingSubmissionsCursor) {
 
   return Math.round(percentage);
 }
+
+// TODO:
+// Find out what actually is making performance bad:
+// - Meteor sending out publications to subscribers (e.g. when rank changes)
+// - Mongo write
+// - Calculating ranks
+//

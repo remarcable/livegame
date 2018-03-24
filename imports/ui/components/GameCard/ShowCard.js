@@ -27,39 +27,32 @@ const propTypes = {
   children: PropTypes.element,
 };
 
-const ShowCard = ({
-  id,
-  state,
-  question,
-  startGame,
-  stopGame,
-  isVoting,
-  isDisabled,
-  children,
-}) => (
+const ShowCard = ({ id, state, question, startGame, stopGame, isVoting, isDisabled, children }) => (
   <Paper style={styleForPaper(state)}>
     <div style={questionStyles}>
       <StatusIndicator isActive={state === 'active'} />
-      <Chip style={chipStyles} backgroundColor={isVoting ? blue800 : blueGrey800}>{isVoting ? 'Voting' : 'Frage'}</Chip>
+      <Chip style={chipStyles} backgroundColor={isVoting ? blue800 : blueGrey800}>
+        {isVoting ? 'Voting' : 'Frage'}
+      </Chip>
       <span style={state === 'closed' ? questionTextStyles : {}}>{question}</span>
     </div>
     <div>
-      {
-        state === 'active' ?
-          <RaisedButton
-            backgroundColor={orange500}
-            label="Stop"
-            onClick={() => stopGame(id)}
-            style={{ margin: 5 }}
-          /> :
-          <RaisedButton
-            backgroundColor={blueGrey800}
-            label={state === 'closed' ? 'Neustart' : 'Start'}
-            disabled={isDisabled}
-            onClick={() => startGame(id)}
-            style={{ margin: 5 }}
-          />
-      }
+      {state === 'active' ? (
+        <RaisedButton
+          backgroundColor={orange500}
+          label="Stop"
+          onClick={() => stopGame(id)}
+          style={{ margin: 5 }}
+        />
+      ) : (
+        <RaisedButton
+          backgroundColor={blueGrey800}
+          label={state === 'closed' ? 'Neustart' : 'Start'}
+          disabled={isDisabled}
+          onClick={() => startGame(id)}
+          style={{ margin: 5 }}
+        />
+      )}
     </div>
     {children}
   </Paper>

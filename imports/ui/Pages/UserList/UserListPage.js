@@ -14,7 +14,6 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 
-
 const propTypes = {
   users: PropTypes.array.isRequired,
   minRank: PropTypes.number.isRequired,
@@ -28,26 +27,21 @@ const tablePropTypes = {
   users: PropTypes.array.isRequired,
 };
 
-const UserListPage = ({
-  users,
-  minRank,
-  maxRank,
-  minPoints,
-  maxPoints,
-  isReady,
-}) => (
+const UserListPage = ({ users, minRank, maxRank, minPoints, maxPoints, isReady }) => (
   <div style={styles}>
     <h2>Teilnehmer</h2>
-    {
-      users.length ?
-        <div style={styles}>
-          <span>Rang von {minRank} bis {maxRank}. Punkte von {minPoints} bis {maxPoints}.</span>
-          <Paper zDepth={2} style={paperStyles}>
-            {isReady && <UserTable users={users} />}
-          </Paper>
-        </div> :
-        <span>Keine Nutzer</span>
-    }
+    {users.length ? (
+      <div style={styles}>
+        <span>
+          Rang von {minRank} bis {maxRank}. Punkte von {minPoints} bis {maxPoints}.
+        </span>
+        <Paper zDepth={2} style={paperStyles}>
+          {isReady && <UserTable users={users} />}
+        </Paper>
+      </div>
+    ) : (
+      <span>Keine Nutzer</span>
+    )}
   </div>
 );
 
@@ -65,7 +59,7 @@ const UserTable = ({ users }) => (
       </TableRow>
     </TableHeader>
     <TableBody displayRowCheckbox={false}>
-      {users.map(u => (
+      {users.map((u) => (
         <TableRow key={u._id}>
           <TableRowColumn>{u.rank || '-'}</TableRowColumn>
           <TableRowColumn>{u.firstName}</TableRowColumn>
@@ -90,7 +84,6 @@ const styles = {
   alignItems: 'center',
 };
 
-
 const paperStyles = {
   width: '80%',
   marginTop: 20,
@@ -104,18 +97,24 @@ export default createContainer(() => {
   const userHandle = Meteor.subscribe('users.all');
 
   const isReady = userHandle.ready();
-  const users = Meteor.users
-    .find({ role: { $ne: 'admin' } })
-    .fetch()
-    .filter(u => u.username === undefined) || []; // filter out admins
+  const users =
+    Meteor.users
+      .find({ role: { $ne: 'admin' } })
+      .fetch()
+      .filter((u) => u.username === undefined) || []; // filter out admins
 
-  const maxRank = Math.max(...users.map(u => u.rank)) || 0;
-  const minRank = Math.min(...users.map(u => u.rank)) || 0;
+  const maxRank = Math.max(...users.map((u) => u.rank)) || 0;
+  const minRank = Math.min(...users.map((u) => u.rank)) || 0;
 
-  const maxPoints = Math.max(...users.map(u => u.points)) || 0;
-  const minPoints = Math.min(...users.map(u => u.points)) || 0;
+  const maxPoints = Math.max(...users.map((u) => u.points)) || 0;
+  const minPoints = Math.min(...users.map((u) => u.points)) || 0;
 
   return {
-    isReady, maxRank, minRank, maxPoints, minPoints, users,
+    isReady,
+    maxRank,
+    minRank,
+    maxPoints,
+    minPoints,
+    users,
   };
 }, UserListPage);

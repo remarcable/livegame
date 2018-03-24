@@ -5,26 +5,23 @@ import EditGameCard from './EditGameCard.js';
 import EditGameCardTester from './EditGameCardTester.js';
 import { theme } from '../theme';
 
-
 storiesOf('EditGameCard', module)
-  .addDecorator(story => (
-    <div style={{
-      display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#fff', backgroundColor: '#2d2d2d', minHeight: '100vh',
-    }}
+  .addDecorator((story) => (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: '#fff',
+        backgroundColor: '#2d2d2d',
+        minHeight: '100vh',
+      }}
     >
-      <div style={{ width: '50%', maxWidth: 800, minWidth: 200 }}>
-        {story()}
-      </div>
+      <div style={{ width: '50%', maxWidth: 800, minWidth: 200 }}>{story()}</div>
     </div>
   ))
-  .addDecorator(muiTheme([
-    'Light Theme',
-    'Dark Theme',
-    theme,
-  ]))
-  .add('EditGameCardTester', () => (
-    <EditGameCardTester />
-  ))
+  .addDecorator(muiTheme(['Light Theme', 'Dark Theme', theme]))
+  .add('EditGameCardTester', () => <EditGameCardTester />)
   .add('isEditing', () => (
     <EditGameCard
       votings={[]}

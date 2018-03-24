@@ -14,16 +14,9 @@ const propTypes = {
   questionNumber: PropTypes.number,
 };
 
-const ActiveVoting = ({
-  wrapperStyles = {},
-  question,
-  questionNumber,
-}) => (
+const ActiveVoting = ({ wrapperStyles = {}, question, questionNumber }) => (
   <div style={{ ...wrapperStyles, ...styles }}>
-    <Question
-      questionNumber={questionNumber}
-      question={question}
-    />
+    <Question questionNumber={questionNumber} question={question} />
     <div style={{ display: 'flex' }}>
       <RaisedButton
         label="Ja"

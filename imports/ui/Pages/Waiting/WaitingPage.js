@@ -10,18 +10,14 @@ const propTypes = {
   hintText: PropTypes.string,
 };
 
-const Waiting = ({
-  wrapperStyles = {},
-  hintText,
-}) => (
+const Waiting = ({ wrapperStyles = {}, hintText }) => (
   <div style={{ ...wrapperStyles, ...styles }}>
     <UserInformation />
-    <span style={{ margin: theme.spacing.desktopGutter, textAlign: 'center' }}>Bitte warten Sie auf die nächste Runde</span>
+    <span style={{ margin: theme.spacing.desktopGutter, textAlign: 'center' }}>
+      Bitte warten Sie auf die nächste Runde
+    </span>
     <CircularProgress size={60} />
-    {
-      hintText &&
-      <span style={hintTextStyles}>{hintText}</span>
-    }
+    {hintText && <span style={hintTextStyles}>{hintText}</span>}
   </div>
 );
 

@@ -30,7 +30,7 @@ class SortableEditListTester extends Component {
   };
   onDeleteGame = (itemId) => {
     this.setState({
-      games: this.state.games.filter(item => item._id !== itemId),
+      games: this.state.games.filter((item) => item._id !== itemId),
     });
   };
   onSaveEntry = (itemId, { question, answer }) => {

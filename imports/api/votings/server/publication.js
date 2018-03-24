@@ -2,18 +2,21 @@ import { Meteor } from 'meteor/meteor';
 
 import Votings from '../collection';
 
-Meteor.publish('votings.active', function () {
+Meteor.publish('votings.active', function() {
   if (!this.userId) return this.ready();
-  return Votings.find({ state: 'active' }, {
-    fields: {
-      question: 1,
-      state: 1,
+  return Votings.find(
+    { state: 'active' },
+    {
+      fields: {
+        question: 1,
+        state: 1,
+      },
+      limit: 1,
     },
-    limit: 1,
-  });
+  );
 });
 
-Meteor.publish('votings.allVotings', function () {
+Meteor.publish('votings.allVotings', function() {
   if (!this.userId || !Meteor.userIsAdmin(this.userId)) return this.ready();
   return Votings.find();
 });

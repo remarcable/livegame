@@ -1,1 +1,1 @@
-export const padLeft = number => `${number}`.padStart(2, '0');
+export const padLeft = (number) => `${number}`.padStart(2, '0');

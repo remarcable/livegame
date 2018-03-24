@@ -28,10 +28,12 @@ const propTypes = {
   question: PropTypes.string.isRequired,
   answer: PropTypes.number,
   votingId: PropTypes.string,
-  votings: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    question: PropTypes.string.isRequired,
-  })).isRequired,
+  votings: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      question: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
   isEditing: PropTypes.bool.isRequired,
   allowSorting: PropTypes.bool.isRequired,
   saveEntry: PropTypes.func.isRequired,
@@ -57,37 +59,33 @@ const EditGameCard = ({
         <div style={cardStyle}>
           <div style={questionWrapperStyle}>
             <DragHandle isEditing={allowSorting} />
-            <Chip style={chipStyles} backgroundColor={blueGrey800}>Frage</Chip>
+            <Chip style={chipStyles} backgroundColor={blueGrey800}>
+              Frage
+            </Chip>
             <span>{question}</span>
           </div>
           <div>
-            {
-              isEditing
-                ? <RaisedButton
-                  icon={<DoneIcon />}
-                  type="submit"
-                  style={{ margin: 5 }}
-                  backgroundColor={orange500}
-                />
-                : <RaisedButton
-                  icon={<EditIcon />}
-                  // setTimeout because form is otherwise directly submitted onClick (bug)
-                  onClick={() => setTimeout(() => onStartEditing(id), 0)}
-                  style={{ margin: 5 }}
-                  backgroundColor={blueGrey800}
-                />
-            }
+            {isEditing ? (
+              <RaisedButton
+                icon={<DoneIcon />}
+                type="submit"
+                style={{ margin: 5 }}
+                backgroundColor={orange500}
+              />
+            ) : (
+              <RaisedButton
+                icon={<EditIcon />}
+                // setTimeout because form is otherwise directly submitted onClick (bug)
+                onClick={() => setTimeout(() => onStartEditing(id), 0)}
+                style={{ margin: 5 }}
+                backgroundColor={blueGrey800}
+              />
+            )}
           </div>
         </div>
-        {
-          isEditing &&
-            <EditFields
-              question={question}
-              answer={answer}
-              votings={votings}
-              votingId={votingId}
-            />
-        }
+        {isEditing && (
+          <EditFields question={question} answer={answer} votings={votings} votingId={votingId} />
+        )}
       </form>
       {isEditing && <DeleteIcon style={deleteIconStyle} onClick={() => onRequestDelete(id)} />}
     </Paper>
@@ -110,7 +108,6 @@ const onSubmitFactory = (id, saveEntry) => (e) => {
   if (answer !== undefined) return saveEntry(id, { question, answer: +answer });
   if (votingId) return saveEntry(id, { question, votingId });
 };
-
 
 const paperStyle = {
   position: 'relative',

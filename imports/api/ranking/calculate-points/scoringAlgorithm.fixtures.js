@@ -149,7 +149,6 @@ export const sampleResult = [
   },
 ];
 
-
 export const sampleSubmissionsGame1WithMissing = [
   {
     id: 1,

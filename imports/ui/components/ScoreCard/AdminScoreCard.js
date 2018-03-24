@@ -16,14 +16,15 @@ const propTypes = {
   unsetAlias: PropTypes.func.isRequired,
 };
 
-
-const AdminScoreCard = ({
-  id, firstName, lastName, alias, rank, setAlias, unsetAlias,
-}) => (
+const AdminScoreCard = ({ id, firstName, lastName, alias, rank, setAlias, unsetAlias }) => (
   <BaseScoreCard fullName={alias || `${firstName} ${lastName}`} rank={rank} style={style}>
     <FloatingActionButton
       mini
-      style={{ position: 'absolute', right: 0, transform: 'translateX(63%) translateY(-27%) scale(.75)' }}
+      style={{
+        position: 'absolute',
+        right: 0,
+        transform: 'translateX(63%) translateY(-27%) scale(.75)',
+      }}
       secondary={!alias}
       onClick={alias ? () => unsetAlias(id) : () => setAlias(id)}
     >

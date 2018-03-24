@@ -17,22 +17,26 @@ export const calculateScores = new ValidatedMethod({
     const usersCursor = Meteor.users.find({ role: { $ne: 'admin' } }, { fields: { _id: 1 } });
     const users = usersCursor.fetch();
     if (!users.length) return;
-    const submissions = Submissions
-      .find({}, {
+    const submissions = Submissions.find(
+      {},
+      {
         fields: {
-          userId: 1, gameId: 1, guess: 1, rank: 1,
+          userId: 1,
+          gameId: 1,
+          guess: 1,
+          rank: 1,
         },
-      })
-      .fetch();
+      },
+    ).fetch();
 
-    const games = Games
-      .find({}, { fields: { answer: 1, votingId: 1 } })
+    const games = Games.find({}, { fields: { answer: 1, votingId: 1 } })
       .fetch()
-      .map(game => (
-        game.votingId
-          ? { ...game, answer: getPercentageForVoting(game.votingId, VotingSubmissions) }
-          : game
-      ));
+      .map(
+        (game) =>
+          game.votingId
+            ? { ...game, answer: getPercentageForVoting(game.votingId, VotingSubmissions) }
+            : game,
+      );
 
     const ranks = calculateRanks(users, games, submissions);
     const bulk = Meteor.users.rawCollection().initializeUnorderedBulkOp();
@@ -44,15 +48,12 @@ export const calculateScores = new ValidatedMethod({
 });
 
 function getPercentageForVoting(votingId, VotingSubmissionsCursor) {
-  const votingSubmissions = VotingSubmissionsCursor
-    .find({ votingId }, { fields: { vote: 1 } })
-    .fetch() || [];
+  const votingSubmissions =
+    VotingSubmissionsCursor.find({ votingId }, { fields: { vote: 1 } }).fetch() || [];
   const totalVotesCount = votingSubmissions.length;
-  const yesVotesCount = votingSubmissions
-    .filter(s => s.vote === 'Ja')
-    .length;
+  const yesVotesCount = votingSubmissions.filter((s) => s.vote === 'Ja').length;
 
-  const percentage = (yesVotesCount / totalVotesCount) * 100;
+  const percentage = yesVotesCount / totalVotesCount * 100;
 
   return Math.round(percentage);
 }

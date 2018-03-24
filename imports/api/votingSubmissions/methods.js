@@ -5,7 +5,6 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import VotingSubmissions from './collection';
 import Votings from '../votings/collection';
 
-
 export const submitVote = new ValidatedMethod({
   name: 'votingSubmissions.insert',
   validate: new SimpleSchema({

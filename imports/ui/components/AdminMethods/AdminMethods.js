@@ -28,11 +28,13 @@ const AdminMethods = ({
       />
     </div>
     <div>
-      <form onSubmit={(e) => { e.preventDefault(); setHintText(e.target.livemessage.value); }}>
-        <TextField
-          hintText="Livenachricht"
-          name="livemessage"
-        />
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          setHintText(e.target.livemessage.value);
+        }}
+      >
+        <TextField hintText="Livenachricht" name="livemessage" />
       </form>
     </div>
     <div>

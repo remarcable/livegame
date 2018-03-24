@@ -9,10 +9,6 @@ const style = {
   fontSize: '.75em',
 };
 
-const Footer = () => (
-  <span style={style}>
-    © { (new Date()).getFullYear() } Wer besiegt Paul?
-  </span>
-);
+const Footer = () => <span style={style}>© {new Date().getFullYear()} Wer besiegt Paul?</span>;
 
 export default Footer;

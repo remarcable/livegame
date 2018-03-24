@@ -18,30 +18,30 @@ import {
   updateGamesOrder,
 } from '../../../../api/games/methods';
 
-import {
-  createVoting,
-  removeVoting,
-  updateVoting,
-} from '../../../../api/votings/methods';
+import { createVoting, removeVoting, updateVoting } from '../../../../api/votings/methods';
 
 const propTypes = {
-  games: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    question: PropTypes.string.isRequired,
-    answer: PropTypes.number,
-  })).isRequired,
-  votings: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    question: PropTypes.string.isRequired,
-  })).isRequired,
+  games: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      question: PropTypes.string.isRequired,
+      answer: PropTypes.number,
+    }),
+  ).isRequired,
+  votings: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      question: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
   isReady: PropTypes.bool.isRequired,
 };
 
 class EditLayout extends Component {
-  state = { currentlyEditedGameItemId: null, currentlyEditedVotingItemId: null }
+  state = { currentlyEditedGameItemId: null, currentlyEditedVotingItemId: null };
   onSortEnd = ({ oldIndex, newIndex }) => {
     const { games } = this.props;
-    const gamesOrder = games.map(game => game._id);
+    const gamesOrder = games.map((game) => game._id);
     updateGamesOrder.call({ newOrder: arrayMove(gamesOrder, oldIndex, newIndex) });
   };
   onStartEditingGame = (itemId) => {
@@ -66,7 +66,10 @@ class EditLayout extends Component {
   };
   onSaveEntryGame = (id, { question, answer, votingId }) => {
     updateGame.call({
-      id, question, answer, votingId,
+      id,
+      question,
+      answer,
+      votingId,
     });
     this.setState({ currentlyEditedGameItemId: null });
   };
@@ -81,8 +84,7 @@ class EditLayout extends Component {
     return (
       <div style={wrapperStyle}>
         <h2 style={{ fontWeight: 300, textAlign: 'center', margin: 0 }}>Games</h2>
-        {
-          isReady &&
+        {isReady && (
           <EditList
             games={games}
             votings={votings}
@@ -95,7 +97,7 @@ class EditLayout extends Component {
             shouldCancelStart={() => !!currentlyEditedGameItemId}
             lockAxis="y"
           />
-        }
+        )}
         <div>
           <RaisedButton
             onClick={this.onCreateGame}
@@ -107,8 +109,7 @@ class EditLayout extends Component {
         </div>
         <Divider style={{ width: '60%', marginTop: 20, marginBottom: 20 }} />
         <h2 style={{ fontWeight: 300, textAlign: 'center', margin: 0 }}>Votings</h2>
-        {
-          isReady &&
+        {isReady && (
           <VotingEditList
             votings={votings}
             startEditing={this.onStartEditingVoting}
@@ -116,7 +117,7 @@ class EditLayout extends Component {
             saveEntry={this.onSaveEntryVoting}
             currentlyEditedItemId={currentlyEditedVotingItemId}
           />
-        }
+        )}
         <div>
           <RaisedButton
             onClick={this.onCreateVoting}

@@ -4,10 +4,12 @@ import PropTypes from 'prop-types';
 import EditVotingCard from '../EditVotingCard';
 
 const propTypes = {
-  votings: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    question: PropTypes.string.isRequired,
-  })).isRequired,
+  votings: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      question: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
   startEditing: PropTypes.func.isRequired,
   deleteVoting: PropTypes.func.isRequired,
   saveEntry: PropTypes.func.isRequired,
@@ -28,10 +30,10 @@ const VotingEditList = ({
         key={votingId}
         isEditing={currentlyEditedItemId === votingId}
         allowSorting={!!currentlyEditedItemId}
-        onStartEditing={itemId => startEditing(itemId)}
+        onStartEditing={(itemId) => startEditing(itemId)}
         saveEntry={(itemId, ...data) => saveEntry(itemId, ...data)}
         question={question}
-        onRequestDelete={itemId => deleteVoting(itemId)}
+        onRequestDelete={(itemId) => deleteVoting(itemId)}
       />
     ))}
   </div>

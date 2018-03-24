@@ -2,10 +2,12 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 
 import {
-  orange500, orange600,
+  orange500,
+  orange600,
   blueGrey700,
   blue700,
-  grey800, grey600,
+  grey800,
+  grey600,
 } from 'material-ui/styles/colors';
 
 export const ownValues = {

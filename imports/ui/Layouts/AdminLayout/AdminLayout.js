@@ -21,18 +21,22 @@ import AppState from '../../../api/appState/collection';
 
 const propTypes = {
   isReady: PropTypes.bool.isRequired,
-  games: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    question: PropTypes.string.isRequired,
-    answer: PropTypes.number,
-    state: PropTypes.string,
-  })).isRequired,
+  games: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      question: PropTypes.string.isRequired,
+      answer: PropTypes.number,
+      state: PropTypes.string,
+    }),
+  ).isRequired,
   topUsers: PropTypes.arrayOf(PropTypes.object).isRequired,
-  votings: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    question: PropTypes.string.isRequired,
-    state: PropTypes.string,
-  })).isRequired,
+  votings: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      question: PropTypes.string.isRequired,
+      state: PropTypes.string,
+    }),
+  ).isRequired,
   rankDisplayMode: PropTypes.string.isRequired,
   userIsAdmin: PropTypes.bool.isRequired,
   gameEnded: PropTypes.bool,
@@ -42,7 +46,7 @@ const propTypes = {
 };
 
 class AdminLayout extends Component {
-  state = { editMode: false }
+  state = { editMode: false };
   render() {
     const {
       isReady,
@@ -72,20 +76,20 @@ class AdminLayout extends Component {
             </div>
           }
         />
-        {
-          editMode
-            ? <EditLayout isReady={isReady} games={games} votings={votings} />
-            : <ShowLayout
-              isReady={isReady}
-              liveViewShowsVoting={!!votingIdOnLiveview}
-              games={games}
-              topUsers={topUsers}
-              gameEnded={gameEnded}
-              votingIdOnLiveview={votingIdOnLiveview}
-              rankDisplayMode={rankDisplayMode}
-              hintText={hintText}
-            />
-        }
+        {editMode ? (
+          <EditLayout isReady={isReady} games={games} votings={votings} />
+        ) : (
+          <ShowLayout
+            isReady={isReady}
+            liveViewShowsVoting={!!votingIdOnLiveview}
+            games={games}
+            topUsers={topUsers}
+            gameEnded={gameEnded}
+            votingIdOnLiveview={votingIdOnLiveview}
+            rankDisplayMode={rankDisplayMode}
+            hintText={hintText}
+          />
+        )}
         <FloatingActionButton
           style={{ position: 'fixed', bottom: 20, right: 20 }}
           secondary={editMode}
@@ -117,25 +121,31 @@ export default createContainer(() => {
 
   const numberOfUsers = Counts.get('users.loggedInCount');
 
-  const isReady = gamesHandle.ready()
-    && votingsHandle.ready()
-    && appStateHandle.ready()
-    && userHandle.ready()
-    && topUsersHandle.ready();
+  const isReady =
+    gamesHandle.ready() &&
+    votingsHandle.ready() &&
+    appStateHandle.ready() &&
+    userHandle.ready() &&
+    topUsersHandle.ready();
 
   const userIsAdmin = Meteor.userIsAdmin();
 
   const games = Games.find().fetch();
   const votings = Votings.find().fetch();
-  const topUsers = Meteor.users.find({ role: { $ne: 'admin' } }, {
-    sort: { rank: 1 },
-    limit: 10,
-  }).fetch().map(u => ({ ...u, rank: u.rank || numberOfUsers })); // always render a rank
+  const topUsers = Meteor.users
+    .find(
+      { role: { $ne: 'admin' } },
+      {
+        sort: { rank: 1 },
+        limit: 10,
+      },
+    )
+    .fetch()
+    .map((u) => ({ ...u, rank: u.rank || numberOfUsers })); // always render a rank
 
   const appState = AppState.findOne() || {};
-  const {
-    gameEnded, hintText, gamesOrder = [], votingToShow, rankDisplayMode = 'ALL',
-  } = appState || {};
+  const { gameEnded, hintText, gamesOrder = [], votingToShow, rankDisplayMode = 'ALL' } =
+    appState || {};
 
   const sortedGamesWithVotings = games
     .sort((a, b) => gamesOrder.indexOf(a._id) - gamesOrder.indexOf(b._id))

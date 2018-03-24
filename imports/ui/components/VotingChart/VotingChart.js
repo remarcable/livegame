@@ -22,17 +22,21 @@ const VotingChart = ({ question, yesPercentage, noPercentage }) => (
           { value: noPercentage, key: 'No', color: red500 },
         ]}
         style={{
-          filter: 'drop-shadow(rgba(0, 0, 0, 0.16) 0px 3px 10px) drop-shadow(rgba(0, 0, 0, 0.23) 0px 3px 10px)',
+          filter:
+            'drop-shadow(rgba(0, 0, 0, 0.16) 0px 3px 10px) drop-shadow(rgba(0, 0, 0, 0.23) 0px 3px 10px)',
         }}
       />
       <div style={chipsWrapper}>
-        <Chip backgroundColor={green500} style={chipWrapperStyles}>{yesPercentage}%</Chip>
-        <Chip backgroundColor={red500} style={chipWrapperStyles}>{noPercentage}%</Chip>
+        <Chip backgroundColor={green500} style={chipWrapperStyles}>
+          {yesPercentage}%
+        </Chip>
+        <Chip backgroundColor={red500} style={chipWrapperStyles}>
+          {noPercentage}%
+        </Chip>
       </div>
     </div>
   </Paper>
 );
-
 
 const questionStyles = {
   margin: 0,

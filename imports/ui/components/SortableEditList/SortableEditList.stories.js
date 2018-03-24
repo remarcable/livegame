@@ -5,21 +5,19 @@ import { theme } from '../theme';
 import SortableEditListTester from './SortableEditListTester.js';
 
 storiesOf('SortableEditListTester', module)
-  .addDecorator(story => (
-    <div style={{
-      display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#fff', backgroundColor: '#2d2d2d', minHeight: '100vh',
-    }}
+  .addDecorator((story) => (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: '#fff',
+        backgroundColor: '#2d2d2d',
+        minHeight: '100vh',
+      }}
     >
-      <div style={{ width: '50%', maxWidth: 500, minWidth: 200 }}>
-        {story()}
-      </div>
+      <div style={{ width: '50%', maxWidth: 500, minWidth: 200 }}>{story()}</div>
     </div>
   ))
-  .addDecorator(muiTheme([
-    'Light Theme',
-    'Dark Theme',
-    theme,
-  ]))
-  .add('classic', () => (
-    <SortableEditListTester />
-  ));
+  .addDecorator(muiTheme(['Light Theme', 'Dark Theme', theme]))
+  .add('classic', () => <SortableEditListTester />);

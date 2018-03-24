@@ -1,1 +1,1 @@
-export const isTopRank = rank => rank >= 1 && rank <= 3;
+export const isTopRank = (rank) => rank >= 1 && rank <= 3;

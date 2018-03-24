@@ -35,18 +35,16 @@ const VotingCard = ({
     isOnLiveview={isOnLiveview}
     isVoting
   >
-    {
-      state === 'closed' ?
-        <FloatingActionButton
-          mini
-          style={{ position: 'absolute', right: 0, transform: 'translateX(63%) scale(.75)' }}
-          secondary={!isOnLiveview}
-          onClick={() => showVotingOnLiveView(id)}
-        >
-          <LightBulbIcon style={{ fill: 'white' }} />
-        </FloatingActionButton>
-        : null
-    }
+    {state === 'closed' ? (
+      <FloatingActionButton
+        mini
+        style={{ position: 'absolute', right: 0, transform: 'translateX(63%) scale(.75)' }}
+        secondary={!isOnLiveview}
+        onClick={() => showVotingOnLiveView(id)}
+      >
+        <LightBulbIcon style={{ fill: 'white' }} />
+      </FloatingActionButton>
+    ) : null}
   </ShowCard>
 );
 

@@ -15,23 +15,10 @@ const propTypes = {
   questionNumber: PropTypes.number,
 };
 
-const ActiveGame = ({
-  wrapperStyles = {},
-  question,
-  questionNumber,
-}) => (
+const ActiveGame = ({ wrapperStyles = {}, question, questionNumber }) => (
   <form style={{ ...wrapperStyles, ...styles }} onSubmit={handleOnSubmit}>
-    <Question
-      questionNumber={questionNumber}
-      question={question}
-    />
-    <TextField
-      floatingLabelText="Antwort"
-      name="guess"
-      type="number"
-      required
-      fullWidth
-    />
+    <Question questionNumber={questionNumber} question={question} />
+    <TextField floatingLabelText="Antwort" name="guess" type="number" required fullWidth />
     <RaisedButton
       label="Tipp abgeben"
       secondary

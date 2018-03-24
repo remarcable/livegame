@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import { orange500, blueGrey600, minBlack } from 'material-ui/styles/colors';
 
-
 import { padLeft, isTopRank } from '../../../api/helpers';
 
 const propTypes = {
@@ -15,11 +14,11 @@ const propTypes = {
   children: PropTypes.element,
 };
 
-
-const BaseScoreCard = ({
-  fullName, rank, hasAlias = false, style, children,
-}) => (
-  <Paper zDepth={4} style={{ ...styles, backgroundColor: isTopRank(rank) ? orange500 : blueGrey600, ...style }}>
+const BaseScoreCard = ({ fullName, rank, hasAlias = false, style, children }) => (
+  <Paper
+    zDepth={4}
+    style={{ ...styles, backgroundColor: isTopRank(rank) ? orange500 : blueGrey600, ...style }}
+  >
     <span style={rankStyles}>{padLeft(rank)}.</span>
     <span style={{ textTransform: 'capitalize' }}>{fullName}</span>
     {children}
@@ -51,6 +50,5 @@ const hasAliasCircleStyles = {
 };
 
 const rankStyles = { fontWeight: 600, textTransform: 'uppercase', marginRight: '.5em' };
-
 
 export default BaseScoreCard;

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import EditGameCard from './EditGameCard.js';
 
-
 class EditGameCardTester extends Component {
   constructor() {
     super();

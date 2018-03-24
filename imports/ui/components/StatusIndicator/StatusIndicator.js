@@ -16,7 +16,7 @@ const StatusIndicator = ({ isActive }) => (
 
 StatusIndicator.propTypes = propTypes;
 
-const styles = isActive => ({
+const styles = (isActive) => ({
   borderRadius: '50%',
   margin: 5,
   width: 20,
@@ -39,6 +39,5 @@ const activeAnimationStyles = {
   left: 0,
   animation: 'pop-out 5s infinite cubic-bezier(0.23, 1, 0.32, 1)',
 };
-
 
 export default StatusIndicator;

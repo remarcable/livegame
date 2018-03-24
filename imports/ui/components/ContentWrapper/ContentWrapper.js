@@ -56,15 +56,13 @@ class ContentWrapper extends Component {
 
   setMessage = (snackbarMessage) => {
     this.setState({ snackbarMessage, snackbarOpen: true });
-  }
+  };
 
   handleSnackbarRequestClose = () => {
     this.setState({ snackbarOpen: false });
-  }
+  };
 
-  updateSnackbarMessageIfNeeded({
-    value, oldValue, firstValue, onFirstValue, onNewValue,
-  }) {
+  updateSnackbarMessageIfNeeded({ value, oldValue, firstValue, onFirstValue, onNewValue }) {
     const firstValueIsSet = firstValue !== null;
     const isFirstValue = value === firstValue;
     const equalsOldValue = value === oldValue;
@@ -84,7 +82,9 @@ class ContentWrapper extends Component {
       value: alias,
       oldValue: oldAlias,
       firstValue: firstAlias,
-      onFirstValue: () => { this.setState({ firstAlias: alias }); },
+      onFirstValue: () => {
+        this.setState({ firstAlias: alias });
+      },
       onNewValue: () => {
         this.setState({ oldAlias: alias });
         this.setMessage('Ihnen wurden ein neuer Deckname zugewiesen.');
@@ -99,7 +99,9 @@ class ContentWrapper extends Component {
       value: rank,
       oldValue: oldRank,
       firstValue: firstRank,
-      onFirstValue: () => { this.setState({ firstRank: rank }); },
+      onFirstValue: () => {
+        this.setState({ firstRank: rank });
+      },
       onNewValue: () => {
         this.setState({ oldRank: rank });
         this.setMessage('Rang wurde aktualisiert.');
@@ -138,7 +140,7 @@ class ContentWrapper extends Component {
     }
 
     return <WaitingPage wrapperStyles={wrapperStyles} hintText={hintText} />;
-  }
+  };
 
   render() {
     return (
@@ -177,12 +179,13 @@ export default createContainer(() => {
   const votingSubmissionsHandle = Meteor.subscribe('votingSubmissions.own');
   const appStateHandle = Meteor.subscribe('appState');
 
-  const isReady = gamesHandle.ready()
-  && userHandle.ready()
-  && votingsHandle.ready()
-  && gameSubmissionsHandle.ready()
-  && votingSubmissionsHandle.ready()
-  && appStateHandle.ready();
+  const isReady =
+    gamesHandle.ready() &&
+    userHandle.ready() &&
+    votingsHandle.ready() &&
+    gameSubmissionsHandle.ready() &&
+    votingSubmissionsHandle.ready() &&
+    appStateHandle.ready();
 
   const userId = Meteor.userId();
   const { alias = null, rank = null, email = null } = Meteor.user() || {};

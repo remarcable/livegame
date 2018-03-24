@@ -16,7 +16,6 @@ const propTypes = {
   currentlySelected: PropTypes.string.isRequired,
 };
 
-
 const ScoreboardTypeSelector = ({ showRanksUpTo, currentlySelected }) => (
   <div>
     <div style={styles}>

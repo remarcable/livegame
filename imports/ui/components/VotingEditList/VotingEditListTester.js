@@ -21,7 +21,7 @@ class VotingEditListTester extends Component {
   };
   onDeleteVoting = (itemId) => {
     this.setState({
-      votings: this.state.votings.filter(item => item._id !== itemId),
+      votings: this.state.votings.filter((item) => item._id !== itemId),
     });
   };
   onSaveEntry = (itemId, { question, answer }) => {

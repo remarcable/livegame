@@ -4,23 +4,22 @@ import { muiTheme } from 'storybook-addon-material-ui';
 import { theme } from '../theme';
 import VotingChart from './VotingChart.js';
 
-
 storiesOf('VotingChart', module)
-  .addDecorator(story => (
-    <div style={{
-      display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#fff', backgroundColor: '#2d2d2d', minHeight: '100vh',
-    }}
+  .addDecorator((story) => (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: '#fff',
+        backgroundColor: '#2d2d2d',
+        minHeight: '100vh',
+      }}
     >
-      <div style={{ width: '50%', maxWidth: 800, minWidth: 200 }}>
-        {story()}
-      </div>
+      <div style={{ width: '50%', maxWidth: 800, minWidth: 200 }}>{story()}</div>
     </div>
   ))
-  .addDecorator(muiTheme([
-    'Light Theme',
-    'Dark Theme',
-    theme,
-  ]))
+  .addDecorator(muiTheme(['Light Theme', 'Dark Theme', theme]))
   .add('classic', () => (
     <VotingChart
       question="Würden Sie zum Mars reisen, auch wenn Sie nie zurückkehren könnten?"

@@ -6,14 +6,9 @@ import '../client/main.css';
 const req = require.context('../imports/ui/components', true, /\.stories\.js$/);
 
 function loadStories() {
-  req.keys().forEach(filename => req(filename));
+  req.keys().forEach((filename) => req(filename));
 }
 
-addDecorator(muiTheme([
-  'Light Theme',
-  'Dark Theme',
-  theme,
-]));
-
+addDecorator(muiTheme(['Light Theme', 'Dark Theme', theme]));
 
 configure(loadStories, module);

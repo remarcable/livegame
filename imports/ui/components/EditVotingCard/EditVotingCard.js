@@ -43,26 +43,28 @@ const EditVotingCard = ({
       <form onSubmit={onSubmitFactory(id, saveEntry)}>
         <div style={cardStyle}>
           <div style={questionWrapperStyle}>
-            <Chip style={chipStyles} backgroundColor={blue800}>Voting</Chip>
+            <Chip style={chipStyles} backgroundColor={blue800}>
+              Voting
+            </Chip>
             <span>{question}</span>
           </div>
           <div>
-            {
-              isEditing
-                ? <RaisedButton
-                  icon={<DoneIcon />}
-                  type="submit"
-                  style={{ margin: 5 }}
-                  backgroundColor={orange500}
-                />
-                : <RaisedButton
-                  icon={<EditIcon />}
-                  // setTimeout because form is otherwise directly submitted onClick (bug)
-                  onClick={() => setTimeout(() => onStartEditing(id), 0)}
-                  style={{ margin: 5 }}
-                  backgroundColor={blueGrey800}
-                />
-            }
+            {isEditing ? (
+              <RaisedButton
+                icon={<DoneIcon />}
+                type="submit"
+                style={{ margin: 5 }}
+                backgroundColor={orange500}
+              />
+            ) : (
+              <RaisedButton
+                icon={<EditIcon />}
+                // setTimeout because form is otherwise directly submitted onClick (bug)
+                onClick={() => setTimeout(() => onStartEditing(id), 0)}
+                style={{ margin: 5 }}
+                backgroundColor={blueGrey800}
+              />
+            )}
           </div>
         </div>
         {isEditing && <EditFields question={question} answer={answer} />}
@@ -79,7 +81,6 @@ const onSubmitFactory = (id, saveEntry) => (e) => {
   const question = e.target.question.value;
   saveEntry(id, { question });
 };
-
 
 const paperStyle = {
   position: 'relative',

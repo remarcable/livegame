@@ -27,7 +27,9 @@ export default class GameEnded extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
-    updateEmail.call({ email }, () => { this.handleClose(); });
+    updateEmail.call({ email }, () => {
+      this.handleClose();
+    });
   };
 
   handleClose = () => {
@@ -51,21 +53,13 @@ export default class GameEnded extends Component {
               style={{ marginBottom: 5, width: '100%' }}
             />
           </a>
-          <RaisedButton
-            label="E-Mail eintragen"
-            onClick={this.handleOpen}
-            secondary
-          />
+          <RaisedButton label="E-Mail eintragen" onClick={this.handleOpen} secondary />
         </div>
 
-        <Dialog
-          title="E-Mail"
-          open={this.state.open}
-          onRequestClose={this.handleClose}
-        >
+        <Dialog title="E-Mail" open={this.state.open} onRequestClose={this.handleClose}>
           <p style={{ fontSize: '.75em' }}>
-              Tragen Sie Ihre E-Mailadresse ein, um direkt über die nächsten Veranstaltungen
-              des Hyperion Kulturvereins informiert zu werden!
+            Tragen Sie Ihre E-Mailadresse ein, um direkt über die nächsten Veranstaltungen des
+            Hyperion Kulturvereins informiert zu werden!
           </p>
           <form onSubmit={this.handleSubmit}>
             <TextField
@@ -77,16 +71,8 @@ export default class GameEnded extends Component {
               fullWidth
             />
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <FlatButton
-                label="Abbrechen"
-                primary
-                onClick={this.handleClose}
-              />
-              <FlatButton
-                label="Speichern"
-                type="submit"
-                primary
-              />
+              <FlatButton label="Abbrechen" primary onClick={this.handleClose} />
+              <FlatButton label="Speichern" type="submit" primary />
             </div>
           </form>
         </Dialog>

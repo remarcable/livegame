@@ -10,11 +10,13 @@ const propTypes = {
   style: PropTypes.object,
 };
 
-
-const ScoreCard = ({
-  fullName, rank, hasAlias, style,
-}) => (
-  <BaseScoreCard fullName={fullName} rank={rank} style={{ ...style, overflow: 'hidden' }} hasAlias={hasAlias} />
+const ScoreCard = ({ fullName, rank, hasAlias, style }) => (
+  <BaseScoreCard
+    fullName={fullName}
+    rank={rank}
+    style={{ ...style, overflow: 'hidden' }}
+    hasAlias={hasAlias}
+  />
 );
 
 ScoreCard.propTypes = propTypes;

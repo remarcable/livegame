@@ -5,28 +5,30 @@ import { TransitionMotion, spring } from 'react-motion';
 import { animationPreset } from '../theme';
 import StyledScoreCard from '../ScoreCard/StyledScoreCard.js';
 
-
 const propTypes = {
-  entries: PropTypes.arrayOf(PropTypes.shape({
-    fullName: PropTypes.string.isRequired,
-    rank: PropTypes.number.isRequred,
-    hasAlias: PropTypes.bool.isRequred,
-    id: PropTypes.string.isRequired,
-  })).isRequired,
+  entries: PropTypes.arrayOf(
+    PropTypes.shape({
+      fullName: PropTypes.string.isRequired,
+      rank: PropTypes.number.isRequred,
+      hasAlias: PropTypes.bool.isRequred,
+      id: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
 };
 
-const entriesStyles = entries => entries.map((entry, index) => ({
-  key: entry.id,
-  data: {
-    fullName: entry.fullName,
-    rank: entry.rank,
-    hasAlias: entry.hasAlias,
-    zIndex: entries.length - index,
-  },
-  style: {
-    translateY: spring(105 * index, animationPreset),
-  },
-}));
+const entriesStyles = (entries) =>
+  entries.map((entry, index) => ({
+    key: entry.id,
+    data: {
+      fullName: entry.fullName,
+      rank: entry.rank,
+      hasAlias: entry.hasAlias,
+      zIndex: entries.length - index,
+    },
+    style: {
+      translateY: spring(105 * index, animationPreset),
+    },
+  }));
 
 const ScoreboardList = ({ entries }) => (
   <div style={{ position: 'relative' }}>
@@ -35,14 +37,10 @@ const ScoreboardList = ({ entries }) => (
       willEnter={() => ({ translateY: 1500 })}
       styles={entriesStyles(entries)}
     >
-      {entryStyles =>
-        (
-          <div>
-            {entryStyles.map(({
-              data: {
-                fullName, rank, hasAlias, zIndex,
-              }, key, style: { translateY },
-            }) => (
+      {(entryStyles) => (
+        <div>
+          {entryStyles.map(
+            ({ data: { fullName, rank, hasAlias, zIndex }, key, style: { translateY } }) => (
               <StyledScoreCard
                 translateY={translateY}
                 zIndex={zIndex}
@@ -51,15 +49,14 @@ const ScoreboardList = ({ entries }) => (
                 rank={rank}
                 key={key}
               />
-            ))}
-          </div>
-        )
-      }
+            ),
+          )}
+        </div>
+      )}
     </TransitionMotion>
   </div>
 );
 
 ScoreboardList.propTypes = propTypes;
-
 
 export default ScoreboardList;

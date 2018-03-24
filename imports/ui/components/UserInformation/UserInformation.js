@@ -17,33 +17,35 @@ const propTypes = {
   isReady: PropTypes.bool.isRequired,
   firstName: PropTypes.string,
   lastName: PropTypes.string,
-  ownRank: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
+  ownRank: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   maxRank: PropTypes.number,
   alias: PropTypes.string,
 };
 
-const UserInformation = ({
-  isReady, firstName, lastName, ownRank, maxRank, alias,
-}) => (
-  isReady
-    ? <div style={styles}>
+const UserInformation = ({ isReady, firstName, lastName, ownRank, maxRank, alias }) =>
+  isReady ? (
+    <div style={styles}>
       {/* If no ownRank is supplied, usw maxRank */}
-      <span>{ownRank || maxRank} / {maxRank}</span>
+      <span>
+        {ownRank || maxRank} / {maxRank}
+      </span>
       <Divider style={dividerStyles} />
-      { alias
-        ? <span style={{ fontWeight: 300 }}>{alias}</span>
-        : <span style={{ fontWeight: 300 }}>{firstName} {lastName}</span>
-      }
-      {
-        alias
-      && <span style={aliasStyles}>{firstName} {lastName}</span>
-      }
+      {alias ? (
+        <span style={{ fontWeight: 300 }}>{alias}</span>
+      ) : (
+        <span style={{ fontWeight: 300 }}>
+          {firstName} {lastName}
+        </span>
+      )}
+      {alias && (
+        <span style={aliasStyles}>
+          {firstName} {lastName}
+        </span>
+      )}
     </div>
-    : <div>Lädt...</div>
-);
+  ) : (
+    <div>Lädt...</div>
+  );
 
 UserInformation.propTypes = propTypes;
 
@@ -75,9 +77,7 @@ export default createContainer(() => {
   const maxRank = Counts.get('users.loggedInCount');
   const isReady = userHandle.ready();
   const user = Meteor.user() || {};
-  const {
-    firstName, lastName, alias, rank,
-  } = user;
+  const { firstName, lastName, alias, rank } = user;
 
   const { rankDisplayMode } = AppState.findOne();
   const displayedRank = shouldDisplayRank(rank, rankDisplayMode) ? rank : 'XX';

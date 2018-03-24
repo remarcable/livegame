@@ -41,9 +41,12 @@ export const endLiveGame = new ValidatedMethod({
   validate: null,
   run() {
     Meteor.ensureUserIsAdmin(this.userId);
-    AppState.update({}, {
-      $set: { gameEnded: true },
-    });
+    AppState.update(
+      {},
+      {
+        $set: { gameEnded: true },
+      },
+    );
   },
 });
 
@@ -52,9 +55,12 @@ export const unendLiveGame = new ValidatedMethod({
   validate: null,
   run() {
     Meteor.ensureUserIsAdmin(this.userId);
-    AppState.update({}, {
-      $set: { gameEnded: false },
-    });
+    AppState.update(
+      {},
+      {
+        $set: { gameEnded: false },
+      },
+    );
   },
 });
 
@@ -65,8 +71,11 @@ export const showRanksUpTo = new ValidatedMethod({
   }).validator(),
   run({ mode }) {
     Meteor.ensureUserIsAdmin(this.userId);
-    AppState.update({}, {
-      $set: { rankDisplayMode: mode },
-    });
+    AppState.update(
+      {},
+      {
+        $set: { rankDisplayMode: mode },
+      },
+    );
   },
 });

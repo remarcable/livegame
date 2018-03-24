@@ -29,9 +29,7 @@ describe('addItemToMap(key, value, map)', () => {
   it('sums the passed value and the existing value if the key already existed', () => {
     const fakeUserId = 100;
     const fakePoints = 5;
-    const myMap = new Map([
-      [fakeUserId, fakePoints],
-    ]);
+    const myMap = new Map([[fakeUserId, fakePoints]]);
 
     addItemToMap(fakeUserId, fakePoints, myMap);
 
@@ -40,6 +38,7 @@ describe('addItemToMap(key, value, map)', () => {
 });
 
 describe('getNumberOfOccurences(elements)', () => {
+  // prettier-ignore
   const elements = [
     1,
     2, 2,

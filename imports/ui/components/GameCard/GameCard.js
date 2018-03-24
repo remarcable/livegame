@@ -12,9 +12,7 @@ const propTypes = {
   isDisabled: PropTypes.bool.isRequired,
 };
 
-const GameCard = ({
-  id, state, question, startGame, stopGame, isDisabled,
-}) => (
+const GameCard = ({ id, state, question, startGame, stopGame, isDisabled }) => (
   <ShowCard
     isVoting={false}
     id={id}

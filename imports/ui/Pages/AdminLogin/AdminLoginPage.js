@@ -11,19 +11,8 @@ const AdminLoginPage = () => (
   <div style={wrapperStyles}>
     <h1 style={{ textAlign: 'center' }}>Admin</h1>
     <form style={styles} onSubmit={handleOnSubmit}>
-      <TextField
-        floatingLabelText="Benutzername"
-        name="username"
-        fullWidth
-        required
-      />
-      <TextField
-        floatingLabelText="Passwort"
-        name="password"
-        type="password"
-        fullWidth
-        required
-      />
+      <TextField floatingLabelText="Benutzername" name="username" fullWidth required />
+      <TextField floatingLabelText="Passwort" name="password" type="password" fullWidth required />
       <RaisedButton
         label="Anmelden"
         secondary
@@ -41,7 +30,9 @@ const handleOnSubmit = (e) => {
   const password = e.target.password.value;
 
   Meteor.loginWithPassword(username, password, (err) => {
-    if (err) { window.alert('Login fehlgeschlagen'); }
+    if (err) {
+      window.alert('Login fehlgeschlagen');
+    }
   });
 };
 

@@ -12,7 +12,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.42",
+    "@babel/runtime": "^7.0.0-beta.38",
     "bcrypt": "^1.0.3",
     "just-random": "^2.0.0",
     "material-ui": "^0.19.0",
@@ -30,7 +30,6 @@
   "devDependencies": {
     "@storybook/react": "^3.2.8",
     "babel-eslint": "^7.1.1",
-    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-root-slash-import": "^1.1.0",
     "eslint": "^4.8.0",
     "eslint-config-airbnb": "^13.0.0",

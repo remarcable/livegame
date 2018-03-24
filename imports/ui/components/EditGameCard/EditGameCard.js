@@ -28,12 +28,10 @@ const propTypes = {
   question: PropTypes.string.isRequired,
   answer: PropTypes.number,
   votingId: PropTypes.string,
-  votings: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      question: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
+  votings: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    question: PropTypes.string.isRequired,
+  })).isRequired,
   isEditing: PropTypes.bool.isRequired,
   allowSorting: PropTypes.bool.isRequired,
   saveEntry: PropTypes.func.isRequired,

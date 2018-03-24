@@ -67,7 +67,9 @@ export const updateGame = new ValidatedMethod({
     answer: { type: Number, optional: true },
     votingId: { type: String, optional: true },
   }).validator(),
-  run({ id, question, answer, votingId }) {
+  run({
+    id, question, answer, votingId,
+  }) {
     Meteor.ensureUserIsAdmin(this.userId);
     // if answer === 0 check would be false
     if (answer !== undefined) return Games.update({ _id: id }, { $unset: { votingId: 1 }, $set: { question, answer } });

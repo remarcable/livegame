@@ -18,7 +18,11 @@ export const calculateScores = new ValidatedMethod({
     const users = usersCursor.fetch();
     if (!users.length) return;
     const submissions = Submissions
-      .find({}, { fields: { userId: 1, gameId: 1, guess: 1, rank: 1 } })
+      .find({}, {
+        fields: {
+          userId: 1, gameId: 1, guess: 1, rank: 1,
+        },
+      })
       .fetch();
 
     const games = Games

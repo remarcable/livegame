@@ -62,7 +62,9 @@ class ContentWrapper extends Component {
     this.setState({ snackbarOpen: false });
   }
 
-  updateSnackbarMessageIfNeeded({ value, oldValue, firstValue, onFirstValue, onNewValue }) {
+  updateSnackbarMessageIfNeeded({
+    value, oldValue, firstValue, onFirstValue, onNewValue,
+  }) {
     const firstValueIsSet = firstValue !== null;
     const isFirstValue = value === firstValue;
     const equalsOldValue = value === oldValue;

@@ -25,7 +25,9 @@ const propTypes = {
   alias: PropTypes.string,
 };
 
-const UserInformation = ({ isReady, firstName, lastName, ownRank, maxRank, alias }) => (
+const UserInformation = ({
+  isReady, firstName, lastName, ownRank, maxRank, alias,
+}) => (
   isReady
     ? <div style={styles}>
       {/* If no ownRank is supplied, usw maxRank */}
@@ -73,7 +75,9 @@ export default createContainer(() => {
   const maxRank = Counts.get('users.loggedInCount');
   const isReady = userHandle.ready();
   const user = Meteor.user() || {};
-  const { firstName, lastName, alias, rank } = user;
+  const {
+    firstName, lastName, alias, rank,
+  } = user;
 
   const { rankDisplayMode } = AppState.findOne();
   const displayedRank = shouldDisplayRank(rank, rankDisplayMode) ? rank : 'XX';

@@ -41,22 +41,18 @@ import getAlias from '../../../../api/alias/get-alias';
 
 const propTypes = {
   isReady: PropTypes.bool.isRequired,
-  games: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      question: PropTypes.string.isRequired,
-      state: PropTypes.string,
-    }),
-  ).isRequired,
-  topUsers: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      firstName: PropTypes.string.isRequired,
-      lastName: PropTypes.string.isRequired,
-      alias: PropTypes.string,
-      rank: PropTypes.number.isRequired,
-    }),
-  ).isRequired,
+  games: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    question: PropTypes.string.isRequired,
+    state: PropTypes.string,
+  })).isRequired,
+  topUsers: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+    alias: PropTypes.string,
+    rank: PropTypes.number.isRequired,
+  })).isRequired,
   liveViewShowsVoting: PropTypes.bool.isRequired,
   rankDisplayMode: PropTypes.string.isRequired,
   gameEnded: PropTypes.bool.isRequired,
@@ -81,9 +77,15 @@ const ShowLayout = ({
       showScoresOnLiveView={() => showScoresOnLiveView.call()}
       calculateScores={() => calculateScores.call()}
     />
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+    <div style={{
+      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+    }}
+    >
       <div style={{ display: 'flex', justifyContent: 'space-evenly', width: '100%' }}>
-        <div style={{ width: '70%', paddingLeft: '2em', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div style={{
+          width: '70%', paddingLeft: '2em', display: 'flex', flexDirection: 'column', alignItems: 'center',
+        }}
+        >
           <Chip
             backgroundColor={blueGrey900}
             style={{ fontStyle: !hintText && 'italic' }}

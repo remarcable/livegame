@@ -36,19 +36,24 @@ const ScoreboardList = ({ entries }) => (
       styles={entriesStyles(entries)}
     >
       {entryStyles =>
-        <div>
-          {entryStyles.map(({ data: { fullName, rank, hasAlias, zIndex }, key, style: { translateY } }) => (
-            <StyledScoreCard
-              translateY={translateY}
-              zIndex={zIndex}
-              fullName={fullName}
-              hasAlias={hasAlias}
-              rank={rank}
-              key={key}
-            />
-          ),
-          )}
-        </div>
+        (
+          <div>
+            {entryStyles.map(({
+              data: {
+                fullName, rank, hasAlias, zIndex,
+              }, key, style: { translateY },
+            }) => (
+              <StyledScoreCard
+                translateY={translateY}
+                zIndex={zIndex}
+                fullName={fullName}
+                hasAlias={hasAlias}
+                rank={rank}
+                key={key}
+              />
+            ))}
+          </div>
+        )
       }
     </TransitionMotion>
   </div>

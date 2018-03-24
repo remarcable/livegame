@@ -115,5 +115,7 @@ export default createContainer(() => {
   const maxPoints = Math.max(...users.map(u => u.points)) || 0;
   const minPoints = Math.min(...users.map(u => u.points)) || 0;
 
-  return { isReady, maxRank, minRank, maxPoints, minPoints, users };
+  return {
+    isReady, maxRank, minRank, maxPoints, minPoints, users,
+  };
 }, UserListPage);

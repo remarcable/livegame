@@ -5,19 +5,17 @@ import GameCard from '../GameCard';
 import VotingCard from '../GameCard/VotingCard';
 
 const propTypes = {
-  games: PropTypes.arrayOf(
-    PropTypes.shape({
+  games: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    votingId: PropTypes.string,
+    voting: PropTypes.shape({
       _id: PropTypes.string.isRequired,
-      votingId: PropTypes.string,
-      voting: PropTypes.shape({
-        _id: PropTypes.string.isRequired,
-        question: PropTypes.string.isRequired,
-        state: PropTypes.string,
-      }),
       question: PropTypes.string.isRequired,
       state: PropTypes.string,
     }),
-  ).isRequired,
+    question: PropTypes.string.isRequired,
+    state: PropTypes.string,
+  })).isRequired,
   startGame: PropTypes.func.isRequired,
   stopGame: PropTypes.func.isRequired,
   startVoting: PropTypes.func.isRequired,
@@ -37,7 +35,9 @@ const GamesList = ({
 }) => (
   <div style={{ width: '100%' }}>
     {
-      games.map(({ voting, votingId, question, _id, state }) => (
+      games.map(({
+        voting, votingId, question, _id, state,
+      }) => (
         <div key={_id}>
           {
             votingId &&

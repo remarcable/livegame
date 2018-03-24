@@ -114,12 +114,16 @@ export default createContainer(() => {
 
   const users = Meteor.users
     .find({}, {
-      fields: { firstName: 1, lastName: 1, alias: 1, rank: 1 },
+      fields: {
+        firstName: 1, lastName: 1, alias: 1, rank: 1,
+      },
       sort: { rank: 1 },
     }).fetch()
     .filter(user => user.firstName && user.lastName && user.rank)
     .filter(user => shouldDisplayRank(user.rank, rankDisplayMode))
-    .map(({ _id: id, alias, firstName, lastName, rank }) => ({
+    .map(({
+      _id: id, alias, firstName, lastName, rank,
+    }) => ({
       id,
       rank,
       fullName: alias || `${firstName} ${lastName}`,
@@ -133,6 +137,8 @@ export default createContainer(() => {
   const noPercentage = 100 - yesPercentage;
 
   return isReady
-    ? { users, isReady, showVotingOnLiveView, voting: { yesPercentage, noPercentage, question } }
+    ? {
+      users, isReady, showVotingOnLiveView, voting: { yesPercentage, noPercentage, question },
+    }
     : { isReady };
 }, LiveViewLayout);

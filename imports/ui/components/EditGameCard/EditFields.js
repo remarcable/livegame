@@ -8,12 +8,10 @@ import { blueGrey900 } from 'material-ui/styles/colors';
 
 const propTypes = {
   question: PropTypes.string.isRequired,
-  votings: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      question: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
+  votings: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    question: PropTypes.string.isRequired,
+  })).isRequired,
   answer: PropTypes.number,
   votingId: PropTypes.string,
 };

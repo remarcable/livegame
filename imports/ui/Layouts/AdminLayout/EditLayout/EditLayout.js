@@ -25,19 +25,15 @@ import {
 } from '../../../../api/votings/methods';
 
 const propTypes = {
-  games: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      question: PropTypes.string.isRequired,
-      answer: PropTypes.number,
-    }),
-  ).isRequired,
-  votings: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      question: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
+  games: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    question: PropTypes.string.isRequired,
+    answer: PropTypes.number,
+  })).isRequired,
+  votings: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    question: PropTypes.string.isRequired,
+  })).isRequired,
   isReady: PropTypes.bool.isRequired,
 };
 
@@ -69,7 +65,9 @@ class EditLayout extends Component {
     this.setState({ currentlyEditedVotingItemId: itemId });
   };
   onSaveEntryGame = (id, { question, answer, votingId }) => {
-    updateGame.call({ id, question, answer, votingId });
+    updateGame.call({
+      id, question, answer, votingId,
+    });
     this.setState({ currentlyEditedGameItemId: null });
   };
   onSaveEntryVoting = (id, { question }) => {

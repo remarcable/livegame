@@ -16,7 +16,9 @@ const propTypes = {
 };
 
 
-const BaseScoreCard = ({ fullName, rank, hasAlias = false, style, children }) => (
+const BaseScoreCard = ({
+  fullName, rank, hasAlias = false, style, children,
+}) => (
   <Paper zDepth={4} style={{ ...styles, backgroundColor: isTopRank(rank) ? orange500 : blueGrey600, ...style }}>
     <span style={rankStyles}>{padLeft(rank)}.</span>
     <span style={{ textTransform: 'capitalize' }}>{fullName}</span>

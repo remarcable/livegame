@@ -4,12 +4,10 @@ import PropTypes from 'prop-types';
 import EditVotingCard from '../EditVotingCard';
 
 const propTypes = {
-  votings: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      question: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
+  votings: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    question: PropTypes.string.isRequired,
+  })).isRequired,
   startEditing: PropTypes.func.isRequired,
   deleteVoting: PropTypes.func.isRequired,
   saveEntry: PropTypes.func.isRequired,

@@ -12,7 +12,9 @@ const propTypes = {
 };
 
 
-const StyledScoreCard = ({ translateY, zIndex, fullName, hasAlias, rank }) => (
+const StyledScoreCard = ({
+  translateY, zIndex, fullName, hasAlias, rank,
+}) => (
   <div
     style={{
       transform: `translate3d(0, ${translateY}%, 0)`,

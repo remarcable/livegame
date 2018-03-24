@@ -21,24 +21,18 @@ import AppState from '../../../api/appState/collection';
 
 const propTypes = {
   isReady: PropTypes.bool.isRequired,
-  games: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      question: PropTypes.string.isRequired,
-      answer: PropTypes.number,
-      state: PropTypes.string,
-    }),
-  ).isRequired,
-  topUsers: PropTypes.arrayOf(
-    PropTypes.object,
-  ).isRequired,
-  votings: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      question: PropTypes.string.isRequired,
-      state: PropTypes.string,
-    }),
-  ).isRequired,
+  games: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    question: PropTypes.string.isRequired,
+    answer: PropTypes.number,
+    state: PropTypes.string,
+  })).isRequired,
+  topUsers: PropTypes.arrayOf(PropTypes.object).isRequired,
+  votings: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    question: PropTypes.string.isRequired,
+    state: PropTypes.string,
+  })).isRequired,
   rankDisplayMode: PropTypes.string.isRequired,
   userIsAdmin: PropTypes.bool.isRequired,
   gameEnded: PropTypes.bool,
@@ -139,7 +133,9 @@ export default createContainer(() => {
   }).fetch().map(u => ({ ...u, rank: u.rank || numberOfUsers })); // always render a rank
 
   const appState = AppState.findOne() || {};
-  const { gameEnded, hintText, gamesOrder = [], votingToShow, rankDisplayMode = 'ALL' } = appState || {};
+  const {
+    gameEnded, hintText, gamesOrder = [], votingToShow, rankDisplayMode = 'ALL',
+  } = appState || {};
 
   const sortedGamesWithVotings = games
     .sort((a, b) => gamesOrder.indexOf(a._id) - gamesOrder.indexOf(b._id))

@@ -22,9 +22,7 @@ describe('rankUsers(users, games, submissions)', () => {
   });
 
   it('works as expected if some users did not submit', () => {
-    expect(
-      rankUsers(sampleUsers, sampleGames, sampleSubmissionsWithSubmissionsMissing),
-    ).toEqual(sampleResultWithSubmissionsMissing);
+    expect(rankUsers(sampleUsers, sampleGames, sampleSubmissionsWithSubmissionsMissing)).toEqual(sampleResultWithSubmissionsMissing);
   });
 
   it('can handle empty user and submissions array', () => {

@@ -32,29 +32,24 @@
     "@babel/core": "^7.0.0-beta.42",
     "@babel/preset-env": "^7.0.0-beta.42",
     "@babel/preset-react": "^7.0.0-beta.42",
-    "@storybook/react": "^3.2.8",
+    "@storybook/react": "^3.3.15",
     "babel-core": "^7.0.0-0",
-    "babel-eslint": "^7.1.1",
+    "babel-eslint": "^8.2.2",
     "babel-jest": "^22.4.3",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-root-slash-import": "^1.1.0",
-    "eslint": "^4.8.0",
-    "eslint-config-airbnb": "^13.0.0",
-    "eslint-import-resolver-meteor": "^0.3.4",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^2.2.3",
-    "eslint-plugin-meteor": "^4.0.1",
-    "eslint-plugin-react": "^6.8.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-import-resolver-meteor": "^0.4.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-meteor": "^4.2.0",
+    "eslint-plugin-react": "^7.7.0",
     "jest": "^22.4.3",
-    "storybook-addon-material-ui": "^0.8.0"
+    "storybook-addon-material-ui": "^0.8.2"
   },
   "eslintConfig": {
     "parser": "babel-eslint",
-    "parserOptions": {
-      "ecmaVersion": 6,
-      "sourceType": "module",
-      "allowImportExportEverywhere": true
-    },
     "plugins": [
       "meteor"
     ],

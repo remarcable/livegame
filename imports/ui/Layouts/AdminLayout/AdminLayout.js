@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Meteor } from 'meteor/meteor';
-import { Counts } from 'meteor/tmeasday:publish-counts';
+import { Counter } from 'meteor/natestrauser:publish-performant-counts';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import AppBar from 'material-ui/AppBar';
@@ -114,18 +114,20 @@ const wrapperStyles = {
 
 export default createContainer(() => {
   const userHandle = Meteor.subscribe('users.loggedIn');
+  const userCountHandle = Meteor.subscribe('users.count');
   const gamesHandle = Meteor.subscribe('games.allGames');
   const votingsHandle = Meteor.subscribe('votings.allVotings');
   const appStateHandle = Meteor.subscribe('appState.admin');
   const topUsersHandle = Meteor.subscribe('users.liveview.topTen');
 
-  const numberOfUsers = Counts.get('users.loggedInCount');
+  const numberOfUsers = Counter.get('users.count');
 
   const isReady =
     gamesHandle.ready() &&
     votingsHandle.ready() &&
     appStateHandle.ready() &&
     userHandle.ready() &&
+    userCountHandle.ready() &&
     topUsersHandle.ready();
 
   const userIsAdmin = Meteor.userIsAdmin();

@@ -1,11 +1,8 @@
 import { Meteor } from 'meteor/meteor';
-import { Counts } from 'meteor/tmeasday:publish-counts';
+import { Counter } from 'meteor/natestrauser:publish-performant-counts';
 
 Meteor.publish('users.loggedIn', function publishLoggedInUser() {
   if (!this.userId) return this.ready();
-  Counts.publish(this, 'users.loggedInCount', Meteor.users.find({ role: { $ne: 'admin' } }), {
-    noReady: true,
-  });
   return Meteor.users.find(
     { _id: this.userId },
     {
@@ -19,6 +16,12 @@ Meteor.publish('users.loggedIn', function publishLoggedInUser() {
       },
     },
   );
+});
+
+Meteor.publish('users.count', function publishUserCount() {
+  if (!this.userId) return this.ready();
+  const UPDATE_INTERVAL = 5000;
+  return new Counter('users.count', Meteor.users.find({ role: { $ne: 'admin' } }), UPDATE_INTERVAL);
 });
 
 Meteor.publish('users.liveview.topTen', function publishTopTenUsers() {

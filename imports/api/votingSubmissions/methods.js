@@ -5,6 +5,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import VotingSubmissions from './collection';
 import Votings from '../votings/collection';
 
+/* eslint-disable import/prefer-default-export */
 export const submitVote = new ValidatedMethod({
   name: 'votingSubmissions.insert',
   validate: new SimpleSchema({
@@ -13,6 +14,8 @@ export const submitVote = new ValidatedMethod({
   run({ vote }) {
     if (!Meteor.userId()) throw new Error('not-authorized');
     if (this.isSimulation) return;
+
+    this.unblock();
 
     const userId = Meteor.userId();
     const currentVoting = Votings.findOne({ state: 'active' });

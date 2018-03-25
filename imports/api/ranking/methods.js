@@ -14,6 +14,8 @@ export const calculateScores = new ValidatedMethod({
     Meteor.ensureUserIsAdmin(this.userId);
     if (this.isSimulation) return;
 
+    this.unblock();
+
     const usersCursor = Meteor.users.find({ role: { $ne: 'admin' } }, { fields: { _id: 1 } });
     const users = usersCursor.fetch();
     if (!users.length) return;

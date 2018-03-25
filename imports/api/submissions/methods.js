@@ -5,6 +5,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import Submissions from './collection';
 import Games from '../games/collection';
 
+/* eslint-disable import/prefer-default-export */
 export const submitAnswer = new ValidatedMethod({
   name: 'submissions.insert',
   validate: new SimpleSchema({
@@ -13,6 +14,8 @@ export const submitAnswer = new ValidatedMethod({
   run({ guess }) {
     if (!Meteor.userId()) throw new Error('not-authorized');
     if (this.isSimulation) return;
+
+    this.unblock();
 
     const userId = Meteor.userId();
     const currentGame = Games.findOne({ state: 'active' });

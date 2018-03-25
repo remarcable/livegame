@@ -51,6 +51,7 @@ const ScoreboardTypeSelector = ({ showRanksUpTo, currentlySelected }) => (
 const styles = {
   display: 'flex',
   flexWrap: 'wrap',
+  paddingBottom: '.75em',
 };
 
 ScoreboardTypeSelector.propTypes = propTypes;

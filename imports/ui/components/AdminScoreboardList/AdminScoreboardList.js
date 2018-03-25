@@ -21,7 +21,8 @@ const propTypes = {
 };
 
 const AdminScoreboardList = ({ entries, setAlias, unsetAlias, rankDisplayMode, showRanksUpTo }) => (
-  <div>
+  <div style={style}>
+    <ScoreboardTypeSelector showRanksUpTo={showRanksUpTo} currentlySelected={rankDisplayMode} />
     {entries.map(({ _id: id, firstName, lastName, alias, rank }) => (
       <AdminScoreCard
         id={id}
@@ -37,11 +38,14 @@ const AdminScoreboardList = ({ entries, setAlias, unsetAlias, rankDisplayMode, s
     {entries.length === 0 && (
       <p style={{ textAlign: 'center', fontStyle: 'italic' }}>Keine User im Ranking.</p>
     )}
-
-    <ScoreboardTypeSelector showRanksUpTo={showRanksUpTo} currentlySelected={rankDisplayMode} />
   </div>
 );
 
 AdminScoreboardList.propTypes = propTypes;
+
+const style = {
+  position: 'sticky',
+  top: '1em',
+};
 
 export default AdminScoreboardList;

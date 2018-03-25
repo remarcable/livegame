@@ -4,7 +4,7 @@ import { Counter } from 'meteor/natestrauser:publish-performant-counts';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 
 import Divider from 'material-ui/Divider';
 
@@ -72,7 +72,7 @@ const aliasStyles = {
   fontSize: '.5em',
 };
 
-export default createContainer(() => {
+export default withTracker(() => {
   const userHandle = Meteor.subscribe('users.loggedIn');
   const countsHandle = Meteor.subscribe('users.count');
   const maxRank = Counter.get('users.count');
@@ -91,4 +91,4 @@ export default createContainer(() => {
     ownRank: displayedRank,
     maxRank,
   };
-}, UserInformation);
+})(UserInformation);

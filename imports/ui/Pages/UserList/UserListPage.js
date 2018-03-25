@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 
 import Paper from 'material-ui/Paper';
 import {
@@ -93,7 +93,7 @@ const paperStyles = {
   flexDirection: 'column',
 };
 
-export default createContainer(() => {
+export default withTracker(() => {
   const userHandle = Meteor.subscribe('users.all');
 
   const isReady = userHandle.ready();
@@ -117,4 +117,4 @@ export default createContainer(() => {
     minPoints,
     users,
   };
-}, UserListPage);
+})(UserListPage);

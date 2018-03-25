@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { Tracker } from 'meteor/tracker';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 
 import AppBar from 'material-ui/AppBar';
 import Footer from '../../components/Footer';
@@ -83,7 +83,7 @@ const layoutStyles = {
 let lastVotingToShowId = null;
 const votingIsReady = new ReactiveVar(false);
 
-export default createContainer(() => {
+export default withTracker(() => {
   const currentUserHandle = Meteor.subscribe('users.loggedIn');
   const liveviewHandle = Meteor.subscribe('users.liveview.topTen');
   const appStateHandle = Meteor.subscribe('appState.admin');
@@ -152,4 +152,4 @@ export default createContainer(() => {
         voting: { yesPercentage, noPercentage, question },
       }
     : { isReady };
-}, LiveViewLayout);
+})(LiveViewLayout);

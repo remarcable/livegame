@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Meteor } from 'meteor/meteor';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 
 import { spacing } from 'material-ui/styles';
 import Snackbar from 'material-ui/Snackbar';
@@ -171,7 +171,7 @@ const wrapperStyles = {
   margin: spacing.desktopGutterLess,
 };
 
-export default createContainer(() => {
+export default withTracker(() => {
   const gamesHandle = Meteor.subscribe('games.active');
   const userHandle = Meteor.subscribe('users.loggedIn');
   const votingsHandle = Meteor.subscribe('votings.active');
@@ -226,4 +226,4 @@ export default createContainer(() => {
     votingQuestion,
     userHasSubmittedForCurrentVoting,
   };
-}, ContentWrapper);
+})(ContentWrapper);

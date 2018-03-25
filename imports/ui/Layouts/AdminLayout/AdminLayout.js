@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Meteor } from 'meteor/meteor';
 import { Counter } from 'meteor/natestrauser:publish-performant-counts';
-import { createContainer } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
 
 import AppBar from 'material-ui/AppBar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -112,7 +112,7 @@ const wrapperStyles = {
   justifyContent: 'center',
 };
 
-export default createContainer(() => {
+export default withTracker(() => {
   const userHandle = Meteor.subscribe('users.loggedIn');
   const userCountHandle = Meteor.subscribe('users.count');
   const gamesHandle = Meteor.subscribe('games.allGames');
@@ -168,4 +168,4 @@ export default createContainer(() => {
     numberOfUsers,
     userIsAdmin,
   };
-}, AdminLayout);
+})(AdminLayout);

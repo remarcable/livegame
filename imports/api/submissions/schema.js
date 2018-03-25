@@ -6,6 +6,7 @@ const submissionSchema = new SimpleSchema({
   },
   gameId: {
     type: SimpleSchema.RegEx.Id,
+    index: 1,
   },
   guess: {
     type: Number,

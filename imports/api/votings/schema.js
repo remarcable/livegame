@@ -10,6 +10,7 @@ const votingSchema = new SimpleSchema({
     label: 'Status',
     allowedValues: ['active', 'closed'],
     optional: true,
+    index: 1,
   },
   yesVotes: {
     type: Number,

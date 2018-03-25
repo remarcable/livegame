@@ -10,6 +10,7 @@ const gameSchema = new SimpleSchema({
     label: 'Status',
     allowedValues: ['active', 'closed'],
     optional: true,
+    index: 1,
   },
   answer: {
     type: Number,

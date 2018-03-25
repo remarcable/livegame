@@ -6,6 +6,7 @@ const votingSubmissionSchema = new SimpleSchema({
   },
   votingId: {
     type: SimpleSchema.RegEx.Id,
+    index: 1,
   },
   vote: {
     type: String,

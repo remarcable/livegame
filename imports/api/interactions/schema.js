@@ -1,18 +1,19 @@
 import SimpleSchema from 'simpl-schema';
 import { hasOnlyAllowedFieldSet, isInSchemaRequired, shouldNotBeSetInSchema } from '../helpers';
-import * as InteractionTypes from './interactionTypes';
+import * as interactionTypes from './interactionTypes';
+import * as interactionStates from './interactionStates';
 
 SimpleSchema.extendOptions(['index']); // fix tests, doesn't do anything in production
 
 export const rawSchema = {
   type: {
     type: String,
-    allowedValues: Object.keys(InteractionTypes),
+    allowedValues: Object.keys(interactionTypes),
     index: 1,
   },
   state: {
     type: String,
-    allowedValues: ['ACTIVE', 'CLOSED'],
+    allowedValues: Object.keys(interactionStates),
     defaultValue: null,
     optional: true,
     index: 1,
@@ -22,7 +23,7 @@ export const rawSchema = {
     type: Object,
     optional: true,
     custom() {
-      return hasOnlyAllowedFieldSet({ forType: InteractionTypes.GUESSING_GAME, details: this });
+      return hasOnlyAllowedFieldSet({ forType: interactionTypes.GUESSING_GAME, details: this });
     },
   },
   'guessingGame.question': String,
@@ -55,7 +56,7 @@ export const rawSchema = {
     type: Object,
     optional: true,
     custom() {
-      return hasOnlyAllowedFieldSet({ forType: InteractionTypes.GUESSING_VOTING, details: this });
+      return hasOnlyAllowedFieldSet({ forType: interactionTypes.GUESSING_VOTING, details: this });
     },
   },
   'guessingVoting.question': String,
@@ -74,7 +75,7 @@ export const rawSchema = {
     type: Object,
     optional: true,
     custom() {
-      return hasOnlyAllowedFieldSet({ forType: InteractionTypes.FULL_SHOW_VOTING, details: this });
+      return hasOnlyAllowedFieldSet({ forType: interactionTypes.FULL_SHOW_VOTING, details: this });
     },
   },
   'fullShowVoting.question': String,
@@ -88,7 +89,7 @@ export const rawSchema = {
     type: Object,
     optional: true,
     custom() {
-      return hasOnlyAllowedFieldSet({ forType: InteractionTypes.ANNOUNCEMENT, details: this });
+      return hasOnlyAllowedFieldSet({ forType: interactionTypes.ANNOUNCEMENT, details: this });
     },
   },
   'announcement.template': String,

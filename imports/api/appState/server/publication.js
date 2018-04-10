@@ -7,7 +7,6 @@ Meteor.publish('appState', function publishUserAppState() {
     {},
     {
       fields: {
-        gameEnded: 1,
         hintText: 1,
         rankDisplayMode: 1,
       },
@@ -22,11 +21,10 @@ Meteor.publish('appState.admin', function publishAdminAppState() {
     {},
     {
       fields: {
-        gameEnded: 1,
         hintText: 1,
         votingToShow: 1,
         rankDisplayMode: 1,
-        gamesOrder: 1,
+        interactionsOrder: 1,
       },
       limit: 1,
     },

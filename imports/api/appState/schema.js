@@ -3,9 +3,6 @@ import SimpleSchema from 'simpl-schema';
 import { rankDisplayModes } from './rank-display-modes';
 
 const appStateSchema = new SimpleSchema({
-  gameEnded: {
-    type: Boolean,
-  },
   hintText: {
     type: String,
     optional: true,
@@ -18,10 +15,10 @@ const appStateSchema = new SimpleSchema({
     type: String,
     allowedValues: rankDisplayModes,
   },
-  gamesOrder: {
+  interactionsOrder: {
     type: Array,
   },
-  'gamesOrder.$': {
+  'interactionsOrder.$': {
     type: String,
   },
 });

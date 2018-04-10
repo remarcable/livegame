@@ -8,8 +8,11 @@ Accounts.config({
   forbidClientAccountCreation: true,
 });
 
-Meteor.userIsAdmin = function userIsAdmin(id) {
+Meteor.userIsAdmin = function userIsAdmin(id = Meteor.userId()) {
   const userId = Meteor.isServer ? id : Meteor.userId();
+  if (!userId) {
+    return false;
+  }
   const user = Meteor.users.findOne(userId) || {};
   return user.role === 'admin';
 };

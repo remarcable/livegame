@@ -36,34 +36,6 @@ export const setHintText = new ValidatedMethod({
   },
 });
 
-export const endLiveGame = new ValidatedMethod({
-  name: 'app.endLiveGame',
-  validate: null,
-  run() {
-    Meteor.ensureUserIsAdmin(this.userId);
-    AppState.update(
-      {},
-      {
-        $set: { gameEnded: true },
-      },
-    );
-  },
-});
-
-export const unendLiveGame = new ValidatedMethod({
-  name: 'app.unendLiveGame',
-  validate: null,
-  run() {
-    Meteor.ensureUserIsAdmin(this.userId);
-    AppState.update(
-      {},
-      {
-        $set: { gameEnded: false },
-      },
-    );
-  },
-});
-
 export const showRanksUpTo = new ValidatedMethod({
   name: 'app.showRanksUpTo',
   validate: new SimpleSchema({

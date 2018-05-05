@@ -15,7 +15,7 @@
     "prettier:watch": "onchange '**/*.js' -- prettier --write {{changed}}"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.38",
+    "@babel/runtime": "^7.0.0-beta.46",
     "bcrypt": "^1.0.3",
     "just-random": "^2.0.0",
     "material-ui": "^0.20.0",

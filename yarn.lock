@@ -324,7 +324,7 @@
     "@babel/helper-plugin-utils" "7.0.0-beta.46"
     lodash "^4.2.0"
 
-"@babel/plugin-transform-classes@7.0.0-beta.46":
+"@babel/plugin-transform-classes@7.0.0-beta.46", "@babel/plugin-transform-classes@^7.0.0-beta.46":
   version "7.0.0-beta.46"
   resolved "https://registry.yarnpkg.com/@babel/plugin-transform-classes/-/plugin-transform-classes-7.0.0-beta.46.tgz#00c856feda2ee756c4cc6ef8c97d17d070acebf7"
   dependencies:
@@ -568,7 +568,7 @@
     "@babel/plugin-transform-react-jsx-self" "7.0.0-beta.46"
     "@babel/plugin-transform-react-jsx-source" "7.0.0-beta.46"
 
-"@babel/runtime@^7.0.0-beta.38":
+"@babel/runtime@^7.0.0-beta.46":
   version "7.0.0-beta.46"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.0.0-beta.46.tgz#466a9c0498f6d12d054a185981eef742d59d4871"
   dependencies:

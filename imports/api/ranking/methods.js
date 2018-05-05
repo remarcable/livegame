@@ -2,9 +2,10 @@ import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { rankUsers as calculateRanks } from './calculate-points/scoringAlgorithm';
 
-import Games from '../games/collection';
-import VotingSubmissions from '../votingSubmissions/collection';
+import Interactions from '../interactions/collection';
 import Submissions from '../submissions/collection';
+
+import * as interactionTypes from '../interactions/interactionTypes';
 
 /* eslint-disable import/prefer-default-export */
 export const calculateScores = new ValidatedMethod({
@@ -16,29 +17,43 @@ export const calculateScores = new ValidatedMethod({
 
     this.unblock();
 
-    const usersCursor = Meteor.users.find({ role: { $ne: 'admin' } }, { fields: { _id: 1 } });
-    const users = usersCursor.fetch();
+    const users = Meteor.users.find({ role: { $ne: 'admin' } }, { fields: { _id: 1 } }).fetch();
     if (!users.length) return;
+
     const submissions = Submissions.find(
       {},
       {
         fields: {
           userId: 1,
-          gameId: 1,
-          guess: 1,
+          interactionId: 1,
+          value: 1,
           rank: 1,
         },
       },
     ).fetch();
 
-    const games = Games.find({}, { fields: { answer: 1, votingId: 1 } })
-      .fetch()
-      .map(
-        (game) =>
-          game.votingId
-            ? { ...game, answer: getPercentageForVoting(game.votingId, VotingSubmissions) }
-            : game,
-      );
+    const interactions = Interactions.find(
+      {
+        type: {
+          $in: [interactionTypes.GUESSING_GAME, interactionTypes.GUESSING_VOTING],
+        },
+      },
+      { fields: { guessingGame: 1, type: 1 } },
+    ).fetch();
+
+    // TODO: write aggregation for this
+    const games = interactions.filter(({ type }) => type === interactionTypes.GUESSING_GAME).map(
+      ({ _id, guessingGame }) =>
+        guessingGame.votingId
+          ? {
+              _id,
+              ...guessingGame,
+              answer: getPercentageForVoting(
+                submissions.filter(({ interactionId }) => interactionId === guessingGame.votingId),
+              ),
+            }
+          : guessingGame,
+    );
 
     const ranks = calculateRanks(users, games, submissions);
     const bulk = Meteor.users.rawCollection().initializeUnorderedBulkOp();
@@ -49,11 +64,9 @@ export const calculateScores = new ValidatedMethod({
   },
 });
 
-function getPercentageForVoting(votingId, VotingSubmissionsCursor) {
-  const votingSubmissions =
-    VotingSubmissionsCursor.find({ votingId }, { fields: { vote: 1 } }).fetch() || [];
-  const totalVotesCount = votingSubmissions.length;
-  const yesVotesCount = votingSubmissions.filter((s) => s.vote === 'Ja').length;
+function getPercentageForVoting(submissions) {
+  const totalVotesCount = submissions.length;
+  const yesVotesCount = submissions.filter((s) => s.value === 'Ja').length;
 
   const percentage = yesVotesCount / totalVotesCount * 100;
 

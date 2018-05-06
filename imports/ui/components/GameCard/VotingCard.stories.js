@@ -44,7 +44,7 @@ storiesOf('VotingCard', module)
   .add('closed', () => (
     <VotingCard
       id="myId2"
-      state="closed"
+      state="CLOSED"
       question="Wie wird das Wetter morgen?"
       isOnLiveview={false}
       showVotingOnLiveView={console.log}
@@ -55,7 +55,7 @@ storiesOf('VotingCard', module)
   .add('closed and is on liveview', () => (
     <VotingCard
       id="myId2"
-      state="closed"
+      state="CLOSED"
       question="Wie wird das Wetter morgen?"
       isOnLiveview
       showVotingOnLiveView={console.log}

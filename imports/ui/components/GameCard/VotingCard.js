@@ -6,6 +6,8 @@ import LightBulbIcon from 'material-ui/svg-icons/action/lightbulb-outline';
 
 import ShowCard from './ShowCard';
 
+import * as interactionStates from '../../../api/interactions/interactionStates';
+
 const propTypes = {
   id: PropTypes.string.isRequired,
   state: PropTypes.string,
@@ -35,7 +37,7 @@ const VotingCard = ({
     isOnLiveview={isOnLiveview}
     isVoting
   >
-    {state === 'closed' ? (
+    {state === interactionStates.CLOSED ? (
       <FloatingActionButton
         mini
         style={{ position: 'absolute', right: 0, transform: 'translateX(63%) scale(.75)' }}

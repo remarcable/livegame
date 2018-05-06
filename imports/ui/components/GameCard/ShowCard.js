@@ -16,6 +16,8 @@ import {
 
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 
+import * as interactionStates from '../../../api/interactions/interactionStates';
+
 const propTypes = {
   id: PropTypes.string.isRequired,
   state: PropTypes.string,
@@ -30,14 +32,14 @@ const propTypes = {
 const ShowCard = ({ id, state, question, startGame, stopGame, isVoting, isDisabled, children }) => (
   <Paper style={styleForPaper(state)}>
     <div style={questionStyles}>
-      <StatusIndicator isActive={state === 'active'} />
+      <StatusIndicator isActive={state === interactionStates.ACTIVE} />
       <Chip style={chipStyles} backgroundColor={isVoting ? blue800 : blueGrey800}>
         {isVoting ? 'Voting' : 'Frage'}
       </Chip>
-      <span style={state === 'closed' ? questionTextStyles : {}}>{question}</span>
+      <span style={state === interactionStates.CLOSED ? questionTextStyles : {}}>{question}</span>
     </div>
     <div>
-      {state === 'active' ? (
+      {state === interactionStates.ACTIVE ? (
         <RaisedButton
           backgroundColor={orange500}
           label="Stop"
@@ -47,7 +49,7 @@ const ShowCard = ({ id, state, question, startGame, stopGame, isVoting, isDisabl
       ) : (
         <RaisedButton
           backgroundColor={blueGrey800}
-          label={state === 'closed' ? 'Neustart' : 'Start'}
+          label={state === interactionStates.CLOSED ? 'Neustart' : 'Start'}
           disabled={isDisabled}
           onClick={() => startGame(id)}
           style={{ margin: 5 }}
@@ -61,8 +63,8 @@ const ShowCard = ({ id, state, question, startGame, stopGame, isVoting, isDisabl
 ShowCard.propTypes = propTypes;
 
 const styleForPaper = (state) => {
-  if (state === 'active') return activePaperStyles;
-  if (state === 'closed') return closedPaperStyles;
+  if (state === interactionStates.ACTIVE) return activePaperStyles;
+  if (state === interactionStates.CLOSED) return closedPaperStyles;
 
   return paperStyles;
 };

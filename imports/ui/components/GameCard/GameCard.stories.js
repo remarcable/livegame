@@ -51,7 +51,7 @@ storiesOf('GameCard', module)
   .add('closed', () => (
     <GameCard
       id="myId2"
-      state="closed"
+      state="CLOSED"
       isDisabled={false}
       question="Wie wird das Wetter morgen?"
       startGame={console.log}

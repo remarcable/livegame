@@ -1,1 +1,3 @@
-export default from './EditVotingCard';
+import defaultModule from './EditVotingCard';
+
+export default defaultModule;

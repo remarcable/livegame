@@ -1,3 +1,5 @@
+import defaultModule from './muiTheme';
+
+export default defaultModule;
 export * from './muiTheme';
-export default from './muiTheme';
 export * from './animation';

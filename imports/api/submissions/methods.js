@@ -14,7 +14,7 @@ export const submit = new ValidatedMethod({
     value: SimpleSchema.oneOf(Number, String), // TODO: Explanatory comment: Number for guessing, String for voting. Maybe change?
   }).validator(),
   run({ value }) {
-    if (!Meteor.userId()) throw new Error('not-authorized');
+    if (!Meteor.userId()) throw new Meteor.Error('submissions.insert.unauthorized');
     if (this.isSimulation) return;
 
     this.unblock();

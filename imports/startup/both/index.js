@@ -19,6 +19,6 @@ Meteor.userIsAdmin = function userIsAdmin(id = Meteor.userId()) {
 
 Meteor.ensureUserIsAdmin = function ensureUserIsAdmin(id) {
   if (!Meteor.userIsAdmin(id)) {
-    throw new Meteor.Error('not-authorized');
+    throw new Meteor.Error('users.unauthorized');
   }
 };

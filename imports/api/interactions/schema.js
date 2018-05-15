@@ -31,11 +31,12 @@ export const rawSchema = {
     type: Number,
     optional: true,
     custom() {
-      const { obj } = this;
+      const answer = this.value;
+      const votingId = this.field('guessingGame.votingId').value;
       // undefined check because answer could be 0
-      if (obj.guessingGame.answer === undefined && !obj.guessingGame.votingId) {
+      if (answer === undefined && !votingId) {
         return isInSchemaRequired(this);
-      } else if (obj.guessingGame.answer && obj.guessingGame.votingId) {
+      } else if (answer && votingId) {
         return shouldNotBeSetInSchema(this);
       }
     },
@@ -44,11 +45,12 @@ export const rawSchema = {
     type: SimpleSchema.RegEx.Id,
     optional: true,
     custom() {
-      const { obj } = this;
+      const votingId = this.value;
+      const answer = this.field('guessingGame.answer').value;
       // undefined check because answer could be 0
-      if (obj.guessingGame.answer === undefined && !obj.guessingGame.votingId) {
+      if (answer === undefined && !votingId) {
         return isInSchemaRequired(this);
-      } else if (obj.guessingGame.answer && obj.guessingGame.votingId) {
+      } else if (answer && votingId) {
         return shouldNotBeSetInSchema(this);
       }
     },

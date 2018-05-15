@@ -10,6 +10,8 @@ import AppState from '../appState/collection';
 import * as interactionTypes from './interactionTypes';
 import * as interactionStates from './interactionStates';
 
+// TODO: Put validation in own functions / files
+
 export const startInteraction = new ValidatedMethod({
   name: 'interactions.startInteraction',
   validate: new SimpleSchema({
@@ -37,7 +39,6 @@ export const stopInteraction = new ValidatedMethod({
   },
 });
 
-// TODO: implement method
 export const createInteraction = new ValidatedMethod({
   name: 'interactions.create',
   validate({ interactionType, question, answer }) {
@@ -81,9 +82,55 @@ export const createInteraction = new ValidatedMethod({
 // TODO: implement method
 export const updateInteraction = new ValidatedMethod({
   name: 'interactions.update',
-  validate: null,
-  run() {
+  validate({ id, question, answer = null, votingId = null }) {
+    check(id, String);
+    const { type: interactionType } = Interactions.findOne(id);
+
+    if (interactionType === interactionTypes.GUESSING_GAME) {
+      check(question, String);
+
+      if (answer !== null) {
+        check(answer, Number);
+      } else if (votingId !== null) {
+        check(votingId, String);
+      } else {
+        throw new ValidationError([
+          {
+            name: 'answer',
+            type: 'interactions.update.onlyOneOfAnswerOrVotingIdAllowed',
+          },
+          {
+            name: 'votingId',
+            type: 'interactions.update.onlyOneOfAnswerOrVotingIdAllowed',
+          },
+        ]);
+      }
+    } else if (interactionType === interactionTypes.GUESSING_VOTING) {
+      check(question, String);
+    }
+  },
+  run({ id, question, answer = null, votingId = null }) {
     Meteor.ensureUserIsAdmin(this.userId);
+
+    const { type: interactionType } = Interactions.findOne(id);
+
+    switch (interactionType) {
+      case interactionTypes.GUESSING_GAME: {
+        return Interactions.update(id, {
+          $set: {
+            'guessingGame.question': question,
+            'guessingGame.answer': answer,
+            'guessingGame.votingId': votingId,
+          },
+        });
+      }
+
+      case interactionTypes.GUESSING_VOTING: {
+        return Interactions.update(id, { $set: { 'guessingVoting.question': question } });
+      }
+
+      default:
+    }
   },
 });
 

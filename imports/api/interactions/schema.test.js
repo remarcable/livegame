@@ -69,6 +69,14 @@ describe('interactionsSchema', () => {
       },
     };
 
+    const correctObject3 = {
+      type: InteractionTypes.GUESSING_GAME,
+      guessingGame: {
+        question: 'question',
+        answer: 0,
+      },
+    };
+
     const wrongObject1 = {
       type: InteractionTypes.GUESSING_GAME,
       guessingGame: {
@@ -87,6 +95,7 @@ describe('interactionsSchema', () => {
 
     expect(() => interactionsSchema.validate(correctObject1)).not.toThrow();
     expect(() => interactionsSchema.validate(correctObject2)).not.toThrow();
+    expect(() => interactionsSchema.validate(correctObject3)).not.toThrow();
 
     expect(() => interactionsSchema.validate(wrongObject1)).toThrow();
     expect(() => interactionsSchema.validate(wrongObject2)).toThrow();

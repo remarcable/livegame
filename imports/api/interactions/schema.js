@@ -32,7 +32,8 @@ export const rawSchema = {
     optional: true,
     custom() {
       const { obj } = this;
-      if (!obj.guessingGame.answer && !obj.guessingGame.votingId) {
+      // undefined check because answer could be 0
+      if (obj.guessingGame.answer === undefined && !obj.guessingGame.votingId) {
         return isInSchemaRequired(this);
       } else if (obj.guessingGame.answer && obj.guessingGame.votingId) {
         return shouldNotBeSetInSchema(this);
@@ -44,7 +45,8 @@ export const rawSchema = {
     optional: true,
     custom() {
       const { obj } = this;
-      if (!obj.guessingGame.answer && !obj.guessingGame.votingId) {
+      // undefined check because answer could be 0
+      if (obj.guessingGame.answer === undefined && !obj.guessingGame.votingId) {
         return isInSchemaRequired(this);
       } else if (obj.guessingGame.answer && obj.guessingGame.votingId) {
         return shouldNotBeSetInSchema(this);

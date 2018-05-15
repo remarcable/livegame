@@ -26,3 +26,4 @@ accounts-password@1.5.0
 mdg:meteor-apm-agent
 natestrauser:publish-performant-counts
 aldeed:schema-index
+mdg:validation-error

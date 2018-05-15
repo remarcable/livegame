@@ -1,10 +1,13 @@
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
+import { ValidationError } from 'meteor/mdg:validation-error';
 import SimpleSchema from 'simpl-schema';
 
 import Interactions from './collection';
 import AppState from '../appState/collection';
 
+import * as interactionTypes from './interactionTypes';
 import * as interactionStates from './interactionStates';
 
 export const startInteraction = new ValidatedMethod({
@@ -37,9 +40,41 @@ export const stopInteraction = new ValidatedMethod({
 // TODO: implement method
 export const createInteraction = new ValidatedMethod({
   name: 'interactions.create',
-  validate: null,
-  run() {
+  validate({ interactionType, question, answer }) {
+    if (interactionType === interactionTypes.GUESSING_GAME) {
+      check(question, String);
+      check(answer, Number);
+    } else if (interactionType === interactionTypes.GUESSING_VOTING) {
+      check(question, String);
+    } else {
+      throw new ValidationError([
+        {
+          name: 'interactionType',
+          type: 'interactions.create.noValidInteractionType',
+        },
+      ]);
+    }
+  },
+  run({ interactionType, question, answer }) {
     Meteor.ensureUserIsAdmin(this.userId);
+
+    let id;
+    switch (interactionType) {
+      case interactionTypes.GUESSING_GAME: {
+        id = Interactions.insert({ type: interactionType, guessingGame: { question, answer } });
+        break;
+      }
+
+      case interactionTypes.GUESSING_VOTING: {
+        id = Interactions.insert({ type: interactionType, guessingVoting: { question } });
+        break;
+      }
+
+      default:
+    }
+
+    AppState.update({}, { $push: { interactionsOrder: id } });
+    return id;
   },
 });
 

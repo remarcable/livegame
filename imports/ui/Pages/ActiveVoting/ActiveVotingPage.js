@@ -6,7 +6,7 @@ import { red500, green500 } from 'material-ui/styles/colors';
 
 import Question from '../../components/Question';
 
-import { submitVote } from '../../../api/votingSubmissions/methods';
+import { submit } from '../../../api/submissions/methods';
 
 const propTypes = {
   wrapperStyles: PropTypes.object,
@@ -23,14 +23,14 @@ const ActiveVoting = ({ wrapperStyles = {}, question, questionNumber }) => (
         backgroundColor={green500}
         style={{ margin: '.5em' }}
         labelStyle={{ color: '#fff' }}
-        onClick={() => submitVote.call({ vote: 'Ja' })}
+        onClick={() => submit.call({ value: 'Ja' })}
       />
       <RaisedButton
         label="Nein"
         backgroundColor={red500}
         style={{ margin: '.5em' }}
         labelStyle={{ color: '#fff' }}
-        onClick={() => submitVote.call({ vote: 'Nein' })}
+        onClick={() => submit.call({ value: 'Nein' })}
       />
     </div>
   </div>

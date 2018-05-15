@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import { submitAnswer } from '../../../api/submissions/methods';
+import { submit } from '../../../api/submissions/methods';
 
 import Question from '../../components/Question';
 import { theme } from '../../components/theme';
@@ -18,7 +18,7 @@ const propTypes = {
 const ActiveGame = ({ wrapperStyles = {}, question, questionNumber }) => (
   <form style={{ ...wrapperStyles, ...styles }} onSubmit={handleOnSubmit}>
     <Question questionNumber={questionNumber} question={question} />
-    <TextField floatingLabelText="Antwort" name="guess" type="number" required fullWidth />
+    <TextField floatingLabelText="Antwort" name="value" type="number" required fullWidth />
     <RaisedButton
       label="Tipp abgeben"
       secondary
@@ -32,10 +32,10 @@ const ActiveGame = ({ wrapperStyles = {}, question, questionNumber }) => (
 const handleOnSubmit = (e) => {
   e.preventDefault();
 
-  const guess = parseInt(e.target.guess.value, 10);
-  if (guess === undefined || isNaN(guess)) return;
+  const value = parseInt(e.target.value.value, 10);
+  if (value === undefined || isNaN(value)) return;
 
-  submitAnswer.call({ guess });
+  submit.call({ value });
 };
 
 ActiveGame.propTypes = propTypes;

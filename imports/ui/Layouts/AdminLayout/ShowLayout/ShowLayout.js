@@ -6,17 +6,13 @@ import Divider from 'material-ui/Divider';
 import Chip from 'material-ui/Chip';
 import { blueGrey900 } from 'material-ui/styles/colors';
 
-import GamesList from '../../../components/GamesList';
+import InteractionsList from '../../../components/InteractionsList';
 import AdminScoreboardList from '../../../components/AdminScoreboardList';
 import AdminMethods from '../../../components/AdminMethods';
 
-import { startGame, stopGame } from '../../../../api/games/methods';
-
-import { startVoting, stopVoting } from '../../../../api/votings/methods';
+import { startInteraction, stopInteraction } from '../../../../api/interactions/methods';
 
 import {
-  endLiveGame,
-  unendLiveGame,
   setHintText,
   showScoresOnLiveView,
   showVotingOnLiveView,
@@ -31,13 +27,7 @@ import getAlias from '../../../../api/alias/get-alias';
 
 const propTypes = {
   isReady: PropTypes.bool.isRequired,
-  games: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      question: PropTypes.string.isRequired,
-      state: PropTypes.string,
-    }),
-  ).isRequired,
+  interactions: PropTypes.array.isRequired, // TODO
   topUsers: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
@@ -49,7 +39,6 @@ const propTypes = {
   ).isRequired,
   liveViewShowsVoting: PropTypes.bool.isRequired,
   rankDisplayMode: PropTypes.string.isRequired,
-  gameEnded: PropTypes.bool.isRequired,
   votingIdOnLiveview: PropTypes.string,
   hintText: PropTypes.string,
 };
@@ -59,9 +48,8 @@ const ShowLayout = ({
   liveViewShowsVoting,
   rankDisplayMode,
   hintText,
-  games,
+  interactions,
   topUsers,
-  gameEnded,
   votingIdOnLiveview,
 }) => (
   <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
@@ -92,38 +80,14 @@ const ShowLayout = ({
           <Chip backgroundColor={blueGrey900} style={{ fontStyle: !hintText && 'italic' }}>
             {hintText || 'Kein Text'}
           </Chip>
-          {isReady && (
-            <GamesList
-              games={games}
-              startGame={(gameId) => startGame.call({ gameId })}
-              stopGame={(gameId) => stopGame.call({ gameId })}
-              startVoting={(votingId) => startVoting.call({ votingId })}
-              stopVoting={(votingId) => stopVoting.call({ votingId })}
-              showVotingOnLiveView={(votingId) => showVotingOnLiveView.call({ votingId })}
-              currentlyShownOnLiveView={votingIdOnLiveview}
-            />
-          )}
+          <InteractionsList
+            interactions={interactions}
+            startInteraction={(interactionId) => startInteraction.call({ interactionId })}
+            stopInteraction={(interactionId) => stopInteraction.call({ interactionId })}
+            showVotingOnLiveView={(votingId) => showVotingOnLiveView.call({ votingId })}
+            currentlyShownOnLiveView={votingIdOnLiveview}
+          />
           <Divider style={{ width: '70%', marginTop: 10, marginBottom: 20 }} />
-          <div>
-            {gameEnded ? (
-              <RaisedButton
-                onClick={() =>
-                  confirm('Möchtest du wirklich das Livespiel wieder öffnen?') &&
-                  unendLiveGame.call()
-                }
-                label="Livespiel wieder öffnen"
-                backgroundColor={blueGrey900}
-              />
-            ) : (
-              <RaisedButton
-                onClick={() =>
-                  confirm('Möchtest du wirklich das Livespiel beenden?') && endLiveGame.call()
-                }
-                label="Livespiel beenden"
-                backgroundColor={blueGrey900}
-              />
-            )}
-          </div>
         </div>
         <div style={{ padding: '0 3em', width: '30%' }}>
           {isReady && (

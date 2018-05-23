@@ -12,116 +12,102 @@ import EditList from '../../../components/SortableEditList';
 import VotingEditList from '../../../components/VotingEditList';
 
 import {
-  createGame,
-  removeGame,
-  updateGame,
-  updateGamesOrder,
-} from '../../../../api/games/methods';
+  createInteraction,
+  removeInteraction,
+  updateInteraction,
+  updateInteractionsOrder,
+} from '../../../../api/interactions/methods';
 
-import { createVoting, removeVoting, updateVoting } from '../../../../api/votings/methods';
+import * as interactionTypes from '../../../../api/interactions/interactionTypes';
 
 const propTypes = {
-  games: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      question: PropTypes.string.isRequired,
-      answer: PropTypes.number,
-    }),
-  ).isRequired,
-  votings: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      question: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
+  interactions: PropTypes.array.isRequired, // TODO
   isReady: PropTypes.bool.isRequired,
 };
 
 class EditLayout extends Component {
-  state = { currentlyEditedGameItemId: null, currentlyEditedVotingItemId: null };
+  state = { currentlyEditedInteractionItemId: null };
   onSortEnd = ({ oldIndex, newIndex }) => {
-    const { games } = this.props;
-    const gamesOrder = games.map((game) => game._id);
-    updateGamesOrder.call({ newOrder: arrayMove(gamesOrder, oldIndex, newIndex) });
+    const { interactions } = this.props;
+    const gamesOrder = interactions.map((game) => game._id);
+    updateInteractionsOrder.call({ newOrder: arrayMove(gamesOrder, oldIndex, newIndex) });
   };
-  onStartEditingGame = (itemId) => {
-    this.setState({ currentlyEditedGameItemId: itemId });
+  onStartEditingInteraction = (itemId) => {
+    console.log(itemId);
+    this.setState({ currentlyEditedInteractionItemId: itemId });
   };
-  onStartEditingVoting = (itemId) => {
-    this.setState({ currentlyEditedVotingItemId: itemId });
-  };
-  onDeleteGame = (id) => {
-    removeGame.call({ id });
-  };
-  onDeleteVoting = (id) => {
-    removeVoting.call({ id });
+  onDeleteInteraction = (id) => {
+    removeInteraction.call({ id });
   };
   onCreateGame = () => {
-    const itemId = createGame.call({ question: 'Neue Frage', answer: 0 });
-    this.setState({ currentlyEditedGameItemId: itemId });
+    const itemId = createInteraction.call({
+      interactionType: interactionTypes.GUESSING_GAME,
+      question: 'Neue Frage',
+      answer: 0,
+    });
+    this.setState({ currentlyEditedInteractionItemId: itemId });
   };
   onCreateVoting = () => {
-    const itemId = createVoting.call({ question: 'Neue Frage' });
-    this.setState({ currentlyEditedVotingItemId: itemId });
-  };
-  onSaveEntryGame = (id, { question, answer, votingId }) => {
-    updateGame.call({
-      id,
-      question,
-      answer,
-      votingId,
+    const itemId = createInteraction.call({
+      interactionType: interactionTypes.GUESSING_VOTING,
+      question: 'Neues Voting',
     });
-    this.setState({ currentlyEditedGameItemId: null });
+    this.setState({ currentlyEditedInteractionItemId: itemId });
   };
-  onSaveEntryVoting = (id, { question }) => {
-    updateVoting.call({ id, question });
-    this.setState({ currentlyEditedVotingItemId: null });
+  onSaveInteraction = (id, { question, answer, votingId }) => {
+    updateInteraction.call({ id, question, answer, votingId });
+    this.setState({ currentlyEditedInteractionItemId: null });
   };
   render() {
-    const { games, votings, isReady } = this.props;
-    const { currentlyEditedGameItemId, currentlyEditedVotingItemId } = this.state;
+    const { interactions, isReady } = this.props;
+    const { currentlyEditedInteractionItemId } = this.state;
 
     return (
       <div style={wrapperStyle}>
-        <h2 style={{ fontWeight: 300, textAlign: 'center', margin: 0 }}>Games</h2>
+        <h2 style={{ fontWeight: 300, textAlign: 'center', margin: 0 }}>Bearbeiten</h2>
         {isReady && (
-          <EditList
-            games={games}
-            votings={votings}
-            startEditing={this.onStartEditingGame}
-            deleteGame={this.onDeleteGame}
-            saveEntry={this.onSaveEntryGame}
-            currentlyEditedItemId={currentlyEditedGameItemId}
-            onSortEnd={this.onSortEnd}
-            useDragHandle
-            shouldCancelStart={() => !!currentlyEditedGameItemId}
-            lockAxis="y"
-          />
+          <>
+            <EditList
+              games={interactions
+                .filter(({ type }) => type === interactionTypes.GUESSING_GAME)
+                .map((x) => ({ ...x, ...x.guessingGame }))}
+              votings={interactions
+                .filter(({ type }) => type === interactionTypes.GUESSING_VOTING)
+                .map((x) => ({ ...x, ...x.guessingVoting }))}
+              startEditing={this.onStartEditingInteraction}
+              deleteGame={this.onDeleteInteraction}
+              saveEntry={this.onSaveInteraction}
+              currentlyEditedItemId={currentlyEditedInteractionItemId}
+              onSortEnd={this.onSortEnd}
+              useDragHandle
+              shouldCancelStart={() => !!currentlyEditedInteractionItemId}
+              lockAxis="y"
+            />
+
+            <VotingEditList
+              votings={interactions
+                .filter(({ type }) => type === interactionTypes.GUESSING_VOTING)
+                .map((x) => ({ ...x, ...x.guessingVoting }))}
+              startEditing={this.onStartEditingInteraction}
+              deleteVoting={this.onDeleteInteraction}
+              saveEntry={this.onSaveInteraction}
+              currentlyEditedItemId={currentlyEditedInteractionItemId}
+            />
+          </>
         )}
         <div>
           <RaisedButton
             onClick={this.onCreateGame}
-            label="Neu"
+            label="Neue Frage"
             backgroundColor={blueGrey900}
             style={{ marginTop: 20 }}
             icon={<PlusIcon />}
           />
         </div>
-        <Divider style={{ width: '60%', marginTop: 20, marginBottom: 20 }} />
-        <h2 style={{ fontWeight: 300, textAlign: 'center', margin: 0 }}>Votings</h2>
-        {isReady && (
-          <VotingEditList
-            votings={votings}
-            startEditing={this.onStartEditingVoting}
-            deleteVoting={this.onDeleteVoting}
-            saveEntry={this.onSaveEntryVoting}
-            currentlyEditedItemId={currentlyEditedVotingItemId}
-          />
-        )}
         <div>
           <RaisedButton
             onClick={this.onCreateVoting}
-            label="Neu"
+            label="Neues Voting"
             backgroundColor={blueGrey900}
             style={{ marginTop: 20 }}
             icon={<PlusIcon />}

@@ -8,10 +8,11 @@ import { spacing } from 'material-ui/styles';
 import Snackbar from 'material-ui/Snackbar';
 
 import AppState from '../../../api/appState/collection';
-import Games from '../../../api/games/collection';
-import Votings from '../../../api/votings/collection';
+import Interactions from '../../../api/interactions/collection';
 import Submissions from '../../../api/submissions/collection';
-import VotingSubmissions from '../../../api/votingSubmissions/collection';
+
+import * as interactionStates from '../../../api/interactions/interactionStates';
+import * as interactionTypes from '../../../api/interactions/interactionTypes';
 
 import LoginPage from '../../Pages/Login';
 import ActiveGamePage from '../../Pages/ActiveGame';
@@ -23,20 +24,15 @@ import WaitingPage from '../../Pages/Waiting';
 const propTypes = {
   isReady: PropTypes.bool.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
-  liveGameEnded: PropTypes.bool.isRequired,
   hintText: PropTypes.string,
 
   alias: PropTypes.string,
   rank: PropTypes.number,
   email: PropTypes.string,
 
-  gameIsActive: PropTypes.bool.isRequired,
-  gameQuestion: PropTypes.string,
-  userHasSubmittedForCurrentGame: PropTypes.bool.isRequired,
-
-  votingIsActive: PropTypes.bool.isRequired,
-  votingQuestion: PropTypes.string,
-  userHasSubmittedForCurrentVoting: PropTypes.bool.isRequired,
+  showInteraction: PropTypes.bool.isRequired,
+  interactionType: PropTypes.string,
+  interactionData: PropTypes.object.isRequired,
 };
 
 class ContentWrapper extends Component {
@@ -113,33 +109,50 @@ class ContentWrapper extends Component {
     const {
       isReady,
       isLoggedIn,
-      liveGameEnded,
       hintText,
 
       email,
 
-      gameIsActive,
-      gameQuestion,
-      userHasSubmittedForCurrentGame,
-
-      votingIsActive,
-      votingQuestion,
-      userHasSubmittedForCurrentVoting,
+      showInteraction,
+      interactionType,
+      interactionData: { guessingGame, guessingVoting, fullShowVoting, announcement },
     } = this.props;
 
-    if (!isReady) return <LoadingPage wrapperStyles={wrapperStyles} />;
-    if (!isLoggedIn) return <LoginPage wrapperStyles={wrapperStyles} />;
-    if (liveGameEnded) return <GameEndedPage wrapperStyles={wrapperStyles} email={email} />;
-
-    if (gameIsActive && !userHasSubmittedForCurrentGame) {
-      return <ActiveGamePage wrapperStyles={wrapperStyles} question={gameQuestion} />;
+    if (!isReady) {
+      return <LoadingPage wrapperStyles={wrapperStyles} />;
     }
 
-    if (votingIsActive && !userHasSubmittedForCurrentVoting) {
-      return <ActiveVotingPage wrapperStyles={wrapperStyles} question={votingQuestion} />;
+    if (!isLoggedIn) {
+      return <LoginPage wrapperStyles={wrapperStyles} />;
+    }
+    // TODO showInteraction is very dirty. We should solve that differently!
+
+    if (!showInteraction) {
+      return <WaitingPage wrapperStyles={wrapperStyles} hintText={hintText} />;
     }
 
-    return <WaitingPage wrapperStyles={wrapperStyles} hintText={hintText} />;
+    switch (interactionType) {
+      case interactionTypes.GUESSING_GAME:
+        return <ActiveGamePage wrapperStyles={wrapperStyles} question={guessingGame.question} />;
+      case interactionTypes.GUESSING_VOTING:
+        return (
+          <ActiveVotingPage wrapperStyles={wrapperStyles} question={guessingVoting.question} />
+        );
+      case interactionTypes.GUESSING_WAITING:
+        return <WaitingPage wrapperStyles={wrapperStyles} hintText={hintText} />;
+      case interactionTypes.GUESSING_ENDED:
+        return <GameEndedPage wrapperStyles={wrapperStyles} email={email} />;
+
+      case interactionTypes.FULL_SHOW_WAITING:
+        return <div>FULL_SHOW_WAITING</div>; // maybe use this as default instead of loading?
+      case interactionTypes.FULL_SHOW_VOTING:
+        return <div>FULL_SHOW_VOTING</div>; // use fullShowVoting
+
+      case interactionTypes.ANNOUNCEMENT:
+        return <div>ANNOUNCEMENT</div>; // use announcement
+      default:
+        return <div>DEFAULT CASE</div>;
+    }
   };
 
   render() {
@@ -172,58 +185,42 @@ const wrapperStyles = {
 };
 
 export default withTracker(() => {
-  const gamesHandle = Meteor.subscribe('games.active');
+  const interactionsHandle = Meteor.subscribe('interactions.active');
   const userHandle = Meteor.subscribe('users.loggedIn');
-  const votingsHandle = Meteor.subscribe('votings.active');
-  const gameSubmissionsHandle = Meteor.subscribe('submissions.own');
-  const votingSubmissionsHandle = Meteor.subscribe('votingSubmissions.own');
+  const submissionsHandle = Meteor.subscribe('submissions.own');
   const appStateHandle = Meteor.subscribe('appState');
 
   const isReady =
-    gamesHandle.ready() &&
+    interactionsHandle.ready() &&
     userHandle.ready() &&
-    votingsHandle.ready() &&
-    gameSubmissionsHandle.ready() &&
-    votingSubmissionsHandle.ready() &&
+    submissionsHandle.ready() &&
     appStateHandle.ready();
 
   const userId = Meteor.userId();
   const { alias = null, rank = null, email = null } = Meteor.user() || {};
 
   const appState = AppState.findOne() || {};
-  const hintText = appState.hintText;
+  const { hintText } = appState;
 
   const isLoggedIn = !!userId;
-  const liveGameEnded = appState.gameEnded || false;
 
-  const currentGame = Games.findOne({ state: 'active' }) || {};
-  const gameId = currentGame._id;
-  const gameIsActive = !!gameId;
-  const gameQuestion = currentGame.question;
-  const userHasSubmittedForCurrentGame = !!Submissions.findOne({ userId, gameId });
+  const interactionData = Interactions.findOne({ state: interactionStates.ACTIVE }) || {};
+  const { _id: interactionId, type: interactionType = null } = interactionData;
 
-  const currentVoting = Votings.findOne({ state: 'active' }) || {};
-  const votingId = currentVoting._id;
-  const votingIsActive = !!votingId;
-  const votingQuestion = currentVoting.question;
-  const userHasSubmittedForCurrentVoting = !!VotingSubmissions.findOne({ userId, votingId });
+  const submissionForInteraction = !!Submissions.findOne({ userId, interactionId });
+  const showInteraction = !!interactionId && !submissionForInteraction;
 
   return {
     isReady,
     isLoggedIn,
-    liveGameEnded,
     hintText,
 
     rank,
     alias,
     email,
 
-    gameIsActive,
-    gameQuestion,
-    userHasSubmittedForCurrentGame,
-
-    votingIsActive,
-    votingQuestion,
-    userHasSubmittedForCurrentVoting,
+    showInteraction,
+    interactionType,
+    interactionData,
   };
 })(ContentWrapper);

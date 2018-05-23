@@ -15,31 +15,15 @@ import ShowLayout from './ShowLayout';
 import EditLayout from './EditLayout';
 import Footer from '../../components/Footer';
 
-import Games from '../../../api/games/collection';
-import Votings from '../../../api/votings/collection';
+import Interactions from '../../../api/interactions/collection';
 import AppState from '../../../api/appState/collection';
 
 const propTypes = {
   isReady: PropTypes.bool.isRequired,
-  games: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      question: PropTypes.string.isRequired,
-      answer: PropTypes.number,
-      state: PropTypes.string,
-    }),
-  ).isRequired,
+  interactions: PropTypes.array.isRequired, // TODO make specific!
   topUsers: PropTypes.arrayOf(PropTypes.object).isRequired,
-  votings: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      question: PropTypes.string.isRequired,
-      state: PropTypes.string,
-    }),
-  ).isRequired,
   rankDisplayMode: PropTypes.string.isRequired,
   userIsAdmin: PropTypes.bool.isRequired,
-  gameEnded: PropTypes.bool,
   votingIdOnLiveview: PropTypes.string,
   hintText: PropTypes.string,
   numberOfUsers: PropTypes.number.isRequired,
@@ -50,12 +34,10 @@ class AdminLayout extends Component {
   render() {
     const {
       isReady,
-      games,
-      votings,
+      interactions,
       rankDisplayMode,
       topUsers,
       votingIdOnLiveview,
-      gameEnded = false,
       hintText,
       numberOfUsers,
       userIsAdmin,
@@ -77,14 +59,13 @@ class AdminLayout extends Component {
           }
         />
         {editMode ? (
-          <EditLayout isReady={isReady} games={games} votings={votings} />
+          <EditLayout isReady={isReady} interactions={interactions} />
         ) : (
           <ShowLayout
             isReady={isReady}
             liveViewShowsVoting={!!votingIdOnLiveview}
-            games={games}
+            interactions={interactions}
             topUsers={topUsers}
-            gameEnded={gameEnded}
             votingIdOnLiveview={votingIdOnLiveview}
             rankDisplayMode={rankDisplayMode}
             hintText={hintText}
@@ -115,16 +96,14 @@ const wrapperStyles = {
 export default withTracker(() => {
   const userHandle = Meteor.subscribe('users.loggedIn');
   const userCountHandle = Meteor.subscribe('users.count');
-  const gamesHandle = Meteor.subscribe('games.allGames');
-  const votingsHandle = Meteor.subscribe('votings.allVotings');
+  const interactionsHandle = Meteor.subscribe('interactions.allInteractions');
   const appStateHandle = Meteor.subscribe('appState.admin');
   const topUsersHandle = Meteor.subscribe('users.liveview.topTen');
 
   const numberOfUsers = Counter.get('users.count');
 
   const isReady =
-    gamesHandle.ready() &&
-    votingsHandle.ready() &&
+    interactionsHandle.ready() &&
     appStateHandle.ready() &&
     userHandle.ready() &&
     userCountHandle.ready() &&
@@ -132,8 +111,7 @@ export default withTracker(() => {
 
   const userIsAdmin = Meteor.userIsAdmin();
 
-  const games = Games.find().fetch();
-  const votings = Votings.find().fetch();
+  const interactions = Interactions.find().fetch();
   const topUsers = Meteor.users
     .find(
       { role: { $ne: 'admin' } },
@@ -146,24 +124,19 @@ export default withTracker(() => {
     .map((u) => ({ ...u, rank: u.rank || numberOfUsers })); // always render a rank
 
   const appState = AppState.findOne() || {};
-  const { gameEnded, hintText, gamesOrder = [], votingToShow, rankDisplayMode = 'ALL' } =
+  const { hintText, interactionsOrder = [], votingToShow, rankDisplayMode = 'ALL' } =
     appState || {};
 
-  const sortedGamesWithVotings = games
-    .sort((a, b) => gamesOrder.indexOf(a._id) - gamesOrder.indexOf(b._id))
-    .map((game) => {
-      if (game.votingId) return { ...game, voting: Votings.findOne(game.votingId) };
-      return game;
-    });
+  const sortedInteractions = interactions.sort(
+    (a, b) => interactionsOrder.indexOf(a._id) - interactionsOrder.indexOf(b._id),
+  );
 
   return {
     isReady,
-    games: sortedGamesWithVotings,
+    interactions: sortedInteractions,
     topUsers,
-    votings,
     votingIdOnLiveview: votingToShow,
     rankDisplayMode,
-    gameEnded,
     hintText,
     numberOfUsers,
     userIsAdmin,

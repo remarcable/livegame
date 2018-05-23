@@ -12,9 +12,6 @@ import ScoreboardList from '../../components/ScoreboardList';
 import VotingChart from '../../components/VotingChart';
 
 import AppState from '../../../api/appState/collection';
-import Votings from '../../../api/votings/collection';
-
-import { updateVotingCounts } from '../../../api/votings/methods';
 
 import { shouldDisplayRank } from '../../../api/appState/rank-display-modes';
 
@@ -80,40 +77,35 @@ const layoutStyles = {
   justifyContent: 'center',
 };
 
-let lastVotingToShowId = null;
-const votingIsReady = new ReactiveVar(false);
+// let lastVotingToShowId = null;
+// const votingIsReady = new ReactiveVar(false);
 
 export default withTracker(() => {
   const currentUserHandle = Meteor.subscribe('users.loggedIn');
   const liveviewHandle = Meteor.subscribe('users.liveview.topTen');
   const appStateHandle = Meteor.subscribe('appState.admin');
-  const votingsHandle = Meteor.subscribe('votings.allVotings');
 
   const appState = AppState.findOne();
-  const { votingToShow = false, rankDisplayMode = 'ALL' } = appState || {};
+  const { rankDisplayMode = 'ALL' } = appState || {};
 
-  const isReady =
-    currentUserHandle.ready() &&
-    liveviewHandle.ready() &&
-    appStateHandle.ready() &&
-    votingsHandle.ready() &&
-    votingIsReady.get();
+  const isReady = currentUserHandle.ready() && liveviewHandle.ready() && appStateHandle.ready();
+  // votingIsReady.get();
 
   // We have to update the votes count to keep it correct
-  Tracker.autorun(() => {
-    const userDataReady = currentUserHandle.ready(); // wait for data for userIsAdmin-check
-    const votingIdUpdated = votingToShow !== lastVotingToShowId;
+  // Tracker.autorun(() => {
+  //   const userDataReady = currentUserHandle.ready(); // wait for data for userIsAdmin-check
+  //   const votingIdUpdated = votingToShow !== lastVotingToShowId;
+  //
+  //   if (userDataReady && votingIdUpdated) {
+  //     votingIsReady.set(false);
+  //     updateVotingCounts.call({ votingId: votingToShow }, () => {
+  //       lastVotingToShowId = votingToShow;
+  //       votingIsReady.set(true);
+  //     });
+  //   }
+  // });
 
-    if (userDataReady && votingIdUpdated) {
-      votingIsReady.set(false);
-      updateVotingCounts.call({ votingId: votingToShow }, () => {
-        lastVotingToShowId = votingToShow;
-        votingIsReady.set(true);
-      });
-    }
-  });
-
-  const showVotingOnLiveView = votingIsReady.get() && !!votingToShow;
+  // const showVotingOnLiveView = votingIsReady.get() && !!votingToShow;
 
   const users = Meteor.users
     .find(
@@ -138,18 +130,18 @@ export default withTracker(() => {
       hasAlias: !!alias,
     }));
 
-  const { question, yesVotes, noVotes } = Votings.findOne({ _id: votingToShow }) || {};
-
-  const totalVotes = yesVotes + noVotes;
-  const yesPercentage = Math.round(yesVotes / totalVotes * 100);
-  const noPercentage = 100 - yesPercentage;
+  // const { question, yesVotes, noVotes } = Votings.findOne({ _id: votingToShow }) || {};
+  //
+  // const totalVotes = yesVotes + noVotes;
+  // const yesPercentage = Math.round(yesVotes / totalVotes * 100);
+  // const noPercentage = 100 - yesPercentage;
 
   return isReady
     ? {
         users,
         isReady,
-        showVotingOnLiveView,
-        voting: { yesPercentage, noPercentage, question },
+        // showVotingOnLiveView,
+        // voting: { yesPercentage, noPercentage, question },
       }
     : { isReady };
 })(LiveViewLayout);

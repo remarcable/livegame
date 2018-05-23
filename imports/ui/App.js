@@ -7,15 +7,16 @@ import 'normalize.css';
 
 import muiTheme from './components/theme';
 import MainLayout from './Layouts/MainLayout';
-import LoadingPage from './Pages/Loading';
+import FullPageLoading from './Pages/Loading/FullPageLoading';
 
 const App = () => (
   <MuiThemeProvider muiTheme={muiTheme}>
     <Router>
       <Switch>
-        <Route exact path="/admin" component={AdminLayoutLoadable} />
-        <Route exact path="/admin/users" component={AdminUserListLayoutLoadable} />
-        <Route exact path="/admin/liveview" component={LiveViewLayoutLoadable} />
+        <Route exact path="/admin" component={AdminShowScreenLoadable} />
+        <Route exact path="/admin/edit" component={AdminEditScreenLoadable} />
+        <Route exact path="/admin/users" component={UserListPageLoadable} />
+        <Route exact path="/admin/liveview" component={LiveViewScreenLoadable} />
         <Route component={MainLayout} />
       </Switch>
     </Router>
@@ -24,20 +25,30 @@ const App = () => (
 
 export default App;
 
-const AdminLayoutLoadable = Loadable({
-  loader: () => import('./Layouts/AdminLayout'),
-  loading: LoadingPage,
+const AdminShowScreenLoadable = Loadable({
+  loader: () => import('./Pages/Admin/ShowScreen'),
+  loading: FullPageLoading,
   delay: 200,
+  timeout: 10000,
 });
 
-const AdminUserListLayoutLoadable = Loadable({
-  loader: () => import('./Pages/UserList'),
-  loading: LoadingPage,
+const AdminEditScreenLoadable = Loadable({
+  loader: () => import('./Pages/Admin/EditScreen'),
+  loading: FullPageLoading,
   delay: 200,
+  timeout: 10000,
 });
 
-const LiveViewLayoutLoadable = Loadable({
-  loader: () => import('./Layouts/LiveViewLayout'),
-  loading: LoadingPage,
+const UserListPageLoadable = Loadable({
+  loader: () => import('./Pages/Admin/UserList'),
+  loading: FullPageLoading,
   delay: 200,
+  timeout: 10000,
+});
+
+const LiveViewScreenLoadable = Loadable({
+  loader: () => import('./Pages/Admin/LiveViewScreen'),
+  loading: FullPageLoading,
+  delay: 200,
+  timeout: 10000,
 });

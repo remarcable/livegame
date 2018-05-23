@@ -14,6 +14,8 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 
+import AdminLayout from '/imports/ui/Layouts/AdminLayout';
+
 const propTypes = {
   users: PropTypes.array.isRequired,
   minRank: PropTypes.number.isRequired,
@@ -28,21 +30,23 @@ const tablePropTypes = {
 };
 
 const UserListPage = ({ users, minRank, maxRank, minPoints, maxPoints, isReady }) => (
-  <div style={styles}>
-    <h2>Teilnehmer</h2>
-    {users.length ? (
-      <div style={styles}>
-        <span>
-          Rang von {minRank} bis {maxRank}. Punkte von {minPoints} bis {maxPoints}.
-        </span>
-        <Paper zDepth={2} style={paperStyles}>
-          {isReady && <UserTable users={users} />}
-        </Paper>
-      </div>
-    ) : (
-      <span>Keine Nutzer</span>
-    )}
-  </div>
+  <AdminLayout>
+    <div style={styles}>
+      <h2>Teilnehmer</h2>
+      {users.length ? (
+        <div style={styles}>
+          <span>
+            Rang von {minRank} bis {maxRank}. Punkte von {minPoints} bis {maxPoints}.
+          </span>
+          <Paper zDepth={2} style={paperStyles}>
+            {isReady && <UserTable users={users} />}
+          </Paper>
+        </div>
+      ) : (
+        <span>Keine Nutzer</span>
+      )}
+    </div>
+  </AdminLayout>
 );
 
 const UserTable = ({ users }) => (

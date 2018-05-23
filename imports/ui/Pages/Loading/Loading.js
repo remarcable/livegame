@@ -6,18 +6,22 @@ import { theme } from '../../components/theme';
 
 const propTypes = {
   wrapperStyles: PropTypes.object,
+  children: PropTypes.node,
+  text: PropTypes.string,
 };
 
-const Loading = ({ wrapperStyles = {} }) => (
+const Loading = ({ wrapperStyles = {}, text = 'Lädt...', children = null }) => (
   <div style={{ ...wrapperStyles, ...styles }}>
     <CircularProgress size={60} />
-    <span style={{ margin: theme.spacing.desktopGutter, textAlign: 'center' }}>Lädt...</span>
+    <span style={{ margin: theme.spacing.desktopGutter, textAlign: 'center' }}>{text}</span>
+    {children}
   </div>
 );
 
 Loading.propTypes = propTypes;
 
 const styles = {
+  height: '100%',
   width: '100%',
   display: 'flex',
   alignItems: 'center',

@@ -5,14 +5,28 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import { theme } from '../../components/theme';
+import { theme } from '/imports/ui/components/theme';
 
 const AdminLoginPage = () => (
   <div style={wrapperStyles}>
     <h1 style={{ textAlign: 'center' }}>Admin</h1>
+    {Meteor.userId() && !Meteor.userIsAdmin() && <LoggedInAsAdminNotice />}
     <form style={styles} onSubmit={handleOnSubmit}>
-      <TextField floatingLabelText="Benutzername" name="username" fullWidth required />
-      <TextField floatingLabelText="Passwort" name="password" type="password" fullWidth required />
+      <TextField
+        floatingLabelText="Benutzername"
+        name="username"
+        autoComplete="username"
+        fullWidth
+        required
+      />
+      <TextField
+        floatingLabelText="Passwort"
+        name="password"
+        type="password"
+        autoComplete="current-password"
+        fullWidth
+        required
+      />
       <RaisedButton
         label="Anmelden"
         secondary
@@ -22,6 +36,12 @@ const AdminLoginPage = () => (
       />
     </form>
   </div>
+);
+
+const LoggedInAsAdminNotice = () => (
+  <span style={{ color: theme.palette.secondaryTextColor }}>
+    Sie sind angemeldet, aber nicht als Admin.
+  </span>
 );
 
 const handleOnSubmit = (e) => {

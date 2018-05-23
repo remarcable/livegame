@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { check } from 'meteor/check';
 
-Accounts.registerLoginHandler(({ firstName, lastName }) => {
+Accounts.registerLoginHandler('name', ({ firstName, lastName }) => {
   check(firstName, String);
   check(lastName, String);
 

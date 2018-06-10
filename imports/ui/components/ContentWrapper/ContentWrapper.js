@@ -155,19 +155,17 @@ class ContentWrapper extends Component {
     }
   };
 
-  render() {
-    return (
-      <div style={styles}>
-        {this.renderPage()}
-        <Snackbar
-          open={this.state.snackbarOpen}
-          message={this.state.snackbarMessage}
-          autoHideDuration={3000}
-          onRequestClose={this.handleSnackbarRequestClose}
-        />
-      </div>
-    );
-  }
+  render = () => (
+    <div style={styles}>
+      {this.renderPage()}
+      <Snackbar
+        open={this.state.snackbarOpen}
+        message={this.state.snackbarMessage}
+        autoHideDuration={3000}
+        onRequestClose={this.handleSnackbarRequestClose}
+      />
+    </div>
+  );
 }
 
 ContentWrapper.propTypes = propTypes;

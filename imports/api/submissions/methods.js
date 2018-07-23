@@ -25,9 +25,9 @@ export const submit = new ValidatedMethod({
     const currentInteraction = Interactions.findOne({ state: interactionStates.ACTIVE });
     if (!currentInteraction) throw new Meteor.Error('No active interaction');
     const interactionId = currentInteraction._id;
-    const hasAlreadyAnswered = Submissions.findOne({ userId, interactionId });
+    const hasAlreadyAnswered = !!Submissions.findOne({ userId, interactionId });
     if (hasAlreadyAnswered) {
-      throw new Meteor.Error('Already submitted for this interaction');
+      throw new Meteor.Error('submissions.insert.duplicate');
     }
 
     Submissions.insert({ userId, interactionId, value });

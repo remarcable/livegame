@@ -8,7 +8,7 @@ import { userIsAdminMixin } from '/imports/api/helpers/validatedMethodMixins';
 import Interactions from './collection';
 import AppState from '../appState/collection';
 
-import * as interactionTypes from './interactionTypes';
+import * as interactionTypes from './types';
 import * as interactionStates from './interactionStates';
 
 // TODO: Put validation in own functions / files
@@ -40,8 +40,28 @@ export const stopInteraction = new ValidatedMethod({
   },
 });
 
+export const previousInteraction = new ValidatedMethod({
+  name: 'interactions.previousInteraction',
+  mixins: [userIsAdminMixin],
+  validate: null,
+  run() {
+    const { previous } = Interactions.findOne({ state: interactionStates.ACTIVE });
+    startInteraction.call({ interactionId: previous });
+  },
+});
+
+export const nextInteraction = new ValidatedMethod({
+  name: 'interactions.nextInteraction',
+  mixins: [userIsAdminMixin],
+  validate: null,
+  run() {
+    const { next } = Interactions.findOne({ state: interactionStates.ACTIVE });
+    startInteraction.call({ interactionId: next });
+  },
+});
+
+// TODO: muss (genauso wie updateInteraction) super generisch sein. So, dass nur durch das Schema klar wird, welche Werte gebraucht werden und welche nicht und diese dann automatisch hier created werden können
 export const createInteraction = new ValidatedMethod({
-  // TODO: ersetzen durch createVoting, createEstimation, ...?
   name: 'interactions.create',
   mixins: [userIsAdminMixin],
   validate({ interactionType, question, answer }) {

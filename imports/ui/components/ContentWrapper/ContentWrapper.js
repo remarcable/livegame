@@ -12,7 +12,7 @@ import Interactions from '../../../api/interactions/collection';
 import Submissions from '../../../api/submissions/collection';
 
 import * as interactionStates from '../../../api/interactions/interactionStates';
-import * as interactionTypes from '../../../api/interactions/interactionTypes';
+import * as interactionTypes from '../../../api/interactions/types';
 
 import LoginPage from '../../Pages/Login';
 import ActiveGamePage from '../../Pages/ActiveGame';

@@ -1,4 +1,4 @@
-import * as interactionTypes from '/imports/api/interactions/interactionTypes';
+import * as interactionTypes from '/imports/api/interactions/types';
 
 import FullShowVoting from './FullShowVoting';
 import FullShowWaiting from './FullShowWaiting';

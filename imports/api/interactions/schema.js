@@ -1,8 +1,8 @@
 import SimpleSchema from 'simpl-schema';
-import * as interactionTypes from './interactionTypes';
+import * as interactionTypes from './types';
 import * as interactionStates from './interactionStates';
 
-import interactionTypeToSubSchema from './interactionTypes/types';
+import interactionTypeToSubSchema from './types/definitions';
 
 SimpleSchema.extendOptions(['index']); // fix tests, doesn't do anything in production
 

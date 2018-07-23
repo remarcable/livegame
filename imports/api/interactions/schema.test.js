@@ -1,6 +1,6 @@
 /* globals describe, it, expect */
 import SimpleSchema from 'simpl-schema';
-import * as InteractionTypes from './interactionTypes';
+import * as InteractionTypes from './types';
 import interactionsSchema from './schema';
 
 const estimationGame = {

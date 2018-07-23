@@ -8,7 +8,7 @@ import { rankUsers as calculateRanks } from './calculate-points/scoringAlgorithm
 import Interactions from '../interactions/collection';
 import Submissions from '../submissions/collection';
 
-import * as interactionTypes from '../interactions/interactionTypes';
+import * as interactionTypes from '../interactions/types';
 
 /* eslint-disable import/prefer-default-export */
 export const calculateScores = new ValidatedMethod({

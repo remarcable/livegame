@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import GameCard from '../GameCard';
 import VotingCard from '../GameCard/VotingCard';
 
-import * as interactionTypes from '/imports/api/interactions/interactionTypes';
+import * as interactionTypes from '/imports/api/interactions/types';
 
 const propTypes = {
   interactions: PropTypes.array.isRequired, // TODO

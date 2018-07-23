@@ -1,11 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 
 import Interactions from '../collection';
+import * as interactionStates from '../interactionStates';
 
 Meteor.publish('interactions.active', function interactionsActivePublication() {
   if (!this.userId) return this.ready();
   return Interactions.find(
-    { state: 'ACTIVE' }, // TODO use interactionStates
+    { state: interactionStates.ACTIVE },
     {
       fields: {
         question: 1,

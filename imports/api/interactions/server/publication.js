@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 import Interactions from '../collection';
-import * as interactionStates from '../interactionStates';
+import * as interactionStates from '../states';
 
 Meteor.publish('interactions.active', function interactionsActivePublication() {
   if (!this.userId) return this.ready();

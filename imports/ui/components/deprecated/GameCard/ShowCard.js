@@ -16,7 +16,7 @@ import {
 
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 
-import * as interactionStates from '../../../api/interactions/interactionStates';
+import * as interactionStates from '../../../api/interactions/states';
 
 const propTypes = {
   id: PropTypes.string.isRequired,

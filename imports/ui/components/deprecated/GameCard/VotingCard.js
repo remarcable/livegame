@@ -6,7 +6,7 @@ import LightBulbIcon from 'material-ui/svg-icons/action/lightbulb-outline';
 
 import ShowCard from './ShowCard';
 
-import * as interactionStates from '../../../api/interactions/interactionStates';
+import * as interactionStates from '../../../api/interactions/states';
 
 const propTypes = {
   id: PropTypes.string.isRequired,

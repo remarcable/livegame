@@ -7,7 +7,7 @@ import { userIsLoggedInMixin } from '/imports/api/helpers/validatedMethodMixins'
 import Submissions from './collection';
 import Interactions from '../interactions/collection';
 
-import * as interactionStates from '../interactions/interactionStates';
+import * as interactionStates from '../interactions/states';
 
 /* eslint-disable import/prefer-default-export */
 export const submit = new ValidatedMethod({

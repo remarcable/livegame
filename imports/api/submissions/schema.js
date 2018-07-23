@@ -11,6 +11,7 @@ const submissionSchema = new SimpleSchema({
   },
   value: {
     type: SimpleSchema.oneOf(Number, String), // TODO: see imports/api/submissions/methods.js for comment
+    index: 1,
   },
   createdAt: {
     type: Date,

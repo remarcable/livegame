@@ -1,5 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
+
+import { userIsAdminMixin } from '/imports/api/helpers/validatedMethodMixins';
+
 import { rankUsers as calculateRanks } from './calculate-points/scoringAlgorithm';
 
 import Interactions from '../interactions/collection';
@@ -10,9 +13,9 @@ import * as interactionTypes from '../interactions/interactionTypes';
 /* eslint-disable import/prefer-default-export */
 export const calculateScores = new ValidatedMethod({
   name: 'ranking.calculateScore',
+  mixins: [userIsAdminMixin],
   validate: null,
   run() {
-    Meteor.ensureUserIsAdmin(this.userId);
     if (this.isSimulation) return;
 
     this.unblock();

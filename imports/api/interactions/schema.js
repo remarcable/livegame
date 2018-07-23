@@ -2,13 +2,11 @@ import SimpleSchema from 'simpl-schema';
 import * as interactionTypes from './interactionTypes';
 import * as interactionStates from './interactionStates';
 
-import { fullShowVotingSubSchema } from './interactionTypes/fullShowVoting';
-import { estimationGameSubSchema, estimationVotingSubSchema } from './interactionTypes/estimation';
-import { announcementSubSchema } from './interactionTypes/announcement';
+import interactionTypeToSubSchema from './interactionTypes/types';
 
 SimpleSchema.extendOptions(['index']); // fix tests, doesn't do anything in production
 
-export const rawSchema = {
+const baseSchema = {
   type: {
     type: String,
     allowedValues: Object.keys(interactionTypes),
@@ -36,11 +34,15 @@ export const rawSchema = {
     optional: 1,
     index: 1,
   },
-
-  ...fullShowVotingSubSchema,
-  ...estimationGameSubSchema,
-  ...estimationVotingSubSchema,
-  ...announcementSubSchema,
 };
 
-export default new SimpleSchema(rawSchema);
+// convert (the MapIterable) subSchemas.values() to an array
+// and create schema object from base schema and all subschemas
+const schema = [...interactionTypeToSubSchema.values()].reduce(
+  (obj, subSchema) => ({ ...obj, ...subSchema }),
+  {
+    ...baseSchema,
+  },
+);
+
+export default new SimpleSchema(schema);

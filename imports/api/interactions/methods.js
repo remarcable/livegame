@@ -29,6 +29,7 @@ export const startInteraction = new ValidatedMethod({
 });
 
 export const stopInteraction = new ValidatedMethod({
+  // should not be necessary, rather something like "emergency stop"
   name: 'interactions.stopInteraction',
   mixins: [userIsAdminMixin],
   validate: new SimpleSchema({
@@ -40,13 +41,14 @@ export const stopInteraction = new ValidatedMethod({
 });
 
 export const createInteraction = new ValidatedMethod({
+  // TODO: ersetzen durch createVoting, createEstimation, ...?
   name: 'interactions.create',
   mixins: [userIsAdminMixin],
   validate({ interactionType, question, answer }) {
-    if (interactionType === interactionTypes.GUESSING_GAME) {
+    if (interactionType === interactionTypes.ESTIMATION_GAME) {
       check(question, String);
       check(answer, Number);
-    } else if (interactionType === interactionTypes.GUESSING_VOTING) {
+    } else if (interactionType === interactionTypes.ESTIMATION_VOTING) {
       check(question, String);
     } else {
       throw new ValidationError([
@@ -60,13 +62,13 @@ export const createInteraction = new ValidatedMethod({
   run({ interactionType, question, answer }) {
     let id;
     switch (interactionType) {
-      case interactionTypes.GUESSING_GAME: {
-        id = Interactions.insert({ type: interactionType, guessingGame: { question, answer } });
+      case interactionTypes.ESTIMATION_GAME: {
+        id = Interactions.insert({ type: interactionType, estimationGame: { question, answer } });
         break;
       }
 
-      case interactionTypes.GUESSING_VOTING: {
-        id = Interactions.insert({ type: interactionType, guessingVoting: { question } });
+      case interactionTypes.ESTIMATION_VOTING: {
+        id = Interactions.insert({ type: interactionType, estimationVoting: { question } });
         break;
       }
 
@@ -86,7 +88,7 @@ export const updateInteraction = new ValidatedMethod({
     check(id, String);
     const { type: interactionType } = Interactions.findOne(id);
 
-    if (interactionType === interactionTypes.GUESSING_GAME) {
+    if (interactionType === interactionTypes.ESTIMATION_GAME) {
       check(question, String);
 
       if (answer !== null) {
@@ -105,7 +107,7 @@ export const updateInteraction = new ValidatedMethod({
           },
         ]);
       }
-    } else if (interactionType === interactionTypes.GUESSING_VOTING) {
+    } else if (interactionType === interactionTypes.ESTIMATION_VOTING) {
       check(question, String);
     }
   },
@@ -113,18 +115,18 @@ export const updateInteraction = new ValidatedMethod({
     const { type: interactionType } = Interactions.findOne(id);
 
     switch (interactionType) {
-      case interactionTypes.GUESSING_GAME: {
+      case interactionTypes.ESTIMATION_GAME: {
         return Interactions.update(id, {
           $set: {
-            'guessingGame.question': question,
-            'guessingGame.answer': answer,
-            'guessingGame.votingId': votingId,
+            'estimationGame.question': question,
+            'estimationGame.answer': answer,
+            'estimationGame.votingId': votingId,
           },
         });
       }
 
-      case interactionTypes.GUESSING_VOTING: {
-        return Interactions.update(id, { $set: { 'guessingVoting.question': question } });
+      case interactionTypes.ESTIMATION_VOTING: {
+        return Interactions.update(id, { $set: { 'estimationVoting.question': question } });
       }
 
       default:

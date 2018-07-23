@@ -115,7 +115,7 @@ class ContentWrapper extends Component {
 
       showInteraction,
       interactionType,
-      interactionData: { guessingGame, guessingVoting, fullShowVoting, announcement },
+      interactionData: { estimationGame, estimationVoting, fullShowVoting, announcement },
     } = this.props;
 
     if (!isReady) {
@@ -132,15 +132,15 @@ class ContentWrapper extends Component {
     }
 
     switch (interactionType) {
-      case interactionTypes.GUESSING_GAME:
-        return <ActiveGamePage wrapperStyles={wrapperStyles} question={guessingGame.question} />;
-      case interactionTypes.GUESSING_VOTING:
+      case interactionTypes.ESTIMATION_GAME:
+        return <ActiveGamePage wrapperStyles={wrapperStyles} question={estimationGame.question} />;
+      case interactionTypes.ESTIMATION_VOTING:
         return (
-          <ActiveVotingPage wrapperStyles={wrapperStyles} question={guessingVoting.question} />
+          <ActiveVotingPage wrapperStyles={wrapperStyles} question={estimationVoting.question} />
         );
-      case interactionTypes.GUESSING_WAITING:
+      case interactionTypes.ESTIMATION_WAITING:
         return <WaitingPage wrapperStyles={wrapperStyles} hintText={hintText} />;
-      case interactionTypes.GUESSING_ENDED:
+      case interactionTypes.ESTIMATION_ENDED:
         return <GameEndedPage wrapperStyles={wrapperStyles} email={email} />;
 
       case interactionTypes.FULL_SHOW_WAITING:

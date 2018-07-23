@@ -25,11 +25,11 @@ const InteractionsList = ({
     {interactions.map((interaction) => {
       const { _id, type } = interaction;
 
-      if (type === interactionTypes.GUESSING_GAME) {
+      if (type === interactionTypes.ESTIMATION_GAME) {
         return renderGame(interaction, startInteraction, stopInteraction);
       }
 
-      if (type === interactionTypes.GUESSING_VOTING) {
+      if (type === interactionTypes.ESTIMATION_VOTING) {
         return renderVoting(
           { ...interaction, isOnLiveview: _id === currentlyShownOnLiveView },
           startInteraction,
@@ -41,7 +41,7 @@ const InteractionsList = ({
   </div>
 );
 
-function renderGame({ _id, state, guessingGame: { question } }, startInteraction, stopInteraction) {
+function renderGame({ _id, state, estimationGame: { question } }, startInteraction, stopInteraction) {
   return (
     <div key={_id}>
       <GameCard
@@ -57,7 +57,7 @@ function renderGame({ _id, state, guessingGame: { question } }, startInteraction
 }
 
 function renderVoting(
-  { _id, state, guessingVoting: { question }, isOnLiveview },
+  { _id, state, estimationVoting: { question }, isOnLiveview },
   startInteraction,
   stopInteraction,
   showVotingOnLiveView,

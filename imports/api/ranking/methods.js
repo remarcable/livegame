@@ -38,24 +38,24 @@ export const calculateScores = new ValidatedMethod({
     const interactions = Interactions.find(
       {
         type: {
-          $in: [interactionTypes.GUESSING_GAME, interactionTypes.GUESSING_VOTING],
+          $in: [interactionTypes.ESTIMATION_GAME, interactionTypes.ESTIMATION_VOTING],
         },
       },
-      { fields: { guessingGame: 1, type: 1 } },
+      { fields: { estimationGame: 1, type: 1 } },
     ).fetch();
 
     // TODO: write aggregation for this
-    const games = interactions.filter(({ type }) => type === interactionTypes.GUESSING_GAME).map(
-      ({ _id, guessingGame }) =>
-        guessingGame.votingId
+    const games = interactions.filter(({ type }) => type === interactionTypes.ESTIMATION_GAME).map(
+      ({ _id, estimationGame }) =>
+        estimationGame.votingId
           ? {
               _id,
-              ...guessingGame,
+              ...estimationGame,
               answer: getPercentageForVoting(
-                submissions.filter(({ interactionId }) => interactionId === guessingGame.votingId),
+                submissions.filter(({ interactionId }) => interactionId === estimationGame.votingId),
               ),
             }
-          : guessingGame,
+          : estimationGame,
     );
 
     const ranks = calculateRanks(users, games, submissions);

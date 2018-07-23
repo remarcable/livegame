@@ -41,7 +41,7 @@ class EditLayout extends Component {
   };
   onCreateGame = () => {
     const itemId = createInteraction.call({
-      interactionType: interactionTypes.GUESSING_GAME,
+      interactionType: interactionTypes.ESTIMATION_GAME,
       question: 'Neue Frage',
       answer: 0,
     });
@@ -49,7 +49,7 @@ class EditLayout extends Component {
   };
   onCreateVoting = () => {
     const itemId = createInteraction.call({
-      interactionType: interactionTypes.GUESSING_VOTING,
+      interactionType: interactionTypes.ESTIMATION_VOTING,
       question: 'Neues Voting',
     });
     this.setState({ currentlyEditedInteractionItemId: itemId });
@@ -69,11 +69,11 @@ class EditLayout extends Component {
           <>
             <EditList
               games={interactions
-                .filter(({ type }) => type === interactionTypes.GUESSING_GAME)
-                .map((x) => ({ ...x, ...x.guessingGame }))}
+                .filter(({ type }) => type === interactionTypes.ESTIMATION_GAME)
+                .map((x) => ({ ...x, ...x.estimationGame }))}
               votings={interactions
-                .filter(({ type }) => type === interactionTypes.GUESSING_VOTING)
-                .map((x) => ({ ...x, ...x.guessingVoting }))}
+                .filter(({ type }) => type === interactionTypes.ESTIMATION_VOTING)
+                .map((x) => ({ ...x, ...x.estimationVoting }))}
               startEditing={this.onStartEditingInteraction}
               deleteGame={this.onDeleteInteraction}
               saveEntry={this.onSaveInteraction}
@@ -86,8 +86,8 @@ class EditLayout extends Component {
 
             <VotingEditList
               votings={interactions
-                .filter(({ type }) => type === interactionTypes.GUESSING_VOTING)
-                .map((x) => ({ ...x, ...x.guessingVoting }))}
+                .filter(({ type }) => type === interactionTypes.ESTIMATION_VOTING)
+                .map((x) => ({ ...x, ...x.estimationVoting }))}
               startEditing={this.onStartEditingInteraction}
               deleteVoting={this.onDeleteInteraction}
               saveEntry={this.onSaveInteraction}

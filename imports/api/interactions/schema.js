@@ -33,20 +33,20 @@ export const rawSchema = {
     index: 1,
   },
 
-  guessingGame: {
+  estimationGame: {
     type: Object,
     optional: true,
     custom() {
-      return hasOnlyAllowedFieldSet({ forType: interactionTypes.GUESSING_GAME, details: this });
+      return hasOnlyAllowedFieldSet({ forType: interactionTypes.ESTIMATION_GAME, details: this });
     },
   },
-  'guessingGame.question': String,
-  'guessingGame.answer': {
+  'estimationGame.question': String,
+  'estimationGame.answer': {
     type: Number,
     optional: true,
     custom() {
       const answer = this.value;
-      const votingId = this.field('guessingGame.votingId').value;
+      const votingId = this.field('estimationGame.votingId').value;
       // undefined check because answer could be 0
       if (answer === undefined && !votingId) {
         return isInSchemaRequired(this);
@@ -55,12 +55,12 @@ export const rawSchema = {
       }
     },
   },
-  'guessingGame.votingId': {
+  'estimationGame.votingId': {
     type: SimpleSchema.RegEx.Id,
     optional: true,
     custom() {
       const votingId = this.value;
-      const answer = this.field('guessingGame.answer').value;
+      const answer = this.field('estimationGame.answer').value;
       // undefined check because answer could be 0
       if (answer === undefined && !votingId) {
         return isInSchemaRequired(this);
@@ -70,20 +70,20 @@ export const rawSchema = {
     },
   },
 
-  guessingVoting: {
+  estimationVoting: {
     type: Object,
     optional: true,
     custom() {
-      return hasOnlyAllowedFieldSet({ forType: interactionTypes.GUESSING_VOTING, details: this });
+      return hasOnlyAllowedFieldSet({ forType: interactionTypes.ESTIMATION_VOTING, details: this });
     },
   },
-  'guessingVoting.question': String,
-  'guessingVoting.accumulatedYesVotes': {
+  'estimationVoting.question': String,
+  'estimationVoting.accumulatedYesVotes': {
     type: Number,
     optional: true,
     defaultValue: null,
   },
-  'guessingVoting.accumulatedNoVotes': {
+  'estimationVoting.accumulatedNoVotes': {
     type: Number,
     optional: true,
     defaultValue: null,

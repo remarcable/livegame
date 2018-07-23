@@ -19,6 +19,20 @@ export const rawSchema = {
     index: 1,
   },
 
+  previous: {
+    type: SimpleSchema.RegEx.Id,
+    defaultValue: null,
+    optional: 1,
+    index: 1,
+  },
+
+  next: {
+    type: SimpleSchema.RegEx.Id,
+    defaultValue: null,
+    optional: 1,
+    index: 1,
+  },
+
   guessingGame: {
     type: Object,
     optional: true,

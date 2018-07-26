@@ -18,9 +18,13 @@ export const estimationGameSubSchema = {
       return hasOnlyAllowedFieldSet({ forType: ESTIMATION_GAME, details: this });
     },
   },
-  'estimationGame.question': String,
+  'estimationGame.question': {
+    type: String,
+    label: 'Frage',
+  },
   'estimationGame.answer': {
     type: Number,
+    label: 'Antwort',
     optional: true,
     custom() {
       const answer = this.value;
@@ -35,6 +39,7 @@ export const estimationGameSubSchema = {
   },
   'estimationGame.votingId': {
     type: SimpleSchema.RegEx.Id,
+    label: 'Voting',
     optional: true,
     custom() {
       const votingId = this.value;

@@ -11,9 +11,13 @@ export const fullShowVotingSubSchema = {
       return hasOnlyAllowedFieldSet({ forType: FULL_SHOW_VOTING, details: this });
     },
   },
-  'fullShowVoting.question': String,
+  'fullShowVoting.question': {
+    type: String,
+    label: 'Frage',
+  },
   'fullShowVoting.result': {
     type: String,
+    label: 'Ergebnis',
     optional: true,
     defaultValue: null,
   },

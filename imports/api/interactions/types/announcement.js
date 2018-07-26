@@ -10,7 +10,16 @@ export const announcementSubSchema = {
       return hasOnlyAllowedFieldSet({ forType: ANNOUNCEMENT, details: this });
     },
   },
-  'announcement.template': String,
-  'announcement.title': String,
-  'announcement.body': String,
+  'announcement.template': {
+    type: String,
+    label: 'Template',
+  },
+  'announcement.title': {
+    type: String,
+    label: 'Titel',
+  },
+  'announcement.body': {
+    type: String,
+    label: 'Body',
+  },
 };

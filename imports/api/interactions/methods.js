@@ -8,7 +8,7 @@ import { userIsAdminMixin } from '/imports/api/helpers/validatedMethodMixins';
 import Interactions from './collection';
 import AppState from '../appState/collection';
 
-import * as interactionTypes from './types';
+import interactionTypes from './types';
 import * as interactionStates from './states';
 
 // TODO: Put validation in own functions / files

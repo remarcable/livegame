@@ -8,7 +8,7 @@ import { rankUsers as calculateRanks } from './calculate-points/scoringAlgorithm
 import Interactions from '../interactions/collection';
 import Submissions from '../submissions/collection';
 
-import * as interactionTypes from '../interactions/types';
+import interactionTypes from '../interactions/types';
 
 /* eslint-disable import/prefer-default-export */
 export const calculateScores = new ValidatedMethod({
@@ -52,7 +52,9 @@ export const calculateScores = new ValidatedMethod({
               _id,
               ...estimationGame,
               answer: getPercentageForVoting(
-                submissions.filter(({ interactionId }) => interactionId === estimationGame.votingId),
+                submissions.filter(
+                  ({ interactionId }) => interactionId === estimationGame.votingId,
+                ),
               ),
             }
           : estimationGame,

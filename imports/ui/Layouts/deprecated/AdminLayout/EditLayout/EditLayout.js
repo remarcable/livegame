@@ -18,7 +18,7 @@ import {
   updateInteractionsOrder,
 } from '../../../../api/interactions/methods';
 
-import * as interactionTypes from '../../../../api/interactions/types';
+import interactionTypes from '../../../../api/interactions/types';
 
 const propTypes = {
   interactions: PropTypes.array.isRequired, // TODO

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import GameCard from '../GameCard';
 import VotingCard from '../GameCard/VotingCard';
 
-import * as interactionTypes from '/imports/api/interactions/types';
+import interactionTypes from '/imports/api/interactions/types';
 
 const propTypes = {
   interactions: PropTypes.array.isRequired, // TODO
@@ -41,7 +41,11 @@ const InteractionsList = ({
   </div>
 );
 
-function renderGame({ _id, state, estimationGame: { question } }, startInteraction, stopInteraction) {
+function renderGame(
+  { _id, state, estimationGame: { question } },
+  startInteraction,
+  stopInteraction,
+) {
   return (
     <div key={_id}>
       <GameCard

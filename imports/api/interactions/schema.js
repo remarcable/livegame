@@ -1,5 +1,5 @@
 import SimpleSchema from 'simpl-schema';
-import * as interactionTypes from './types';
+import interactionTypes from './types';
 import * as interactionStates from './states';
 
 import interactionTypeToSubSchema from './types/definitions';

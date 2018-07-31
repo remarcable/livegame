@@ -8,14 +8,17 @@ export const announcement = new InteractionType({
     template: {
       type: String,
       label: 'Template',
+      publish: true,
     },
     title: {
       type: String,
       label: 'Titel',
+      publish: true,
     },
     body: {
       type: String,
       label: 'Body',
+      publish: true,
     },
   },
 });

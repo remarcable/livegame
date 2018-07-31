@@ -39,6 +39,11 @@ export default class InteractionType {
     return Object.assign({}, this.fields);
   }
 
+  getPublishFields() {
+    const subSchema = this.getSubSchema();
+    return Object.keys(subSchema).filter((key) => subSchema[key].publish);
+  }
+
   getSubSchema() {
     const hasSubSchema = this.schemaKey && this.fields;
     if (!hasSubSchema) {

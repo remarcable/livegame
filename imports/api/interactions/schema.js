@@ -2,7 +2,9 @@ import SimpleSchema from 'simpl-schema';
 import interactionTypes from './types';
 import * as interactionStates from './states';
 
-SimpleSchema.extendOptions(['index']); // fix tests, doesn't do anything in production
+// "index" is there to fix tests with jest,
+// "publish" defines whether a field should be published to players
+SimpleSchema.extendOptions(['index', 'publish']);
 
 const baseSchema = {
   type: {

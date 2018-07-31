@@ -10,6 +10,7 @@ export const estimationGame = new InteractionType({
     question: {
       type: String,
       label: 'Frage',
+      publish: true,
     },
     answer: {
       type: Number,
@@ -57,7 +58,10 @@ export const estimationVoting = new InteractionType({
   typeName: 'ESTIMATION_VOTING',
   schemaKey: 'estimationVoting',
   fields: {
-    question: String,
+    question: {
+      type: String,
+      publish: true,
+    },
     accumulatedYesVotes: {
       type: Number,
       optional: true,

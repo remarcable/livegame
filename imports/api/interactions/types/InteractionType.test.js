@@ -108,6 +108,43 @@ describe('InteractionType({typeName, schemaKey, fields})', () => {
     });
   });
 
+  describe('getPublishFields()', () => {
+    it('returns the fields with "publish: true"', () => {
+      const interactionType = new InteractionType({
+        typeName: 'TYPE_NAME',
+        schemaKey: 'myTypeName',
+        fields: {
+          key: {
+            type: Number,
+            publish: true,
+          },
+          key2: {
+            type: String,
+            optional: true,
+          },
+        },
+      });
+      expect(interactionType.getPublishFields()).toEqual(['myTypeName.key']);
+    });
+
+    it('can handle shorthand schema definitions', () => {
+      const interactionType = new InteractionType({
+        typeName: 'TYPE_NAME',
+        schemaKey: 'typeName',
+        fields: {
+          key: {
+            type: Number,
+            publish: false,
+          },
+          key2: String,
+        },
+      });
+
+      expect(() => interactionType.getPublishFields()).not.toThrow();
+      expect(interactionType.getPublishFields()).toEqual([]);
+    });
+  });
+
   describe('getSubSchema()', () => {
     const fields = { key: Number, key2: String };
     const schemaKey = 'typeName';

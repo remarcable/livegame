@@ -7,12 +7,14 @@ export const fullShowVoting = new InteractionType({
     question: {
       type: String,
       label: 'Frage',
+      publish: true,
     },
     result: {
       type: String,
       label: 'Ergebnis',
       optional: true,
       defaultValue: null,
+      publish: true,
     },
   },
 });

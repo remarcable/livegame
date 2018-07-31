@@ -1,23 +1,27 @@
 import { Meteor } from 'meteor/meteor';
 
 import Interactions from '../collection';
+import interactionTypes from '../types';
 import * as interactionStates from '../states';
 
 Meteor.publish('interactions.active', function interactionsActivePublication() {
   if (!this.userId) return this.ready();
+
+  // get all interactionTypes and its fields that should be published
+  // and create an object from it for the mongo query
+  const fieldsToPublish = [...interactionTypes.values()]
+    .map((type) => type.getPublishFields())
+    .reduce((arr, val) => [...arr, ...val], [])
+    .reduce((obj, val) => ({ ...obj, [val]: 1 }), {});
+
   return Interactions.find(
     { state: interactionStates.ACTIVE },
     {
       fields: {
-        question: 1,
         state: 1,
         type: 1,
-        'estimationGame.question': 1,
-        'estimationVoting.question': 1,
-        'fullShowVoting.question': 1,
-        'announcement.template': 1,
-        'announcement.title': 1,
-        'announcement.body': 1,
+
+        ...fieldsToPublish,
       },
       limit: 1,
     },

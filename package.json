@@ -102,5 +102,10 @@
     "singleQuote": true,
     "trailingComma": "all",
     "arrowParens": "always"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^meteor/(.*)": "<rootDir>/.meteorMocks/index.js"
+    }
   }
 }

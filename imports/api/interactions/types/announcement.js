@@ -1,25 +1,21 @@
-import { hasOnlyAllowedFieldSet } from '/imports/api/helpers';
+import InteractionType from './InteractionType';
 
-export const ANNOUNCEMENT = 'ANNOUNCEMENT';
-
-export const announcementSubSchema = {
-  announcement: {
-    type: Object,
-    optional: true,
-    custom() {
-      return hasOnlyAllowedFieldSet({ forType: ANNOUNCEMENT, details: this });
+// eslint-disable-next-line import/prefer-default-export
+export const announcement = new InteractionType({
+  typeName: 'ANNOUNCEMENT',
+  schemaKey: 'announcement',
+  fields: {
+    template: {
+      type: String,
+      label: 'Template',
+    },
+    title: {
+      type: String,
+      label: 'Titel',
+    },
+    body: {
+      type: String,
+      label: 'Body',
     },
   },
-  'announcement.template': {
-    type: String,
-    label: 'Template',
-  },
-  'announcement.title': {
-    type: String,
-    label: 'Titel',
-  },
-  'announcement.body': {
-    type: String,
-    label: 'Body',
-  },
-};
+});

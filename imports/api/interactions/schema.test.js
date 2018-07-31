@@ -1,9 +1,9 @@
-import interactionTypes from './types';
+import { typeNames } from './types';
 import interactionsSchema from './schema';
 
 const estimationGame = {
   question: 'question',
-  answer: 5,
+  votingId: 'fFrfaL4JDbnHRNc7H',
 };
 
 const estimationVoting = {
@@ -24,10 +24,10 @@ const announcement = {
 describe('interactionsSchema', () => {
   it('validates correct object', () => {
     const objects = [
-      { type: interactionTypes.ESTIMATION_GAME, estimationGame },
-      { type: interactionTypes.ESTIMATION_VOTING, estimationVoting },
-      { type: interactionTypes.FULL_SHOW_VOTING, fullShowVoting },
-      { type: interactionTypes.ANNOUNCEMENT, announcement },
+      { type: typeNames().ESTIMATION_GAME, estimationGame },
+      { type: typeNames().ESTIMATION_VOTING, estimationVoting },
+      { type: typeNames().FULL_SHOW_VOTING, fullShowVoting },
+      { type: typeNames().ANNOUNCEMENT, announcement },
     ];
 
     expect(() => interactionsSchema.validate(objects)).not.toThrow();
@@ -35,24 +35,28 @@ describe('interactionsSchema', () => {
 
   it('throws when more than one key is set', () => {
     const wrongObject1 = {
-      type: interactionTypes.ESTIMATION_GAME,
+      type: typeNames().ESTIMATION_GAME,
       estimationGame,
       estimationVoting,
     };
 
     const wrongObject2 = {
-      type: interactionTypes.ESTIMATION_VOTING,
+      type: typeNames().ESTIMATION_VOTING,
       estimationGame,
       estimationVoting,
     };
 
-    expect(() => interactionsSchema.validate(wrongObject1)).toThrow();
-    expect(() => interactionsSchema.validate(wrongObject2)).toThrow();
+    expect(() => interactionsSchema.validate(wrongObject1)).toThrow(
+      'estimationVoting is not allowed by the schema',
+    );
+    expect(() => interactionsSchema.validate(wrongObject2)).toThrow(
+      'estimationGame is not allowed by the schema',
+    );
   });
 
   it('only allows exactly one of estimationGame.answer and estimationGame.votingId', () => {
     const correctObject1 = {
-      type: interactionTypes.ESTIMATION_GAME,
+      type: typeNames().ESTIMATION_GAME,
       estimationGame: {
         question: 'question',
         answer: 100,
@@ -60,7 +64,7 @@ describe('interactionsSchema', () => {
     };
 
     const correctObject2 = {
-      type: interactionTypes.ESTIMATION_GAME,
+      type: typeNames().ESTIMATION_GAME,
       estimationGame: {
         question: 'question',
         votingId: 'ABCABCABCABCABCAB',
@@ -68,7 +72,7 @@ describe('interactionsSchema', () => {
     };
 
     const correctObject3 = {
-      type: interactionTypes.ESTIMATION_GAME,
+      type: typeNames().ESTIMATION_GAME,
       estimationGame: {
         question: 'question',
         answer: 0,
@@ -76,7 +80,7 @@ describe('interactionsSchema', () => {
     };
 
     const wrongObject1 = {
-      type: interactionTypes.ESTIMATION_GAME,
+      type: typeNames().ESTIMATION_GAME,
       estimationGame: {
         question: 'question',
         answer: 100,
@@ -85,7 +89,7 @@ describe('interactionsSchema', () => {
     };
 
     const wrongObject2 = {
-      type: interactionTypes.ESTIMATION_GAME,
+      type: typeNames().ESTIMATION_GAME,
       estimationGame: {
         question: 'question',
       },
@@ -95,7 +99,9 @@ describe('interactionsSchema', () => {
     expect(() => interactionsSchema.validate(correctObject2)).not.toThrow();
     expect(() => interactionsSchema.validate(correctObject3)).not.toThrow();
 
-    expect(() => interactionsSchema.validate(wrongObject1)).toThrow();
-    expect(() => interactionsSchema.validate(wrongObject2)).toThrow();
+    expect(() => interactionsSchema.validate(wrongObject1)).toThrow(
+      'estimationGame.answer is not allowed by the schema',
+    );
+    expect(() => interactionsSchema.validate(wrongObject2)).toThrow('Antwort is required');
   });
 });

@@ -1,24 +1,22 @@
-import { hasOnlyAllowedFieldSet } from '/imports/api/helpers';
+import InteractionType from './InteractionType';
 
-export const FULL_SHOW_VOTING = 'FULL_SHOW_VOTING';
-export const FULL_SHOW_WAITING = 'FULL_SHOW_WAITING';
-
-export const fullShowVotingSubSchema = {
-  fullShowVoting: {
-    type: Object,
-    optional: true,
-    custom() {
-      return hasOnlyAllowedFieldSet({ forType: FULL_SHOW_VOTING, details: this });
+export const fullShowVoting = new InteractionType({
+  typeName: 'FULL_SHOW_VOTING',
+  schemaKey: 'fullShowVoting',
+  fields: {
+    question: {
+      type: String,
+      label: 'Frage',
+    },
+    result: {
+      type: String,
+      label: 'Ergebnis',
+      optional: true,
+      defaultValue: null,
     },
   },
-  'fullShowVoting.question': {
-    type: String,
-    label: 'Frage',
-  },
-  'fullShowVoting.result': {
-    type: String,
-    label: 'Ergebnis',
-    optional: true,
-    defaultValue: null,
-  },
-};
+});
+
+export const fullShowWaiting = new InteractionType({
+  typeName: 'FULL_SHOW_WAITING',
+});

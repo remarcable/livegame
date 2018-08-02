@@ -43,7 +43,7 @@ export const previousInteraction = new ValidatedMethod({
   mixins: [userIsAdminMixin],
   validate: null,
   run() {
-    const { previous } = Interactions.findOne({ state: interactionStates.ACTIVE });
+    const { previous } = Interactions.findOne({ state: interactionStates.ACTIVE }) || {};
     if (!previous) {
       throw new Meteor.Error('No previous interaction defined!');
     }
@@ -57,7 +57,7 @@ export const nextInteraction = new ValidatedMethod({
   mixins: [userIsAdminMixin],
   validate: null,
   run() {
-    const { next } = Interactions.findOne({ state: interactionStates.ACTIVE });
+    const { next } = Interactions.findOne({ state: interactionStates.ACTIVE }) || {};
     if (!next) {
       throw new Meteor.Error('No previous interaction defined!');
     }
@@ -86,7 +86,7 @@ export const updateInteractionDetails = new ValidatedMethod({
   mixins: [userIsAdminMixin],
   validate({ id, ...details }) {
     check(id, String);
-    const { type: interactionTypeName, ...interaction } = Interactions.findOne(id);
+    const { type: interactionTypeName, ...interaction } = Interactions.findOne(id) || {};
     const interactionType = interactionTypes.get(interactionTypeName);
     // apply updated fields on fields that are already in the document to not fail validation
     interactionType.validate({ data: { ...interaction[interactionType.schemaKey], ...details } });

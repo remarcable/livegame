@@ -53,22 +53,25 @@ export const estimationGame = new InteractionType({
     originalValidate({ data: transformedData, subSchema });
   },
 });
-
+// TODO: add 'editable: false' property (defaults to true)
 export const estimationVoting = new InteractionType({
   typeName: 'ESTIMATION_VOTING',
   schemaKey: 'estimationVoting',
   fields: {
     question: {
       type: String,
+      label: 'Frage',
       publish: true,
     },
     accumulatedYesVotes: {
       type: Number,
+      label: 'yes votes',
       optional: true,
       defaultValue: null,
     },
     accumulatedNoVotes: {
       type: Number,
+      label: 'no votes',
       optional: true,
       defaultValue: null,
     },

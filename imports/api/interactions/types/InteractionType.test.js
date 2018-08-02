@@ -158,7 +158,6 @@ describe('InteractionType({typeName, schemaKey, fields})', () => {
       const subSchema = interactionType.getSubSchema();
       expect(subSchema[schemaKey].type).toBe(Object);
       expect(subSchema[schemaKey].optional).toBe(true);
-      expect(subSchema[schemaKey].custom).toBeInstanceOf(Function);
 
       expect(subSchema.type).toEqual({ type: String, optional: true });
     });

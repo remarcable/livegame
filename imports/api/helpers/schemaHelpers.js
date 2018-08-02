@@ -1,14 +1,5 @@
 import SimpleSchema from 'simpl-schema';
 
-export function hasOnlyAllowedFieldSet({ forType, details } = {}) {
-  const currentType = details.obj.type;
-  if (forType === currentType) {
-    return isInSchemaRequired(details);
-  }
-
-  return shouldNotBeSetInSchema(details);
-}
-
 export function isInSchemaRequired(details) {
   // inserts
   if (!details.operator) {

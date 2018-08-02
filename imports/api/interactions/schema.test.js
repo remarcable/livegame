@@ -33,27 +33,6 @@ describe('interactionsSchema', () => {
     expect(() => interactionsSchema.validate(objects)).not.toThrow();
   });
 
-  it('throws when more than one key is set', () => {
-    const wrongObject1 = {
-      type: typeNames().ESTIMATION_GAME,
-      estimationGame,
-      estimationVoting,
-    };
-
-    const wrongObject2 = {
-      type: typeNames().ESTIMATION_VOTING,
-      estimationGame,
-      estimationVoting,
-    };
-
-    expect(() => interactionsSchema.validate(wrongObject1)).toThrow(
-      'estimationVoting is not allowed by the schema',
-    );
-    expect(() => interactionsSchema.validate(wrongObject2)).toThrow(
-      'estimationGame is not allowed by the schema',
-    );
-  });
-
   it('only allows exactly one of estimationGame.answer and estimationGame.votingId', () => {
     const correctObject1 = {
       type: typeNames().ESTIMATION_GAME,

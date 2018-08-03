@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import RaisedButton from 'material-ui/RaisedButton';
-
+import theme from '/imports/ui/components/theme';
 import Loading from './Loading';
 
 const propTypes = {

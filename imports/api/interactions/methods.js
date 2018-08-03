@@ -69,10 +69,10 @@ export const nextInteraction = new ValidatedMethod({
 export const createInteraction = new ValidatedMethod({
   name: 'interactions.create',
   mixins: [userIsAdminMixin],
-  validate({ interactionType, ...data }) {
+  validate({ interactionType, data }) {
     interactionTypes.get(interactionType).validate({ data });
   },
-  run({ interactionType, ...data }) {
+  run({ interactionType, data }) {
     const { schemaKey } = interactionTypes.get(interactionType);
     return Interactions.insert({
       type: interactionType,
@@ -84,14 +84,14 @@ export const createInteraction = new ValidatedMethod({
 export const updateInteractionDetails = new ValidatedMethod({
   name: 'interactions.updateDetails',
   mixins: [userIsAdminMixin],
-  validate({ id, ...details }) {
+  validate({ id, data }) {
     check(id, String);
     const { type: interactionTypeName, ...interaction } = Interactions.findOne(id) || {};
     const interactionType = interactionTypes.get(interactionTypeName);
     // apply updated fields on fields that are already in the document to not fail validation
-    interactionType.validate({ data: { ...interaction[interactionType.schemaKey], ...details } });
+    interactionType.validate({ data: { ...interaction[interactionType.schemaKey], ...data } });
   },
-  run({ id, ...details }) {
+  run({ id, data }) {
     const { type } = Interactions.findOne(id);
     const { schemaKey } = interactionTypes.get(type);
     if (!schemaKey) {
@@ -99,7 +99,8 @@ export const updateInteractionDetails = new ValidatedMethod({
         `No schemaKey defined for ${type}. Aborted update of interactionDetails`,
       );
     }
-    return Interactions.update(id, { $set: { [schemaKey]: details } });
+
+    return Interactions.update(id, { $set: { [schemaKey]: data } });
   },
 });
 

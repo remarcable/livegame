@@ -1,6 +1,5 @@
 import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
-import { hasOnlyAllowedFieldSet } from '/imports/api/helpers';
 
 export default class InteractionType {
   constructor({ typeName, schemaKey, fields, validate } = {}) {
@@ -50,7 +49,7 @@ export default class InteractionType {
       return {};
     }
 
-    const { typeName, schemaKey, fields } = this;
+    const { schemaKey, fields } = this;
     // e.g. "key: Number" becomes "mySchemaKey.key: Number"
     const fielsWithSchemaKey = Object.keys(fields).reduce((obj, key) => {
       const newObj = { ...obj };
@@ -62,9 +61,6 @@ export default class InteractionType {
       [this.schemaKey]: {
         type: Object,
         optional: true,
-        custom() {
-          return hasOnlyAllowedFieldSet({ forType: typeName, details: this });
-        },
       },
 
       // include "type" to let custom validation pass

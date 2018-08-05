@@ -6,6 +6,7 @@ import InteractionType from './InteractionType';
 export const estimationGame = new InteractionType({
   typeName: 'ESTIMATION_GAME',
   schemaKey: 'estimationGame',
+  submittable: true,
   fields: {
     question: {
       type: String,
@@ -57,6 +58,7 @@ export const estimationGame = new InteractionType({
 export const estimationVoting = new InteractionType({
   typeName: 'ESTIMATION_VOTING',
   schemaKey: 'estimationVoting',
+  submittable: true,
   fields: {
     question: {
       type: String,

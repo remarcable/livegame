@@ -3,7 +3,7 @@ import { isInSchemaRequired, shouldNotBeSetInSchema } from '/imports/api/helpers
 import InteractionType from './InteractionType';
 
 describe('InteractionType({typeName, schemaKey, fields})', () => {
-  describe('constructor({ typeName, schemaKey, fields, validate })', () => {
+  describe('constructor({ typeName, schemaKey, fields, validate, submittable = false  })', () => {
     it('adds a field "typeName"', () => {
       const interactionType = new InteractionType({ typeName: 'TYPE_NAME' });
       expect(interactionType.typeName).toBe('TYPE_NAME');
@@ -40,6 +40,27 @@ describe('InteractionType({typeName, schemaKey, fields})', () => {
         fields,
       });
       expect(interactionType.fields).toEqual(fields);
+    });
+
+    it('adds a field "submittable" even if not provided as argument', () => {
+      const interactionType = new InteractionType({
+        typeName: 'TYPE_NAME',
+      });
+      expect(interactionType.submittable).toBe(false);
+    });
+
+    it('adds a field "submittable" when provided', () => {
+      const interactionType = new InteractionType({
+        typeName: 'TYPE_NAME',
+        submittable: true,
+      });
+      expect(interactionType.submittable).toBe(true);
+    });
+
+    it('throws when submittable is not a boolean', () => {
+      expect(
+        () => new InteractionType({ typeName: 'TYPE_NAME', submittable: 'not_valid' }),
+      ).toThrow();
     });
 
     it('does not add the original fields object but copies it', () => {

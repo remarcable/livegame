@@ -3,6 +3,7 @@ import InteractionType from './InteractionType';
 export const fullShowVoting = new InteractionType({
   typeName: 'FULL_SHOW_VOTING',
   schemaKey: 'fullShowVoting',
+  submittable: true,
   fields: {
     question: {
       type: String,

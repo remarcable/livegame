@@ -8,6 +8,11 @@ import Submissions from './collection';
 import Interactions from '../interactions/collection';
 
 import * as interactionStates from '../interactions/states';
+import interactionTypes from '../interactions/types';
+
+const submittableInteractionTypeNames = [...interactionTypes.values()]
+  .filter((type) => type.submittable)
+  .map((type) => type.typeName);
 
 /* eslint-disable import/prefer-default-export */
 export const submit = new ValidatedMethod({
@@ -18,12 +23,15 @@ export const submit = new ValidatedMethod({
   }).validator(),
   run({ value }) {
     if (this.isSimulation) return; // TODO: is this really necessary? Doesn't seem like it is to me
-
     this.unblock();
 
+    const currentInteraction = Interactions.findOne({
+      state: interactionStates.ACTIVE,
+      type: { $in: submittableInteractionTypeNames },
+    });
+    if (!currentInteraction) throw new Meteor.Error('submissions.insert.noActiveInteraction');
+
     const userId = Meteor.userId();
-    const currentInteraction = Interactions.findOne({ state: interactionStates.ACTIVE });
-    if (!currentInteraction) throw new Meteor.Error('No active interaction');
     const interactionId = currentInteraction._id;
     const hasAlreadyAnswered = !!Submissions.findOne({ userId, interactionId });
     if (hasAlreadyAnswered) {

@@ -28,9 +28,10 @@ const interactionsMap = new Map([
 
 const propTypes = {
   interaction: PropTypes.object.isRequired, // TODO: better type
+  submit: PropTypes.func.isRequired,
 };
 
-const Interactions = ({ interaction }) => {
+const Interactions = ({ interaction, submit }) => {
   const { type } = interaction;
   const Component = interactionsMap.get(type);
 
@@ -38,7 +39,7 @@ const Interactions = ({ interaction }) => {
     return <div>TODO: Show graceful failure message here</div>;
   }
 
-  return <Component interaction={interaction} />;
+  return <Component interaction={interaction} submit={submit} />;
 };
 
 Interactions.propTypes = propTypes;

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import { withTracker } from 'meteor/react-meteor-data';
 import InteractionsCollection from '/imports/api/interactions/collection';
+import submit from '/imports/api/submissions/methods';
 
 import PlayerLayout from '/imports/ui/Layouts/PlayerLayout';
 import Interactions from './Interactions';
@@ -15,7 +16,7 @@ const propTypes = {
 
 const LiveGame = ({ loading, interaction }) => (
   <PlayerLayout loading={loading}>
-    <Interactions interaction={interaction} />
+    <Interactions interaction={interaction} submit={(value) => submit.call({ value })} />
   </PlayerLayout>
 );
 

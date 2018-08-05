@@ -7,23 +7,24 @@ import InteractionsCollection from '/imports/api/interactions/collection';
 
 import PlayerLayout from '/imports/ui/Layouts/PlayerLayout';
 import Interactions from './Interactions';
-import Loading from '/imports/ui/Pages/Loading';
 
 const propTypes = {
   interaction: PropTypes.object.isRequired, // TODO: better type
-  isReady: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
-const LiveGame = ({ isReady, interaction }) => (
-  <PlayerLayout>{isReady ? <Interactions interaction={interaction} /> : <Loading />}</PlayerLayout>
+const LiveGame = ({ loading, interaction }) => (
+  <PlayerLayout loading={loading}>
+    <Interactions interaction={interaction} />
+  </PlayerLayout>
 );
 
 LiveGame.propTypes = propTypes;
 
 export default withTracker(() => {
   const interactionsHandle = Meteor.subscribe('interactions.active');
-  const isReady = interactionsHandle.ready();
+  const loading = !interactionsHandle.ready();
 
   const interaction = InteractionsCollection.findOne() || {};
-  return { interaction, isReady };
+  return { interaction, loading };
 })(LiveGame);

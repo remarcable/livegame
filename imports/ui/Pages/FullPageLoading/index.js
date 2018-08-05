@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import theme from '/imports/ui/components/theme';
-import Loading from './Loading';
+import Loading from '/imports/ui/components/Loading';
 
 const propTypes = {
   error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),

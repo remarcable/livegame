@@ -4,17 +4,19 @@ import PropTypes from 'prop-types';
 
 import { withTracker } from 'meteor/react-meteor-data';
 
+import Loading from '/imports/ui/components/Loading';
 import Registration from '/imports/ui/Pages/LiveGame/Registration';
 
 const propTypes = {
+  loading: PropTypes.bool.isRequired,
   isReady: PropTypes.bool.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
 };
 
-const PlayerLayout = ({ children, isReady, loggedIn }) => {
-  if (!isReady) {
-    return null;
+const PlayerLayout = ({ children, isReady, loggedIn, loading }) => {
+  if (!isReady && loading) {
+    return <Loading />;
   }
 
   if (!loggedIn) {

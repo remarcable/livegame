@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CircularProgress from 'material-ui/CircularProgress';
 
-import { theme } from '../../components/theme';
+import { theme } from '../theme';
 
 const propTypes = {
   wrapperStyles: PropTypes.object,

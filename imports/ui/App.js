@@ -7,7 +7,7 @@ import 'normalize.css';
 
 import muiTheme from './components/theme';
 import LiveGame from './Pages/LiveGame';
-import FullPageLoading from './Pages/Loading/FullPageLoading';
+import FullPageLoading from './Pages/FullPageLoading';
 
 const App = () => (
   <MuiThemeProvider muiTheme={muiTheme}>

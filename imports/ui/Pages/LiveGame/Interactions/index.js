@@ -29,10 +29,11 @@ const interactionsMap = new Map([
 
 const propTypes = {
   interaction: PropTypes.object.isRequired, // TODO: better type
+  hasSubmitted: PropTypes.bool.isRequired,
   submit: PropTypes.func.isRequired,
 };
 
-const Interactions = ({ interaction, submit }) => {
+const Interactions = ({ interaction, hasSubmitted, submit }) => {
   const { type } = interaction;
   const Component = interactionsMap.get(type);
 
@@ -41,7 +42,7 @@ const Interactions = ({ interaction, submit }) => {
   }
 
   const { schemaKey } = interactionTypes.get(type);
-  return <Component {...interaction[schemaKey]} submit={submit} />;
+  return <Component {...interaction[schemaKey]} hasSubmitted={hasSubmitted} submit={submit} />;
 };
 
 Interactions.propTypes = propTypes;

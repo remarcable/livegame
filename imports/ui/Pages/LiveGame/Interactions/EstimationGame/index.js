@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 const propTypes = {
   question: PropTypes.string.isRequired,
+  hasSubmitted: PropTypes.bool.isRequired,
   submit: PropTypes.func.isRequired,
 };
 
@@ -12,10 +13,11 @@ const handleSubmit = (e, submit) => {
   submit(answer);
 };
 
-const EstimationGame = ({ question, submit }) => (
+const EstimationGame = ({ question, hasSubmitted, submit }) => (
   <div>
     <h1>EstimationGame</h1>
     <p>Question: {question}</p>
+    {hasSubmitted && <p>submitted</p>}
 
     <form onSubmit={(e) => handleSubmit(e, submit)}>
       <input type="number" name="answer" required />

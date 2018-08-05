@@ -3,7 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { withTracker } from 'meteor/react-meteor-data';
+
 import InteractionsCollection from '/imports/api/interactions/collection';
+import SubmissionsCollection from '/imports/api/submissions/collection';
 import { submit } from '/imports/api/submissions/methods';
 
 import PlayerLayout from '/imports/ui/Layouts/PlayerLayout';
@@ -12,11 +14,16 @@ import Interactions from './Interactions';
 const propTypes = {
   interaction: PropTypes.object.isRequired, // TODO: better type
   loading: PropTypes.bool.isRequired,
+  hasSubmitted: PropTypes.bool.isRequired,
 };
 
-const LiveGame = ({ loading, interaction }) => (
+const LiveGame = ({ loading, interaction, hasSubmitted }) => (
   <PlayerLayout loading={loading}>
-    <Interactions interaction={interaction} submit={(value) => submit.call({ value })} />
+    <Interactions
+      interaction={interaction}
+      submit={(value) => submit.call({ value })}
+      hasSubmitted={hasSubmitted}
+    />
   </PlayerLayout>
 );
 
@@ -28,5 +35,9 @@ export default withTracker(() => {
   const isReady = ownInteractionsHandle.ready() && ownSubmissionsHandle.ready();
 
   const interaction = InteractionsCollection.findOne() || {};
-  return { interaction, loading: !isReady };
+  const submissionForCurrentInteraction = SubmissionsCollection.findOne({
+    interactionId: interaction._id,
+  });
+
+  return { interaction, hasSubmitted: !!submissionForCurrentInteraction, loading: !isReady };
 })(LiveGame);

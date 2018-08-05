@@ -15,12 +15,6 @@ const appStateSchema = new SimpleSchema({
     type: String,
     allowedValues: rankDisplayModes,
   },
-  interactionsOrder: {
-    type: Array,
-  },
-  'interactionsOrder.$': {
-    type: String,
-  },
 });
 
 export default appStateSchema;

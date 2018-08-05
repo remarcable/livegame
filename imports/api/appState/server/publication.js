@@ -24,7 +24,6 @@ Meteor.publish('appState.admin', function publishAdminAppState() {
         hintText: 1,
         votingToShow: 1,
         rankDisplayMode: 1,
-        interactionsOrder: 1,
       },
       limit: 1,
     },

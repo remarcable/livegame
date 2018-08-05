@@ -3,6 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { withTracker } from 'meteor/react-meteor-data';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+
+import { theme } from '/imports/ui/theme';
 
 import Login from '/imports/ui/Pages/Admin/Login';
 
@@ -18,10 +21,14 @@ const AdminLayout = ({ children, isReady, userIsLoggedInAndAdmin }) => {
   }
 
   if (!userIsLoggedInAndAdmin) {
-    return <Login />;
+    return (
+      <MuiThemeProvider theme={theme}>
+        <Login />
+      </MuiThemeProvider>
+    );
   }
-
-  return children;
+  // todo only add MuiThemeProvider once
+  return <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>;
 };
 
 AdminLayout.propTypes = propTypes;

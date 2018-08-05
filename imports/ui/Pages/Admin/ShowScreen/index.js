@@ -10,6 +10,8 @@ import {
   nextInteraction,
 } from '/imports/api/interactions/methods';
 
+import { mapSort } from '/imports/api/helpers/mapSort';
+
 import AdminLayout from '/imports/ui/Layouts/AdminLayout';
 
 const propTypes = {
@@ -44,5 +46,5 @@ export default withTracker(() => {
   const interactionsHandle = Meteor.subscribe('interactions.allInteractions');
   const isReady = interactionsHandle.ready();
   const interactions = Interactions.find().fetch();
-  return { interactions, isReady };
+  return { interactions: mapSort(interactions), isReady };
 })(ShowScreen);

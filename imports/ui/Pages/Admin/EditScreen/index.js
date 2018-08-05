@@ -6,6 +6,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import Interactions from '/imports/api/interactions/collection';
 import interactionTypes from '/imports/api/interactions/types';
 import {
+  moveToPosition,
   createInteraction,
   updateInteractionDetails,
   removeInteraction,
@@ -16,6 +17,7 @@ import { mapSort } from '/imports/api/helpers/mapSort';
 import AdminLayout from '/imports/ui/Layouts/AdminLayout';
 import EditInteraction from './EditInteraction';
 import NewInteraction from './NewInteraction';
+import SortInteractions from './SortInteractions';
 
 const propTypes = {
   interactions: PropTypes.array.isRequired, // TODO: better type!
@@ -50,6 +52,12 @@ const EditScreen = ({ isReady, interactions }) => (
             />
           );
         })}
+    </div>
+    <div>
+      <SortInteractions
+        interactions={interactions}
+        changeOrder={({ id, pos }) => moveToPosition.call({ id, pos })}
+      />
     </div>
   </AdminLayout>
 );

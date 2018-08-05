@@ -60,7 +60,7 @@ export const nextInteraction = new ValidatedMethod({
   run() {
     const { next } = Interactions.findOne({ state: interactionStates.ACTIVE }) || {};
     if (!next) {
-      throw new Meteor.Error('No previous interaction defined!');
+      throw new Meteor.Error('No next interaction defined!');
     }
 
     startInteraction.call({ interactionId: next });

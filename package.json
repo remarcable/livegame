@@ -7,8 +7,7 @@
     "prelint": "npm run lint --silent",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "deploy":
-      "DEPLOY_HOSTNAME=eu-west-1.galaxy.meteor.com meteor deploy wbplive-test.eu.meteorapp.com --settings settings.json",
+    "deploy": "DEPLOY_HOSTNAME=eu-west-1.galaxy.meteor.com meteor deploy wbplive-test.eu.meteorapp.com --settings settings.json",
     "test": "jest",
     "test:watch": "jest --watch",
     "prettier": "prettier --write \"./{imports,.storybook,client,server}/**/*.js\"",
@@ -25,6 +24,7 @@
     "normalize.css": "^8.0.0",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
+    "react-beautiful-dnd": "^8.0.7",
     "react-dom": "^16.4.1",
     "react-loadable": "^5.3.1",
     "react-minimal-pie-chart": "^3.0.2",
@@ -65,8 +65,15 @@
       "jest": true,
       "node": true
     },
-    "plugins": ["meteor", "prettier"],
-    "extends": ["airbnb", "plugin:meteor/recommended", "prettier"],
+    "plugins": [
+      "meteor",
+      "prettier"
+    ],
+    "extends": [
+      "airbnb",
+      "plugin:meteor/recommended",
+      "prettier"
+    ],
     "settings": {
       "import/resolver": "meteor"
     },
@@ -74,10 +81,15 @@
       "react/jsx-filename-extension": [
         1,
         {
-          "extensions": [".js", ".jsx"]
+          "extensions": [
+            ".js",
+            ".jsx"
+          ]
         }
       ],
-      "import/no-absolute-path": [0],
+      "import/no-absolute-path": [
+        0
+      ],
       "import/no-extraneous-dependencies": "off",
       "import/extensions": "off",
       "no-use-before-define": [
@@ -87,11 +99,16 @@
           "variables": false
         }
       ],
-      "consistent-this": [1, "self"],
+      "consistent-this": [
+        1,
+        "self"
+      ],
       "no-underscore-dangle": [
         "error",
         {
-          "allow": ["_id"]
+          "allow": [
+            "_id"
+          ]
         }
       ],
       "prettier/prettier": "error"

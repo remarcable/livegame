@@ -1,3 +1,9 @@
 import React from 'react';
 
-export default () => <div>ESTIMATION_WAITING</div>;
+const EstimationWaiting = () => (
+  <div>
+    <h1>EstimationWaiting</h1>
+  </div>
+);
+
+export default EstimationWaiting;

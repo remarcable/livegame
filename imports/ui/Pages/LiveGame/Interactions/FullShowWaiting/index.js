@@ -1,3 +1,9 @@
 import React from 'react';
 
-export default () => <div>FULL_SHOW_WAITING</div>;
+const FullShowWaiting = () => (
+  <div>
+    <h1>FullShowWaiting</h1>
+  </div>
+);
+
+export default FullShowWaiting;

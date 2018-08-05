@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { withTracker } from 'meteor/react-meteor-data';
 import InteractionsCollection from '/imports/api/interactions/collection';
-import submit from '/imports/api/submissions/methods';
+import { submit } from '/imports/api/submissions/methods';
 
 import PlayerLayout from '/imports/ui/Layouts/PlayerLayout';
 import Interactions from './Interactions';
@@ -23,9 +23,10 @@ const LiveGame = ({ loading, interaction }) => (
 LiveGame.propTypes = propTypes;
 
 export default withTracker(() => {
-  const interactionsHandle = Meteor.subscribe('interactions.active');
-  const loading = !interactionsHandle.ready();
+  const ownInteractionsHandle = Meteor.subscribe('interactions.active');
+  const ownSubmissionsHandle = Meteor.subscribe('submissions.own');
+  const isReady = ownInteractionsHandle.ready() && ownSubmissionsHandle.ready();
 
   const interaction = InteractionsCollection.findOne() || {};
-  return { interaction, loading };
+  return { interaction, loading: !isReady };
 })(LiveGame);

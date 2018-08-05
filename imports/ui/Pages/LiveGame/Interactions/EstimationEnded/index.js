@@ -1,3 +1,9 @@
 import React from 'react';
 
-export default () => <div>ESTIMATION_ENDED</div>;
+const EstimationEnded = () => (
+  <div>
+    <h1>EstimationEnded</h1>
+  </div>
+);
+
+export default EstimationEnded;

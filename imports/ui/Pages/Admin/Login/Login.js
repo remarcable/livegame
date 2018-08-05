@@ -2,10 +2,8 @@ import { Meteor } from 'meteor/meteor';
 
 import React from 'react';
 
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
-
-import { theme } from '/imports/ui/components/theme';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 const AdminLoginPage = () => (
   <div style={wrapperStyles}>
@@ -27,21 +25,19 @@ const AdminLoginPage = () => (
         fullWidth
         required
       />
-      <RaisedButton
+      <Button
         label="Anmelden"
         secondary
         labelStyle={{ color: '#fff' }}
         type="submit"
-        style={{ marginTop: theme.spacing.desktopGutter }}
+        style={{ marginTop: 18 }}
       />
     </form>
   </div>
 );
 
 const LoggedInAsAdminNotice = () => (
-  <span style={{ color: theme.palette.secondaryTextColor }}>
-    Sie sind angemeldet, aber nicht als Admin.
-  </span>
+  <span style={{ color: '#ddd' }}>Sie sind angemeldet, aber nicht als Admin.</span>
 );
 
 const handleOnSubmit = (e) => {

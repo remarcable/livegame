@@ -6,12 +6,8 @@ import PropTypes from 'prop-types';
 
 import { withTracker } from 'meteor/react-meteor-data';
 
-import Divider from 'material-ui/Divider';
-
 import AppState from '/imports/api/appState/collection';
 import { shouldDisplayRank } from '/imports/api/appState/rank-display-modes';
-
-import { theme } from '../theme';
 
 const propTypes = {
   isReady: PropTypes.bool.isRequired,
@@ -29,7 +25,6 @@ const UserInformation = ({ isReady, firstName, lastName, ownRank, maxRank, alias
       <span>
         {ownRank || maxRank} / {maxRank}
       </span>
-      <Divider style={dividerStyles} />
       {alias ? (
         <span style={{ fontWeight: 300 }}>{alias}</span>
       ) : (
@@ -51,7 +46,7 @@ UserInformation.propTypes = propTypes;
 
 const styles = {
   width: '100%',
-  margin: theme.spacing.desktopGutter,
+  margin: 18,
   display: 'flex',
   alignItems: 'center',
   flexDirection: 'column',
@@ -59,15 +54,8 @@ const styles = {
   fontSize: '1.5em',
 };
 
-const dividerStyles = {
-  width: '80%',
-  marginTop: theme.spacing.desktopGutterMini,
-  marginBottom: theme.spacing.desktopGutterMini,
-  backgroundColor: '#fff',
-};
-
 const aliasStyles = {
-  marginTop: theme.spacing.desktopGutterMini / 2,
+  marginTop: 12 / 2,
   fontWeight: 300,
   fontSize: '.5em',
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import HeartIcon from 'material-ui/svg-icons/action/favorite';
+import HeartIcon from '@material-ui/icons/favorite';
 
 const heartStyle = {
   width: '4em',

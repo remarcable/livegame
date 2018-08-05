@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { withTracker } from 'meteor/react-meteor-data';
 
-import Paper from 'material-ui/Paper';
+import Paper from '@material-ui/core/Paper';
 import {
   Table,
   TableBody,
@@ -12,7 +12,7 @@ import {
   TableHeaderColumn,
   TableRow,
   TableRowColumn,
-} from 'material-ui/Table';
+} from '@material-ui/core/Table';
 
 import AdminLayout from '/imports/ui/Layouts/AdminLayout';
 

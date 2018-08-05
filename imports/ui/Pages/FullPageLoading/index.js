@@ -1,8 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import RaisedButton from 'material-ui/RaisedButton';
-import theme from '/imports/ui/components/theme';
 import Loading from '/imports/ui/components/Loading';
 
 const propTypes = {
@@ -25,11 +22,7 @@ const FullPageLoading = ({ timedOut, retry, pastDelay, error = false }) => {
 
   return (
     <Loading text={text}>
-      {error || timedOut ? (
-        <RaisedButton onClick={retry} backgroundColor={theme.palette.primary1Color}>
-          Neuladen
-        </RaisedButton>
-      ) : null}
+      {error || timedOut ? <button onClick={retry}>Neuladen</button> : null}
     </Loading>
   );
 };

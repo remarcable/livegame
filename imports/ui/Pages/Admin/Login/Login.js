@@ -10,28 +10,18 @@ const AdminLoginPage = () => (
     <h1 style={{ textAlign: 'center' }}>Admin</h1>
     {Meteor.userId() && !Meteor.userIsAdmin() && <LoggedInAsAdminNotice />}
     <form style={styles} onSubmit={handleOnSubmit}>
+      <TextField label="Benutzername" name="username" autoComplete="username" fullWidth required />
       <TextField
-        floatingLabelText="Benutzername"
-        name="username"
-        autoComplete="username"
-        fullWidth
-        required
-      />
-      <TextField
-        floatingLabelText="Passwort"
+        label="Passwort"
         name="password"
         type="password"
         autoComplete="current-password"
         fullWidth
         required
       />
-      <Button
-        label="Anmelden"
-        secondary
-        labelStyle={{ color: '#fff' }}
-        type="submit"
-        style={{ marginTop: 18 }}
-      />
+      <Button color="secondary" type="submit">
+        Anmelden
+      </Button>
     </form>
   </div>
 );

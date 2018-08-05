@@ -3,11 +3,9 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const propTypes = {
-  wrapperStyles: PropTypes.object,
-};
+const propTypes = {};
 
-const Registration = ({ wrapperStyles = {} }) => (
+const Registration = () => (
   <form onSubmit={handleOnSubmit}>
     <input
       type="text"
@@ -23,7 +21,6 @@ const Registration = ({ wrapperStyles = {} }) => (
       name="lastName"
       autoComplete="family-name"
       maxLength="20"
-      fullWidth
       required
     />
     <input type="submit" value="Anmelden" />

@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import { theme } from '../../components/theme';
+import { theme } from '/imports/ui/components/theme';
 
 const propTypes = {
   wrapperStyles: PropTypes.object,
 };
 
-const LoginPage = ({ wrapperStyles = {} }) => (
+const Registration = ({ wrapperStyles = {} }) => (
   <form style={{ ...wrapperStyles, ...styles }} onSubmit={handleOnSubmit}>
     <TextField
       floatingLabelText="Vorname"
@@ -39,7 +39,7 @@ const LoginPage = ({ wrapperStyles = {} }) => (
   </form>
 );
 
-LoginPage.propTypes = propTypes;
+Registration.propTypes = propTypes;
 
 const handleOnSubmit = (e) => {
   e.preventDefault();
@@ -56,4 +56,4 @@ const styles = {
   flexDirection: 'column',
 };
 
-export default LoginPage;
+export default Registration;

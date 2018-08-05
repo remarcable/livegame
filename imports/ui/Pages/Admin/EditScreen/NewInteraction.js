@@ -14,11 +14,18 @@ class NewInteraction extends PureComponent {
     this.state = { selected: null };
 
     this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSelectChange(event) {
     const { value } = event.target;
     this.setState({ selected: value });
+  }
+
+  handleSubmit({ data }) {
+    console.log(data);
+    const { createInteraction } = this.props;
+    createInteraction({ interactionType: this.state.selected, data });
   }
 
   render() {
@@ -40,9 +47,7 @@ class NewInteraction extends PureComponent {
               title={state.selected}
               currentData={{}}
               schemaFields={interactionTypes.get(state.selected).getFields()}
-              updateData={({ data }) =>
-                createInteraction({ interactionType: state.selected, data })
-              }
+              updateData={this.handleSubmit}
             />
           </>
         )}

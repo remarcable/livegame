@@ -13,6 +13,7 @@ const propTypes = {
 class EditInteraction extends PureComponent {
   constructor(initialProps) {
     super(initialProps);
+    // this does not work for NewInteraction as the currentData changes on rerender
     this.state = { ...initialProps.currentData };
 
     this.handleInputChange = this.handleInputChange.bind(this);

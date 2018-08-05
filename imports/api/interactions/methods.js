@@ -139,6 +139,11 @@ export const createInteraction = new ValidatedMethod({
 
     Interactions.update({ _id: lastInteractionId }, { $set: { next: newInteractionId } });
 
+    // if this is the first interaction to be inserted
+    if (!lastInteractionId) {
+      Interactions.update({ _id: newInteractionId }, { $set: { state: interactionStates.ACTIVE } });
+    }
+
     return newInteractionId;
   },
 });
@@ -173,12 +178,21 @@ export const removeInteraction = new ValidatedMethod({
     id: { type: String },
   }).validator(),
   run({ id }) {
-    const { _id, next, previous } = Interactions.findOne(
+    const { _id, state, next, previous } = Interactions.findOne(
       { _id: id },
-      { fields: { previous: 1, next: 1 } },
+      { fields: { state: 1, previous: 1, next: 1 } },
     );
     Interactions.update({ _id: next }, { $set: { previous } });
     Interactions.update({ _id: previous }, { $set: { next } });
+
+    // ensure that there always is an interaction with ACTIVE state
+    if (state === interactionStates.ACTIVE) {
+      if (next) {
+        Interactions.update({ _id: next }, { $set: { state: interactionStates.ACTIVE } });
+      } else {
+        Interactions.update({ _id: previous }, { $set: { state: interactionStates.ACTIVE } });
+      }
+    }
     return Interactions.remove({ _id });
   },
 });

@@ -1,4 +1,7 @@
-import interactionTypes from '/imports/api/interactions/types';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import { typeNames } from '/imports/api/interactions/types';
 
 import FullShowVoting from './FullShowVoting';
 import FullShowWaiting from './FullShowWaiting';
@@ -10,6 +13,7 @@ import EstimationEnded from './EstimationEnded';
 
 import Announcement from './Announcement';
 
+const interactionTypes = typeNames();
 const interactionsMap = new Map([
   [interactionTypes.FULL_SHOW_VOTING, FullShowVoting],
   [interactionTypes.FULL_SHOW_WAITING, FullShowWaiting],
@@ -22,6 +26,21 @@ const interactionsMap = new Map([
   [interactionTypes.ANNOUNCEMENT, Announcement],
 ]);
 
-const Interactions = ({ type }) => interactionsMap.get(type);
+const propTypes = {
+  interaction: PropTypes.object.isRequired, // TODO: better type
+};
+
+const Interactions = ({ interaction }) => {
+  const { type } = interaction;
+  const Component = interactionsMap.get(type);
+
+  if (!Component) {
+    return <div>TODO: Show graceful failure message here</div>;
+  }
+
+  return <Component interaction={interaction} />;
+};
+
+Interactions.propTypes = propTypes;
 
 export default Interactions;

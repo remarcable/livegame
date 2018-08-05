@@ -6,7 +6,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import 'normalize.css';
 
 import muiTheme from './components/theme';
-import MainLayout from './Layouts/MainLayout';
+import LiveGame from './Pages/LiveGame';
 import FullPageLoading from './Pages/Loading/FullPageLoading';
 
 const App = () => (
@@ -17,7 +17,7 @@ const App = () => (
         <Route exact path="/admin/edit" component={AdminEditScreenLoadable} />
         <Route exact path="/admin/users" component={UserListPageLoadable} />
         <Route exact path="/admin/liveview" component={LiveViewScreenLoadable} />
-        <Route component={MainLayout} />
+        <Route component={LiveGame} />
       </Switch>
     </Router>
   </MuiThemeProvider>

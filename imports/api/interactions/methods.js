@@ -4,6 +4,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import SimpleSchema from 'simpl-schema';
 
 import { userIsAdminMixin } from '/imports/api/helpers/validatedMethodMixins';
+import { mapSort } from '/imports/api/helpers/mapSort';
 
 import Interactions from './collection';
 
@@ -66,6 +67,57 @@ export const nextInteraction = new ValidatedMethod({
   },
 });
 
+export const moveToPosition = new ValidatedMethod({
+  name: 'interactions.moveToPosition',
+  mixins: [userIsAdminMixin],
+  validate({ id, pos }) {
+    check(id, String);
+    check(pos, Number);
+    const interaction = Interactions.findOne({ _id: id });
+    const interactionCount = Interactions.find().count();
+
+    if (!interaction) {
+      throw new Meteor.Error(`No interaction exists with id ${id}`);
+    }
+
+    const maxPos = interactionCount - 1;
+    if (pos < 0 || pos > maxPos) {
+      throw new Meteor.Error(`Argument pos is only allowed in range between 0 and ${maxPos}`);
+    }
+  },
+
+  run({ id, pos }) {
+    const currentInteraction = Interactions.findOne(
+      { _id: id },
+      { fields: { previous: 1, next: 1 } },
+    );
+
+    const interactions = Interactions.find(
+      {},
+      { fields: { _id: 1, previous: 1, next: 1 } },
+    ).fetch();
+
+    const interactionsInOrder = mapSort(interactions);
+    const interactionIdsInOrder = interactionsInOrder.map((i) => i._id);
+
+    const { next: oldNextId, previous: oldPreviousId } = currentInteraction;
+
+    Interactions.update({ _id: oldNextId }, { $set: { previous: oldPreviousId } });
+    Interactions.update({ _id: oldPreviousId }, { $set: { next: oldNextId } });
+
+    const interactionIdsInOrderWithoutCurrentId = interactionIdsInOrder.filter(
+      (interactionId) => interactionId !== id,
+    );
+
+    const newPreviousId = interactionIdsInOrderWithoutCurrentId[pos - 1] || null;
+    const newNextId = interactionIdsInOrderWithoutCurrentId[pos] || null;
+
+    Interactions.update({ _id: newPreviousId }, { $set: { next: id } });
+    Interactions.update({ _id: newNextId }, { $set: { previous: id } });
+    Interactions.update({ _id: id }, { $set: { next: newNextId, previous: newPreviousId } });
+  },
+});
+
 export const createInteraction = new ValidatedMethod({
   name: 'interactions.create',
   mixins: [userIsAdminMixin],
@@ -74,10 +126,20 @@ export const createInteraction = new ValidatedMethod({
   },
   run({ interactionType, data }) {
     const { schemaKey } = interactionTypes.get(interactionType);
-    return Interactions.insert({
+    const { _id: lastInteractionId } =
+      Interactions.findOne({ next: null }, { fields: { _id: 1 } }) || {};
+    const newInteractionId = Interactions.insert({
       type: interactionType,
       [schemaKey]: data,
+
+      // the first interaction to be created does not yet have a predecessor
+      previous: lastInteractionId || null,
+      next: null,
     });
+
+    Interactions.update({ _id: lastInteractionId }, { $set: { next: newInteractionId } });
+
+    return newInteractionId;
   },
 });
 
@@ -111,6 +173,12 @@ export const removeInteraction = new ValidatedMethod({
     id: { type: String },
   }).validator(),
   run({ id }) {
-    return Interactions.remove({ _id: id });
+    const { _id, next, previous } = Interactions.findOne(
+      { _id: id },
+      { fields: { previous: 1, next: 1 } },
+    );
+    Interactions.update({ _id: next }, { $set: { previous } });
+    Interactions.update({ _id: previous }, { $set: { next } });
+    return Interactions.remove({ _id });
   },
 });

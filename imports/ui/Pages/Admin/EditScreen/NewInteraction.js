@@ -27,6 +27,7 @@ class NewInteraction extends PureComponent {
     return (
       <div>
         <select onChange={this.handleSelectChange} selected={state.selected}>
+          <option value={null} />
           {[...interactionTypes.keys()].map((typeName) => (
             <option key={typeName} value={typeName}>
               {typeName}

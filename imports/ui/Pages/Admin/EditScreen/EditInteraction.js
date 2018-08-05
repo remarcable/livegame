@@ -5,7 +5,7 @@ const propTypes = {
   title: PropTypes.string.isRequired,
   id: PropTypes.string,
   currentData: PropTypes.object,
-  schemaFields: PropTypes.object.isRequired,
+  schemaFields: PropTypes.object,
   updateData: PropTypes.func.isRequired,
   removeInteraction: PropTypes.func,
 };
@@ -41,7 +41,7 @@ class EditInteraction extends PureComponent {
 
   render() {
     const { props, state } = this;
-    const { id, title, schemaFields, updateData } = props;
+    const { id, title, schemaFields = {}, updateData } = props;
     return (
       <div>
         <div>

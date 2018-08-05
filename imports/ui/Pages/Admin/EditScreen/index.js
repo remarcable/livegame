@@ -11,6 +11,8 @@ import {
   removeInteraction,
 } from '/imports/api/interactions/methods';
 
+import { mapSort } from '/imports/api/helpers/mapSort';
+
 import AdminLayout from '/imports/ui/Layouts/AdminLayout';
 import EditInteraction from './EditInteraction';
 import NewInteraction from './NewInteraction';
@@ -33,8 +35,9 @@ const EditScreen = ({ isReady, interactions }) => (
       {!isReady && <div>Loadings</div>}
       {isReady &&
         interactions.map((i) => {
-          const interactionType = interactionTypes.get(i.type) || {};
+          const interactionType = interactionTypes.get(i.type);
           const { schemaKey } = interactionType;
+
           return (
             <EditInteraction
               key={i._id}
@@ -42,7 +45,7 @@ const EditScreen = ({ isReady, interactions }) => (
               id={i._id}
               currentData={i[schemaKey]}
               schemaFields={interactionType.getFields()}
-              updateData={({ data }) => updateInteractionDetails.call({ id: i._id, details: data })}
+              updateData={({ data }) => updateInteractionDetails.call({ id: i._id, data })}
               removeInteraction={({ id }) => removeInteraction.call({ id })}
             />
           );
@@ -57,5 +60,6 @@ export default withTracker(() => {
   const interactionsHandle = Meteor.subscribe('interactions.allInteractions');
   const isReady = interactionsHandle.ready();
   const interactions = Interactions.find().fetch();
-  return { interactions, isReady };
+
+  return { interactions: mapSort(interactions), isReady };
 })(EditScreen);

@@ -27,3 +27,4 @@ mdg:meteor-apm-agent
 natestrauser:publish-performant-counts
 aldeed:schema-index
 mdg:validation-error
+sakulstra:aggregate

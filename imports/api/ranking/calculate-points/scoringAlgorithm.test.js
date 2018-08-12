@@ -76,12 +76,12 @@ describe('getAbsolutePointsForSubmissions(submissions, game)', () => {
   it('returns the points for a set of submissions', () => {
     const game = { answer: 200 };
     const submissions = [
-      { guess: 0 },
-      { guess: 100 },
-      { guess: 200 },
-      { guess: 300 },
-      { guess: 400 },
-      { guess: 500 },
+      { value: 0 },
+      { value: 100 },
+      { value: 200 },
+      { value: 300 },
+      { value: 400 },
+      { value: 500 },
     ];
     const correctResult = new Map([[0, 1], [100, 2], [200, 4], [300, 6], ['HIGHEST', 7]]);
 
@@ -98,7 +98,7 @@ describe('getAbsolutePointsForSubmissions(submissions, game)', () => {
   });
 
   it('throws if game answer is not defined', () => {
-    const submissions = [{ guess: 100 }];
+    const submissions = [{ value: 100 }];
     expect(() => {
       getAbsolutePointsForSubmissions(submissions);
     }).toThrow();

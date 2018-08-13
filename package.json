@@ -8,8 +8,8 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "deploy": "DEPLOY_HOSTNAME=eu-west-1.galaxy.meteor.com meteor deploy wbplive-test.eu.meteorapp.com --settings settings.json",
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "test": "jest --watch",
+    "test:meteor": "TEST_WATCH=1 meteor test --driver-package meteortesting:mocha --port 4000 --extra-packages jquery",
     "prettier": "prettier --write \"./{imports,.storybook,client,server}/**/*.js\"",
     "preprettier:watch": "npm run prettier",
     "prettier:watch": "onchange '**/*.js' -- prettier --write {{changed}}"
@@ -43,6 +43,7 @@
     "babel-jest": "^22.4.4",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-root-slash-import": "^1.1.0",
+    "chai": "^4.1.2",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-prettier": "^2.9.0",
@@ -55,6 +56,12 @@
     "jest": "^22.4.4",
     "onchange": "^3.3.0",
     "prettier": "1.11.1"
+  },
+  "meteor": {
+    "testModule": {
+      "client": "imports/testing/clientTests.js",
+      "server": "imports/testing/serverTests.js"
+    }
   },
   "eslintConfig": {
     "parser": "babel-eslint",

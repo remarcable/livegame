@@ -28,3 +28,4 @@ natestrauser:publish-performant-counts
 aldeed:schema-index
 mdg:validation-error
 sakulstra:aggregate
+meteortesting:mocha

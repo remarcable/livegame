@@ -1,5 +1,7 @@
 import { addItemToMap, getDeviation, getNumberOfOccurences } from './helpers';
 
+// TODO can it handle NULL values for games (in case we only know the answer AFTER we did the game)
+
 export function rankUsers(users, games, submissions) {
   const unorderedUserPoints = games.map((game) =>
     getAbsoluteUserPointsForGame(users, game, submissions),

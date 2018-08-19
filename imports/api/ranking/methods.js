@@ -16,14 +16,14 @@ export const calculateScores = new ValidatedMethod({
 
     this.unblock();
 
-    const [data = {}] = aggregateUsersAndInteractionsAndSubmissions(Meteor.users);
-    const { users = [], interactions: games = [], submissions = [] } = data;
+    const [result = {}] = aggregateUsersAndInteractionsAndSubmissions(Meteor.users);
+    const { users = [], interactions: games = [], submissions = [] } = result;
     const ranks = calculateRanks(users, games, submissions);
-    console.log(users, games, submissions, ranks);
-    // const bulk = Meteor.users.rawCollection().initializeUnorderedBulkOp();
-    // ranks.forEach(({ userId, rank, points }) => {
-    //   bulk.find({ _id: userId }).updateOne({ $set: { estimationGame: { rank, points } } });
-    // });
-    // bulk.execute();
+
+    const bulk = Meteor.users.rawCollection().initializeUnorderedBulkOp();
+    ranks.forEach(({ userId, rank, points }) => {
+      bulk.find({ _id: userId }).updateOne({ $set: { estimationGame: { rank, points } } });
+    });
+    bulk.execute();
   },
 });

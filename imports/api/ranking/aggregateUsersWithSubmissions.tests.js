@@ -75,7 +75,7 @@ describe('aggregateUsersWithSubmissions(userCollection)', () => {
       ];
 
       const submissionsToBeInserted = [
-        { _id: 'mySubmission', interactionId: 'myVotingId', value: 'YES' },
+        { _id: 'mySubmission', interactionId: 'myVotingId', userId: '01', value: 'YES' },
       ];
 
       UsersCollection.rawCollection().insertMany(usersToBeInserted);
@@ -131,11 +131,11 @@ describe('aggregateUsersWithSubmissions(userCollection)', () => {
       ];
 
       const submissionsToBeInserted = [
-        { _id: 'mySubmission1', interactionId: 'myVotingId', value: 'YES' },
-        { _id: 'mySubmission2', interactionId: 'myVotingId', value: 'YES' },
-        { _id: 'mySubmission3', interactionId: 'myVotingId', value: 'YES' },
-        { _id: 'mySubmission4', interactionId: 'myVotingId', value: 'NO' },
-        { _id: 'mySubmission5', interactionId: 'myVotingId', value: 'NO' },
+        { _id: 'mySubmission1', interactionId: 'myVotingId', userId: '01', value: 'YES' },
+        { _id: 'mySubmission2', interactionId: 'myVotingId', userId: '02', value: 'YES' },
+        { _id: 'mySubmission3', interactionId: 'myVotingId', userId: '03', value: 'YES' },
+        { _id: 'mySubmission4', interactionId: 'myVotingId', userId: '04', value: 'NO' },
+        { _id: 'mySubmission5', interactionId: 'myVotingId', userId: '05', value: 'NO' },
       ];
 
       UsersCollection.rawCollection().insertMany(usersToBeInserted);
@@ -175,7 +175,9 @@ describe('aggregateUsersWithSubmissions(userCollection)', () => {
         { _id: '01', type: 'ESTIMATION_GAME', estimationGame: { answer: 12 } },
       ];
 
-      const submissionsToBeInserted = [{ _id: 'mySubmission1', interactionId: '01', value: 101 }];
+      const submissionsToBeInserted = [
+        { _id: 'mySubmission1', interactionId: '01', userId: '01', value: 101 },
+      ];
 
       UsersCollection.rawCollection().insertMany(usersToBeInserted);
       InteractionsCollection.rawCollection().insertMany(interactionsToBeInserted);
@@ -197,12 +199,12 @@ describe('aggregateUsersWithSubmissions(userCollection)', () => {
       ];
 
       const submissionsToBeInserted = [
-        { _id: 'mySubmission1', interactionId: '01', value: 101 },
-        { _id: 'mySubmission2', interactionId: '01', value: 102 },
-        { _id: 'mySubmission3', interactionId: '02', value: 103 },
-        { _id: 'mySubmission4', interactionId: '02', value: 104 },
-        { _id: 'mySubmission5', interactionId: '03', value: 105 }, // should not be included
-        { _id: 'mySubmission6', interactionId: '03', value: 106 }, // should not be included
+        { _id: 'mySubmission1', interactionId: '01', userId: '01', value: 101 },
+        { _id: 'mySubmission2', interactionId: '01', userId: '02', value: 102 },
+        { _id: 'mySubmission3', interactionId: '02', userId: '01', value: 103 },
+        { _id: 'mySubmission4', interactionId: '02', userId: '02', value: 104 },
+        { _id: 'mySubmission5', interactionId: '03', userId: '01', value: 105 }, // should not be included
+        { _id: 'mySubmission6', interactionId: '03', userId: '02', value: 106 }, // should not be included
       ];
 
       UsersCollection.rawCollection().insertMany(usersToBeInserted);
@@ -220,7 +222,7 @@ describe('aggregateUsersWithSubmissions(userCollection)', () => {
     it('returns an empty array when no interactions exist', () => {
       const usersToBeInserted = [{ _id: '01' }];
       const submissionsToBeInserted = [
-        { _id: 'mySubmission1', interactionId: '01', value: 101 }, // even though it should not be possible to have a submission without an interaction we also test that this is not includes
+        { _id: 'mySubmission1', interactionId: '01', userId: '01', value: 101 }, // even though it should not be possible to have a submission without an interaction we also test that this is not includes
       ];
 
       UsersCollection.rawCollection().insertMany(usersToBeInserted);

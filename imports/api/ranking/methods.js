@@ -13,7 +13,6 @@ export const calculateScores = new ValidatedMethod({
   validate: null,
   run() {
     if (this.isSimulation) return;
-
     this.unblock();
 
     const [result = {}] = aggregateUsersAndInteractionsAndSubmissions(Meteor.users);
@@ -25,5 +24,7 @@ export const calculateScores = new ValidatedMethod({
       bulk.find({ _id: userId }).updateOne({ $set: { estimationGame: { rank, points } } });
     });
     bulk.execute();
+
+    return true;
   },
 });

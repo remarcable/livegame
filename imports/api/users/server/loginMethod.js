@@ -1,10 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
-import { check } from 'meteor/check';
 
-Accounts.registerLoginHandler('name', ({ firstName, lastName }) => {
-  check(firstName, String);
-  check(lastName, String);
+import userSchema from '../schema';
+
+Accounts.registerLoginHandler('name', ({ firstName, lastName, email }) => {
+  userSchema.validate({ firstName, lastName, email });
 
   if (Meteor.userId()) {
     return {
@@ -15,6 +15,7 @@ Accounts.registerLoginHandler('name', ({ firstName, lastName }) => {
   const userId = Meteor.users.insert({
     firstName,
     lastName,
+    email,
   });
 
   return { userId };

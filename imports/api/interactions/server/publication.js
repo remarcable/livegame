@@ -15,7 +15,7 @@ Meteor.publish('interactions.active', function interactionsActivePublication() {
     .reduce((obj, val) => ({ ...obj, [val]: 1 }), {});
 
   return Interactions.find(
-    { state: interactionStates.ACTIVE },
+    { state: { $in: [interactionStates.ACTIVE, interactionStates.CLOSED] } },
     {
       fields: {
         state: 1,

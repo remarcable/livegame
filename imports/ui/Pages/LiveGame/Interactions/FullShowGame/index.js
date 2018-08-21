@@ -7,9 +7,9 @@ const propTypes = {
   submit: PropTypes.func.isRequired,
 };
 
-const fullShowGame = ({ question, hasSubmitted, submit }) => (
+const FullShowGame = ({ question, hasSubmitted, submit }) => (
   <div>
-    <h1>fullShowGame</h1>
+    <h1>FullShowGame</h1>
     <p>Question: {question}</p>
     {hasSubmitted && <p>submitted</p>}
 
@@ -18,6 +18,6 @@ const fullShowGame = ({ question, hasSubmitted, submit }) => (
   </div>
 );
 
-fullShowGame.propTypes = propTypes;
+FullShowGame.propTypes = propTypes;
 
-export default fullShowGame;
+export default FullShowGame;

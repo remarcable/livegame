@@ -1,15 +1,15 @@
 import { Meteor } from 'meteor/meteor';
-import { check } from 'meteor/check';
 import { Accounts } from 'meteor/accounts-base';
+import userSchema from './schema';
 
-Meteor.loginWithName = (firstName, lastName, callback) => {
-  check(firstName, String);
-  check(lastName, String);
-
+Meteor.loginWithName = ({ firstName, lastName, email }, callback) => {
   const loginRequest = {
     firstName,
     lastName,
+    email,
   };
+
+  userSchema.validate(loginRequest);
 
   Accounts.callLoginMethod({
     methodArguments: [loginRequest],

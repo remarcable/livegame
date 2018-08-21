@@ -23,6 +23,7 @@ const Registration = () => (
       maxLength="20"
       required
     />
+    <input type="email" placeholder="E-Mail" name="email" autoComplete="email" required />
     <input type="submit" value="Anmelden" />
   </form>
 );
@@ -31,10 +32,12 @@ Registration.propTypes = propTypes;
 
 const handleOnSubmit = (e) => {
   e.preventDefault();
+
   const firstName = e.target.firstName.value;
   const lastName = e.target.lastName.value;
+  const email = e.target.email.value;
 
-  Meteor.loginWithName(firstName, lastName);
+  Meteor.loginWithName({ firstName, lastName, email });
 };
 
 export default Registration;

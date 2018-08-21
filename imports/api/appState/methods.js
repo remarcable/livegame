@@ -6,23 +6,14 @@ import { userIsAdminMixin } from '/imports/api/helpers/validatedMethodMixins';
 import AppState from './collection';
 import { rankDisplayModes } from './rank-display-modes';
 
-export const showScoresOnLiveView = new ValidatedMethod({
-  name: 'app.showScoresOnLiveView',
-  mixins: [userIsAdminMixin],
-  validate: null,
-  run() {
-    AppState.update({}, { $unset: { votingToShow: 1 } });
-  },
-});
-
-export const showVotingOnLiveView = new ValidatedMethod({
-  name: 'app.showVotingOnLiveView',
+export const displayInteraction = new ValidatedMethod({
+  name: 'app.displayInteraction',
   mixins: [userIsAdminMixin],
   validate: new SimpleSchema({
-    votingId: { type: String },
+    interactionId: { type: String },
   }).validator(),
-  run({ votingId }) {
-    AppState.update({}, { $set: { votingToShow: votingId } });
+  run({ interactionId }) {
+    AppState.update({}, { $set: { interactionToShow: interactionId } });
   },
 });
 

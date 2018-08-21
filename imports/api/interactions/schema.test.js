@@ -10,7 +10,7 @@ const estimationVoting = {
   question: 'question',
 };
 
-const fullShowVoting = {
+const fullShowGame = {
   question: 'question',
   result: 'result',
 };
@@ -26,7 +26,7 @@ describe('interactionsSchema', () => {
     const objects = [
       { type: typeNames().ESTIMATION_GAME, estimationGame },
       { type: typeNames().ESTIMATION_VOTING, estimationVoting },
-      { type: typeNames().FULL_SHOW_VOTING, fullShowVoting },
+      { type: typeNames().FULL_SHOW_GAME, fullShowGame },
       { type: typeNames().ANNOUNCEMENT, announcement },
     ];
 

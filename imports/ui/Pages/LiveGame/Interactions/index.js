@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import interactionTypes, { typeNames } from '/imports/api/interactions/types';
 
-import FullShowVoting from './FullShowVoting';
+import fullShowGame from './fullShowGame';
 import FullShowWaiting from './FullShowWaiting';
 
 import EstimationGame from './EstimationGame';
@@ -16,7 +16,7 @@ import Announcement from './Announcement';
 const interactionTypeNames = typeNames();
 
 const interactionsMap = new Map([
-  [interactionTypeNames.FULL_SHOW_VOTING, FullShowVoting],
+  [interactionTypeNames.FULL_SHOW_GAME, fullShowGame],
   [interactionTypeNames.FULL_SHOW_WAITING, FullShowWaiting],
 
   [interactionTypeNames.ESTIMATION_GAME, EstimationGame],

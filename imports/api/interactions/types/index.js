@@ -1,6 +1,6 @@
 import { announcement } from './announcement';
 import { estimationGame, estimationVoting, estimationWaiting, estimationEnded } from './estimation';
-import { fullShowVoting, fullShowWaiting } from './fullShowVoting';
+import { fullShowGame, fullShowWaiting } from './fullShowGame';
 
 const interactionTypes = new Map();
 const schemaKeys = [];
@@ -35,7 +35,7 @@ function addInteractionTypeToMap(interactionType) {
   estimationVoting,
   estimationWaiting,
   estimationEnded,
-  fullShowVoting,
+  fullShowGame,
   fullShowWaiting,
 ].forEach((type) => addInteractionTypeToMap(type));
 

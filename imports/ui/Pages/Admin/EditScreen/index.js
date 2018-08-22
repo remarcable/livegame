@@ -12,19 +12,29 @@ import {
   removeInteraction,
 } from '/imports/api/interactions/methods';
 
+import Candidates from '/imports/api/candidates/collection';
+
 import { mapSort } from '/imports/api/helpers/mapSort';
+
+import {
+  insertCandidate,
+  removeCandidate,
+  updateCandidate,
+  setCandidate,
+} from '/imports/api/candidates/methods';
 
 import AdminLayout from '/imports/ui/Layouts/AdminLayout';
 import EditInteraction from './EditInteraction';
 import NewInteraction from './NewInteraction';
 import SortInteractions from './SortInteractions';
+import EditCandidates from './EditCandidates';
 
 const propTypes = {
   interactions: PropTypes.array.isRequired, // TODO: better type!
   isReady: PropTypes.bool.isRequired,
 };
 
-const EditScreen = ({ isReady, interactions }) => (
+const EditScreen = ({ isReady, interactions, candidates }) => (
   <AdminLayout>
     <div>
       <NewInteraction
@@ -59,6 +69,19 @@ const EditScreen = ({ isReady, interactions }) => (
         changeOrder={({ id, pos }) => moveToPosition.call({ id, pos })}
       />
     </div>
+    <div>
+      {isReady && (
+        <EditCandidates
+          candidates={candidates}
+          insertCandidate={({ name, imageUrl }) => insertCandidate.call({ name, imageUrl })}
+          updateCandidate={({ _id, name, imageUrl }) =>
+            updateCandidate.call({ _id, name, imageUrl })
+          }
+          removeCandidate={({ _id }) => removeCandidate.call({ _id })}
+          setCandidate={({ _id }) => setCandidate.call({ _id })}
+        />
+      )}
+    </div>
   </AdminLayout>
 );
 
@@ -66,8 +89,10 @@ EditScreen.propTypes = propTypes;
 
 export default withTracker(() => {
   const interactionsHandle = Meteor.subscribe('interactions.allInteractions');
-  const isReady = interactionsHandle.ready();
+  const candidatesHandle = Meteor.subscribe('candidates.allCandidates');
+  const isReady = interactionsHandle.ready() && candidatesHandle.ready();
   const interactions = Interactions.find().fetch();
+  const candidates = Candidates.find().fetch();
 
-  return { interactions: mapSort(interactions), isReady };
+  return { interactions: mapSort(interactions), candidates, isReady };
 })(EditScreen);

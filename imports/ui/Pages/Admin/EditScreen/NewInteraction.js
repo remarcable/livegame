@@ -23,14 +23,12 @@ class NewInteraction extends PureComponent {
   }
 
   handleSubmit({ data }) {
-    console.log(data);
     const { createInteraction } = this.props;
     createInteraction({ interactionType: this.state.selected, data });
   }
 
   render() {
-    const { props, state } = this;
-    const { createInteraction } = props;
+    const { state } = this;
     return (
       <div>
         <select onChange={this.handleSelectChange} selected={state.selected}>

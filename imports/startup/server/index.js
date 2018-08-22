@@ -3,6 +3,7 @@ import '/imports/api/users/server';
 
 import '/imports/api/interactions/server';
 import '/imports/api/submissions/server';
+import '/imports/api/candidates/server';
 
 import '../both';
 import '../both/admin';

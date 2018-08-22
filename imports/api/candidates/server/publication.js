@@ -15,7 +15,7 @@ Meteor.publish('candidate', function publishCandidatesUser() {
   );
 });
 
-Meteor.publish('candidates.admin', function publishCandidatesAdmin() {
+Meteor.publish('candidates.allCandidates', function publishCandidatesAdmin() {
   if (!this.userId || !Meteor.userIsAdmin(this.userId)) return this.ready();
   return Candidates.find(
     {},
@@ -25,7 +25,6 @@ Meteor.publish('candidates.admin', function publishCandidatesAdmin() {
         imageUrl: 1,
         active: 1,
       },
-      limit: 1,
     },
   );
 });

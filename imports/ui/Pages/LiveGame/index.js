@@ -7,6 +7,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import InteractionsCollection from '/imports/api/interactions/collection';
 import SubmissionsCollection from '/imports/api/submissions/collection';
 import { submit } from '/imports/api/submissions/methods';
+import interactionStates from '/imports/api/interactions/states';
 
 import PlayerLayout from '/imports/ui/Layouts/PlayerLayout';
 import Interactions from './Interactions';
@@ -34,7 +35,7 @@ export default withTracker(() => {
   const ownSubmissionsHandle = Meteor.subscribe('submissions.own');
   const isReady = ownInteractionsHandle.ready() && ownSubmissionsHandle.ready();
 
-  const interaction = InteractionsCollection.findOne() || {};
+  const interaction = InteractionsCollection.findOne({ state: interactionStates.ACTIVE }) || {};
   const submissionForCurrentInteraction = SubmissionsCollection.findOne({
     interactionId: interaction._id,
   });

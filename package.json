@@ -56,7 +56,7 @@
     "eslint-plugin-react": "^7.10.0",
     "jest": "^22.4.4",
     "onchange": "^3.3.0",
-    "prettier": "1.11.1"
+    "prettier": "^1.14.2"
   },
   "meteor": {
     "testModule": {

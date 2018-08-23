@@ -7,7 +7,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import InteractionsCollection from '/imports/api/interactions/collection';
 import SubmissionsCollection from '/imports/api/submissions/collection';
 import { submit } from '/imports/api/submissions/methods';
-import interactionStates from '/imports/api/interactions/states';
+import * as interactionStates from '/imports/api/interactions/states';
 
 import PlayerLayout from '/imports/ui/Layouts/PlayerLayout';
 import Interactions from './Interactions';

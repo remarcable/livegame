@@ -28,6 +28,11 @@ Meteor.publish('interactions.active', function interactionsActivePublication() {
   );
 });
 
+Meteor.publish('interactions.scoreboard', function interactionsActivePublication({ interactionId }) {
+  if (!this.userId || !Meteor.userIsAdmin(this.userId)) return this.ready();
+  return Interactions.find(interactionId);
+});
+
 Meteor.publish('interactions.allInteractions', function interactionsAllPublication() {
   if (!this.userId || !Meteor.userIsAdmin(this.userId)) return this.ready();
   return Interactions.find();

@@ -43,7 +43,7 @@ const UserListPageLoadable = Loadable({
 });
 
 const LiveViewScreenLoadable = Loadable({
-  loader: () => import('./Pages/Admin/LiveViewScreen'),
+  loader: () => import('./Pages/Admin/LiveView'),
   loading: FullPageLoading,
   delay: 200,
   timeout: 10000,

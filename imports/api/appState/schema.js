@@ -8,10 +8,6 @@ const appStateSchema = new SimpleSchema({
     optional: true,
   },
   interactionToShow: {
-    // interactionId is estimationGame: show estimation ranking
-    // ~ is estimationVoting: show estimation voting result
-    // ~ is showVoting: show full show voting result
-    // ~ is null or other interaction type: show nothing
     type: String,
     optional: true,
   },

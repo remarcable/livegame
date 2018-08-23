@@ -159,15 +159,15 @@ export const updateInteractionDetails = new ValidatedMethod({
     interactionType.validate({ data: { ...interaction[interactionType.schemaKey], ...data } });
   },
   run({ id, data }) {
-    const { type } = Interactions.findOne(id);
+    const { type, ...interaction } = Interactions.findOne(id);
     const { schemaKey } = interactionTypes.get(type);
     if (!schemaKey) {
       throw new Meteor.Error(
         `No schemaKey defined for ${type}. Aborted update of interactionDetails`,
       );
     }
-
-    return Interactions.update(id, { $set: { [schemaKey]: data } });
+    const currentData = interaction[schemaKey];
+    return Interactions.update(id, { $set: { [schemaKey]: { ...currentData, ...data } } });
   },
 });
 

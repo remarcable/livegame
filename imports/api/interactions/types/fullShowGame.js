@@ -14,11 +14,13 @@ export const fullShowGame = new InteractionType({
     pointsPaul: {
       type: Number,
       label: 'Punkte Paul',
+      optional: true,
       defaultValue: 0,
     },
     pointsCandidate: {
       type: Number,
       label: 'Punkte Kandidat',
+      optional: true,
       defaultValue: 0,
     },
     winner: {

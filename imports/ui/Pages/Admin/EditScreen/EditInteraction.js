@@ -23,7 +23,7 @@ class EditInteraction extends PureComponent {
   handleInputChange(event) {
     const { name, value, type } = event.target;
     if (type === 'number') {
-      this.setState({ [name]: parseInt(value, 10) || null });
+      this.setState({ [name]: parseInt(value, 10) });
     } else {
       this.setState({ [name]: value });
     }

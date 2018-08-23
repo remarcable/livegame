@@ -21,6 +21,7 @@
     "bcrypt": "^1.0.3",
     "just-random": "^2.0.0",
     "meteor-node-stubs": "^0.4.1",
+    "meteor-publish-join": "^1.1.7",
     "normalize.css": "^8.0.0",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",

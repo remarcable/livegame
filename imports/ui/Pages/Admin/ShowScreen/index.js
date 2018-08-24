@@ -11,8 +11,9 @@ import {
   nextInteraction,
 } from '/imports/api/interactions/methods';
 
-import interactionTypes, { typeNames } from '/imports/api/interactions/types';
+import { typeNames } from '/imports/api/interactions/types';
 import { mapSort } from '/imports/api/helpers/mapSort';
+import sortFullShowGames from '/imports/api/helpers/sortFullShowGames';
 
 import AdminLayout from '/imports/ui/Layouts/AdminLayout';
 import UpdateGames from './UpdateGames';
@@ -67,10 +68,7 @@ export default withTracker(() => {
   const interactions = Interactions.find().fetch();
   const games = interactions
     .filter((i) => i.type === interactionTypeNames.FULL_SHOW_GAME)
-    .sort((a, b) => {
-      const { schemaKey } = interactionTypes.get(a.type);
-      return a[schemaKey].gameNumber - b[schemaKey].gameNumber;
-    });
+    .sort(sortFullShowGames);
 
   return { interactions: mapSort(interactions), games, isReady };
 })(ShowScreen);

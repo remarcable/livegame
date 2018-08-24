@@ -27,6 +27,8 @@ export default withTracker(() => {
   const appStateHandle = Meteor.subscribe('appState.admin');
   const { interactionToShow: interactionId = null } = AppState.findOne() || {};
 
+  // because we have to additionally subscribe to
+  // interactions.scoreboard, isReady will be false for a short time
   const interactionsHandle = Meteor.subscribe('interactions.scoreboard', interactionId);
   const interaction = InteractionsCollection.findOne(interactionId) || {};
 

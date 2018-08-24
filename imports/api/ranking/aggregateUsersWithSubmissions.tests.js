@@ -21,7 +21,7 @@ describe('aggregateUsersWithSubmissions(userCollection)', () => {
   });
 
   describe('users', () => {
-    it('returns an array of objects with a userId', () => {
+    it('returns an array of objects with a userId', async () => {
       const usersToBeInserted = [
         { _id: '01', dataToBeRemoved: 1 },
         { _id: '02', dataToBeRemoved: 2 },
@@ -29,7 +29,7 @@ describe('aggregateUsersWithSubmissions(userCollection)', () => {
         { _id: '04', dataToBeRemoved: 4 },
       ];
 
-      UsersCollection.rawCollection().insertMany(usersToBeInserted);
+      await UsersCollection.rawCollection().insertMany(usersToBeInserted);
 
       const [result = []] = aggregateUsersAndInteractionsAndSubmissions(UsersCollection);
       const { users = [] } = result;
@@ -46,7 +46,7 @@ describe('aggregateUsersWithSubmissions(userCollection)', () => {
       expect(users).to.deep.equal(expected);
     });
 
-    it('does not return an admin user', () => {
+    it('does not return an admin user', async () => {
       const usersToBeInserted = [
         { _id: '01', role: 'admin' },
         { _id: '02' },
@@ -54,7 +54,7 @@ describe('aggregateUsersWithSubmissions(userCollection)', () => {
         { _id: '04' },
       ];
 
-      UsersCollection.rawCollection().insertMany(usersToBeInserted);
+      await UsersCollection.rawCollection().insertMany(usersToBeInserted);
 
       const [result = []] = aggregateUsersAndInteractionsAndSubmissions(UsersCollection);
       const { users = [] } = result;
@@ -65,7 +65,7 @@ describe('aggregateUsersWithSubmissions(userCollection)', () => {
   });
 
   describe('interactions', () => {
-    it('returns an array of objects containing an interactionId and an answer if at least one user exists', () => {
+    it('returns an array of objects containing an interactionId and an answer if at least one user exists', async () => {
       const usersToBeInserted = [{ _id: '01' }];
       const interactionsToBeInserted = [
         { _id: '01', type: 'ESTIMATION_GAME', estimationGame: { answer: 200 } },
@@ -78,9 +78,9 @@ describe('aggregateUsersWithSubmissions(userCollection)', () => {
         { _id: 'mySubmission', interactionId: 'myVotingId', userId: '01', value: 'YES' },
       ];
 
-      UsersCollection.rawCollection().insertMany(usersToBeInserted);
-      InteractionsCollection.rawCollection().insertMany(interactionsToBeInserted);
-      SubmissionsCollection.rawCollection().insertMany(submissionsToBeInserted);
+      await UsersCollection.rawCollection().insertMany(usersToBeInserted);
+      await InteractionsCollection.rawCollection().insertMany(interactionsToBeInserted);
+      await SubmissionsCollection.rawCollection().insertMany(submissionsToBeInserted);
 
       const [result = []] = aggregateUsersAndInteractionsAndSubmissions(UsersCollection);
       const { interactions = [] } = result;
@@ -95,9 +95,9 @@ describe('aggregateUsersWithSubmissions(userCollection)', () => {
       expect(interactions).to.deep.equal(expected);
     });
 
-    it('returns an empty array when no interactions exist', () => {
+    it('returns an empty array when no interactions exist', async () => {
       const usersToBeInserted = [{ _id: '01' }];
-      UsersCollection.rawCollection().insertMany(usersToBeInserted);
+      await UsersCollection.rawCollection().insertMany(usersToBeInserted);
 
       const [result = []] = aggregateUsersAndInteractionsAndSubmissions(UsersCollection);
       const { interactions = [] } = result;
@@ -107,14 +107,14 @@ describe('aggregateUsersWithSubmissions(userCollection)', () => {
       expect(interactions).to.deep.equal(expected);
     });
 
-    it('with answer: returns answer', () => {
+    it('with answer: returns answer', async () => {
       const usersToBeInserted = [{ _id: '01' }];
       const interactionsToBeInserted = [
         { _id: '01', type: 'ESTIMATION_GAME', estimationGame: { answer: 200 } },
       ];
 
-      UsersCollection.rawCollection().insertMany(usersToBeInserted);
-      InteractionsCollection.rawCollection().insertMany(interactionsToBeInserted);
+      await UsersCollection.rawCollection().insertMany(usersToBeInserted);
+      await InteractionsCollection.rawCollection().insertMany(interactionsToBeInserted);
 
       const [result = []] = aggregateUsersAndInteractionsAndSubmissions(UsersCollection);
       const { interactions = [] } = result;
@@ -124,7 +124,7 @@ describe('aggregateUsersWithSubmissions(userCollection)', () => {
       expect(interactions).to.deep.equal(expected);
     });
 
-    it('with votingId: returns calculated percentage of YES submissions as answer', () => {
+    it('with votingId: returns calculated percentage of YES submissions as answer', async () => {
       const usersToBeInserted = [{ _id: '01' }];
       const interactionsToBeInserted = [
         { _id: '01', type: 'ESTIMATION_GAME', estimationGame: { votingId: 'myVotingId' } },
@@ -138,9 +138,9 @@ describe('aggregateUsersWithSubmissions(userCollection)', () => {
         { _id: 'mySubmission5', interactionId: 'myVotingId', userId: '05', value: 'NO' },
       ];
 
-      UsersCollection.rawCollection().insertMany(usersToBeInserted);
-      InteractionsCollection.rawCollection().insertMany(interactionsToBeInserted);
-      SubmissionsCollection.rawCollection().insertMany(submissionsToBeInserted);
+      await UsersCollection.rawCollection().insertMany(usersToBeInserted);
+      await InteractionsCollection.rawCollection().insertMany(interactionsToBeInserted);
+      await SubmissionsCollection.rawCollection().insertMany(submissionsToBeInserted);
 
       const [result = []] = aggregateUsersAndInteractionsAndSubmissions(UsersCollection);
       const { interactions = [] } = result;
@@ -150,14 +150,14 @@ describe('aggregateUsersWithSubmissions(userCollection)', () => {
       expect(interactions).to.deep.equal(expected);
     });
 
-    it('with votingId: returns null as answer when no submission for this voting exists', () => {
+    it('with votingId: returns null as answer when no submission for this voting exists', async () => {
       const usersToBeInserted = [{ _id: '01' }];
       const interactionsToBeInserted = [
         { _id: '01', type: 'ESTIMATION_GAME', estimationGame: { votingId: 'myVotingId' } },
       ];
 
-      UsersCollection.rawCollection().insertMany(usersToBeInserted);
-      InteractionsCollection.rawCollection().insertMany(interactionsToBeInserted);
+      await UsersCollection.rawCollection().insertMany(usersToBeInserted);
+      await InteractionsCollection.rawCollection().insertMany(interactionsToBeInserted);
 
       const [result = []] = aggregateUsersAndInteractionsAndSubmissions(UsersCollection);
       const { interactions = [] } = result;
@@ -169,7 +169,7 @@ describe('aggregateUsersWithSubmissions(userCollection)', () => {
   });
 
   describe('submissions', () => {
-    it('returns an array of objects with the userId, interactionId and a value', () => {
+    it('returns an array of objects with the userId, interactionId and a value', async () => {
       const usersToBeInserted = [{ _id: '01' }];
       const interactionsToBeInserted = [
         { _id: '01', type: 'ESTIMATION_GAME', estimationGame: { answer: 12 } },
@@ -179,9 +179,9 @@ describe('aggregateUsersWithSubmissions(userCollection)', () => {
         { _id: 'mySubmission1', interactionId: '01', userId: '01', value: 101 },
       ];
 
-      UsersCollection.rawCollection().insertMany(usersToBeInserted);
-      InteractionsCollection.rawCollection().insertMany(interactionsToBeInserted);
-      SubmissionsCollection.rawCollection().insertMany(submissionsToBeInserted);
+      await UsersCollection.rawCollection().insertMany(usersToBeInserted);
+      await InteractionsCollection.rawCollection().insertMany(interactionsToBeInserted);
+      await SubmissionsCollection.rawCollection().insertMany(submissionsToBeInserted);
 
       const [result = []] = aggregateUsersAndInteractionsAndSubmissions(UsersCollection);
       const { submissions = [] } = result;
@@ -191,7 +191,7 @@ describe('aggregateUsersWithSubmissions(userCollection)', () => {
       expect(submissions).to.deep.equal(expected);
     });
 
-    it('returns only submissions for interactions that are in interactions', () => {
+    it('returns only submissions for interactions that are in interactions', async () => {
       const usersToBeInserted = [{ _id: '01' }];
       const interactionsToBeInserted = [
         { _id: '01', type: 'ESTIMATION_GAME', estimationGame: { answer: 12 } },
@@ -207,9 +207,9 @@ describe('aggregateUsersWithSubmissions(userCollection)', () => {
         { _id: 'mySubmission6', interactionId: '03', userId: '02', value: 106 }, // should not be included
       ];
 
-      UsersCollection.rawCollection().insertMany(usersToBeInserted);
-      InteractionsCollection.rawCollection().insertMany(interactionsToBeInserted);
-      SubmissionsCollection.rawCollection().insertMany(submissionsToBeInserted);
+      await UsersCollection.rawCollection().insertMany(usersToBeInserted);
+      await InteractionsCollection.rawCollection().insertMany(interactionsToBeInserted);
+      await SubmissionsCollection.rawCollection().insertMany(submissionsToBeInserted);
 
       const [result = []] = aggregateUsersAndInteractionsAndSubmissions(UsersCollection);
       const { submissions = [] } = result;
@@ -219,14 +219,14 @@ describe('aggregateUsersWithSubmissions(userCollection)', () => {
       expect(submissions).to.deep.equal(expected);
     });
 
-    it('returns an empty array when no interactions exist', () => {
+    it('returns an empty array when no interactions exist', async () => {
       const usersToBeInserted = [{ _id: '01' }];
       const submissionsToBeInserted = [
         { _id: 'mySubmission1', interactionId: '01', userId: '01', value: 101 }, // even though it should not be possible to have a submission without an interaction we also test that this is not includes
       ];
 
-      UsersCollection.rawCollection().insertMany(usersToBeInserted);
-      SubmissionsCollection.rawCollection().insertMany(submissionsToBeInserted);
+      await UsersCollection.rawCollection().insertMany(usersToBeInserted);
+      await SubmissionsCollection.rawCollection().insertMany(submissionsToBeInserted);
 
       const [result = []] = aggregateUsersAndInteractionsAndSubmissions(UsersCollection);
       const { submissions = [] } = result;
@@ -236,14 +236,14 @@ describe('aggregateUsersWithSubmissions(userCollection)', () => {
       expect(submissions).to.deep.equal(expected);
     });
 
-    it('returns an empty array when no submissions exist', () => {
+    it('returns an empty array when no submissions exist', async () => {
       const usersToBeInserted = [{ _id: '01' }];
       const interactionsToBeInserted = [
         { _id: '01', type: 'ESTIMATION_GAME', estimationGame: { answer: 12 } },
       ];
 
-      UsersCollection.rawCollection().insertMany(usersToBeInserted);
-      InteractionsCollection.rawCollection().insertMany(interactionsToBeInserted);
+      await UsersCollection.rawCollection().insertMany(usersToBeInserted);
+      await InteractionsCollection.rawCollection().insertMany(interactionsToBeInserted);
 
       const [result = []] = aggregateUsersAndInteractionsAndSubmissions(UsersCollection);
       const { submissions = [] } = result;

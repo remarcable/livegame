@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const propTypes = {
-  question: PropTypes.string.isRequired,
+  gameNumber: PropTypes.number.isRequired,
   hasSubmitted: PropTypes.bool.isRequired,
   submit: PropTypes.func.isRequired,
 };
 
-const FullShowGame = ({ question, hasSubmitted, submit }) => (
+const FullShowGame = ({ gameNumber, hasSubmitted, submit }) => (
   <div>
     <h1>FullShowGame</h1>
-    <p>Question: {question}</p>
+    <p>GameNumber: {gameNumber}</p>
     {hasSubmitted && <p>submitted</p>}
 
     <button onClick={() => submit('PAUL')}>PAUL</button>

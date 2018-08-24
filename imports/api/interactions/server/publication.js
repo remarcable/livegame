@@ -1,8 +1,13 @@
 import { Meteor } from 'meteor/meteor';
+import { JoinServer } from 'meteor-publish-join';
+
+import Submissions from '/imports/api/submissions/collection';
 
 import Interactions from '../collection';
-import interactionTypes from '../types';
+import interactionTypes, { typeNames } from '../types';
 import * as interactionStates from '../states';
+
+import getPercentageForVoting from './getPercentageForVoting';
 
 Meteor.publish('interactions.active', function interactionsActivePublication() {
   if (!this.userId) return this.ready();
@@ -28,12 +33,53 @@ Meteor.publish('interactions.active', function interactionsActivePublication() {
   );
 });
 
-Meteor.publish('interactions.scoreboard', function interactionsActivePublication({ interactionId }) {
-  if (!this.userId || !Meteor.userIsAdmin(this.userId)) return this.ready();
-  return Interactions.find(interactionId);
-});
-
 Meteor.publish('interactions.allInteractions', function interactionsAllPublication() {
   if (!this.userId || !Meteor.userIsAdmin(this.userId)) return this.ready();
   return Interactions.find();
+});
+
+const interactionTypeNames = typeNames();
+Meteor.publish('interactions.scoreboard', function interactionsActivePublication(interactionId) {
+  if (!this.userId || !Meteor.userIsAdmin(this.userId)) return this.ready();
+
+  if (typeof interactionId !== 'string') {
+    return this.ready();
+  }
+
+  const interaction = Interactions.findOne(interactionId);
+  const { type } = interaction;
+
+  JoinServer.publish({
+    context: this,
+    name: 'additionalData',
+    interval: 5000,
+    isShared: true,
+    doJoin() {
+      if (type === interactionTypeNames.ESTIMATION_VOTING) {
+        return {
+          yesPercentage: getPercentageForVoting({
+            votingId: interactionId,
+            optionNameOne: 'YES',
+            optionNameTwo: 'NO',
+            collection: Submissions,
+          }),
+        };
+      }
+
+      if (type === interactionTypeNames.FULL_SHOW_GAME) {
+        return {
+          paulPercentage: getPercentageForVoting({
+            votingId: interactionId,
+            optionNameOne: 'PAUL',
+            optionNameTwo: 'CANDIDATE',
+            collection: Submissions,
+          }),
+        };
+      }
+
+      return {};
+    },
+  });
+
+  return Interactions.find(interactionId);
 });

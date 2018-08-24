@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
+import { JoinClient } from 'meteor-publish-join';
 
 import AppState from '/imports/api/appState/collection';
 import InteractionsCollection from '/imports/api/interactions/collection';
@@ -24,14 +25,14 @@ LiveView.propTypes = propTypes;
 
 export default withTracker(() => {
   const appStateHandle = Meteor.subscribe('appState.admin');
-  const { interactionToShow = null } = AppState.findOne() || {};
+  const { interactionToShow: interactionId = null } = AppState.findOne() || {};
 
-  const interactionsHandle = Meteor.subscribe('interactions.scoreboard', {
-    interactionId: interactionToShow,
-  });
-  const interaction = InteractionsCollection.findOne(interactionToShow) || {};
+  const interactionsHandle = Meteor.subscribe('interactions.scoreboard', interactionId);
+  const interaction = InteractionsCollection.findOne(interactionId) || {};
+
+  const additionalData = JoinClient.get('additionalData') || {};
 
   const isReady = appStateHandle.ready() && interactionsHandle.ready();
 
-  return { interaction, isReady };
+  return { interaction: { ...interaction, additionalData }, isReady };
 })(LiveView);

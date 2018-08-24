@@ -65,18 +65,6 @@ export const estimationVoting = new InteractionType({
       label: 'Frage',
       publish: true,
     },
-    accumulatedYesVotes: {
-      type: Number,
-      label: 'yes votes',
-      optional: true,
-      defaultValue: null,
-    },
-    accumulatedNoVotes: {
-      type: Number,
-      label: 'no votes',
-      optional: true,
-      defaultValue: null,
-    },
   },
 });
 

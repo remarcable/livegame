@@ -5,15 +5,18 @@ import Loadable from 'react-loadable';
 import 'normalize.css';
 
 import LiveGame from './Pages/LiveGame';
+import SelectAdminPage from './Pages/Admin/SelectAdminPage';
 import FullPageLoading from './Pages/FullPageLoading';
 
 const App = () => (
   <Router>
     <Switch>
-      <Route exact path="/admin" component={AdminShowScreenLoadable} />
+      <Route exact path="/admin" component={SelectAdminPage} />
+      <Route exact path="/admin/show" component={AdminShowScreenLoadable} />
       <Route exact path="/admin/edit" component={AdminEditScreenLoadable} />
       <Route exact path="/admin/users" component={UserListPageLoadable} />
       <Route exact path="/admin/liveview" component={LiveViewScreenLoadable} />
+      <Route exact path="/admin/livecontrol" component={LiveViewControlScreenLoadable} />
       <Route component={LiveGame} />
     </Switch>
   </Router>
@@ -44,6 +47,13 @@ const UserListPageLoadable = Loadable({
 
 const LiveViewScreenLoadable = Loadable({
   loader: () => import('./Pages/Admin/LiveView'),
+  loading: FullPageLoading,
+  delay: 200,
+  timeout: 10000,
+});
+
+const LiveViewControlScreenLoadable = Loadable({
+  loader: () => import('./Pages/Admin/LiveView/Control'),
   loading: FullPageLoading,
   delay: 200,
   timeout: 10000,

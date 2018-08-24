@@ -12,6 +12,7 @@ import sortFullShowGames from '/imports/api/helpers/sortFullShowGames';
 import { displayInteraction } from '/imports/api/appState/methods';
 
 import AdminLayout from '/imports/ui/Layouts/AdminLayout';
+import LiveView from '../';
 
 const propTypes = {
   isReady: PropTypes.bool.isRequired,
@@ -23,6 +24,22 @@ const propTypes = {
 const LiveViewControl = ({ isReady, games, votings, activeInteraction }) => (
   <AdminLayout>
     <span>
+      <h1>LiveView</h1>
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          position: 'absolute',
+          backgroundColor: 'rgba(255, 255, 255, .2)',
+          top: 20,
+          left: 40,
+          transform: 'scale(.5)',
+          boxShadow:
+            '0px 10px 13px -6px rgba(0, 0, 0, 0.2),0px 20px 31px 3px rgba(0, 0, 0, 0.14),0px 8px 38px 7px rgba(0, 0, 0, 0.12)',
+        }}
+      >
+        <LiveView />
+      </div>
       <h1>Games</h1>
       {games.map((game) => (
         <StartButton

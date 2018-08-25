@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { padLeft } from '../../../api/helpers';
+import { padLeft } from '/imports/api/helpers';
 
 const propTypes = {
   question: PropTypes.string.isRequired,

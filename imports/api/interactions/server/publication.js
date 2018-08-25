@@ -9,6 +9,8 @@ import * as interactionStates from '../states';
 
 import getPercentageForVoting from './getPercentageForVoting';
 
+const interactionTypeNames = typeNames();
+
 Meteor.publish('interactions.active', function interactionsActivePublication() {
   if (!this.userId) return this.ready();
 
@@ -20,7 +22,12 @@ Meteor.publish('interactions.active', function interactionsActivePublication() {
     .reduce((obj, val) => ({ ...obj, [val]: 1 }), {});
 
   return Interactions.find(
-    { state: { $in: [interactionStates.ACTIVE, interactionStates.CLOSED] } },
+    {
+      $or: [
+        { type: interactionTypeNames.FULL_SHOW_GAME },
+        { state: { $in: [interactionStates.ACTIVE, interactionStates.CLOSED] } },
+      ],
+    },
     {
       fields: {
         state: 1,
@@ -28,7 +35,6 @@ Meteor.publish('interactions.active', function interactionsActivePublication() {
 
         ...fieldsToPublish,
       },
-      limit: 1,
     },
   );
 });
@@ -38,7 +44,6 @@ Meteor.publish('interactions.allInteractions', function interactionsAllPublicati
   return Interactions.find();
 });
 
-const interactionTypeNames = typeNames();
 Meteor.publish('interactions.scoreboard', function interactionsActivePublication(interactionId) {
   if (!this.userId || !Meteor.userIsAdmin(this.userId)) return this.ready();
 

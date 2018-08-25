@@ -24,7 +24,6 @@ shell-server@0.3.1
 aldeed:collection2@3.0.0
 accounts-password@1.5.1
 mdg:meteor-apm-agent
-natestrauser:publish-performant-counts
 aldeed:schema-index
 mdg:validation-error
 sakulstra:aggregate

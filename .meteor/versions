@@ -61,7 +61,6 @@ mongo@1.5.1
 mongo-dev-server@1.1.0
 mongo-id@1.0.7
 mongo-livedata@1.0.12
-natestrauser:publish-performant-counts@0.1.2
 npm-bcrypt@0.9.3
 npm-mongo@3.0.7
 ordered-dict@1.1.0

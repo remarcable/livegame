@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { Counter } from 'meteor/natestrauser:publish-performant-counts';
+import { JoinClient } from 'meteor-publish-join';
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -63,7 +63,7 @@ const aliasStyles = {
 export default withTracker(() => {
   const userHandle = Meteor.subscribe('users.loggedIn');
   const countsHandle = Meteor.subscribe('users.count');
-  const maxRank = Counter.get('users.count');
+  const maxRank = JoinClient.get('userCount');
   const isReady = userHandle.ready() && countsHandle.ready();
   const user = Meteor.user() || {};
   const { firstName, lastName, alias, rank } = user;

@@ -38,10 +38,12 @@ const ProgressSidebar = ({ classes, games }) => {
 ProgressSidebar.propTypes = propTypes;
 
 // TODO: use theme variable
+const width = 50;
 const styles = () => ({
   wrapper: {
     position: 'relative',
-    width: 50,
+    width,
+    minWidth: width,
     height: '100%',
 
     display: 'flex',
@@ -62,7 +64,7 @@ const styles = () => ({
     left: 0,
     bottom: 10,
 
-    width: 50,
+    width,
 
     display: 'flex',
     flexDirection: 'column',

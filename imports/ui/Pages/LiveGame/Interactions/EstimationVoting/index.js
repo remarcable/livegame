@@ -1,22 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import EstimationWaiting from '../EstimationWaiting';
+
 const propTypes = {
   question: PropTypes.string.isRequired,
   hasSubmitted: PropTypes.bool.isRequired,
   submit: PropTypes.func.isRequired,
 };
 
-const EstimationVoting = ({ question, hasSubmitted, submit }) => (
-  <div>
-    <h1>EstimationVoting</h1>
-    <p>Question: {question}</p>
-    {hasSubmitted && <p>submitted</p>}
+const EstimationVoting = ({ question, hasSubmitted, submit }) => {
+  if (hasSubmitted) {
+    return <EstimationWaiting />;
+  }
 
-    <button onClick={() => submit('YES')}>Ja</button>
-    <button onClick={() => submit('NO')}>Nein</button>
-  </div>
-);
+  return (
+    <div>
+      <h1>EstimationVoting</h1>
+      <p>Question: {question}</p>
+      <button onClick={() => submit('YES')}>Ja</button>
+      <button onClick={() => submit('NO')}>Nein</button>
+    </div>
+  );
+};
 
 EstimationVoting.propTypes = propTypes;
 

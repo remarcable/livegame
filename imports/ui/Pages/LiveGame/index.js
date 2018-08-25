@@ -30,11 +30,13 @@ const LiveGame = ({ classes, loading, interaction, games, hasSubmitted }) => (
   <PlayerLayout loading={loading}>
     <div className={classes.wrapper}>
       <ProgressSidebar games={games} />
-      <Interactions
-        interaction={interaction}
-        submit={(value) => submit.call({ value })}
-        hasSubmitted={hasSubmitted}
-      />
+      <div className={classes.interactionsWrapper}>
+        <Interactions
+          interaction={interaction}
+          submit={(value) => submit.call({ value })}
+          hasSubmitted={hasSubmitted}
+        />
+      </div>
     </div>
   </PlayerLayout>
 );
@@ -46,6 +48,12 @@ const styles = {
     width: '100%',
     height: '100%',
     display: 'flex',
+  },
+  interactionsWrapper: {
+    width: 'calc(100% - 50px)', // -50px for ProgressSidebar
+    height: '100%',
+    maxWidth: 'calc(100% - 50px)',
+    maxHeight: '100%',
   },
 };
 

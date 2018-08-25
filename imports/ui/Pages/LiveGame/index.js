@@ -12,39 +12,60 @@ import * as interactionStates from '/imports/api/interactions/states';
 import sortFullShowGames from '/imports/api/helpers/sortFullShowGames';
 import getStateForGameAndSubmission from '/imports/api/helpers/getStateForGameAndSubmission';
 
+import { withStyles } from '@material-ui/core/styles';
+
 import PlayerLayout from '/imports/ui/Layouts/PlayerLayout';
 import ProgressSidebar from '/imports/ui/components/ProgressSidebar';
 import Interactions from './Interactions';
 
 const propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   interaction: PropTypes.object.isRequired, // TODO: better type
   games: PropTypes.array.isRequired, // TODO: better type
   loading: PropTypes.bool.isRequired,
   hasSubmitted: PropTypes.bool.isRequired,
 };
 
-const LiveGame = ({ loading, interaction, games, hasSubmitted }) => (
+const LiveGame = ({ classes, loading, interaction, games, hasSubmitted }) => (
   <PlayerLayout loading={loading}>
-    <ProgressSidebar games={games} />
-    <Interactions
-      interaction={interaction}
-      submit={(value) => submit.call({ value })}
-      hasSubmitted={hasSubmitted}
-    />
+    <div className={classes.wrapper}>
+      <ProgressSidebar games={games} />
+      <Interactions
+        interaction={interaction}
+        submit={(value) => submit.call({ value })}
+        hasSubmitted={hasSubmitted}
+      />
+    </div>
   </PlayerLayout>
 );
 
 LiveGame.propTypes = propTypes;
 
+const styles = {
+  wrapper: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+  },
+};
+
 const interactionTypeNames = typeNames();
+
+// save old interaction to always show the last "ACTIVE" interaction
+// this prevents paint flashing a loading message
+let oldInteraction = {};
 export default withTracker(() => {
   const ownInteractionsHandle = Meteor.subscribe('interactions.active');
   const ownSubmissionsHandle = Meteor.subscribe('submissions.own');
   const isReady = ownInteractionsHandle.ready() && ownSubmissionsHandle.ready();
 
-  const interaction = InteractionsCollection.findOne({ state: interactionStates.ACTIVE }) || {};
+  const interaction = InteractionsCollection.findOne({ state: interactionStates.ACTIVE });
+  if (interaction) {
+    oldInteraction = interaction;
+  }
+
   const submissionForCurrentInteraction = SubmissionsCollection.findOne({
-    interactionId: interaction._id,
+    interactionId: interaction && interaction._id,
   });
 
   const submissions = SubmissionsCollection.find().fetch();
@@ -64,9 +85,9 @@ export default withTracker(() => {
     });
 
   return {
-    interaction,
+    interaction: interaction || oldInteraction,
     games: isReady ? games : [],
     hasSubmitted: !!submissionForCurrentInteraction,
     loading: !isReady,
   };
-})(LiveGame);
+})(withStyles(styles)(LiveGame));

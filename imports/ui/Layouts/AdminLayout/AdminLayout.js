@@ -20,15 +20,11 @@ const AdminLayout = ({ children, isReady, userIsLoggedInAndAdmin }) => {
     return null;
   }
 
-  if (!userIsLoggedInAndAdmin) {
-    return (
-      <MuiThemeProvider theme={theme}>
-        <Login />
-      </MuiThemeProvider>
-    );
-  }
-  // todo only add MuiThemeProvider once
-  return <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>;
+  return (
+    <MuiThemeProvider theme={theme}>
+      {userIsLoggedInAndAdmin ? children : <Login />}
+    </MuiThemeProvider>
+  );
 };
 
 AdminLayout.propTypes = propTypes;

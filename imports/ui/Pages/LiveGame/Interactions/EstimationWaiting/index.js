@@ -1,8 +1,10 @@
 import React from 'react';
 
+import Header from '/imports/ui/components/Header';
+
 const EstimationWaiting = () => (
   <div>
-    <h1>EstimationWaiting</h1>
+    <Header title="Estimation Waiting" />
   </div>
 );
 

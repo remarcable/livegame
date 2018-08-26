@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Header from '/imports/ui/components/Header';
+
 import EstimationWaiting from '../EstimationWaiting';
 
 const propTypes = {
@@ -16,7 +18,7 @@ const EstimationVoting = ({ question, hasSubmitted, submit }) => {
 
   return (
     <div>
-      <h1>EstimationVoting</h1>
+      <Header title="Estimation Voting" />
       <p>Question: {question}</p>
       <button onClick={() => submit('YES')}>Ja</button>
       <button onClick={() => submit('NO')}>Nein</button>

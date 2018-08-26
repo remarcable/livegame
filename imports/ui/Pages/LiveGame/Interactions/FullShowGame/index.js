@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Header from '/imports/ui/components/Header';
+
 import FullShowWaiting from '../FullShowWaiting';
 
 const propTypes = {
@@ -16,7 +18,7 @@ const FullShowGame = ({ gameNumber, hasSubmitted, submit }) => {
 
   return (
     <div>
-      <h1>FullShowGame</h1>
+      <Header title="Full Show Game" />
       <p>GameNumber: {gameNumber}</p>
       <button onClick={() => submit('PAUL')}>PAUL</button>
       <button onClick={() => submit('CANDIDATE')}>KANDIDAT</button>

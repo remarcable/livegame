@@ -61,7 +61,7 @@ const interactionTypeNames = typeNames();
 
 // save old interaction to always show the last "ACTIVE" interaction
 // this prevents paint flashing a loading message
-let oldInteraction = {};
+let lastInteraction = {};
 export default withTracker(() => {
   const ownInteractionsHandle = Meteor.subscribe('interactions.active');
   const ownSubmissionsHandle = Meteor.subscribe('submissions.own');
@@ -69,11 +69,11 @@ export default withTracker(() => {
 
   const interaction = InteractionsCollection.findOne({ state: interactionStates.ACTIVE });
   if (interaction) {
-    oldInteraction = interaction;
+    lastInteraction = interaction;
   }
 
   const submissionForCurrentInteraction = SubmissionsCollection.findOne({
-    interactionId: interaction && interaction._id,
+    interactionId: lastInteraction && lastInteraction._id,
   });
 
   const submissions = SubmissionsCollection.find().fetch();
@@ -93,7 +93,7 @@ export default withTracker(() => {
     });
 
   return {
-    interaction: interaction || oldInteraction,
+    interaction: lastInteraction,
     games: isReady ? games : [],
     hasSubmitted: !!submissionForCurrentInteraction,
     loading: !isReady,

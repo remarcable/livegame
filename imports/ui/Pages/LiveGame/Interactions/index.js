@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import interactionTypes, { typeNames } from '/imports/api/interactions/types';
 
+import InteractionWrapper from '/imports/ui/components/InteractionWrapper';
+
 import FullShowGame from './FullShowGame';
 import FullShowWaiting from './FullShowWaiting';
 
@@ -31,9 +33,11 @@ const propTypes = {
   interaction: PropTypes.object.isRequired, // TODO: better type
   hasSubmitted: PropTypes.bool.isRequired,
   submit: PropTypes.func.isRequired,
+  scorePaul: PropTypes.number.isRequired,
+  scoreCandidate: PropTypes.number.isRequired,
 };
 
-const Interactions = ({ interaction, hasSubmitted, submit }) => {
+const Interactions = ({ interaction, hasSubmitted, submit, scorePaul, scoreCandidate }) => {
   const { type } = interaction;
   const Component = interactionsMap.get(type);
 
@@ -41,8 +45,19 @@ const Interactions = ({ interaction, hasSubmitted, submit }) => {
     return <div>TODO: Show graceful failure message here</div>; // TODO
   }
 
+  const liveScoreProps = {
+    mode: interaction.type === 'FULL_SHOW_GAME' ? 'BIG' : 'SMALL',
+    submittedFor: 'PAUL', // TODO
+    scorePaul,
+    scoreCandidate,
+  };
+
   const { schemaKey } = interactionTypes.get(type);
-  return <Component {...interaction[schemaKey]} hasSubmitted={hasSubmitted} submit={submit} />;
+  return (
+    <InteractionWrapper title={interaction.title} submit={submit} liveScoreProps={liveScoreProps}>
+      <Component {...interaction[schemaKey]} hasSubmitted={hasSubmitted} submit={submit} />
+    </InteractionWrapper>
+  );
 };
 
 Interactions.propTypes = propTypes;

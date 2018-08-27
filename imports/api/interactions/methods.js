@@ -164,11 +164,6 @@ export const updateInteractionDetails = new ValidatedMethod({
   run({ id, title, data }) {
     const { type, ...interaction } = Interactions.findOne(id);
     const { schemaKey } = interactionTypes.get(type);
-    if (!schemaKey) {
-      throw new Meteor.Error(
-        `No schemaKey defined for ${type}. Aborted update of interactionDetails`,
-      );
-    }
     const currentData = interaction[schemaKey];
     const updateQuery = { [schemaKey]: { ...currentData, ...data } };
 

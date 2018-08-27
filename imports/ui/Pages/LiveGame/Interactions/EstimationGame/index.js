@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Header from '/imports/ui/components/Header';
-
 import EstimationWaiting from '../EstimationWaiting';
 
 const propTypes = {
@@ -24,7 +22,6 @@ const EstimationGame = ({ question, hasSubmitted, submit }) => {
 
   return (
     <div>
-      <Header title="Estimation Game" />
       <p>Question: {question}</p>
       <form onSubmit={(e) => handleSubmit(e, submit)}>
         <input type="number" name="answer" required />

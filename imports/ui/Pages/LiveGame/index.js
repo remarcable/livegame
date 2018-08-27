@@ -24,9 +24,19 @@ const propTypes = {
   games: PropTypes.array.isRequired, // TODO: better type
   loading: PropTypes.bool.isRequired,
   hasSubmitted: PropTypes.bool.isRequired,
+  scorePaul: PropTypes.number.isRequired,
+  scoreCandidate: PropTypes.number.isRequired,
 };
 
-const LiveGame = ({ classes, loading, interaction, games, hasSubmitted }) => (
+const LiveGame = ({
+  classes,
+  loading,
+  interaction,
+  games,
+  hasSubmitted,
+  scorePaul,
+  scoreCandidate,
+}) => (
   <PlayerLayout loading={loading}>
     <div className={classes.wrapper}>
       <ProgressSidebar games={games} />
@@ -35,6 +45,8 @@ const LiveGame = ({ classes, loading, interaction, games, hasSubmitted }) => (
           interaction={interaction}
           submit={(value) => submit.call({ value })}
           hasSubmitted={hasSubmitted}
+          scorePaul={scorePaul}
+          scoreCandidate={scoreCandidate}
         />
       </div>
     </div>
@@ -97,5 +109,7 @@ export default withTracker(() => {
     games: isReady ? games : [],
     hasSubmitted: !!submissionForCurrentInteraction,
     loading: !isReady,
+    scorePaul: 50, // TODO
+    scoreCandidate: 54,
   };
 })(withStyles(styles)(LiveGame));

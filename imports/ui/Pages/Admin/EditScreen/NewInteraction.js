@@ -22,9 +22,9 @@ class NewInteraction extends PureComponent {
     this.setState({ selected: value });
   }
 
-  handleSubmit({ data }) {
+  handleSubmit({ data, title }) {
     const { createInteraction } = this.props;
-    createInteraction({ interactionType: this.state.selected, data });
+    createInteraction({ interactionType: this.state.selected, data, title });
   }
 
   render() {

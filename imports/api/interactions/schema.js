@@ -13,6 +13,11 @@ const baseSchema = {
     index: 1,
   },
 
+  title: {
+    type: String,
+    optional: true,
+  },
+
   state: {
     type: String,
     allowedValues: Object.keys(interactionStates),

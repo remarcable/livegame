@@ -30,6 +30,7 @@ Meteor.publish('interactions.active', function interactionsActivePublication() {
     },
     {
       fields: {
+        title: 1,
         state: 1,
         type: 1,
 

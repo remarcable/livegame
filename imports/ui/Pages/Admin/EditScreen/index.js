@@ -38,8 +38,8 @@ const EditScreen = ({ isReady, interactions, candidates }) => (
   <AdminLayout>
     <div>
       <NewInteraction
-        createInteraction={({ interactionType, data }) =>
-          createInteraction.call({ interactionType, data })
+        createInteraction={({ interactionType, data, title }) =>
+          createInteraction.call({ interactionType, data, title })
         }
       />
     </div>
@@ -56,8 +56,11 @@ const EditScreen = ({ isReady, interactions, candidates }) => (
               title={`${i.type}: ${i._id}`}
               id={i._id}
               currentData={i[schemaKey]}
+              currentInteractionTitle={i.title}
               schemaFields={interactionType.getFields()}
-              updateData={({ data }) => updateInteractionDetails.call({ id: i._id, data })}
+              updateData={({ data, title }) =>
+                updateInteractionDetails.call({ id: i._id, data, title })
+              }
               removeInteraction={({ id }) => removeInteraction.call({ id })}
             />
           );

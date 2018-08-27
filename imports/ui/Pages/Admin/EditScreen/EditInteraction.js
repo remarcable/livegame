@@ -5,6 +5,7 @@ const propTypes = {
   title: PropTypes.string.isRequired,
   id: PropTypes.string,
   currentData: PropTypes.object,
+  currentInteractionTitle: PropTypes.string,
   schemaFields: PropTypes.object,
   updateData: PropTypes.func.isRequired,
   removeInteraction: PropTypes.func,
@@ -14,7 +15,10 @@ class EditInteraction extends PureComponent {
   constructor(initialProps) {
     super(initialProps);
     // this does not work for NewInteraction as the currentData changes on rerender
-    this.state = { ...initialProps.currentData };
+    this.state = {
+      title: initialProps.currentInteractionTitle,
+      data: { ...initialProps.currentData },
+    };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleOnSubmit = this.handleOnSubmit.bind(this);
@@ -22,19 +26,30 @@ class EditInteraction extends PureComponent {
 
   handleInputChange(event) {
     const { name, value, type } = event.target;
+    if (name === 'title') {
+      this.setState({ title: value });
+      return;
+    }
+
     if (type === 'number') {
-      this.setState({ [name]: parseInt(value, 10) });
+      this.setState((prevState) => ({
+        ...prevState,
+        data: { ...prevState.data, [name]: parseInt(value, 10) },
+      }));
     } else {
-      this.setState({ [name]: value });
+      this.setState((prevState) => ({
+        ...prevState,
+        data: { ...prevState.data, [name]: value },
+      }));
     }
   }
 
   handleOnSubmit(event, updateData) {
     event.preventDefault();
-    const values = this.state;
+    const { data, title } = this.state;
 
     try {
-      updateData({ data: values });
+      updateData({ data, title });
     } catch (e) {
       alert(e.message);
     }
@@ -56,6 +71,14 @@ class EditInteraction extends PureComponent {
           onSubmit={(e) => this.handleOnSubmit(e, updateData)}
           style={{ display: 'flex', width: '100%', justifyContent: 'center' }}
         >
+          <input
+            name="title"
+            type="text"
+            placeholder="Titel"
+            value={state.title || ''}
+            onChange={this.handleInputChange}
+            style={{ marginRight: 10 }}
+          />
           {Object.keys(schemaFields).map((key) => {
             const field = schemaFields[key];
             const inputType = getInputTypeFromType(field.type);
@@ -66,7 +89,7 @@ class EditInteraction extends PureComponent {
                 name={key}
                 type={inputType}
                 placeholder={field.label}
-                value={state[key] || ''}
+                value={state.data[key] || ''}
                 onChange={this.handleInputChange}
                 style={{ marginRight: 10 }}
               />

@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { check } from 'meteor/check';
+import { check, Match } from 'meteor/check';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import SimpleSchema from 'simpl-schema';
 
@@ -121,15 +121,17 @@ export const moveToPosition = new ValidatedMethod({
 export const createInteraction = new ValidatedMethod({
   name: 'interactions.create',
   mixins: [userIsAdminMixin],
-  validate({ interactionType, data }) {
+  validate({ interactionType, title, data }) {
+    check(title, String);
     interactionTypes.get(interactionType).validate({ data });
   },
-  run({ interactionType, data }) {
+  run({ interactionType, title, data }) {
     const { schemaKey } = interactionTypes.get(interactionType);
     const { _id: lastInteractionId } =
       Interactions.findOne({ next: null }, { fields: { _id: 1 } }) || {};
     const newInteractionId = Interactions.insert({
       type: interactionType,
+      title,
       [schemaKey]: data,
 
       // the first interaction to be created does not yet have a predecessor
@@ -151,14 +153,15 @@ export const createInteraction = new ValidatedMethod({
 export const updateInteractionDetails = new ValidatedMethod({
   name: 'interactions.updateDetails',
   mixins: [userIsAdminMixin],
-  validate({ id, data }) {
+  validate({ id, title, data }) {
     check(id, String);
+    check(title, Match.Optional(String));
     const { type: interactionTypeName, ...interaction } = Interactions.findOne(id) || {};
     const interactionType = interactionTypes.get(interactionTypeName);
     // apply updated fields on fields that are already in the document to not fail validation
     interactionType.validate({ data: { ...interaction[interactionType.schemaKey], ...data } });
   },
-  run({ id, data }) {
+  run({ id, title, data }) {
     const { type, ...interaction } = Interactions.findOne(id);
     const { schemaKey } = interactionTypes.get(type);
     if (!schemaKey) {
@@ -167,7 +170,13 @@ export const updateInteractionDetails = new ValidatedMethod({
       );
     }
     const currentData = interaction[schemaKey];
-    return Interactions.update(id, { $set: { [schemaKey]: { ...currentData, ...data } } });
+    const updateQuery = { [schemaKey]: { ...currentData, ...data } };
+
+    if (title) {
+      updateQuery.title = title;
+    }
+
+    return Interactions.update(id, { $set: updateQuery });
   },
 });
 

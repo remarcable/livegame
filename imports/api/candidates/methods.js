@@ -57,13 +57,14 @@ export const updateCandidate = new ValidatedMethod({
 });
 
 export const setCandidate = new ValidatedMethod({
-  name: 'candidates.setActive',
+  name: 'candidates.setCandidate',
   mixins: [userIsAdminMixin],
   validate: new SimpleSchema({
-    _id: { type: String },
+    _id: String,
+    candidateNumber: Number,
   }).validator(),
-  run({ _id }) {
-    Candidates.update({ active: true }, { $set: { active: false } });
-    return Candidates.update({ _id }, { $set: { active: true } });
+  run({ _id, candidateNumber }) {
+    Candidates.update({ candidateNumber }, { $set: { candidateNumber: null } });
+    return Candidates.update({ _id }, { $set: { candidateNumber } });
   },
 });

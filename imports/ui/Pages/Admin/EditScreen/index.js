@@ -56,7 +56,7 @@ const EditScreen = ({ isReady, interactions, candidates }) => (
               title={`${i.type}: ${i._id}`}
               id={i._id}
               currentData={i[schemaKey]}
-              currentInteractionTitle={i.title}
+              currentInteractionTitle={i.title || ''}
               schemaFields={interactionType.getFields()}
               updateData={({ data, title }) =>
                 updateInteractionDetails.call({ id: i._id, data, title })
@@ -81,7 +81,7 @@ const EditScreen = ({ isReady, interactions, candidates }) => (
             updateCandidate.call({ _id, name, imageUrl })
           }
           removeCandidate={({ _id }) => removeCandidate.call({ _id })}
-          setCandidate={({ _id }) => setCandidate.call({ _id })}
+          setCandidate={({ _id, candidateNumber }) => setCandidate.call({ _id, candidateNumber })}
         />
       )}
     </div>

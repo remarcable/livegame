@@ -33,11 +33,21 @@ const propTypes = {
   interaction: PropTypes.object.isRequired, // TODO: better type
   hasSubmitted: PropTypes.bool.isRequired,
   submit: PropTypes.func.isRequired,
-  scorePaul: PropTypes.number.isRequired,
-  scoreCandidate: PropTypes.number.isRequired,
+  candidate1: PropTypes.object.isRequired, // TODO: better type,
+  candidate2: PropTypes.object.isRequired, // TODO: better type,
+  scoreCandidate1: PropTypes.number.isRequired,
+  scoreCandidate2: PropTypes.number.isRequired,
 };
 
-const Interactions = ({ interaction, hasSubmitted, submit, scorePaul, scoreCandidate }) => {
+const Interactions = ({
+  interaction,
+  hasSubmitted,
+  submit,
+  candidate1,
+  candidate2,
+  scoreCandidate1,
+  scoreCandidate2,
+}) => {
   const { type } = interaction;
   const Component = interactionsMap.get(type);
 
@@ -47,9 +57,11 @@ const Interactions = ({ interaction, hasSubmitted, submit, scorePaul, scoreCandi
 
   const liveScoreProps = {
     mode: interaction.type === 'FULL_SHOW_GAME' ? 'BIG' : 'SMALL',
-    submittedFor: 'PAUL', // TODO
-    scorePaul,
-    scoreCandidate,
+    submittedFor: 'CANDIDATE1', // TODO
+    scoreCandidate1,
+    scoreCandidate2,
+    candidate1,
+    candidate2,
   };
 
   const { schemaKey } = interactionTypes.get(type);

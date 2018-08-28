@@ -46,8 +46,8 @@ const ShowScreen = ({ isReady, interactions, games }) => (
       {isReady && (
         <UpdateGames
           games={games}
-          updateScores={({ _id: id, pointsPaul, pointsCandidate }) =>
-            updateInteractionDetails.call({ id, data: { pointsPaul, pointsCandidate } })
+          updateScores={({ _id: id, pointsCandidate1, pointsCandidate2 }) =>
+            updateInteractionDetails.call({ id, data: { pointsCandidate1, pointsCandidate2 } })
           }
           setWinner={({ _id: id, winner }) =>
             updateInteractionDetails.call({ id, data: { winner } })

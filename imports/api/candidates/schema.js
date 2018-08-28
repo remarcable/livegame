@@ -9,9 +9,11 @@ const candidatesSchema = new SimpleSchema({
     type: String,
     regEx: SimpleSchema.RegEx.Url,
   },
-  active: {
-    type: Boolean,
-    defaultValue: false,
+  candidateNumber: {
+    type: Number,
+    optional: true,
+    allowedValues: [1, 2],
+    defaultValue: null,
   },
 });
 

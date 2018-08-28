@@ -11,15 +11,15 @@ export const fullShowGame = new InteractionType({
       publish: true,
       index: 1,
     },
-    pointsPaul: {
+    pointsCandidate1: {
       type: Number,
-      label: 'Punkte Paul',
+      label: 'Punkte Kandidat 1',
       optional: true,
       defaultValue: 0,
     },
-    pointsCandidate: {
+    pointsCandidate2: {
       type: Number,
-      label: 'Punkte Kandidat',
+      label: 'Punkte Kandidat 2',
       optional: true,
       defaultValue: 0,
     },

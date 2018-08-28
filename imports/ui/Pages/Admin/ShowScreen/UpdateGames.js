@@ -15,28 +15,28 @@ const UpdateGames = ({ games, updateScores, setWinner }) => (
           <span>{fullShowGame.gameNumber}</span>
           <input
             type="number"
-            name="paul"
-            placeholder="Punkte Paul"
-            defaultValue={fullShowGame.pointsPaul}
+            name="candidate1"
+            placeholder="Punkte Kandidat 1"
+            defaultValue={fullShowGame.pointsCandidate1}
           />
           <input
             type="number"
-            name="candidate"
-            placeholder="Punkte Kandidat"
-            defaultValue={fullShowGame.pointsCandidate}
+            name="candidate2"
+            placeholder="Punkte Kandidat 2"
+            defaultValue={fullShowGame.pointsCandidate2}
           />
           <input type="submit" />
           <button
-            disabled={fullShowGame.winner === 'PAUL'}
-            onClick={() => setWinner({ _id, winner: 'PAUL' })}
+            disabled={fullShowGame.winner === 'CANDIDATE1'}
+            onClick={() => setWinner({ _id, winner: 'CANDIDATE1' })}
           >
-            PAUL
+            Kandidat 1
           </button>
           <button
-            disabled={fullShowGame.winner === 'CANDIDATE'}
-            onClick={() => setWinner({ _id, winner: 'CANDIDATE' })}
+            disabled={fullShowGame.winner === 'CANDIDATE2'}
+            onClick={() => setWinner({ _id, winner: 'CANDIDATE2' })}
           >
-            KANDIDAT
+            Kandidat 2
           </button>
           <button
             disabled={fullShowGame.winner === null}
@@ -53,10 +53,10 @@ const UpdateGames = ({ games, updateScores, setWinner }) => (
 function handleSubmit(e, updateScores, _id) {
   e.preventDefault();
 
-  const pointsPaul = +e.target.paul.value;
-  const pointsCandidate = +e.target.candidate.value;
+  const pointsCandidate1 = +e.target.candidate1.value;
+  const pointsCandidate2 = +e.target.candidate2.value;
 
-  updateScores({ _id, pointsPaul, pointsCandidate });
+  updateScores({ _id, pointsCandidate1, pointsCandidate2 });
 }
 
 UpdateGames.propTypes = propTypes;

@@ -10,10 +10,12 @@ const propTypes = {
   submit: PropTypes.func.isRequired,
   liveScoreProps: PropTypes.shape({
     // TODO: duplicate proptypes with LiveScores
-    mode: PropTypes.oneOf(['HIDE', 'SHOW', 'BIG']).isRequired,
-    submittedFor: PropTypes.oneOf(['PAUL', 'CANDIDATE']),
-    scorePaul: PropTypes.number.isRequired,
-    scoreCandidate: PropTypes.number.isRequired,
+    mode: PropTypes.oneOf(['HIDE', 'SMALL', 'BIG']).isRequired,
+    submittedFor: PropTypes.oneOf(['CANDIDATE1', 'CANDIDATE2']),
+    scoreCandidate1: PropTypes.number.isRequired,
+    scoreCandidate2: PropTypes.number.isRequired,
+    candidate1: PropTypes.object.isRequired, // TODO: better type
+    candidate2: PropTypes.object.isRequired, // TODO: better type
   }).isRequired,
 };
 
@@ -23,11 +25,11 @@ const InteractionWrapper = ({ children, title, submit, liveScoreProps }) => (
     {children}
     <LiveScores
       {...liveScoreProps}
-      onClickCandidate={() =>
-        maybeSubmit({ submit, value: 'CANDIDATE', canSubmit: liveScoreProps.mode === 'BIG' })
+      onClickCandidate1={() =>
+        maybeSubmit({ submit, value: 'CANDIDATE1', canSubmit: liveScoreProps.mode === 'BIG' })
       }
-      onClickPaul={() =>
-        maybeSubmit({ submit, value: 'PAUL', canSubmit: liveScoreProps.mode === 'BIG' })
+      onClickCandidate2={() =>
+        maybeSubmit({ submit, value: 'CANDIDATE2', canSubmit: liveScoreProps.mode === 'BIG' })
       }
     />
   </>

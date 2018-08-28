@@ -74,10 +74,10 @@ Meteor.publish('interactions.scoreboard', function interactionsActivePublication
 
       if (type === interactionTypeNames.FULL_SHOW_GAME) {
         return {
-          paulPercentage: getPercentageForVoting({
+          candidate1Percentage: getPercentageForVoting({
             votingId: interactionId,
-            optionNameOne: 'PAUL',
-            optionNameTwo: 'CANDIDATE',
+            optionNameOne: 'CANDIDATE1',
+            optionNameTwo: 'CANDIDATE2',
             collection: Submissions,
           }),
         };

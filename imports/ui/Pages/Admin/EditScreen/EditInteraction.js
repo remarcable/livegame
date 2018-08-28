@@ -71,14 +71,16 @@ class EditInteraction extends PureComponent {
           onSubmit={(e) => this.handleOnSubmit(e, updateData)}
           style={{ display: 'flex', width: '100%', justifyContent: 'center' }}
         >
-          <input
-            name="title"
-            type="text"
-            placeholder="Titel"
-            value={state.title || ''}
-            onChange={this.handleInputChange}
-            style={{ marginRight: 10 }}
-          />
+          {typeof state.title === 'string' && (
+            <input
+              name="title"
+              type="text"
+              placeholder="Titel"
+              value={state.title || ''}
+              onChange={this.handleInputChange}
+              style={{ marginRight: 10 }}
+            />
+          )}
           {Object.keys(schemaFields).map((key) => {
             const field = schemaFields[key];
             const inputType = getInputTypeFromType(field.type);

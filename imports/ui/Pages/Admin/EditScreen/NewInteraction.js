@@ -44,6 +44,7 @@ class NewInteraction extends PureComponent {
             <EditInteraction
               title={state.selected}
               currentData={{}}
+              currentInteractionTitle=""
               schemaFields={interactionTypes.get(state.selected).getFields()}
               updateData={this.handleSubmit}
             />

@@ -6,6 +6,8 @@ import { withTracker } from 'meteor/react-meteor-data';
 
 import InteractionsCollection from '/imports/api/interactions/collection';
 import SubmissionsCollection from '/imports/api/submissions/collection';
+import CandidatesCollection from '/imports/api/candidates/collection';
+
 import { submit } from '/imports/api/submissions/methods';
 import { typeNames } from '/imports/api/interactions/types';
 import * as interactionStates from '/imports/api/interactions/states';
@@ -24,8 +26,10 @@ const propTypes = {
   games: PropTypes.array.isRequired, // TODO: better type
   loading: PropTypes.bool.isRequired,
   hasSubmitted: PropTypes.bool.isRequired,
-  scorePaul: PropTypes.number.isRequired,
-  scoreCandidate: PropTypes.number.isRequired,
+  candidate1: PropTypes.object.isRequired, // TODO: better type
+  candidate2: PropTypes.object.isRequired, // TODO: better type
+  scoreCandidate1: PropTypes.number.isRequired,
+  scoreCandidate2: PropTypes.number.isRequired,
 };
 
 const LiveGame = ({
@@ -34,8 +38,10 @@ const LiveGame = ({
   interaction,
   games,
   hasSubmitted,
-  scorePaul,
-  scoreCandidate,
+  candidate1,
+  candidate2,
+  scoreCandidate1,
+  scoreCandidate2,
 }) => (
   <PlayerLayout loading={loading}>
     <div className={classes.wrapper}>
@@ -45,8 +51,10 @@ const LiveGame = ({
           interaction={interaction}
           submit={(value) => submit.call({ value })}
           hasSubmitted={hasSubmitted}
-          scorePaul={scorePaul}
-          scoreCandidate={scoreCandidate}
+          candidate1={candidate1}
+          candidate2={candidate2}
+          scoreCandidate1={scoreCandidate1}
+          scoreCandidate2={scoreCandidate2}
         />
       </div>
     </div>
@@ -77,7 +85,9 @@ let lastInteraction = {};
 export default withTracker(() => {
   const ownInteractionsHandle = Meteor.subscribe('interactions.active');
   const ownSubmissionsHandle = Meteor.subscribe('submissions.own');
-  const isReady = ownInteractionsHandle.ready() && ownSubmissionsHandle.ready();
+  const candidatesHandle = Meteor.subscribe('candidates.active');
+  const isReady =
+    ownInteractionsHandle.ready() && ownSubmissionsHandle.ready() && candidatesHandle.ready();
 
   const interaction = InteractionsCollection.findOne({ state: interactionStates.ACTIVE });
   if (interaction) {
@@ -104,12 +114,21 @@ export default withTracker(() => {
       return { ...game, state };
     });
 
+  const candidates = CandidatesCollection.find()
+    .fetch()
+    .map(({ candidateNumber, name, imageUrl }) => ({ number: candidateNumber, name, imageUrl }));
+
+  const candidate1 = candidates.find(({ number }) => number === 1) || {};
+  const candidate2 = candidates.find(({ number }) => number === 2) || {};
+
   return {
     interaction: lastInteraction,
     games: isReady ? games : [],
     hasSubmitted: !!submissionForCurrentInteraction,
     loading: !isReady,
-    scorePaul: 50, // TODO
-    scoreCandidate: 54,
+    candidate1,
+    candidate2,
+    scoreCandidate1: 50, // TODO
+    scoreCandidate2: 54,
   };
 })(withStyles(styles)(LiveGame));

@@ -30,11 +30,16 @@ const EditCandidates = ({
       updateData={({ data }) => insertCandidate(data)}
     />
 
-    {candidates.map(({ _id, name, imageUrl, active }) => (
+    {candidates.map(({ _id, name, imageUrl, candidateNumber }) => (
       <div key={_id}>
-        <button onClick={() => setCandidate({ _id })}>Activate {name}</button>
+        <button onClick={() => setCandidate({ _id, candidateNumber: 1 })}>
+          Activate as 1 {name}
+        </button>
+        <button onClick={() => setCandidate({ _id, candidateNumber: 2 })}>
+          Activate as 2 {name}
+        </button>
         <EditInteraction
-          title={`${active ? 'ACTIVE ' : ''}${name}`}
+          title={`${candidateNumber ? `Kandidat Nr. ${candidateNumber} ` : ''}${name}`}
           currentData={{ name, imageUrl }}
           schemaFields={schemaFields}
           updateData={({ data }) => updateCandidate({ _id, ...data })}

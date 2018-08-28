@@ -17,8 +17,8 @@ const FullShowGame = ({ gameNumber, hasSubmitted, submit }) => {
   return (
     <div>
       <p>GameNumber: {gameNumber}</p>
-      <button onClick={() => submit('PAUL')}>PAUL</button>
-      <button onClick={() => submit('CANDIDATE')}>KANDIDAT</button>
+      <button onClick={() => submit('CANDIDATE1')}>Kandidat 1</button>
+      <button onClick={() => submit('CANDIDATE2')}>Kandidat 2</button>
     </div>
   );
 };

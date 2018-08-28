@@ -2,18 +2,31 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const propTypes = {
-  mode: PropTypes.oneOf(['HIDE', 'SHOW', 'BIG']).isRequired,
-  submittedFor: PropTypes.oneOf(['PAUL', 'CANDIDATE']),
-  scorePaul: PropTypes.number.isRequired,
-  scoreCandidate: PropTypes.number.isRequired,
+  mode: PropTypes.oneOf(['HIDE', 'SMALL', 'BIG']).isRequired,
+  submittedFor: PropTypes.oneOf(['CANDIDATE1', 'CANDIDATE2']),
+  scoreCandidate1: PropTypes.number.isRequired,
+  scoreCandidate2: PropTypes.number.isRequired,
+  candidate1: PropTypes.object.isRequired, // TODO: better type
+  candidate2: PropTypes.object.isRequired, // TODO: better type
 };
 
-const LiveScores = ({ mode, submittedFor, scorePaul, scoreCandidate }) => (
+const LiveScores = ({
+  mode,
+  submittedFor,
+  scoreCandidate1,
+  scoreCandidate2,
+  candidate1,
+  candidate2,
+}) => (
   <>
     <p>{mode}</p>
     <p>{submittedFor}</p>
-    <p>{scorePaul}</p>
-    <p>{scoreCandidate}</p>
+    <p>
+      {candidate1.name} {scoreCandidate1}
+    </p>
+    <p>
+      {candidate2.name} {scoreCandidate2}
+    </p>
   </>
 );
 

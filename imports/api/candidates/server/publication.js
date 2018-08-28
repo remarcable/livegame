@@ -1,16 +1,17 @@
 import { Meteor } from 'meteor/meteor';
 import Candidates from '../collection';
 
-Meteor.publish('candidate', function publishCandidatesUser() {
+Meteor.publish('candidates.active', function publishCandidatesUser() {
   if (!this.userId) return this.ready();
   return Candidates.find(
-    { active: true },
+    { candidateNumber: { $in: [1, 2] } },
     {
       fields: {
         name: 1,
         imageUrl: 1,
+        candidateNumber: 1,
       },
-      limit: 1,
+      limit: 2,
     },
   );
 });
@@ -23,7 +24,7 @@ Meteor.publish('candidates.allCandidates', function publishCandidatesAdmin() {
       fields: {
         name: 1,
         imageUrl: 1,
-        active: 1,
+        candidateNumber: 1,
       },
     },
   );

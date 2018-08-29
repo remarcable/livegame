@@ -5,12 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 const Logo = ({ classes }) => (
   <div className={classes.wrapper}>
-    <img
-      className={classes.image}
-      src="/img/logo.png"
-      alt="Wer besiegt Paul? Logo"
-      srcSet="/img/logo.png 1x, /img/logo2x.png 2x"
-    />
+    <img className={classes.image} src="/img/logo2x.png" alt="Wer besiegt Paul? Logo" />
     <div className={classnames(classes.image, classes.shadow)} />
   </div>
 );

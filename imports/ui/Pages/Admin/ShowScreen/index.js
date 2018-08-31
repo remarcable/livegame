@@ -22,9 +22,11 @@ const propTypes = {
   interactions: PropTypes.array.isRequired, // TODO: better type!
   games: PropTypes.array.isRequired, // TODO: better type!
   isReady: PropTypes.bool.isRequired,
+  hasNext: PropTypes.bool.isRequired,
+  hasPrevious: PropTypes.bool.isRequired,
 };
 
-const ShowScreen = ({ isReady, interactions, games }) => (
+const ShowScreen = ({ isReady, interactions, games, hasNext, hasPrevious }) => (
   <AdminLayout>
     <div>
       {!isReady && <div>Loadings</div>}
@@ -39,8 +41,12 @@ const ShowScreen = ({ isReady, interactions, games }) => (
         ))}
     </div>
     <div>
-      <button onClick={() => previousInteraction.call()}>Previous</button>
-      <button onClick={() => nextInteraction.call()}>Next</button>
+      <button disabled={!hasPrevious} onClick={() => previousInteraction.call()}>
+        Previous
+      </button>
+      <button disabled={!hasNext} onClick={() => nextInteraction.call()}>
+        Next
+      </button>
     </div>
     <div>
       {isReady && (
@@ -70,5 +76,9 @@ export default withTracker(() => {
     .filter((i) => i.type === interactionTypeNames.FULL_SHOW_GAME)
     .sort(sortFullShowGames);
 
-  return { interactions: mapSort(interactions), games, isReady };
+  const currentInteraction = interactions.find(({ state }) => state === 'ACTIVE') || {}; // TODO: use interactionStates
+  const hasNext = !!currentInteraction.next;
+  const hasPrevious = !!currentInteraction.previous;
+
+  return { interactions: mapSort(interactions), games, hasNext, hasPrevious, isReady };
 })(ShowScreen);

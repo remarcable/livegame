@@ -56,7 +56,7 @@ const Interactions = ({
   }
 
   const liveScoreProps = {
-    mode: interaction.type === 'FULL_SHOW_GAME' ? 'BIG' : 'SMALL',
+    mode: interaction.type === 'FULL_SHOW_GAME' && !hasSubmitted ? 'BIG' : 'SMALL',
     submittedFor: 'CANDIDATE1', // TODO
     scoreCandidate1,
     scoreCandidate2,

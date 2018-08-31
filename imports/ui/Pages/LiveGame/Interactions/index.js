@@ -32,6 +32,7 @@ const interactionsMap = new Map([
 const propTypes = {
   interaction: PropTypes.object.isRequired, // TODO: better type
   hasSubmitted: PropTypes.bool.isRequired,
+  submittedFor: PropTypes.string,
   submit: PropTypes.func.isRequired,
   candidate1: PropTypes.object.isRequired, // TODO: better type,
   candidate2: PropTypes.object.isRequired, // TODO: better type,
@@ -42,6 +43,7 @@ const propTypes = {
 const Interactions = ({
   interaction,
   hasSubmitted,
+  submittedFor,
   submit,
   candidate1,
   candidate2,
@@ -57,7 +59,7 @@ const Interactions = ({
 
   const liveScoreProps = {
     mode: interaction.type === 'FULL_SHOW_GAME' && !hasSubmitted ? 'BIG' : 'SMALL',
-    submittedFor: 'CANDIDATE1', // TODO
+    submittedFor,
     scoreCandidate1,
     scoreCandidate2,
     candidate1,

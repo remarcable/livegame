@@ -26,6 +26,7 @@ const propTypes = {
   games: PropTypes.array.isRequired, // TODO: better type
   loading: PropTypes.bool.isRequired,
   hasSubmitted: PropTypes.bool.isRequired,
+  submittedFor: PropTypes.string,
   candidate1: PropTypes.object.isRequired, // TODO: better type
   candidate2: PropTypes.object.isRequired, // TODO: better type
   scoreCandidate1: PropTypes.number.isRequired,
@@ -38,6 +39,7 @@ const LiveGame = ({
   interaction,
   games,
   hasSubmitted,
+  submittedFor,
   candidate1,
   candidate2,
   scoreCandidate1,
@@ -51,6 +53,7 @@ const LiveGame = ({
           interaction={interaction}
           submit={(value) => submit.call({ value })}
           hasSubmitted={hasSubmitted}
+          submittedFor={submittedFor}
           candidate1={candidate1}
           candidate2={candidate2}
           scoreCandidate1={scoreCandidate1}
@@ -82,6 +85,7 @@ const interactionTypeNames = typeNames();
 // save old interaction to always show the last "ACTIVE" interaction
 // this prevents paint flashing a loading message
 let lastInteraction = {};
+
 export default withTracker(() => {
   const ownInteractionsHandle = Meteor.subscribe('interactions.active');
   const ownSubmissionsHandle = Meteor.subscribe('submissions.own');
@@ -94,9 +98,10 @@ export default withTracker(() => {
     lastInteraction = interaction;
   }
 
-  const submissionForCurrentInteraction = SubmissionsCollection.findOne({
-    interactionId: lastInteraction && lastInteraction._id,
-  });
+  const { value: submissionValueForCurrentInteraction } =
+    SubmissionsCollection.findOne({
+      interactionId: lastInteraction && lastInteraction._id,
+    }) || {};
 
   const submissions = SubmissionsCollection.find().fetch();
   const games = InteractionsCollection.find({ type: interactionTypeNames.FULL_SHOW_GAME })
@@ -124,7 +129,8 @@ export default withTracker(() => {
   return {
     interaction: lastInteraction,
     games: isReady ? games : [],
-    hasSubmitted: !!submissionForCurrentInteraction,
+    hasSubmitted: !!submissionValueForCurrentInteraction,
+    submittedFor: submissionValueForCurrentInteraction,
     loading: !isReady,
     candidate1,
     candidate2,

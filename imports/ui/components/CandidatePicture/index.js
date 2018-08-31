@@ -1,11 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import classnames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 
+import SubmittedCheckmark from '../SubmittedCheckmark';
+
 const propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   imageUrl: PropTypes.string.isRequired,
-  background: PropTypes.oneOf(['BLUE', 'RED']).isRequired,
+  isLeft: PropTypes.bool.isRequired,
+  wasSubmitted: PropTypes.bool.isRequired,
   className: PropTypes.string,
   onClick: PropTypes.func,
   big: PropTypes.bool.isRequired,
@@ -13,7 +18,8 @@ const propTypes = {
 
 const CandidatePicture = ({
   imageUrl,
-  background,
+  isLeft,
+  wasSubmitted,
   big,
   className,
   classes,
@@ -22,18 +28,27 @@ const CandidatePicture = ({
   <div className={classnames(classes.outer, className)} onClick={onClick}>
     <div
       className={classnames(classes.wrapper, {
-        [classes.blue]: background === 'BLUE',
-        [classes.red]: background === 'RED',
+        [classes.blue]: isLeft,
+        [classes.red]: !isLeft,
         [classes.big]: big,
       })}
     >
       <div style={{ backgroundImage: `url(${imageUrl})` }} className={classes.image} />
+    </div>
+    <div
+      className={classnames(classes.checkmark, {
+        [classes.leftCheckmark]: isLeft,
+        [classes.checkmarkHidden]: !wasSubmitted,
+      })}
+    >
+      <SubmittedCheckmark />
     </div>
   </div>
 );
 
 const styles = {
   outer: {
+    position: 'relative',
     transition: 'all .3s',
   },
   wrapper: {
@@ -66,6 +81,20 @@ const styles = {
   },
   blue: {
     backgroundImage: 'linear-gradient(#287DED 0%, #074A8D 100%)',
+  },
+  checkmark: {
+    position: 'absolute',
+    transition: 'all .3s',
+    bottom: 30,
+    right: 'auto',
+    left: '58%',
+  },
+  leftCheckmark: {
+    right: '58%',
+    left: 'auto',
+  },
+  checkmarkHidden: {
+    opacity: 0,
   },
 };
 

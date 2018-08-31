@@ -36,9 +36,6 @@ const LiveScores = ({
       [classes.hide]: mode === 'HIDE',
     })}
   >
-    {/* <p>{mode}</p>
-    <p>{submittedFor}</p>
-    {candidate1.name} {scoreCandidate1} */}
     <div className={classnames(classes.text, { [classes.hideText]: mode === 'BIG' })}>
       <Headline
         className={classnames(classes.scores, {
@@ -56,20 +53,21 @@ const LiveScores = ({
     <div className={classes.pictures}>
       <CandidatePicture
         imageUrl={candidate1.imageUrl}
-        background="BLUE"
+        isLeft
         big={mode === 'BIG'}
         className={classnames({ [classes.smallPictureLeft]: mode === 'SMALL' })}
         onClick={() => onClickCandidate1()}
+        wasSubmitted={submittedFor === 'CANDIDATE1'}
       />
       <CandidatePicture
         imageUrl={candidate2.imageUrl}
-        background="RED"
+        isLeft={false}
         big={mode === 'BIG'}
         className={classnames({ [classes.smallPictureRight]: mode === 'SMALL' })}
         onClick={() => onClickCandidate2()}
+        wasSubmitted={submittedFor === 'CANDIDATE2'}
       />
     </div>
-    {/* {candidate2.name} {scoreCandidate2} */}
   </div>
 );
 

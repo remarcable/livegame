@@ -118,7 +118,7 @@ const styles = {
     opacity: 0,
   },
   big: {
-    transform: 'translateY(-150%)',
+    transform: 'translateY(-100%)',
   },
   smallPictureLeft: {
     transform: 'translate(-20%, 10%)',

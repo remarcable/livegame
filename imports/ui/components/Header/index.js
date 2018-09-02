@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ReactCSSTransitionReplace from 'react-css-transition-replace';
+
 import { withStyles } from '@material-ui/core/styles';
 
 import Logo from '../Logo';
@@ -12,12 +14,20 @@ const propTypes = {
 
 const Header = ({ classes, title }) => (
   <div className={classes.header}>
-    <Logo />
-    {title && (
-      <h2 className={classes.title}>
-        <Headline>{title}</Headline>
-      </h2>
-    )}
+    <div className={classes.logoWrapper}>
+      <Logo />
+    </div>
+    <div className={classes.titleWrapper}>
+      <ReactCSSTransitionReplace
+        transitionName="fade-up"
+        transitionEnterTimeout={500}
+        transitionLeaveTimeout={500}
+      >
+        <h2 className={classes.title} key={title}>
+          <Headline>{title}</Headline>
+        </h2>
+      </ReactCSSTransitionReplace>
+    </div>
   </div>
 );
 
@@ -29,15 +39,21 @@ const styles = {
     height: 200,
     paddingTop: 50,
 
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-
     textTransform: 'uppercase',
     textAlign: 'center',
   },
+  logoWrapper: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: 10,
+  },
+  titleWrapper: {
+    display: 'block',
+  },
   title: {
     fontSize: 20,
+    margin: 0,
   },
 };
 

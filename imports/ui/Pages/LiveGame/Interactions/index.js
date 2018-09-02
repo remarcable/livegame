@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { withStyles } from '@material-ui/core/styles';
+
+import ReactCSSTransitionReplace from 'react-css-transition-replace';
+
 import interactionTypes, { typeNames } from '/imports/api/interactions/types';
 
 import InteractionWrapper from '/imports/ui/components/InteractionWrapper';
@@ -30,6 +34,7 @@ const interactionsMap = new Map([
 ]);
 
 const propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   interaction: PropTypes.object.isRequired, // TODO: better type
   hasSubmitted: PropTypes.bool.isRequired,
   submittedFor: PropTypes.string,
@@ -41,6 +46,7 @@ const propTypes = {
 };
 
 const Interactions = ({
+  classes,
   interaction,
   hasSubmitted,
   submittedFor,
@@ -69,11 +75,25 @@ const Interactions = ({
   const { schemaKey } = interactionTypes.get(type);
   return (
     <InteractionWrapper title={interaction.title} submit={submit} liveScoreProps={liveScoreProps}>
-      <Component {...interaction[schemaKey]} hasSubmitted={hasSubmitted} submit={submit} />
+      <ReactCSSTransitionReplace
+        transitionName="fade-wait"
+        transitionEnterTimeout={500}
+        transitionLeaveTimeout={200}
+      >
+        <div className={classes.componentWrapper} key={interaction._id}>
+          <Component {...interaction[schemaKey]} hasSubmitted={hasSubmitted} submit={submit} />
+        </div>
+      </ReactCSSTransitionReplace>
     </InteractionWrapper>
   );
 };
 
 Interactions.propTypes = propTypes;
 
-export default Interactions;
+const styles = {
+  componentWrapper: {
+    minHeight: '100%',
+  },
+};
+
+export default withStyles(styles)(Interactions);

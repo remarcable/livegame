@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { withStyles } from '@material-ui/core/styles';
+
 import Header from '../Header';
 import LiveScores from '../LiveScores';
 
 const propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   children: PropTypes.node.isRequired,
   title: PropTypes.string,
   submit: PropTypes.func.isRequired,
@@ -19,8 +22,8 @@ const propTypes = {
   }).isRequired,
 };
 
-const InteractionWrapper = ({ children, title, submit, liveScoreProps }) => (
-  <>
+const InteractionWrapper = ({ classes, children, title, submit, liveScoreProps }) => (
+  <div className={classes.wrapper}>
     <Header title={title} />
     {children}
     <LiveScores
@@ -32,7 +35,7 @@ const InteractionWrapper = ({ children, title, submit, liveScoreProps }) => (
         maybeSubmit({ submit, value: 'CANDIDATE2', canSubmit: liveScoreProps.mode === 'BIG' })
       }
     />
-  </>
+  </div>
 );
 
 function maybeSubmit({ submit, value, canSubmit }) {
@@ -40,6 +43,13 @@ function maybeSubmit({ submit, value, canSubmit }) {
     submit(value);
   }
 }
+
 InteractionWrapper.propTypes = propTypes;
 
-export default InteractionWrapper;
+const styles = {
+  wrapper: {
+    minHeight: '100%',
+  },
+};
+
+export default withStyles(styles)(InteractionWrapper);

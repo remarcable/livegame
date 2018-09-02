@@ -23,7 +23,7 @@ FullShowGame.propTypes = propTypes;
 const styles = {
   text: {
     display: 'block',
-    marginTop: 50,
+    paddingTop: 50,
     width: '100%',
     fontSize: 24,
     textAlign: 'center',

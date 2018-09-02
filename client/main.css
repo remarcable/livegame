@@ -94,3 +94,47 @@ input:-webkit-autofill:focus input:-webkit-autofill {
   color: white;
   transition: background-color 5000s ease-in-out 0s;
 }
+
+.fade-up-leave {
+  opacity: 1;
+}
+.fade-up-leave.fade-up-leave-active {
+  opacity: 0;
+  transform: translate3d(0, -50%, 0);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.fade-up-enter {
+  opacity: 0;
+  transform: translate3d(0, 50%, 0);
+}
+.fade-up-enter.fade-up-enter-active {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.fade-up-height {
+  transition: height 0.25s ease-in-out;
+}
+
+.fade-wait-leave {
+  opacity: 1;
+}
+.fade-wait-leave.fade-wait-leave-active {
+  opacity: 0;
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.fade-wait-enter {
+  opacity: 0;
+}
+.fade-wait-enter.fade-wait-enter-active {
+  opacity: 1;
+  /* Delay the enter animation until the leave completes */
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.6, 1) 0.3s;
+}
+
+.fade-wait-height {
+  transition: height 0.3s cubic-bezier(0.4, 0, 0.6, 1);
+}

@@ -1,4 +1,4 @@
-import { typeNames } from './types';
+import { interactionTypeNames } from './types';
 import interactionsSchema from './schema';
 
 const estimationGame = {
@@ -24,10 +24,10 @@ const announcement = {
 describe('interactionsSchema', () => {
   it('validates correct object', () => {
     const objects = [
-      { type: typeNames().ESTIMATION_GAME, estimationGame },
-      { type: typeNames().ESTIMATION_VOTING, estimationVoting },
-      { type: typeNames().FULL_SHOW_GAME, fullShowGame },
-      { type: typeNames().ANNOUNCEMENT, announcement },
+      { type: interactionTypeNames.ESTIMATION_GAME, estimationGame },
+      { type: interactionTypeNames.ESTIMATION_VOTING, estimationVoting },
+      { type: interactionTypeNames.FULL_SHOW_GAME, fullShowGame },
+      { type: interactionTypeNames.ANNOUNCEMENT, announcement },
     ];
 
     expect(() => interactionsSchema.validate(objects)).not.toThrow();
@@ -35,7 +35,7 @@ describe('interactionsSchema', () => {
 
   it('only allows exactly one of estimationGame.answer and estimationGame.votingId', () => {
     const correctObject1 = {
-      type: typeNames().ESTIMATION_GAME,
+      type: interactionTypeNames.ESTIMATION_GAME,
       estimationGame: {
         question: 'question',
         answer: 100,
@@ -43,7 +43,7 @@ describe('interactionsSchema', () => {
     };
 
     const correctObject2 = {
-      type: typeNames().ESTIMATION_GAME,
+      type: interactionTypeNames.ESTIMATION_GAME,
       estimationGame: {
         question: 'question',
         votingId: 'ABCABCABCABCABCAB',
@@ -51,7 +51,7 @@ describe('interactionsSchema', () => {
     };
 
     const correctObject3 = {
-      type: typeNames().ESTIMATION_GAME,
+      type: interactionTypeNames.ESTIMATION_GAME,
       estimationGame: {
         question: 'question',
         answer: 0,
@@ -59,7 +59,7 @@ describe('interactionsSchema', () => {
     };
 
     const wrongObject1 = {
-      type: typeNames().ESTIMATION_GAME,
+      type: interactionTypeNames.ESTIMATION_GAME,
       estimationGame: {
         question: 'question',
         answer: 100,
@@ -68,7 +68,7 @@ describe('interactionsSchema', () => {
     };
 
     const wrongObject2 = {
-      type: typeNames().ESTIMATION_GAME,
+      type: interactionTypeNames.ESTIMATION_GAME,
       estimationGame: {
         question: 'question',
       },

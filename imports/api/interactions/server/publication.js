@@ -4,12 +4,10 @@ import { JoinServer } from 'meteor-publish-join';
 import Submissions from '/imports/api/submissions/collection';
 
 import Interactions from '../collection';
-import interactionTypes, { typeNames } from '../types';
+import interactionTypes, { interactionTypeNames } from '../types';
 import * as interactionStates from '../states';
 
 import getPercentageForVoting from './getPercentageForVoting';
-
-const interactionTypeNames = typeNames();
 
 Meteor.publish('interactions.active', function interactionsActivePublication() {
   if (!this.userId) return this.ready();

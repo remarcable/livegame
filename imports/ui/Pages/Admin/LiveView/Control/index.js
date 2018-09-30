@@ -6,7 +6,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import AppState from '/imports/api/appState/collection';
 
 import Interactions from '/imports/api/interactions/collection';
-import { typeNames } from '/imports/api/interactions/types';
+import { interactionTypeNames } from '/imports/api/interactions/types';
 import sortFullShowGames from '/imports/api/helpers/sortFullShowGames';
 
 import { displayInteraction } from '/imports/api/appState/methods';
@@ -81,7 +81,6 @@ const StartButton = ({ id, allowedStates, state, text, active }) => (
   </button>
 );
 
-const interactionTypeNames = typeNames();
 export default withTracker(() => {
   const interactionsHandle = Meteor.subscribe('interactions.allInteractions');
   const appStateHandle = Meteor.subscribe('appState.admin');

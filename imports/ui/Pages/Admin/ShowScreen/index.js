@@ -11,7 +11,7 @@ import {
   nextInteraction,
 } from '/imports/api/interactions/methods';
 
-import { typeNames } from '/imports/api/interactions/types';
+import { interactionTypeNames } from '/imports/api/interactions/types';
 import { mapSort } from '/imports/api/helpers/mapSort';
 import sortFullShowGames from '/imports/api/helpers/sortFullShowGames';
 
@@ -65,8 +65,6 @@ const ShowScreen = ({ isReady, interactions, games, hasNext, hasPrevious }) => (
 );
 
 ShowScreen.propTypes = propTypes;
-
-const interactionTypeNames = typeNames();
 
 export default withTracker(() => {
   const interactionsHandle = Meteor.subscribe('interactions.allInteractions');

@@ -9,7 +9,7 @@ import SubmissionsCollection from '/imports/api/submissions/collection';
 import CandidatesCollection from '/imports/api/candidates/collection';
 
 import { submit } from '/imports/api/submissions/methods';
-import { typeNames } from '/imports/api/interactions/types';
+import { interactionTypeNames } from '/imports/api/interactions/types';
 import * as interactionStates from '/imports/api/interactions/states';
 import sortFullShowGames from '/imports/api/helpers/sortFullShowGames';
 import getStateForGameAndSubmission from '/imports/api/helpers/getStateForGameAndSubmission';
@@ -79,8 +79,6 @@ const styles = {
     maxHeight: '100%',
   },
 };
-
-const interactionTypeNames = typeNames();
 
 // save old interaction to always show the last "ACTIVE" interaction
 // this prevents paint flashing a loading message

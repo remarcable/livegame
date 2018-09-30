@@ -1,7 +1,6 @@
-import interactionTypes, { typeNames } from '/imports/api/interactions/types';
+import interactionTypes, { interactionTypeNames } from '/imports/api/interactions/types';
 
-const types = typeNames();
-const ESTIMATION_GAME = interactionTypes.get(types.ESTIMATION_GAME);
+const ESTIMATION_GAME = interactionTypes.get(interactionTypeNames.ESTIMATION_GAME);
 
 const getAllUsers = [
   { $match: { role: { $ne: 'admin' } } },

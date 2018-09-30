@@ -5,16 +5,6 @@ import { fullShowGame, fullShowWaiting } from './fullShowGame';
 const interactionTypes = new Map();
 const schemaKeys = [];
 
-export function typeNames() {
-  return [...interactionTypes.keys()].reduce(
-    (obj, key) => ({
-      ...obj,
-      [key]: key,
-    }),
-    {},
-  );
-}
-
 function addInteractionTypeToMap(interactionType) {
   const { typeName, schemaKey } = interactionType;
 
@@ -38,5 +28,13 @@ function addInteractionTypeToMap(interactionType) {
   fullShowGame,
   fullShowWaiting,
 ].forEach((type) => addInteractionTypeToMap(type));
+
+export const interactionTypeNames = [...interactionTypes.keys()].reduce(
+  (obj, key) => ({
+    ...obj,
+    [key]: key,
+  }),
+  {},
+);
 
 export default interactionTypes;

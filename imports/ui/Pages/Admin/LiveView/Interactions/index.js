@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import interactionTypes, { typeNames } from '/imports/api/interactions/types';
+import interactionTypes, { interactionTypeNames } from '/imports/api/interactions/types';
 
 import FullShowGame from './FullShowGame';
 import EstimationVoting from './EstimationVoting';
-
-const interactionTypeNames = typeNames();
 
 const interactionsMap = new Map([
   [interactionTypeNames.FULL_SHOW_GAME, FullShowGame],

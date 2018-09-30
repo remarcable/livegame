@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import ReactCSSTransitionReplace from 'react-css-transition-replace';
 
-import interactionTypes, { typeNames } from '/imports/api/interactions/types';
+import interactionTypes, { interactionTypeNames } from '/imports/api/interactions/types';
 
 import InteractionWrapper from '/imports/ui/components/InteractionWrapper';
 
@@ -18,8 +18,6 @@ import EstimationWaiting from './EstimationWaiting';
 import EstimationEnded from './EstimationEnded';
 
 import Announcement from './Announcement';
-
-const interactionTypeNames = typeNames();
 
 const interactionsMap = new Map([
   [interactionTypeNames.FULL_SHOW_GAME, FullShowGame],

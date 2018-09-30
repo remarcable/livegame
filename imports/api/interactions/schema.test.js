@@ -11,8 +11,10 @@ const estimationVoting = {
 };
 
 const fullShowGame = {
-  question: 'question',
-  result: 'result',
+  gameNumber: 12,
+  pointsCandidate1: 0,
+  pointsCandidate2: 0,
+  winner: null,
 };
 
 const announcement = {

@@ -33,6 +33,12 @@ const interactionsMap = new Map([
   [interactionTypeNames.ANNOUNCEMENT, Announcement],
 ]);
 
+const hasSubmittedMap = new Map([
+  [interactionTypeNames.FULL_SHOW_GAME, FullShowWaiting],
+  [interactionTypeNames.ESTIMATION_GAME, EstimationWaiting],
+  [interactionTypeNames.ESTIMATION_VOTING, EstimationWaiting],
+]);
+
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   interaction: PropTypes.object.isRequired, // TODO: better type
@@ -57,7 +63,11 @@ const Interactions = ({
   scoreCandidate2,
 }) => {
   const { type } = interaction;
-  const Component = interactionsMap.get(type);
+  let Component = interactionsMap.get(type);
+
+  if (hasSubmitted && hasSubmittedMap.has(type)) {
+    Component = hasSubmittedMap.get(type);
+  }
 
   if (!Component) {
     return <div>TODO: Show graceful failure message here</div>; // TODO
@@ -80,8 +90,8 @@ const Interactions = ({
         transitionEnterTimeout={500}
         transitionLeaveTimeout={200}
       >
-        <div className={classes.componentWrapper} key={interaction._id}>
-          <Component {...interaction[schemaKey]} hasSubmitted={hasSubmitted} submit={submit} />
+        <div className={classes.componentWrapper} key={`${interaction._id}-submit-${hasSubmitted}`}>
+          <Component {...interaction[schemaKey]} submit={submit} />
         </div>
       </ReactCSSTransitionReplace>
     </InteractionWrapper>

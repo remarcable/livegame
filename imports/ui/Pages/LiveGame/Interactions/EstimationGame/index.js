@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import EstimationWaiting from '../EstimationWaiting';
-
 const propTypes = {
   question: PropTypes.string.isRequired,
-  hasSubmitted: PropTypes.bool.isRequired,
   submit: PropTypes.func.isRequired,
 };
 
@@ -15,21 +12,15 @@ const handleSubmit = (e, submit) => {
   submit(answer);
 };
 
-const EstimationGame = ({ question, hasSubmitted, submit }) => {
-  if (hasSubmitted) {
-    return <EstimationWaiting />;
-  }
-
-  return (
-    <div>
-      <p>Question: {question}</p>
-      <form onSubmit={(e) => handleSubmit(e, submit)}>
-        <input type="number" name="answer" required />
-        <input type="submit" />
-      </form>
-    </div>
-  );
-};
+const EstimationGame = ({ question, submit }) => (
+  <div>
+    <p>Question: {question}</p>
+    <form onSubmit={(e) => handleSubmit(e, submit)}>
+      <input type="number" name="answer" required />
+      <input type="submit" />
+    </form>
+  </div>
+);
 EstimationGame.propTypes = propTypes;
 
 export default EstimationGame;

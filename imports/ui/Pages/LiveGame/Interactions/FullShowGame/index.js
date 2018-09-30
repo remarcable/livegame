@@ -3,20 +3,13 @@ import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
 
-import FullShowWaiting from '../FullShowWaiting';
-
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  hasSubmitted: PropTypes.bool.isRequired,
 };
 
-const FullShowGame = ({ hasSubmitted, classes }) => {
-  if (hasSubmitted) {
-    return <FullShowWaiting />;
-  }
-
-  return <span className={classes.text}>Wer gewinnt dieses Spiel?</span>;
-};
+const FullShowGame = ({ classes }) => (
+  <span className={classes.text}>Wer gewinnt dieses Spiel?</span>
+);
 
 FullShowGame.propTypes = propTypes;
 

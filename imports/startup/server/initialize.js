@@ -7,8 +7,9 @@ import AppState from '../../api/appState/collection';
 Meteor.startup(() => {
   if (!AppState.findOne()) {
     AppState.insert({
-      gameEnded: false,
-      gamesOrder: [],
+      hintText: null,
+      interactionToShow: null,
+      rankDisplayMode: 'ALL',
     });
   }
 

@@ -1,26 +1,86 @@
 import React from 'react';
+import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
+// material-ui
+import { withStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
+import { theme } from '/imports/ui/theme';
 import AdminLayout from '/imports/ui/Layouts/AdminLayout';
 
-const SelectAdminPage = () => (
-  <AdminLayout>
-    <Link to="/admin/show">
-      <button>ShowScreen</button>
-    </Link>
-    <Link to="/admin/edit">
-      <button>EditScreen</button>
-    </Link>
-    <Link to="/admin/users">
-      <button>UserList</button>
-    </Link>
-    <Link to="/admin/liveview">
-      <button>LiveView</button>
-    </Link>
-    <Link to="/admin/livecontrol">
-      <button>LiveControl</button>
-    </Link>
-  </AdminLayout>
-);
+const SelectAdminPage = (props) => {
+  const { classes } = props;
 
-export default SelectAdminPage;
+  return (
+    <AdminLayout>
+      <h1 className={classNames(classes.margin)}>
+        Admin Bereich
+      </h1>
+
+      <Button
+        size="large"
+        className={classNames(classes.margin)}
+        color="primary"
+        variant="contained"
+        component={Link}
+        to="/admin/show"
+      >
+       ShowScreen
+      </Button>
+
+      <Button
+        size="large"
+        className={classNames(classes.margin)}
+        color="primary"
+        variant="contained"
+        component={Link}
+        to="/admin/edit"
+      >
+       EditScreen
+      </Button>
+
+      <Button
+        size="large"
+        className={classNames(classes.margin)}
+        color="primary"
+        variant="contained"
+        component={Link}
+        to="/admin/users"
+      >
+       UserList
+      </Button>
+
+      <Button
+        size="large"
+        className={classNames(classes.margin)}
+        color="primary"
+        variant="contained"
+        component={Link}
+        to="/admin/liveview"
+      >
+       LiveView
+      </Button>
+
+      <Button
+        size="large"
+        className={classNames(classes.margin)}
+        color="primary"
+        variant="contained"
+        component={Link}
+        to="/admin/livecontrol"
+      >
+       LiveControl
+      </Button>
+    </AdminLayout>
+  )
+};
+
+const styles = theme => ({
+  margin: {
+    margin: theme.spacing.unit,
+  }
+});
+
+
+export default withStyles(styles)(SelectAdminPage);

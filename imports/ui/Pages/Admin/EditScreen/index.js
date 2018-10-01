@@ -3,6 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 
+import SimpleSchema from 'simpl-schema';
+import AutoForm from 'uniforms-material/AutoForm';
+
 import Interactions from '/imports/api/interactions/collection';
 import interactionTypes from '/imports/api/interactions/types';
 import {
@@ -24,47 +27,50 @@ import {
 } from '/imports/api/candidates/methods';
 
 import AdminLayout from '/imports/ui/Layouts/AdminLayout';
-import EditInteraction from './EditInteraction';
 import NewInteraction from './NewInteraction';
 import SortInteractions from './SortInteractions';
 import EditCandidates from './EditCandidates';
 
 const propTypes = {
   interactions: PropTypes.array.isRequired, // TODO: better type!
+  candidates: PropTypes.array.isRequired, // TODO: better type!
   isReady: PropTypes.bool.isRequired,
 };
+
+function handleSubmit(id, formData, schema) {
+  const { title, ...data } = schema.clean(formData);
+  updateInteractionDetails.call({ id, title, data });
+}
+
+const InteractionsEditList = ({ interactions }) =>
+  interactions.map((i) => {
+    const interactionType = interactionTypes.get(i.type);
+    const { schemaKey } = interactionType;
+    const schema = new SimpleSchema({ title: String, ...interactionType.getFields() });
+
+    return (
+      <div key={i._id}>
+        <h3>
+          {i.type} {i._id}
+          <button onClick={() => removeInteraction.call({ id: i._id })}>X</button>
+        </h3>
+        <AutoForm
+          schema={schema}
+          model={{ title: i.title || '', ...i[schemaKey] }}
+          onSubmit={(data) => handleSubmit(i._id, data, schema)}
+        />
+      </div>
+    );
+  });
 
 const EditScreen = ({ isReady, interactions, candidates }) => (
   <AdminLayout>
     <div>
-      <NewInteraction
-        createInteraction={({ interactionType, data, title }) =>
-          createInteraction.call({ interactionType, data, title })
-        }
-      />
+      <NewInteraction createInteraction={(data) => createInteraction.call(data)} />
     </div>
     <div>
-      {!isReady && <div>Loadings</div>}
-      {isReady &&
-        interactions.map((i) => {
-          const interactionType = interactionTypes.get(i.type);
-          const { schemaKey } = interactionType;
-
-          return (
-            <EditInteraction
-              key={i._id}
-              title={`${i.type}: ${i._id}`}
-              id={i._id}
-              currentData={i[schemaKey]}
-              currentInteractionTitle={i.title || ''}
-              schemaFields={interactionType.getFields()}
-              updateData={({ data, title }) =>
-                updateInteractionDetails.call({ id: i._id, data, title })
-              }
-              removeInteraction={({ id }) => removeInteraction.call({ id })}
-            />
-          );
-        })}
+      {!isReady && <div>Is Loading in EditScreen</div>}
+      {<InteractionsEditList interactions={interactions} />}
     </div>
     <div>
       <SortInteractions
@@ -76,12 +82,10 @@ const EditScreen = ({ isReady, interactions, candidates }) => (
       {isReady && (
         <EditCandidates
           candidates={candidates}
-          insertCandidate={({ name, imageUrl }) => insertCandidate.call({ name, imageUrl })}
-          updateCandidate={({ _id, name, imageUrl }) =>
-            updateCandidate.call({ _id, name, imageUrl })
-          }
-          removeCandidate={({ _id }) => removeCandidate.call({ _id })}
-          setCandidate={({ _id, candidateNumber }) => setCandidate.call({ _id, candidateNumber })}
+          insertCandidate={(data) => insertCandidate.call(data)}
+          updateCandidate={(data) => updateCandidate.call(data)}
+          removeCandidate={(data) => removeCandidate.call(data)}
+          setCandidate={(data) => setCandidate.call(data)}
         />
       )}
     </div>

@@ -26,10 +26,18 @@ import {
   setCandidate,
 } from '/imports/api/candidates/methods';
 
+import { withStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 import AdminLayout from '/imports/ui/Layouts/AdminLayout';
 import NewInteraction from './NewInteraction';
 import SortInteractions from './SortInteractions';
 import EditCandidates from './EditCandidates';
+
 
 const propTypes = {
   interactions: PropTypes.array.isRequired, // TODO: better type!
@@ -52,7 +60,10 @@ const InteractionsEditList = ({ interactions }) =>
       <div key={i._id}>
         <h3>
           {i.type} {i._id}
-          <button onClick={() => removeInteraction.call({ id: i._id })}>X</button>
+
+          <IconButton aria-label="Delete" onClick={() => removeInteraction.call({ id: i._id })}>
+            <DeleteIcon fontSize="large" />
+          </IconButton>
         </h3>
         <AutoForm
           schema={schema}

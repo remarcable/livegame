@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 
@@ -18,6 +19,10 @@ import sortFullShowGames from '/imports/api/helpers/sortFullShowGames';
 import AdminLayout from '/imports/ui/Layouts/AdminLayout';
 import UpdateGames from './UpdateGames';
 
+// material-ui
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
 const propTypes = {
   interactions: PropTypes.array.isRequired, // TODO: better type!
   games: PropTypes.array.isRequired, // TODO: better type!
@@ -26,47 +31,74 @@ const propTypes = {
   hasPrevious: PropTypes.bool.isRequired,
 };
 
-const ShowScreen = ({ isReady, interactions, games, hasNext, hasPrevious }) => (
-  <AdminLayout>
-    <div>
-      {!isReady && <div>Loadings</div>}
-      {isReady &&
-        interactions.map((i) => (
-          <ul key={i._id}>
-            <li>
-              {i.state === 'ACTIVE' && 'active:'} {i.type}{' '}
-              <button onClick={() => startInteraction.call({ interactionId: i._id })}>Start</button>
-            </li>
-          </ul>
-        ))}
-    </div>
-    <div>
-      <button disabled={!hasPrevious} onClick={() => previousInteraction.call()}>
-        Previous
-      </button>
-      <button disabled={!hasNext} onClick={() => nextInteraction.call()}>
-        Next
-      </button>
-    </div>
-    <div>
-      {isReady && (
-        <UpdateGames
-          games={games}
-          updateScores={({ _id: id, pointsCandidate1, pointsCandidate2 }) =>
-            updateInteractionDetails.call({ id, data: { pointsCandidate1, pointsCandidate2 } })
-          }
-          setWinner={({ _id: id, winner }) =>
-            updateInteractionDetails.call({ id, data: { winner } })
-          }
-        />
-      )}
-    </div>
-  </AdminLayout>
-);
+const ShowScreen = ({ classes, isReady, interactions, games, hasNext, hasPrevious }) => {
+
+  return (
+    <AdminLayout>
+      <div>
+        {!isReady && <div>Loadings</div>}
+        {isReady &&
+          interactions.map((i) => (
+            <ul key={i._id}>
+              <li>
+                {i.state === 'ACTIVE' && 'active:'} {i.type}{' '}
+                <Button
+                  variant="contained"
+                  size="large"
+                  className={classNames(classes.margin)}
+                  onClick={() => startInteraction.call({ interactionId: i._id })}
+                >
+                  Start
+                </Button>
+              </li>
+            </ul>
+          ))}
+      </div>
+      <div>
+        <Button
+          variant="contained"
+          size="large"
+          className={classNames(classes.margin)}
+          disabled={!hasPrevious} onClick={() => previousInteraction.call()}
+        >
+          Previous
+        </Button>
+        <Button
+          variant="contained"
+          size="large"
+          className={classNames(classes.margin)}
+          disabled={!hasNext} onClick={() => nextInteraction.call()}
+        >
+          Next
+        </Button>
+      </div>
+      <div>
+        {isReady && (
+          <UpdateGames
+            games={games}
+            updateScores={({ _id: id, pointsCandidate1, pointsCandidate2 }) =>
+              updateInteractionDetails.call({ id, data: { pointsCandidate1, pointsCandidate2 } })
+            }
+            setWinner={({ _id: id, winner }) =>
+              updateInteractionDetails.call({ id, data: { winner } })
+            }
+          />
+        )}
+      </div>
+    </AdminLayout>
+  );
+}
+
+const styles = theme => ({
+  margin: {
+    margin: theme.spacing.unit,
+  }
+});
+
 
 ShowScreen.propTypes = propTypes;
 
-export default withTracker(() => {
+export default withStyles(styles)(withTracker(() => {
   const interactionsHandle = Meteor.subscribe('interactions.allInteractions');
   const isReady = interactionsHandle.ready();
   const interactions = Interactions.find().fetch();
@@ -79,4 +111,4 @@ export default withTracker(() => {
   const hasPrevious = !!currentInteraction.previous;
 
   return { interactions: mapSort(interactions), games, hasNext, hasPrevious, isReady };
-})(ShowScreen);
+})(ShowScreen));

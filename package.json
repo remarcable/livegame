@@ -15,11 +15,11 @@
     "prettier:watch": "onchange '**/*.js' -- prettier --write {{changed}}"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.38",
+    "@babel/runtime": "7.0.0-beta.55",
     "bcrypt": "^1.0.3",
     "just-random": "^2.0.0",
     "material-ui": "^0.20.0",
-    "meteor-node-stubs": "^0.3.3",
+    "meteor-node-stubs": "^0.4.1",
     "normalize.css": "^8.0.0",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
@@ -32,9 +32,9 @@
     "simpl-schema": "^1.4.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.42",
-    "@babel/preset-env": "^7.0.0-beta.42",
-    "@babel/preset-react": "^7.0.0-beta.42",
+    "@babel/core": "7.0.0-beta.55",
+    "@babel/preset-env": "7.0.0-beta.55",
+    "@babel/preset-react": "7.0.0-beta.55",
     "@storybook/react": "^3.3.15",
     "babel-core": "^7.0.0-0",
     "babel-eslint": "^8.2.2",

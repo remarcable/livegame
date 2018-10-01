@@ -6,11 +6,9 @@ import { Link } from 'react-router-dom';
 import { withStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
-import { theme } from '/imports/ui/theme';
 import AdminLayout from '/imports/ui/Layouts/AdminLayout';
 
-const SelectAdminPage = (props) => {
-  const { classes } = props;
+const SelectAdminPage = ({ classes }) => {
 
   return (
     <AdminLayout>
@@ -81,6 +79,5 @@ const styles = theme => ({
     margin: theme.spacing.unit,
   }
 });
-
 
 export default withStyles(styles)(SelectAdminPage);

@@ -9,4 +9,7 @@ export const theme = createMuiTheme({
     primary: orange,
     secondary: blue,
   },
+  spacing: {
+    unit: 16
+  }
 });

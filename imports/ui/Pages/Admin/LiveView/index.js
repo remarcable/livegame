@@ -8,7 +8,7 @@ import AppState from '/imports/api/appState/collection';
 import InteractionsCollection from '/imports/api/interactions/collection';
 
 import LiveViewLayout from '/imports/ui/Layouts/LiveViewLayout';
-import Interactions from './Interactions';
+import ShowInteraction from './ShowInteraction';
 
 const propTypes = {
   interaction: PropTypes.object.isRequired, // TODO: better type!
@@ -17,7 +17,7 @@ const propTypes = {
 
 const LiveView = ({ isReady, interaction }) => (
   <LiveViewLayout>
-    {isReady ? <Interactions interaction={interaction} /> : <span>Loading</span>}
+    {isReady ? <ShowInteraction interaction={interaction} /> : <span>Loading</span>}
   </LiveViewLayout>
 );
 
@@ -29,12 +29,13 @@ export default withTracker(() => {
 
   // because we have to additionally subscribe to
   // interactions.scoreboard, isReady will be false for a short time
-  const interactionsHandle = Meteor.subscribe('interactions.scoreboard', interactionId);
+  const interactionsHandle =
+    interactionId && Meteor.subscribe('interactions.scoreboard', interactionId);
   const interaction = InteractionsCollection.findOne(interactionId) || {};
 
   const additionalData = JoinClient.get('additionalData') || {};
 
-  const isReady = appStateHandle.ready() && interactionsHandle.ready();
+  const isReady = appStateHandle.ready() && (!!interactionsHandle && interactionsHandle.ready());
 
   return { interaction: { ...interaction, additionalData }, isReady };
 })(LiveView);

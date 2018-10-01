@@ -16,7 +16,7 @@ const propTypes = {
 };
 
 // TODO we have almost the same component for LiveGame => should be split out to helper component
-const Interactions = ({ interaction }) => {
+const ShowInteraction = ({ interaction }) => {
   const { type, additionalData } = interaction;
   const Component = interactionsMap.get(type);
 
@@ -28,6 +28,6 @@ const Interactions = ({ interaction }) => {
   return <Component {...interaction[schemaKey]} additionalData={additionalData} />;
 };
 
-Interactions.propTypes = propTypes;
+ShowInteraction.propTypes = propTypes;
 
-export default Interactions;
+export default ShowInteraction;

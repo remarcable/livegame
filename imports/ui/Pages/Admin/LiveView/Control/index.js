@@ -7,6 +7,7 @@ import AppState from '/imports/api/appState/collection';
 
 import Interactions from '/imports/api/interactions/collection';
 import { interactionTypeNames } from '/imports/api/interactions/types';
+import * as interactionStates from '/imports/api/interactions/states';
 import sortFullShowGames from '/imports/api/helpers/sortFullShowGames';
 
 import { displayInteraction } from '/imports/api/appState/methods';
@@ -21,7 +22,7 @@ const propTypes = {
   votings: PropTypes.array.isRequired, // TODO: Better proptype
 };
 
-const LiveViewControl = ({ isReady, games, votings, activeInteraction }) => (
+const LiveViewControl = ({ games, votings, activeInteraction }) => (
   <AdminLayout>
     <span>
       <h1>LiveView</h1>
@@ -45,7 +46,7 @@ const LiveViewControl = ({ isReady, games, votings, activeInteraction }) => (
         <StartButton
           key={game._id}
           id={game._id}
-          allowedStates={['ACTIVE', 'CLOSED']}
+          allowedStates={Object.keys(interactionStates)}
           state={game.state}
           text={game.fullShowGame.gameNumber}
           active={game._id === activeInteraction}
@@ -57,7 +58,7 @@ const LiveViewControl = ({ isReady, games, votings, activeInteraction }) => (
         <StartButton
           key={voting._id}
           id={voting._id}
-          allowedStates={['ACTIVE', 'CLOSED']}
+          allowedStates={Object.keys(interactionStates)}
           state={voting.state}
           text={voting.estimationVoting.question}
           active={voting._id === activeInteraction}

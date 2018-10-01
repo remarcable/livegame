@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 import { JoinServer } from 'meteor-publish-join';
 
 import Submissions from '/imports/api/submissions/collection';
@@ -46,9 +47,7 @@ Meteor.publish('interactions.allInteractions', function interactionsAllPublicati
 Meteor.publish('interactions.scoreboard', function interactionsActivePublication(interactionId) {
   if (!this.userId || !Meteor.userIsAdmin(this.userId)) return this.ready();
 
-  if (typeof interactionId !== 'string') {
-    return this.ready();
-  }
+  check(interactionId, String);
 
   const interaction = Interactions.findOne(interactionId);
   const { type } = interaction;

@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   className: PropTypes.string,
-  children: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 const Headline = ({ classes, children, className }) => (

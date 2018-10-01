@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Headline from '../Headline';
 import CandidatePicture from '../CandidatePicture';
+import ScoreNumber from './ScoreNumber';
 
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
@@ -42,7 +43,9 @@ const LiveScores = ({
           [classes.scoresMatchball]: candidate2.name === 'Peter',
         })}
       >
-        {`${scoreCandidate1} : ${scoreCandidate2}`}
+        <span>
+          <ScoreNumber value={scoreCandidate1} /> : <ScoreNumber value={scoreCandidate2} />
+        </span>
       </Headline>
       <span
         className={classnames(classes.matchball, { [classes.hide]: candidate2.name !== 'Peter' })}

@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { withTracker } from 'meteor/react-meteor-data';
+import { JoinClient } from 'meteor-publish-join';
 
 import InteractionsCollection from '/imports/api/interactions/collection';
 import SubmissionsCollection from '/imports/api/submissions/collection';
@@ -124,6 +125,9 @@ export default withTracker(() => {
   const candidate1 = candidates.find(({ number }) => number === 1) || {};
   const candidate2 = candidates.find(({ number }) => number === 2) || {};
 
+  const { candidate1: scoreCandidate1 = 0, candidate2: scoreCandidate2 = 0 } =
+    JoinClient.get('candidateScores') || {};
+
   return {
     interaction: lastInteraction,
     games: isReady ? games : [],
@@ -132,7 +136,7 @@ export default withTracker(() => {
     loading: !isReady,
     candidate1,
     candidate2,
-    scoreCandidate1: 50, // TODO
-    scoreCandidate2: 54,
+    scoreCandidate1,
+    scoreCandidate2,
   };
 })(withStyles(styles)(LiveGame));

@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import AutoForm from 'uniforms-material/AutoForm';
 import SimpleSchema from 'simpl-schema';
+import AutoForm from 'uniforms-material/AutoForm';
 
 import interactionTypes from '/imports/api/interactions/types';
 
@@ -35,6 +35,10 @@ class NewInteraction extends PureComponent {
     const { createInteraction } = this.props;
     const { title, ...data } = this.schema.clean(values);
     createInteraction({ interactionType: this.state.selected, data, title });
+
+    if (this.form) {
+      this.form.reset();
+    }
   }
 
   render() {

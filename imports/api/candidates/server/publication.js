@@ -1,8 +1,24 @@
 import { Meteor } from 'meteor/meteor';
+import { JoinServer } from 'meteor-publish-join';
+
+import Interactions from '/imports/api/interactions/collection';
 import Candidates from '../collection';
+
+import getCandidatePoints from './getCandidatePoints';
 
 Meteor.publish('candidates.active', function publishCandidatesUser() {
   if (!this.userId) return this.ready();
+
+  JoinServer.publish({
+    context: this,
+    name: 'candidateScores',
+    interval: 5000,
+    isShared: true,
+    doJoin() {
+      return getCandidatePoints(Interactions);
+    },
+  });
+
   return Candidates.find(
     { candidateNumber: { $in: [1, 2] } },
     {

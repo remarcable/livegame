@@ -21,7 +21,9 @@ export const estimationGame = new InteractionType({
       custom() {
         // only one of answer and votingId is allowed
         const answer = this.value;
-        const votingId = this.field('estimationGame.votingId').value;
+        const votingId =
+          this.field('estimationGame.votingId').value || this.field('votingId').value;
+
         // check for undefined because answer could be 0
         if (answer === undefined && !votingId) {
           return isInSchemaRequired(this);
@@ -31,13 +33,14 @@ export const estimationGame = new InteractionType({
       },
     },
     votingId: {
-      type: SimpleSchema.RegEx.Id,
+      type: String,
+      regEx: SimpleSchema.RegEx.Id,
       label: 'Voting',
       optional: true,
       // eslint-disable-next-line consistent-return
       custom() {
         // only one of answer and votingId is allowed
-        const answer = this.field('estimationGame.answer').value;
+        const answer = this.field('estimationGame.answer').value || this.field('answer').value;
         const votingId = this.value;
 
         // check for undefined because answer could be 0

@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import AutoForm from 'uniforms-material/AutoForm';
+import SimpleSchema from 'simpl-schema';
+
 import interactionTypes from '/imports/api/interactions/types';
-import EditInteraction from './EditInteraction';
 
 const propTypes = {
   createInteraction: PropTypes.func.isRequired,
@@ -18,37 +20,44 @@ class NewInteraction extends PureComponent {
   }
 
   handleSelectChange(event) {
-    const { value } = event.target;
-    this.setState({ selected: value });
+    if (this.form) {
+      this.form.reset();
+    }
+
+    const { value: selected } = event.target;
+    this.setState({ selected });
+
+    const interactionType = interactionTypes.get(selected);
+    this.schema = new SimpleSchema({ title: String, ...interactionType.getFields() });
   }
 
-  handleSubmit({ data, title }) {
+  handleSubmit(values) {
     const { createInteraction } = this.props;
+    const { title, ...data } = this.schema.clean(values);
     createInteraction({ interactionType: this.state.selected, data, title });
   }
 
   render() {
     const { state } = this;
+    const interactionTypeOptions = [...interactionTypes.keys()].map((typeName) => (
+      <option key={typeName} value={typeName}>
+        {typeName}
+      </option>
+    ));
+
     return (
       <div>
         <select onChange={this.handleSelectChange} selected={state.selected}>
           <option value={null} />
-          {[...interactionTypes.keys()].map((typeName) => (
-            <option key={typeName} value={typeName}>
-              {typeName}
-            </option>
-          ))}
+          {interactionTypeOptions}
         </select>
+
         {state.selected && (
-          <>
-            <EditInteraction
-              title={state.selected}
-              currentData={{}}
-              currentInteractionTitle=""
-              schemaFields={interactionTypes.get(state.selected).getFields()}
-              updateData={this.handleSubmit}
-            />
-          </>
+          <AutoForm
+            ref={(ref) => (this.form = ref)}
+            schema={this.schema}
+            onSubmit={this.handleSubmit}
+          />
         )}
       </div>
     );

@@ -10,15 +10,5 @@ export const announcement = new InteractionType({
       label: 'Template',
       publish: true,
     },
-    title: {
-      type: String,
-      label: 'Titel',
-      publish: true,
-    },
-    body: {
-      type: String,
-      label: 'Body',
-      publish: true,
-    },
   },
 });

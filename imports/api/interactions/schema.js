@@ -1,10 +1,18 @@
+import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
+
+import filterDOMProps from 'uniforms/filterDOMProps';
+
 import interactionTypes from './types';
 import * as interactionStates from './states';
 
 // "index" is there to fix tests with jest,
 // "publish" defines whether a field should be published to players
 SimpleSchema.extendOptions(['index', 'publish']);
+
+if (Meteor.isClient) {
+  filterDOMProps.register('publish');
+}
 
 const baseSchema = {
   type: {

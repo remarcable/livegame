@@ -89,7 +89,7 @@ const Interactions = ({
         transitionLeaveTimeout={200}
       >
         <div className={classes.componentWrapper} key={`${interaction._id}-submit-${hasSubmitted}`}>
-          <Component {...interaction[schemaKey]} submit={submit} />
+          <Component {...interaction[schemaKey]} submit={submit} hasSubmitted={hasSubmitted} />
         </div>
       </ReactCSSTransitionReplace>
     </InteractionWrapper>

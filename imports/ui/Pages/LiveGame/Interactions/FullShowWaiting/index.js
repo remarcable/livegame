@@ -1,5 +1,60 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const FullShowWaiting = () => <>Full Show Waiting</>;
+import { withStyles } from '@material-ui/core/styles';
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 
-export default FullShowWaiting;
+import ConnectionStatus from '/imports/ui/components/ConnectionStatus';
+
+const propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  hasSubmitted: PropTypes.bool.isRequired,
+};
+
+const FullShowWaiting = ({ hasSubmitted, classes }) => {
+  if (hasSubmitted) {
+    return (
+      <div className={classes.wrapper}>
+        <PlaylistAddCheckIcon className={classes.icon} />
+        <span>Ihre Antwort wurde erfolgreich abgegeben.</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className={classes.wrapper}>
+      <span className={classes.text}>Bitte warten Sie auf die nächste Runde.</span>
+      <ConnectionStatus />
+    </div>
+  );
+};
+
+FullShowWaiting.propTypes = propTypes;
+
+const styles = {
+  wrapper: {
+    paddingTop: 50,
+    width: '100%',
+
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    fontSize: 24,
+    textAlign: 'center',
+    textTransform: 'uppercase',
+  },
+  text: {
+    marginBottom: 20,
+  },
+  icon: {
+    width: 50,
+    height: 50,
+    minWidth: 50,
+    minHeight: 50,
+    marginBottom: 20,
+  },
+};
+
+export default withStyles(styles)(FullShowWaiting);

@@ -106,7 +106,7 @@ input:-webkit-autofill:focus input:-webkit-autofill {
 
 .fade-up-enter {
   opacity: 0;
-  transform: translate3d(0, 50%, 0);
+  transform: translate3d(0, -50%, 0);
 }
 .fade-up-enter.fade-up-enter-active {
   opacity: 1;

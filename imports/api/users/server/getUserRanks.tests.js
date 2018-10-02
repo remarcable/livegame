@@ -3,14 +3,13 @@ import { Meteor } from 'meteor/meteor';
 import InteractionsCollection from '/imports/api/interactions/collection';
 import SubmissionsCollection from '/imports/api/submissions/collection';
 
-import aggregation from './aggregation';
-import { transformAggregationResult } from './getUserRankCounts';
+import getUserRanks from './getUserRanks';
 
 const UsersCollection = Meteor.users;
 
 const sortingFunc = (a, b) => a._id.localeCompare(b._id);
 
-describe('getUserRankCounts(interactionsCollection)', () => {
+describe('getUserRanks(interactionsCollection)', () => {
   beforeEach(() => {
     InteractionsCollection.remove({});
     SubmissionsCollection.remove({});
@@ -23,8 +22,8 @@ describe('getUserRankCounts(interactionsCollection)', () => {
     UsersCollection.remove({});
   });
 
-  describe('aggregation', () => {
-    it('returns an array with points as ids and a count of how many users have that amount', async () => {
+  describe.only('aggregation', () => {
+    it('returns an array with userIds as _id and a count as correctSubmissions', async () => {
       const usersToBeInserted = [
         { _id: 'U01' }, // 2 points
         { _id: 'U02' }, // 3 points
@@ -66,10 +65,16 @@ describe('getUserRankCounts(interactionsCollection)', () => {
       await InteractionsCollection.rawCollection().insertMany(interactionsToBeInserted);
       await SubmissionsCollection.rawCollection().insertMany(submissionsToBeInserted);
 
-      const [result = {}] = InteractionsCollection.aggregate(aggregation);
+      const result = getUserRanks(InteractionsCollection);
 
-      expect(result.counts.sort(sortingFunc)).to.deep.equal(
-        [{ _id: 0, count: 2 }, { _id: 2, count: 2 }, { _id: 3, count: 1 }].sort(sortingFunc),
+      expect(result.sort(sortingFunc)).to.deep.equal(
+        [
+          { _id: 'U01', correctSubmissions: 2 },
+          { _id: 'U02', correctSubmissions: 3 },
+          { _id: 'U03', correctSubmissions: 2 },
+          { _id: 'U04', correctSubmissions: 0 },
+          { _id: 'U05', correctSubmissions: 0 },
+        ].sort(sortingFunc),
       );
     });
 
@@ -96,10 +101,14 @@ describe('getUserRankCounts(interactionsCollection)', () => {
       await InteractionsCollection.rawCollection().insertMany(interactionsToBeInserted);
       await SubmissionsCollection.rawCollection().insertMany(submissionsToBeInserted);
 
-      const [result = {}] = InteractionsCollection.aggregate(aggregation);
+      const result = getUserRanks(InteractionsCollection);
 
-      expect(result.counts.sort(sortingFunc)).to.deep.equal(
-        [{ _id: 0, count: 1 }, { _id: 1, count: 2 }].sort(sortingFunc),
+      expect(result.sort(sortingFunc)).to.deep.equal(
+        [
+          { _id: 'U02', correctSubmissions: 1 },
+          { _id: 'U03', correctSubmissions: 1 },
+          { _id: 'U04', correctSubmissions: 0 },
+        ].sort(sortingFunc),
       );
     });
 
@@ -113,73 +122,13 @@ describe('getUserRankCounts(interactionsCollection)', () => {
       await UsersCollection.rawCollection().insertMany(usersToBeInserted);
       await InteractionsCollection.rawCollection().insertMany(interactionsToBeInserted);
 
-      const [result = {}] = InteractionsCollection.aggregate(aggregation);
+      const result = getUserRanks(InteractionsCollection);
 
-      expect(result.counts.sort(sortingFunc)).to.deep.equal(
-        [{ _id: 0, count: 2 }].sort(sortingFunc),
+      expect(result.sort(sortingFunc)).to.deep.equal(
+        [{ _id: 'U00', correctSubmissions: 0 }, { _id: 'U01', correctSubmissions: 0 }].sort(
+          sortingFunc,
+        ),
       );
-    });
-
-    it('returns the number of interactions', async () => {
-      const usersToBeInserted = [{ _id: 'U00' }, { _id: 'U01' }];
-
-      const interactionsToBeInserted = [
-        { _id: 'I01', type: 'FULL_SHOW_GAME', fullShowGame: { winner: 'NONE' } },
-        { _id: 'I02', type: 'FULL_SHOW_GAME', fullShowGame: { winner: 'NONE' } },
-        { _id: 'I03', type: 'FULL_SHOW_GAME', fullShowGame: { winner: 'NONE' } },
-      ];
-
-      await UsersCollection.rawCollection().insertMany(usersToBeInserted);
-      await InteractionsCollection.rawCollection().insertMany(interactionsToBeInserted);
-
-      const [result = {}] = InteractionsCollection.aggregate(aggregation);
-      expect(result.interactionsCount).to.equal(3);
-    });
-  });
-
-  describe('transformAggregationResult([{ counts, interactionsCount } = {}] = [])', () => {
-    it('returns an array of size interactionsCount + 1', () => {
-      const input = [{ interactionsCount: 10, counts: [] }];
-      expect(transformAggregationResult(input)).to.have.length(11);
-    });
-
-    it('puts the value in elements with id at result[id] and fills the rest with 0', () => {
-      const input = [
-        {
-          interactionsCount: 15,
-          counts: [
-            { _id: 0, count: 5 },
-            { _id: 3, count: 2 },
-            { _id: 6, count: 15 },
-            { _id: 10, count: 1 },
-          ],
-        },
-      ];
-      expect(transformAggregationResult(input)).to.deep.equal([
-        5, // has 0 interactions correct
-        0, // has 1 interactions correct
-        0, // has 2 interactions correct
-        2, // ...
-        0,
-        0,
-        15,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-      ]);
-    });
-
-    it('returns [0] when interactionsCount is 0 or input is empty array', () => {
-      const input1 = [{ interactionsCount: 0, counts: [] }];
-      const input2 = [];
-      expect(transformAggregationResult(input1)).to.deep.equal([0]);
-      expect(transformAggregationResult(input2)).to.deep.equal([0]);
     });
   });
 });

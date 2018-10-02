@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { JoinServer } from 'meteor-publish-join';
 
 import Interactions from '/imports/api/interactions/collection';
+import getUserRanks from './getUserRanks';
 import getUserRankCounts from './getUserRankCounts';
 
 Meteor.publish('users.loggedIn', function publishLoggedInUser() {
@@ -67,6 +68,18 @@ Meteor.publish('users.liveview.topTen', function publishTopTenUsers() {
 
 Meteor.publish('users.all', function publishAllUsers() {
   if (!this.userId || !Meteor.userIsAdmin(this.userId)) return this.ready();
+  const UPDATE_INTERVAL = 5000;
+
+  JoinServer.publish({
+    context: this,
+    name: 'userRanks',
+    interval: UPDATE_INTERVAL,
+    isShared: true,
+    doJoin() {
+      return getUserRanks(Interactions);
+    },
+  });
+
   return Meteor.users.find(
     { role: { $ne: 'admin' } },
     {

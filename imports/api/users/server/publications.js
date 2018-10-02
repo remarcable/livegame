@@ -1,6 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { JoinServer } from 'meteor-publish-join';
 
+import Interactions from '/imports/api/interactions/collection';
+import getUserRankCounts from './getUserRankCounts';
+
 Meteor.publish('users.loggedIn', function publishLoggedInUser() {
   if (!this.userId) return this.ready();
   return Meteor.users.find(
@@ -21,7 +24,18 @@ Meteor.publish('users.loggedIn', function publishLoggedInUser() {
 Meteor.publish('users.count', function publishUserCount() {
   if (!this.userId) return this.ready();
   const UPDATE_INTERVAL = 5000;
-  return JoinServer.publish({
+
+  JoinServer.publish({
+    context: this,
+    name: 'userRankCounts',
+    interval: UPDATE_INTERVAL,
+    isShared: true,
+    doJoin() {
+      return getUserRankCounts(Interactions);
+    },
+  });
+
+  JoinServer.publish({
     context: this,
     name: 'userCount',
     interval: UPDATE_INTERVAL,

@@ -2,8 +2,12 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { JoinClient } from 'meteor-publish-join';
+
 import { withTracker } from 'meteor/react-meteor-data';
 import { withStyles } from '@material-ui/core/styles';
+
+import sumFromIndexToEnd from '/imports/api/helpers/sumFromIndexToEnd';
 
 import AdminLayout from '/imports/ui/Layouts/AdminLayout';
 
@@ -44,25 +48,29 @@ const UserTable = ({ users }) => (
   <table>
     <thead>
       <tr>
-        <th>Rang</th>
         <th>Vorname</th>
         <th>Nachname</th>
         <th>Alias</th>
         <th>E-Mail</th>
         <th>ID</th>
-        <th>Punkte</th>
+        <th>Schätzen Rang</th>
+        <th>Schätzen Punkte</th>
+        <th>Full Show Rang</th>
+        <th>Full Show Score</th>
       </tr>
     </thead>
     <tbody>
       {users.map((u) => (
         <tr key={u._id}>
-          <td>{u.rank || '-'}</td>
           <td>{u.firstName}</td>
           <td>{u.lastName}</td>
           <td>{u.alias || '-'}</td>
           <td>{u.email || '-'}</td>
           <td>{u._id}</td>
           <td>{u.points || '-'}</td>
+          <td>{u.rank || '-'}</td>
+          <td>{u.fullShowRank}</td>
+          <td>{u.fullShowScore}</td>
         </tr>
       ))}
     </tbody>
@@ -91,12 +99,32 @@ const styles = {
 
 export default withTracker(() => {
   const userHandle = Meteor.subscribe('users.all');
+  const userCountHandle = Meteor.subscribe('users.count');
 
+  const correctUserSubmissionsCounts = JoinClient.get('userRanks') || [];
+  const correctUserSubmissionsCountsMap = new Map();
+
+  const userRanking = JoinClient.get('userRankCounts') || [];
+
+  correctUserSubmissionsCounts.forEach(({ _id: userId, correctSubmissions: score }) => {
+    correctUserSubmissionsCountsMap.set(userId, score);
+  });
+
+  // TODO: sort table by what you want
   const users =
     Meteor.users
       .find({ role: { $ne: 'admin' } })
       .fetch()
-      .filter((u) => u.username === undefined) || []; // filter out admins
+      .filter((u) => u.username === undefined) // filter out admins
+      .map((u) => {
+        const fullShowScore = correctUserSubmissionsCountsMap.get(u._id);
+        return {
+          ...u,
+          fullShowScore,
+          fullShowRank: sumFromIndexToEnd(fullShowScore, userRanking) + 1,
+        };
+      })
+      .sort((a, b) => a.fullShowRank - b.fullShowRank) || [];
 
   const maxRank = Math.max(...users.map((u) => u.rank)) || 0;
   const minRank = Math.min(...users.map((u) => u.rank)) || 0;

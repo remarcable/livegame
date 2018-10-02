@@ -40,7 +40,8 @@ export const estimationGame = new InteractionType({
       // eslint-disable-next-line consistent-return
       custom() {
         // only one of answer and votingId is allowed
-        const answer = this.field('estimationGame.answer').value || this.field('answer').value;
+        const answerValue = this.field('estimationGame.answer').value;
+        const answer = answerValue !== undefined ? answerValue : this.field('answer').value;
         const votingId = this.value;
 
         // check for undefined because answer could be 0

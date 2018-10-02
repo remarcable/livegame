@@ -16,3 +16,7 @@ export function check(toCheck, type) {
   }
   // silently allow all other types
 }
+
+export const Meteor = {
+  isClient: true,
+};

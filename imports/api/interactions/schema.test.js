@@ -19,8 +19,6 @@ const fullShowGame = {
 
 const announcement = {
   template: 'template',
-  title: 'title',
-  body: 'body',
 };
 
 describe('interactionsSchema', () => {

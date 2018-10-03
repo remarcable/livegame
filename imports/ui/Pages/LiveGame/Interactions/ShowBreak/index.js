@@ -20,7 +20,7 @@ const setFlag = (flag) => setUserFlag.call({ flag });
 const redeemVoucherText =
   'Sind Sie sicher, dass Sie den Gutschein einlösen wollen? Bitte lösen Sie ihn nur in Anweisenheit einer unserer freundlichen VerkäuferInnen ein.';
 
-const Announcement = ({
+const ShowBreak = ({
   template,
   classes,
   user: { flags = {}, newsletter, estimationGame = {} } = {},
@@ -130,7 +130,7 @@ const Announcement = ({
   );
 };
 
-Announcement.propTypes = propTypes;
+ShowBreak.propTypes = propTypes;
 
 const styles = {
   wrapper: {
@@ -183,4 +183,4 @@ const styles = {
   },
 };
 
-export default withStyles(styles)(Announcement);
+export default withStyles(styles)(ShowBreak);

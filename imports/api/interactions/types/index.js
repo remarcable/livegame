@@ -1,4 +1,4 @@
-import { announcement } from './announcement';
+import { showBreak } from './showBreak';
 import { estimationGame, estimationVoting, estimationWaiting } from './estimation';
 import { fullShowGame, fullShowWaiting } from './fullShowGame';
 
@@ -20,7 +20,7 @@ function addInteractionTypeToMap(interactionType) {
 }
 
 [
-  announcement,
+  showBreak,
   estimationGame,
   estimationVoting,
   estimationWaiting,

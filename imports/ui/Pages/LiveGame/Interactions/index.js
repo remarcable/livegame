@@ -16,7 +16,7 @@ import EstimationGame from './EstimationGame';
 import EstimationVoting from './EstimationVoting';
 import EstimationWaiting from './EstimationWaiting';
 
-import Announcement from './Announcement';
+import ShowBreak from './ShowBreak';
 
 const interactionsMap = new Map([
   [interactionTypeNames.FULL_SHOW_GAME, FullShowGame],
@@ -26,7 +26,7 @@ const interactionsMap = new Map([
   [interactionTypeNames.ESTIMATION_VOTING, EstimationVoting],
   [interactionTypeNames.ESTIMATION_WAITING, EstimationWaiting],
 
-  [interactionTypeNames.ANNOUNCEMENT, Announcement],
+  [interactionTypeNames.SHOW_BREAK, ShowBreak],
 ]);
 
 const hasSubmittedMap = new Map([

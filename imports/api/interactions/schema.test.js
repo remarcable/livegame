@@ -17,7 +17,7 @@ const fullShowGame = {
   winner: null,
 };
 
-const announcement = {
+const showBreak = {
   template: 'template',
 };
 
@@ -27,7 +27,7 @@ describe('interactionsSchema', () => {
       { type: interactionTypeNames.ESTIMATION_GAME, estimationGame },
       { type: interactionTypeNames.ESTIMATION_VOTING, estimationVoting },
       { type: interactionTypeNames.FULL_SHOW_GAME, fullShowGame },
-      { type: interactionTypeNames.ANNOUNCEMENT, announcement },
+      { type: interactionTypeNames.SHOW_BREAK, showBreak },
     ];
 
     expect(() => interactionsSchema.validate(objects)).not.toThrow();

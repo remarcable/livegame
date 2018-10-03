@@ -8,15 +8,7 @@ const propTypes = {
 };
 
 const ScoreNumber = ({ value }) => (
-  <AnimatedNumber
-    value={value}
-    duration={700}
-    stepPrecision={0}
-    style={{
-      transition: 'opacity 0.3s ease-out',
-    }}
-    frameStyle={(perc) => (perc === 100 ? {} : { opacity: 0.5 })}
-  />
+  <AnimatedNumber value={value} duration={700} stepPrecision={0} />
 );
 
 ScoreNumber.propTypes = propTypes;

@@ -39,8 +39,8 @@ const UpdateGames = ({ games, updateScores, setWinner }) => (
             Kandidat 2
           </button>
           <button
-            disabled={fullShowGame.winner === null}
-            onClick={() => setWinner({ _id, winner: null })}
+            disabled={fullShowGame.winner === 'NONE'}
+            onClick={() => setWinner({ _id, winner: 'NONE' })}
           >
             KEINER
           </button>

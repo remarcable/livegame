@@ -1,7 +1,7 @@
 export default ({ currentState, winner, submission }) => {
   const isActiveOrClosed = !!currentState;
   const isSubmitted = !!submission;
-  const winnerAlreadyDefined = !!winner;
+  const winnerAlreadyDefined = winner !== 'NONE';
   const isActive = currentState === 'ACTIVE';
   const isClosed = currentState === 'CLOSED';
   const isCorrect = submission && submission.value === winner;

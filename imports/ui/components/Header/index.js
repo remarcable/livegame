@@ -43,7 +43,7 @@ const styles = (theme) => ({
     position: 'relative',
     width: '100%',
     height: 200,
-    paddingTop: 50,
+    paddingTop: 20,
 
     textTransform: 'uppercase',
     textAlign: 'center',

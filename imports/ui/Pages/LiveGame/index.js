@@ -32,6 +32,7 @@ const propTypes = {
   candidate2: PropTypes.object.isRequired, // TODO: better type
   scoreCandidate1: PropTypes.number.isRequired,
   scoreCandidate2: PropTypes.number.isRequired,
+  user: PropTypes.object.isRequired, // TODO: better type
 };
 
 const LiveGame = ({
@@ -45,6 +46,7 @@ const LiveGame = ({
   candidate2,
   scoreCandidate1,
   scoreCandidate2,
+  user,
 }) => (
   <PlayerLayout loading={loading}>
     <div className={classes.wrapper}>
@@ -59,6 +61,7 @@ const LiveGame = ({
           candidate2={candidate2}
           scoreCandidate1={scoreCandidate1}
           scoreCandidate2={scoreCandidate2}
+          user={user}
         />
       </div>
     </div>
@@ -128,7 +131,10 @@ export default withTracker(() => {
   const { candidate1: scoreCandidate1 = 0, candidate2: scoreCandidate2 = 0 } =
     JoinClient.get('candidateScores') || {};
 
+  const user = Meteor.users.findOne() || {};
+
   return {
+    user,
     interaction: lastInteraction,
     games: isReady ? games : [],
     hasSubmitted: !!submissionValueForCurrentInteraction,

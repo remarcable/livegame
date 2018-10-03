@@ -45,6 +45,7 @@ const propTypes = {
   candidate2: PropTypes.object.isRequired, // TODO: better type,
   scoreCandidate1: PropTypes.number.isRequired,
   scoreCandidate2: PropTypes.number.isRequired,
+  user: PropTypes.object.isRequired, // TODO: better type,
 };
 
 const Interactions = ({
@@ -57,6 +58,7 @@ const Interactions = ({
   candidate2,
   scoreCandidate1,
   scoreCandidate2,
+  user,
 }) => {
   const { type } = interaction;
   let Component = interactionsMap.get(type);
@@ -106,7 +108,12 @@ const Interactions = ({
         transitionLeaveTimeout={200}
       >
         <div className={classes.componentWrapper} key={`${interaction._id}-submit-${hasSubmitted}`}>
-          <Component {...interaction[schemaKey]} submit={submit} hasSubmitted={hasSubmitted} />
+          <Component
+            {...interaction[schemaKey]}
+            submit={submit}
+            hasSubmitted={hasSubmitted}
+            user={user}
+          />
         </div>
       </ReactCSSTransitionReplace>
     </InteractionWrapper>

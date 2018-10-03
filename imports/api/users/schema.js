@@ -10,6 +10,11 @@ const userSchema = new SimpleSchema({
   newsletter: {
     type: Boolean,
   },
+  flags: {
+    type: Object,
+    optional: true,
+    blackbox: true,
+  },
 });
 
 export default userSchema;

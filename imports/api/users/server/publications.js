@@ -18,6 +18,7 @@ Meteor.publish('users.loggedIn', function publishLoggedInUser() {
         newsletter: 1,
         role: 1,
         estimationGame: 1,
+        flags: 1,
       },
     },
   );

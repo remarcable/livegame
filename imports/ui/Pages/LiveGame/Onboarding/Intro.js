@@ -19,21 +19,18 @@ const texts = [
   {
     headline: 'Herzlich Willkommen!',
     body: 'Wir laden Sie dazu ein, Teil der Show zu werden und auf Ihrem Smartphone mitzuspielen.',
+    nextButton: 'Weiter >',
   },
   {
-    short: 'Weiter >',
-    headline: 'Abstimmen',
-    body: 'Tippen Sie vor jedem Spiel, ob Paul oder unser Kandidat gewinnen wird.',
+    headline: 'Mitmachen',
+    body:
+      '"Mittendrin statt nur dabei" würde unser Moderator sagen: Vor jedem Spiel können Sie tippen, ob Paul oder der Kandidat gewinnen wird. Außerdem können Sie in Echtzeit bei unserem Spiel "Schätzen" mitraten.',
+    nextButton: 'Weiter >',
   },
   {
-    short: 'Weiter >',
     headline: 'Tolle Preise',
-    body: 'Gewinnen Sie großartige Preise im Wert von über 100 Euro!',
-  },
-  {
-    short: 'Anmeldung >',
-    headline: 'Registrierung',
-    body: 'PLATZHALTER',
+    body: 'Gewinnen Sie im Laufe das Abends großartige Preise im Wert von über 100 Euro!',
+    nextButton: 'Anmeldung >',
   },
 ];
 
@@ -55,7 +52,7 @@ const Intro = ({ classes, step, goToNextStep }) => (
       </ReactCSSTransitionReplace>
     </div>
     <div className={classes.footer}>
-      <Button onClick={goToNextStep}>{texts[step + 1].short}</Button>
+      <Button onClick={goToNextStep}>{texts[step].nextButton}</Button>
     </div>
   </div>
 );

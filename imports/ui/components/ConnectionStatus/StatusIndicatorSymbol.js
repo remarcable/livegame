@@ -36,14 +36,14 @@ const styles = (theme) => ({
     minWidth: 15,
     minHeight: 15,
     borderRadius: '50%',
-    transition: 'all .3s',
+    transition: `all ${theme.transitions.duration.standard}ms`,
   },
   activeAnimation: {
     position: 'absolute',
     top: 0,
     left: 0,
     backgroundColor: 'white',
-    animation: 'pop-out 3s infinite cubic-bezier(0.23, 1, 0.32, 1)',
+    animation: `pop-out 3s infinite ${theme.transitions.easing.easeInOut}`,
   },
   inner: {
     backgroundColor: 'white',

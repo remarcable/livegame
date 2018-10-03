@@ -88,7 +88,7 @@ export default withTracker(() => {
   const appStateHandle = Meteor.subscribe('appState');
   const userHandle = Meteor.subscribe('users.loggedIn');
   const countsHandle = Meteor.subscribe('users.count');
-  const maxRank = JoinClient.get('userCount');
+  const maxRank = JoinClient.get('userCount') || 1;
   const isReady = appStateHandle.ready() && userHandle.ready() && countsHandle.ready();
 
   const user = Meteor.user() || {};

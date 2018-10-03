@@ -4,12 +4,12 @@ import Loading from '/imports/ui/components/Loading';
 
 const propTypes = {
   error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-  timedOut: PropTypes.bool.isRequired,
-  pastDelay: PropTypes.bool.isRequired,
-  retry: PropTypes.func.isRequired,
+  timedOut: PropTypes.bool,
+  pastDelay: PropTypes.bool,
+  retry: PropTypes.func,
 };
 
-const FullPageLoading = ({ timedOut, retry, pastDelay, error = false }) => {
+const FullPageLoading = ({ timedOut = false, retry = false, pastDelay = true, error = false }) => {
   let text = 'Lädt...';
 
   if (error) {

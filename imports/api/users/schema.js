@@ -7,6 +7,9 @@ const userSchema = new SimpleSchema({
     type: String,
     regEx: SimpleSchema.RegEx.EmailWithTLD,
   },
+  newsletter: {
+    type: Boolean,
+  },
 });
 
 export default userSchema;

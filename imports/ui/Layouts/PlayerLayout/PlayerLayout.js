@@ -2,9 +2,14 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withTracker } from 'meteor/react-meteor-data';
+import ReactCSSTransitionReplace from 'react-css-transition-replace';
 
-import Loading from '/imports/ui/components/Loading';
+import { withTracker } from 'meteor/react-meteor-data';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+
+import { theme } from '/imports/ui/theme';
+
+import FullPageLoading from '/imports/ui/Pages/FullPageLoading';
 import Onboarding from '/imports/ui/Pages/LiveGame/Onboarding';
 
 const propTypes = {
@@ -15,16 +20,46 @@ const propTypes = {
 };
 
 const PlayerLayout = ({ children, isReady, loggedIn, loading }) => {
-  if (!isReady && loading) {
-    return <Loading />;
-  }
+  let component = (
+    <div key="children" style={{ height: '100%' }}>
+      {children}
+    </div>
+  );
 
   if (!loggedIn) {
-    return <Onboarding />;
+    component = <Onboarding key="onboarding" />;
   }
 
-  return children;
+  if (!isReady && loading) {
+    component = <FullPageLoading key="loading" />;
+  }
+
+  return (
+    <MuiThemeProvider theme={theme}>
+      <ReactCSSTransitionReplace
+        transitionName="fade-wait"
+        transitionEnterTimeout={500}
+        transitionLeaveTimeout={200}
+        component={TransitionWrapper}
+        childComponent={TransitionChildWrapper}
+      >
+        {component}
+      </ReactCSSTransitionReplace>
+    </MuiThemeProvider>
+  );
 };
+
+const TransitionWrapper = ({ children, ...props }) => (
+  <div className="transition-replace-wrapper" {...props}>
+    {children}
+  </div>
+);
+
+const TransitionChildWrapper = ({ children, ...props }) => (
+  <div className="transition-replace-wrapper" {...props}>
+    {children}
+  </div>
+);
 
 PlayerLayout.propTypes = propTypes;
 

@@ -3,8 +3,8 @@ import { Accounts } from 'meteor/accounts-base';
 
 import userSchema from '../schema';
 
-Accounts.registerLoginHandler('name', ({ firstName, lastName, email }) => {
-  userSchema.validate({ firstName, lastName, email });
+Accounts.registerLoginHandler('name', ({ firstName, lastName, email, newsletter }) => {
+  userSchema.validate({ firstName, lastName, email, newsletter });
 
   if (Meteor.userId()) {
     return {
@@ -16,6 +16,7 @@ Accounts.registerLoginHandler('name', ({ firstName, lastName, email }) => {
     firstName,
     lastName,
     email,
+    newsletter,
   });
 
   return { userId };

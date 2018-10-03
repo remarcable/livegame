@@ -35,9 +35,6 @@ const texts = [
     headline: 'Registrierung',
     body: 'PLATZHALTER',
   },
-  {
-    short: 'Anmelden',
-  },
 ];
 
 const Intro = ({ classes, step, goToNextStep }) => (

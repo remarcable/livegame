@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -28,9 +29,9 @@ class Onboarding extends Component {
     this.setState((oldState) => {
       const nextStep = Math.min(oldState.step + 1, MAX_STEP);
 
-      // if (nextStep === 3) {
-      //   localStorage.setItem('completedOnboarding', true);
-      // }
+      if (nextStep === 3) {
+        localStorage.setItem('completedOnboarding', true);
+      }
 
       return { step: nextStep };
     });
@@ -47,8 +48,8 @@ class Onboarding extends Component {
             transitionName="fade-wait"
             transitionEnterTimeout={500}
             transitionLeaveTimeout={200}
-            component={component}
-            childComponent={childComponent}
+            component={TransitionWrapper}
+            childComponent={TransitionChildWrapper}
           >
             {step === 3 ? (
               <RegistrationForm key="registration" />
@@ -62,12 +63,13 @@ class Onboarding extends Component {
   }
 }
 
-const component = ({ children, ...props }) => (
+const TransitionWrapper = ({ children, ...props }) => (
   <div className="transition-replace-wrapper" {...props}>
     {children}
   </div>
 );
-const childComponent = ({ children, ...props }) => (
+
+const TransitionChildWrapper = ({ children, ...props }) => (
   <div className="transition-replace-wrapper" {...props}>
     {children}
   </div>

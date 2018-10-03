@@ -9,7 +9,6 @@ const propTypes = {
 
 const Loading = ({ wrapperStyles = {}, text = 'Lädt...', children = null }) => (
   <div style={{ ...wrapperStyles, ...styles }}>
-    <div>Loading...</div>
     <span style={{ margin: 18, textAlign: 'center' }}>{text}</span>
     {children}
   </div>

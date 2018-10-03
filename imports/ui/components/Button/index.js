@@ -11,9 +11,11 @@ const propTypes = {
 };
 
 const Button = ({ classes, children, className, ...props }) => (
-  <button type="button" className={classnames(classes.button, className)} {...props}>
-    {children}
-  </button>
+  <div className={className}>
+    <button type="button" className={classnames(classes.button, className)} {...props}>
+      {children}
+    </button>
+  </div>
 );
 
 Button.propTypes = propTypes;

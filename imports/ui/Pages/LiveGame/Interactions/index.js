@@ -80,9 +80,21 @@ const Interactions = ({
     candidate2,
   };
 
+  const isEstimationGame = [
+    interactionTypeNames.ESTIMATION_GAME,
+    interactionTypeNames.ESTIMATION_VOTING,
+    interactionTypeNames.ESTIMATION_WAITING,
+    interactionTypeNames.ESTIMATION_ENDED,
+  ].includes(type);
+
   const { schemaKey } = interactionTypes.get(type);
   return (
-    <InteractionWrapper title={interaction.title} submit={submit} liveScoreProps={liveScoreProps}>
+    <InteractionWrapper
+      title={interaction.title}
+      submit={submit}
+      liveScoreProps={liveScoreProps}
+      isEstimationGame={isEstimationGame}
+    >
       <ReactCSSTransitionReplace
         transitionName="fade-wait"
         transitionEnterTimeout={500}

@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Headline from '../Headline';
 import CandidatePicture from '../CandidatePicture';
-import ScoreNumber from './ScoreNumber';
+import AnimatedNumber from '../AnimatedNumber';
 
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
@@ -44,7 +44,7 @@ const LiveScores = ({
         })}
       >
         <span>
-          <ScoreNumber value={scoreCandidate1} /> : <ScoreNumber value={scoreCandidate2} />
+          <AnimatedNumber value={scoreCandidate1} /> : <AnimatedNumber value={scoreCandidate2} />
         </span>
       </Headline>
       <span

@@ -75,7 +75,3 @@ export const estimationVoting = new InteractionType({
 export const estimationWaiting = new InteractionType({
   typeName: 'ESTIMATION_WAITING',
 });
-
-export const estimationEnded = new InteractionType({
-  typeName: 'ESTIMATION_ENDED',
-});

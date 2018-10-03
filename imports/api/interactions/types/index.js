@@ -1,5 +1,5 @@
 import { announcement } from './announcement';
-import { estimationGame, estimationVoting, estimationWaiting, estimationEnded } from './estimation';
+import { estimationGame, estimationVoting, estimationWaiting } from './estimation';
 import { fullShowGame, fullShowWaiting } from './fullShowGame';
 
 const interactionTypes = new Map();
@@ -24,7 +24,6 @@ function addInteractionTypeToMap(interactionType) {
   estimationGame,
   estimationVoting,
   estimationWaiting,
-  estimationEnded,
   fullShowGame,
   fullShowWaiting,
 ].forEach((type) => addInteractionTypeToMap(type));

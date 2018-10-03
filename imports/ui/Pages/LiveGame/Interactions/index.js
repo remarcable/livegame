@@ -15,7 +15,6 @@ import FullShowWaiting from './FullShowWaiting';
 import EstimationGame from './EstimationGame';
 import EstimationVoting from './EstimationVoting';
 import EstimationWaiting from './EstimationWaiting';
-import EstimationEnded from './EstimationEnded';
 
 import Announcement from './Announcement';
 
@@ -26,7 +25,6 @@ const interactionsMap = new Map([
   [interactionTypeNames.ESTIMATION_GAME, EstimationGame],
   [interactionTypeNames.ESTIMATION_VOTING, EstimationVoting],
   [interactionTypeNames.ESTIMATION_WAITING, EstimationWaiting],
-  [interactionTypeNames.ESTIMATION_ENDED, EstimationEnded],
 
   [interactionTypeNames.ANNOUNCEMENT, Announcement],
 ]);
@@ -92,7 +90,6 @@ const Interactions = ({
     interactionTypeNames.ESTIMATION_GAME,
     interactionTypeNames.ESTIMATION_VOTING,
     interactionTypeNames.ESTIMATION_WAITING,
-    interactionTypeNames.ESTIMATION_ENDED,
   ].includes(type);
 
   const { schemaKey } = interactionTypes.get(type);

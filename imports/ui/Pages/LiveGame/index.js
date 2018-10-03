@@ -27,7 +27,7 @@ const propTypes = {
   games: PropTypes.array.isRequired, // TODO: better type
   loading: PropTypes.bool.isRequired,
   hasSubmitted: PropTypes.bool.isRequired,
-  submittedFor: PropTypes.string,
+  submittedFor: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   candidate1: PropTypes.object.isRequired, // TODO: better type
   candidate2: PropTypes.object.isRequired, // TODO: better type
   scoreCandidate1: PropTypes.number.isRequired,

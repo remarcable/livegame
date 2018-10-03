@@ -41,7 +41,7 @@ const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   interaction: PropTypes.object.isRequired, // TODO: better type
   hasSubmitted: PropTypes.bool.isRequired,
-  submittedFor: PropTypes.string,
+  submittedFor: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   submit: PropTypes.func.isRequired,
   candidate1: PropTypes.object.isRequired, // TODO: better type,
   candidate2: PropTypes.object.isRequired, // TODO: better type,
@@ -71,8 +71,16 @@ const Interactions = ({
     return <div>TODO: Show graceful failure message here</div>; // TODO
   }
 
+  const hasCandidates = !!candidate1.imageUrl && !!candidate2.imageUrl;
+  const isFullShowGameAndNotSubmitted = interaction.type === 'FULL_SHOW_GAME' && !hasSubmitted;
+  let mode = isFullShowGameAndNotSubmitted ? 'BIG' : 'SMALL';
+
+  if (!hasCandidates) {
+    mode = 'HIDE';
+  }
+
   const liveScoreProps = {
-    mode: interaction.type === 'FULL_SHOW_GAME' && !hasSubmitted ? 'BIG' : 'SMALL',
+    mode,
     submittedFor,
     scoreCandidate1,
     scoreCandidate2,

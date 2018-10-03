@@ -11,7 +11,7 @@ import AnimatedNumber from '../AnimatedNumber';
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   mode: PropTypes.oneOf(['HIDE', 'SMALL', 'BIG']).isRequired,
-  submittedFor: PropTypes.oneOf(['CANDIDATE1', 'CANDIDATE2']),
+  submittedFor: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   scoreCandidate1: PropTypes.number.isRequired,
   scoreCandidate2: PropTypes.number.isRequired,
   candidate1: PropTypes.object.isRequired, // TODO: better type
@@ -54,22 +54,26 @@ const LiveScores = ({
       </span>
     </div>
     <div className={classes.pictures}>
-      <CandidatePicture
-        imageUrl={candidate1.imageUrl}
-        isLeft
-        big={mode === 'BIG'}
-        className={classnames({ [classes.smallPictureLeft]: mode === 'SMALL' })}
-        onClick={() => onClickCandidate1()}
-        wasSubmitted={submittedFor === 'CANDIDATE1'}
-      />
-      <CandidatePicture
-        imageUrl={candidate2.imageUrl}
-        isLeft={false}
-        big={mode === 'BIG'}
-        className={classnames({ [classes.smallPictureRight]: mode === 'SMALL' })}
-        onClick={() => onClickCandidate2()}
-        wasSubmitted={submittedFor === 'CANDIDATE2'}
-      />
+      {candidate1.imageUrl && (
+        <CandidatePicture
+          imageUrl={candidate1.imageUrl}
+          isLeft
+          big={mode === 'BIG'}
+          className={classnames({ [classes.smallPictureLeft]: mode === 'SMALL' })}
+          onClick={() => onClickCandidate1()}
+          wasSubmitted={submittedFor === 'CANDIDATE1'}
+        />
+      )}
+      {candidate2.imageUrl && (
+        <CandidatePicture
+          imageUrl={candidate2.imageUrl}
+          isLeft={false}
+          big={mode === 'BIG'}
+          className={classnames({ [classes.smallPictureRight]: mode === 'SMALL' })}
+          onClick={() => onClickCandidate2()}
+          wasSubmitted={submittedFor === 'CANDIDATE2'}
+        />
+      )}
     </div>
   </div>
 );

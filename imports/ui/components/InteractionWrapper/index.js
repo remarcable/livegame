@@ -15,7 +15,7 @@ const propTypes = {
   liveScoreProps: PropTypes.shape({
     // TODO: duplicate proptypes with LiveScores
     mode: PropTypes.oneOf(['HIDE', 'SMALL', 'BIG']).isRequired,
-    submittedFor: PropTypes.oneOf(['CANDIDATE1', 'CANDIDATE2']),
+    submittedFor: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     scoreCandidate1: PropTypes.number.isRequired,
     scoreCandidate2: PropTypes.number.isRequired,
     candidate1: PropTypes.object.isRequired, // TODO: better type

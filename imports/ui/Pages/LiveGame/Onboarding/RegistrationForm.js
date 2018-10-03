@@ -1,11 +1,7 @@
 import { Meteor } from 'meteor/meteor';
-
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const propTypes = {};
-
-const Registration = () => (
+const RegistrationForm = () => (
   <form onSubmit={handleOnSubmit}>
     <input
       type="text"
@@ -28,8 +24,6 @@ const Registration = () => (
   </form>
 );
 
-Registration.propTypes = propTypes;
-
 const handleOnSubmit = (e) => {
   e.preventDefault();
 
@@ -40,4 +34,4 @@ const handleOnSubmit = (e) => {
   Meteor.loginWithName({ firstName, lastName, email });
 };
 
-export default Registration;
+export default RegistrationForm;

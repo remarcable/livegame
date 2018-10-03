@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 
 import Loading from '/imports/ui/components/Loading';
-import Registration from '/imports/ui/Pages/LiveGame/Registration';
+import Onboarding from '/imports/ui/Pages/LiveGame/Onboarding';
 
 const propTypes = {
   loading: PropTypes.bool.isRequired,
@@ -20,7 +20,7 @@ const PlayerLayout = ({ children, isReady, loggedIn, loading }) => {
   }
 
   if (!loggedIn) {
-    return <Registration />;
+    return <Onboarding />;
   }
 
   return children;

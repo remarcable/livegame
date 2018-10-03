@@ -20,13 +20,13 @@ const styles = (theme) => ({
   },
   image: {
     position: 'absolute',
+    zIndex: 1,
     top: 0,
     left: 0,
     width: '100%',
     height: '100%',
   },
   shadow: {
-    zIndex: -1,
     borderRadius: '50%',
     boxShadow: theme.shadows[20],
   },

@@ -15,8 +15,9 @@ Meteor.publish('users.loggedIn', function publishLoggedInUser() {
         lastName: 1,
         alias: 1,
         email: 1,
-        rank: 1,
+        newsletter: 1,
         role: 1,
+        estimationGame: 1,
       },
     },
   );
@@ -45,6 +46,8 @@ Meteor.publish('users.count', function publishUserCount() {
       return Meteor.users.find({ role: { $ne: 'admin' } }).count();
     },
   });
+
+  return [];
 });
 
 Meteor.publish('users.liveview.topTen', function publishTopTenUsers() {

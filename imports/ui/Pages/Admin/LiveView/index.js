@@ -11,6 +11,7 @@ import LiveViewLayout from '/imports/ui/Layouts/LiveViewLayout';
 import ShowInteraction from './ShowInteraction';
 
 import EstimationGameRanking from './ShowInteraction/EstimationGameRanking';
+import FullShowGameRanking from './ShowInteraction/FullShowGameRanking';
 
 const propTypes = {
   interaction: PropTypes.object.isRequired, // TODO: better type!

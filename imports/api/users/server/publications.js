@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 import { JoinServer } from 'meteor-publish-join';
 
 import Interactions from '/imports/api/interactions/collection';
@@ -71,6 +72,35 @@ Meteor.publish('users.liveview.topTen', function publishTopTenUsers() {
   );
 });
 
+Meteor.publish('users.fullShowGameRanks', function publishFullShowGameRanks(userIds = []) {
+  if (!this.userId || !Meteor.userIsAdmin(this.userId)) return this.ready();
+  const UPDATE_INTERVAL = 5000;
+
+  check(userIds, [String]);
+
+  JoinServer.publish({
+    context: this,
+    name: 'userRanks',
+    interval: UPDATE_INTERVAL,
+    isShared: true,
+    doJoin() {
+      return getUserRanks(Interactions);
+    },
+  });
+
+  return Meteor.users.find(
+    { _id: { $in: userIds }, role: { $ne: 'admin' } },
+    {
+      fields: {
+        firstName: 1,
+        lastName: 1,
+        alias: 1,
+        role: 1,
+      },
+    },
+  );
+});
+
 Meteor.publish('users.all', function publishAllUsers() {
   if (!this.userId || !Meteor.userIsAdmin(this.userId)) return this.ready();
   const UPDATE_INTERVAL = 5000;
@@ -92,7 +122,6 @@ Meteor.publish('users.all', function publishAllUsers() {
         firstName: 1,
         lastName: 1,
         alias: 1,
-        points: 1,
         email: 1,
         role: 1,
         estimationGame: 1,

@@ -4,6 +4,8 @@ import SimpleSchema from 'simpl-schema';
 
 import { userIsAdminMixin } from '/imports/api/helpers/validatedMethodMixins';
 
+import getAlias from './get-alias';
+
 export const setAlias = new ValidatedMethod({
   name: 'users.setAlias',
   mixins: [userIsAdminMixin],
@@ -34,3 +36,11 @@ export const unsetAlias = new ValidatedMethod({
     });
   },
 });
+
+export const toggleAlias = ({ user: { _id, alias } }) => {
+  if (alias) {
+    unsetAlias.call({ userId: _id });
+  } else {
+    setAlias.call({ userId: _id, alias: getAlias() });
+  }
+};

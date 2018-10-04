@@ -10,6 +10,8 @@ import InteractionsCollection from '/imports/api/interactions/collection';
 import LiveViewLayout from '/imports/ui/Layouts/LiveViewLayout';
 import ShowInteraction from './ShowInteraction';
 
+import EstimationGameRanking from './ShowInteraction/EstimationGameRanking';
+
 const propTypes = {
   interaction: PropTypes.object.isRequired, // TODO: better type!
   isReady: PropTypes.bool.isRequired,

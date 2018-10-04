@@ -53,17 +53,18 @@ Meteor.publish('users.count', function publishUserCount() {
 
 Meteor.publish('users.liveview.topTen', function publishTopTenUsers() {
   if (!this.userId || !Meteor.userIsAdmin(this.userId)) return this.ready();
+
   return Meteor.users.find(
-    { role: { $ne: 'admin' }, rank: { $exists: true } },
+    { role: { $ne: 'admin' }, estimationGame: { $exists: true } },
     {
       fields: {
         firstName: 1,
         lastName: 1,
         alias: 1,
-        rank: 1,
+        estimationGame: 1,
       },
       sort: {
-        rank: 1,
+        'estimationGame.rank': 1,
       },
       limit: 10,
     },
@@ -91,10 +92,10 @@ Meteor.publish('users.all', function publishAllUsers() {
         firstName: 1,
         lastName: 1,
         alias: 1,
-        rank: 1,
         points: 1,
         email: 1,
         role: 1,
+        estimationGame: 1,
       },
       sort: {
         rank: 1,

@@ -28,8 +28,8 @@ const LiveViewControl = ({ games, votings, activeInteraction }) => (
       <h1>LiveView</h1>
       <div
         style={{
-          width: '100%',
-          height: '100%',
+          width: 1024,
+          height: 768,
           position: 'absolute',
           backgroundColor: 'rgba(255, 255, 255, .2)',
           top: 20,

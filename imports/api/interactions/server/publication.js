@@ -55,6 +55,11 @@ Meteor.publish('interactions.scoreboard', function interactionsActivePublication
     isShared: true,
     doJoin() {
       const { interactionToShow: interactionId } = AppState.findOne() || {};
+
+      if (['FULL_SHOW_GAME_RANKING', 'ESTIMATION_GAME_RANKING'].includes(interactionId)) {
+        return {};
+      }
+
       const interaction = Interactions.findOne(interactionId);
       const { type } = interaction;
 

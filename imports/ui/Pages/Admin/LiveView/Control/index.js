@@ -53,6 +53,14 @@ const LiveViewControl = ({ games, votings, activeInteraction }) => (
         />
       ))}
 
+      <StartButton
+        id="FULL_SHOW_GAME_RANKING"
+        allowedStates={['FULL_SHOW_GAME_RANKING']}
+        state="FULL_SHOW_GAME_RANKING"
+        text="FULL_SHOW_GAME_RANKING"
+        active={activeInteraction === 'FULL_SHOW_GAME_RANKING'}
+      />
+
       <h1>Votings</h1>
       {votings.map((voting) => (
         <StartButton
@@ -64,6 +72,14 @@ const LiveViewControl = ({ games, votings, activeInteraction }) => (
           active={voting._id === activeInteraction}
         />
       ))}
+
+      <StartButton
+        id="ESTIMATION_GAME_RANKING"
+        allowedStates={['ESTIMATION_GAME_RANKING']}
+        state="ESTIMATION_GAME_RANKING"
+        text="ESTIMATION_GAME_RANKING"
+        active={activeInteraction === 'ESTIMATION_GAME_RANKING'}
+      />
     </span>
   </AdminLayout>
 );

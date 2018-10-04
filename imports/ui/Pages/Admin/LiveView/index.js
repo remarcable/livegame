@@ -32,8 +32,12 @@ export default withTracker(() => {
   const interactionsHandle = Meteor.subscribe('interactions.scoreboard');
   const interaction = InteractionsCollection.findOne(interactionId) || {};
 
-  const additionalData = JoinClient.get('additionalData') || { candidate1Percentage: 0 };
+  const additionalData = JoinClient.get('additionalData') || {
+    yesPercentage: 0,
+    candidate1Percentage: 0,
+  };
 
   const isReady = appStateHandle.ready() && (!!interactionsHandle && interactionsHandle.ready());
+
   return { interaction: { ...interaction, additionalData }, isReady };
 })(LiveView);

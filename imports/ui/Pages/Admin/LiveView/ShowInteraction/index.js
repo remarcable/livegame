@@ -25,7 +25,13 @@ const ShowInteraction = ({ interaction }) => {
   }
 
   const { schemaKey } = interactionTypes.get(type);
-  return <Component {...interaction[schemaKey]} additionalData={additionalData} />;
+  return (
+    <Component
+      title={interaction.title}
+      {...interaction[schemaKey]}
+      additionalData={additionalData}
+    />
+  );
 };
 
 ShowInteraction.propTypes = propTypes;

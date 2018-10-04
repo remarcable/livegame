@@ -3,6 +3,7 @@ import { check } from 'meteor/check';
 import { JoinServer } from 'meteor-publish-join';
 
 import Submissions from '/imports/api/submissions/collection';
+import AppState from '/imports/api/appState/collection';
 
 import Interactions from '../collection';
 import interactionTypes, { interactionTypeNames } from '../types';
@@ -44,13 +45,8 @@ Meteor.publish('interactions.allInteractions', function interactionsAllPublicati
   return Interactions.find();
 });
 
-Meteor.publish('interactions.scoreboard', function interactionsActivePublication(interactionId) {
+Meteor.publish('interactions.scoreboard', function interactionsActivePublication() {
   if (!this.userId || !Meteor.userIsAdmin(this.userId)) return this.ready();
-
-  check(interactionId, String);
-
-  const interaction = Interactions.findOne(interactionId);
-  const { type } = interaction;
 
   JoinServer.publish({
     context: this,
@@ -58,6 +54,10 @@ Meteor.publish('interactions.scoreboard', function interactionsActivePublication
     interval: 5000,
     isShared: true,
     doJoin() {
+      const { interactionToShow: interactionId } = AppState.findOne() || {};
+      const interaction = Interactions.findOne(interactionId);
+      const { type } = interaction;
+
       if (type === interactionTypeNames.ESTIMATION_VOTING) {
         return {
           yesPercentage: getPercentageForVoting({
@@ -84,5 +84,5 @@ Meteor.publish('interactions.scoreboard', function interactionsActivePublication
     },
   });
 
-  return Interactions.find(interactionId);
+  return Interactions.find();
 });

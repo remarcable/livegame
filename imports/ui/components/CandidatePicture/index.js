@@ -28,8 +28,8 @@ const CandidatePicture = ({
   <div className={classnames(classes.outer, className)} onClick={onClick}>
     <div
       className={classnames(classes.wrapper, {
-        [classes.blue]: isLeft,
-        [classes.red]: !isLeft,
+        [classes.blue]: !isLeft,
+        [classes.red]: isLeft,
         [classes.big]: big,
       })}
     >

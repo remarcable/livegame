@@ -29,13 +29,11 @@ export default withTracker(() => {
 
   // because we have to additionally subscribe to
   // interactions.scoreboard, isReady will be false for a short time
-  const interactionsHandle =
-    interactionId && Meteor.subscribe('interactions.scoreboard', interactionId);
+  const interactionsHandle = Meteor.subscribe('interactions.scoreboard');
   const interaction = InteractionsCollection.findOne(interactionId) || {};
 
-  const additionalData = JoinClient.get('additionalData') || {};
+  const additionalData = JoinClient.get('additionalData') || { candidate1Percentage: 0 };
 
   const isReady = appStateHandle.ready() && (!!interactionsHandle && interactionsHandle.ready());
-
   return { interaction: { ...interaction, additionalData }, isReady };
 })(LiveView);

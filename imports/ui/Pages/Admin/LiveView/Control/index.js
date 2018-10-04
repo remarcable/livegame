@@ -3,6 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 
+import { withStyles } from '@material-ui/core/styles';
+
 import AppState from '/imports/api/appState/collection';
 
 import Interactions from '/imports/api/interactions/collection';
@@ -10,37 +12,25 @@ import { interactionTypeNames } from '/imports/api/interactions/types';
 import * as interactionStates from '/imports/api/interactions/states';
 import sortFullShowGames from '/imports/api/helpers/sortFullShowGames';
 
+import { showRanksUpTo } from '/imports/api/appState/methods';
 import { displayInteraction } from '/imports/api/appState/methods';
 
 import AdminLayout from '/imports/ui/Layouts/AdminLayout';
 import LiveView from '../';
 
 const propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   isReady: PropTypes.bool.isRequired,
   activeInteraction: PropTypes.string.isRequired,
+  rankDisplayMode: PropTypes.string.isRequired,
   games: PropTypes.array.isRequired, // TODO: Better proptype
   votings: PropTypes.array.isRequired, // TODO: Better proptype
 };
 
-const LiveViewControl = ({ games, votings, activeInteraction }) => (
+const LiveViewControl = ({ classes, games, votings, activeInteraction, rankDisplayMode }) => (
   <AdminLayout>
-    <span>
+    <div className={classes.wrapper}>
       <h1>LiveView</h1>
-      <div
-        style={{
-          width: 1024,
-          height: 768,
-          position: 'absolute',
-          backgroundColor: 'rgba(255, 255, 255, .2)',
-          top: 20,
-          left: 40,
-          transform: 'scale(.5)',
-          boxShadow:
-            '0px 10px 13px -6px rgba(0, 0, 0, 0.2),0px 20px 31px 3px rgba(0, 0, 0, 0.14),0px 8px 38px 7px rgba(0, 0, 0, 0.12)',
-        }}
-      >
-        <LiveView />
-      </div>
       <h1>Games</h1>
       {games.map((game) => (
         <StartButton
@@ -80,9 +70,44 @@ const LiveViewControl = ({ games, votings, activeInteraction }) => (
         text="ESTIMATION_GAME_RANKING"
         active={activeInteraction === 'ESTIMATION_GAME_RANKING'}
       />
-    </span>
+
+      <select
+        onChange={(e) =>
+          showRanksUpTo.call({ mode: e.target.options[e.target.selectedIndex].value })
+        }
+        value={rankDisplayMode}
+      >
+        <option value="ALL">ALL</option>
+        <option value="NONE">NONE</option>
+        <option value="FOUR_TO_TEN">FOUR_TO_TEN</option>
+        <option value="THREE_TO_TEN">THREE_TO_TEN</option>
+        <option value="TWO_TO_TEN">TWO_TO_TEN</option>
+      </select>
+
+      <div className={classes.liveview}>
+        <LiveView />
+      </div>
+    </div>
   </AdminLayout>
 );
+
+const styles = (theme) => ({
+  wrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  liveview: {
+    width: 1024,
+    height: 768,
+    backgroundColor: 'rgba(255, 255, 255, .2)',
+    top: 20,
+    left: 40,
+    transform: 'scale(.5) translateY(-50%)',
+    boxShadow: theme.shadows[10],
+  },
+});
 
 LiveViewControl.propTypes = propTypes;
 
@@ -104,12 +129,12 @@ export default withTracker(() => {
   const isReady = interactionsHandle.ready() && appStateHandle.ready();
 
   const interactions = Interactions.find().fetch();
-  const { interactionToShow = '' } = AppState.findOne() || {};
+  const { interactionToShow = '', rankDisplayMode = 'ALL' } = AppState.findOne() || {};
 
   const games = interactions
     .filter((i) => i.type === interactionTypeNames.FULL_SHOW_GAME)
     .sort(sortFullShowGames);
 
   const votings = interactions.filter((i) => i.type === interactionTypeNames.ESTIMATION_VOTING);
-  return { games, votings, isReady, activeInteraction: interactionToShow };
-})(LiveViewControl);
+  return { games, votings, isReady, activeInteraction: interactionToShow, rankDisplayMode };
+})(withStyles(styles)(LiveViewControl));

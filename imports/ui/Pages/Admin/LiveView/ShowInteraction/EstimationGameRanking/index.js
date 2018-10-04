@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 
 import { withTracker } from 'meteor/react-meteor-data';
 
+import AppState from '/imports/api/appState/collection';
+import { shouldDisplayRank } from '/imports/api/appState/rank-display-modes';
+import xStringForString from '/imports/api/helpers/xStringForString';
+
 import { toggleAlias } from '/imports/api/alias/methods';
 
 import ScoreboardList from '/imports/ui/components/ScoreboardList';
@@ -18,6 +22,9 @@ EstimationGameRanking.propTypes = propTypes;
 
 export default withTracker(() => {
   const usersHandle = Meteor.subscribe('users.liveview.topTen');
+  const appStateHandle = Meteor.subscribe('appState');
+
+  const { rankDisplayMode = 'ALL' } = AppState.findOne() || {};
   const users = Meteor.users
     .find(
       { role: { $ne: 'admin' }, estimationGame: { $exists: true } },
@@ -35,12 +42,17 @@ export default withTracker(() => {
       },
     )
     .fetch()
-    .map((u) => ({
-      _id: u._id,
-      alias: u.alias,
-      name: u.alias ? u.alias : `${u.firstName} ${u.lastName}`,
-      rank: u.estimationGame.rank,
-    }));
+    .map((u) => {
+      const { rank } = u.estimationGame;
+      const name = u.alias ? u.alias : `${u.firstName} ${u.lastName}`;
+      const displayRank = shouldDisplayRank(rank, rankDisplayMode);
+      return {
+        _id: u._id,
+        alias: u.alias,
+        name: displayRank ? name : xStringForString(name),
+        rank,
+      };
+    });
 
   return { users };
 })(EstimationGameRanking);

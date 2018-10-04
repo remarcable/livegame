@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import classnames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
+import windowSize from 'react-window-size';
 
 import Headline from '../Headline';
 import CandidatePicture from '../CandidatePicture';
@@ -18,6 +19,7 @@ const propTypes = {
   candidate2: PropTypes.object.isRequired, // TODO: better type
   onClickCandidate1: PropTypes.func.isRequired,
   onClickCandidate2: PropTypes.func.isRequired,
+  windowWidth: PropTypes.number.isRequired,
 };
 
 const LiveScores = ({
@@ -30,6 +32,7 @@ const LiveScores = ({
   onClickCandidate1,
   onClickCandidate2,
   classes,
+  windowWidth,
 }) => (
   <div
     className={classnames(classes.wrapper, {
@@ -40,16 +43,15 @@ const LiveScores = ({
     <div className={classnames(classes.text, { [classes.hideText]: mode === 'BIG' })}>
       <Headline
         className={classnames(classes.scores, {
-          [classes.scoresMatchball]: candidate2.name === 'Peter',
+          [classes.scoresMatchball]: false, // TODO: Implement logic
         })}
       >
         <span>
           <AnimatedNumber value={scoreCandidate1} /> : <AnimatedNumber value={scoreCandidate2} />
         </span>
       </Headline>
-      <span
-        className={classnames(classes.matchball, { [classes.hide]: candidate2.name !== 'Peter' })}
-      >
+      {/* TODO: Implement matchball logic */}
+      <span className={classnames(classes.matchball, { [classes.hide]: true })}>
         Matchballspiel
       </span>
     </div>
@@ -59,7 +61,14 @@ const LiveScores = ({
           imageUrl={candidate1.imageUrl}
           isLeft
           big={mode === 'BIG'}
-          className={classnames({ [classes.smallPictureLeft]: mode === 'SMALL' })}
+          className={classnames({
+            [classes.smallPictureLeft]: mode === 'SMALL',
+            [classes.smallWindow]: windowWidth < 380,
+          })}
+          classes={{
+            wrapper: windowWidth < 380 && classes.smallerImageWrapper,
+            image: windowWidth < 380 && classes.smallerImage,
+          }}
           onClick={() => onClickCandidate1()}
           wasSubmitted={submittedFor === 'CANDIDATE1'}
         />
@@ -69,7 +78,14 @@ const LiveScores = ({
           imageUrl={candidate2.imageUrl}
           isLeft={false}
           big={mode === 'BIG'}
-          className={classnames({ [classes.smallPictureRight]: mode === 'SMALL' })}
+          className={classnames({
+            [classes.smallPictureRight]: mode === 'SMALL',
+            [classes.smallWindow]: windowWidth < 380,
+          })}
+          classes={{
+            wrapper: windowWidth < 380 && classes.smallerImageWrapper,
+            image: windowWidth < 380 && classes.smallerImage,
+          }}
           onClick={() => onClickCandidate2()}
           wasSubmitted={submittedFor === 'CANDIDATE2'}
         />
@@ -82,12 +98,7 @@ LiveScores.propTypes = propTypes;
 
 const styles = {
   wrapper: {
-    display: 'flex',
-    width: 'calc(100% - 50px)', // 50px for side bar
-    justifyContent: 'center',
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
+    position: 'relative',
     transition: 'all .3s',
   },
   text: {
@@ -125,13 +136,32 @@ const styles = {
     opacity: 0,
   },
   big: {
-    transform: 'translateY(-100%)',
+    transform: 'translateY(-50%)',
   },
   smallPictureLeft: {
     transform: 'translate(-20%, 10%)',
+    '&$smallWindow': {
+      transform: 'translate(-10%, 0)',
+    },
   },
   smallPictureRight: {
     transform: 'translate(20%, 10%)',
+    '&$smallWindow': {
+      transform: 'translate(10%, 0)',
+    },
+  },
+  smallWindow: {},
+  smallerImageWrapper: {
+    width: 110,
+    height: 110,
+    minWidth: 110,
+    minHeight: 110,
+  },
+  smallerImage: {
+    width: 100,
+    height: 100,
+    minWidth: 100,
+    minHeight: 100,
   },
   pictures: {
     width: '100%',
@@ -141,4 +171,4 @@ const styles = {
   },
 };
 
-export default withStyles(styles)(LiveScores);
+export default windowSize(withStyles(styles)(LiveScores));

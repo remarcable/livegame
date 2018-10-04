@@ -47,7 +47,7 @@ const RegistrationForm = ({ classes }) => (
         }
         label={
           <span className={classes.checkboxText}>
-            Ich möchte Emails zu Veranstaltungen des Hyperion Kulturverein erhalten
+            Ich möchte über eure Veranstaltungen per Mail informiert werden.
           </span>
         }
       />
@@ -62,7 +62,7 @@ const TermsText = ({ classes }) => (
   <span className={classes.checkboxText}>
     Ich stimme den{' '}
     <a
-      href="http://wer-besiegt-paul.de"
+      href="http://wer-besiegt-paul.de/?page_id=1512"
       rel="noopener noreferrer"
       target="_blank"
       className={classes.termsLink}

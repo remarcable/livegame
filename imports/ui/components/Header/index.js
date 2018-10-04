@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactCSSTransitionReplace from 'react-css-transition-replace';
 import classnames from 'classnames';
 
+import windowSize from 'react-window-size';
 import { withStyles } from '@material-ui/core/styles';
 
 import Logo from '../Logo';
@@ -12,29 +13,35 @@ const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   isEstimationGame: PropTypes.bool.isRequired,
   title: PropTypes.string,
+  windowHeight: PropTypes.number.isRequired,
 };
 
-const Header = ({ classes, title, isEstimationGame }) => (
-  <div className={classes.header}>
-    <div
-      className={classnames(classes.estimationGameHeader, { [classes.active]: isEstimationGame })}
-    />
-    <div className={classes.logoWrapper}>
-      <Logo />
+const Header = ({ classes, title, isEstimationGame, windowHeight }) => {
+  const currentClientHeight = windowHeight;
+  const isSmallScreen = currentClientHeight < 600;
+
+  return (
+    <div className={classnames(classes.header, { [classes.small]: isSmallScreen })}>
+      <div
+        className={classnames(classes.estimationGameHeader, { [classes.active]: isEstimationGame })}
+      />
+      <div className={classnames(classes.logoWrapper, { [classes.small]: isSmallScreen })}>
+        <Logo classes={{ wrapper: classnames({ [classes.smallLogo]: isSmallScreen }) }} />
+      </div>
+      <div className={classes.titleWrapper}>
+        <ReactCSSTransitionReplace
+          transitionName="fade-up"
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}
+        >
+          <h2 className={classes.title} key={title}>
+            <Headline>{title}</Headline>
+          </h2>
+        </ReactCSSTransitionReplace>
+      </div>
     </div>
-    <div className={classes.titleWrapper}>
-      <ReactCSSTransitionReplace
-        transitionName="fade-up"
-        transitionEnterTimeout={500}
-        transitionLeaveTimeout={500}
-      >
-        <h2 className={classes.title} key={title}>
-          <Headline>{title}</Headline>
-        </h2>
-      </ReactCSSTransitionReplace>
-    </div>
-  </div>
-);
+  );
+};
 
 Header.propTypes = propTypes;
 
@@ -44,9 +51,15 @@ const styles = (theme) => ({
     width: '100%',
     height: 200,
     paddingTop: 20,
+    marginBottom: 20,
 
     textTransform: 'uppercase',
     textAlign: 'center',
+
+    '&$small': {
+      height: 'auto',
+      paddingBottom: 10,
+    },
   },
   estimationGameHeader: {
     position: 'absolute',
@@ -63,11 +76,25 @@ const styles = (theme) => ({
     },
   },
   active: {},
+  smallLogo: {
+    height: 40,
+    width: 40,
+    minHeight: 40,
+    minWidth: 40,
+  },
   logoWrapper: {
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
     marginBottom: 10,
+
+    '&$small': {
+      position: 'fixed',
+      left: 4,
+      top: 10,
+      width: 'auto',
+      marginBottom: 0,
+    },
   },
   titleWrapper: {
     display: 'block',
@@ -76,6 +103,7 @@ const styles = (theme) => ({
     fontSize: 20,
     margin: 0,
   },
+  small: {},
 });
 
-export default withStyles(styles)(Header);
+export default windowSize(withStyles(styles)(Header));

@@ -31,9 +31,11 @@ const InteractionWrapper = ({
   liveScoreProps,
   isEstimationGame,
 }) => (
-  <div className={classes.wrapper}>
-    <Header title={title} isEstimationGame={isEstimationGame} />
-    {children}
+  <div className={classes.outerWrapper}>
+    <div className={classes.innerWrapper}>
+      <Header title={title} isEstimationGame={isEstimationGame} />
+      {children}
+    </div>
     <LiveScores
       {...liveScoreProps}
       onClickCandidate1={() =>
@@ -55,8 +57,15 @@ function maybeSubmit({ submit, value, canSubmit }) {
 InteractionWrapper.propTypes = propTypes;
 
 const styles = {
-  wrapper: {
-    minHeight: '100%',
+  outerWrapper: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+  innerWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
   },
 };
 

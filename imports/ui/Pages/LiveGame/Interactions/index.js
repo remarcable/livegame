@@ -123,9 +123,7 @@ const Interactions = ({
 Interactions.propTypes = propTypes;
 
 const styles = {
-  componentWrapper: {
-    minHeight: '100%',
-  },
+  componentWrapper: {},
 };
 
 export default withStyles(styles)(Interactions);

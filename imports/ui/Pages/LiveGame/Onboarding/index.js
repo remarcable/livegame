@@ -92,8 +92,8 @@ const styles = ({ transitions, shadows }) => ({
   },
   innerWrapper: {
     width: '85%',
-    minHeight: '75%',
     height: '75%',
+    minHeight: 430,
     padding: 10,
 
     boxShadow: shadows[24],

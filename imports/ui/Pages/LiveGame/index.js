@@ -74,13 +74,12 @@ const styles = {
   wrapper: {
     width: '100%',
     height: '100%',
-    display: 'flex',
   },
   interactionsWrapper: {
     width: 'calc(100% - 50px)', // -50px for ProgressSidebar
-    height: '100%',
+    marginLeft: 50,
     maxWidth: 'calc(100% - 50px)',
-    maxHeight: '100%',
+    height: '100%',
   },
 };
 

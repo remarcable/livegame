@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import classnames from 'classnames';
+
 import { withStyles } from '@material-ui/core/styles';
+import windowSize from 'react-window-size';
 
 import ReactCSSTransitionReplace from 'react-css-transition-replace';
 
@@ -13,6 +16,7 @@ const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   step: PropTypes.number.isRequired,
   goToNextStep: PropTypes.func.isRequired,
+  windowHeight: PropTypes.number.isRequired,
 };
 
 const texts = [
@@ -24,7 +28,7 @@ const texts = [
   {
     headline: 'Mitmachen',
     body:
-      '"Mittendrin statt nur dabei" würde unser Moderator sagen: Vor jedem Spiel können Sie tippen, ob Paul oder der Kandidat gewinnen wird. Außerdem können Sie in Echtzeit bei unserem Spiel "Schätzen" mitraten.',
+      'Vor jedem Spiel können Sie tippen, ob Paul oder der Kandidat gewinnen wird. Außerdem können Sie in Echtzeit bei unserem Spiel "Schätzen" mitraten.',
     nextButton: 'Weiter >',
   },
   {
@@ -34,10 +38,10 @@ const texts = [
   },
 ];
 
-const Intro = ({ classes, step, goToNextStep }) => (
+const Intro = ({ classes, step, goToNextStep, windowHeight }) => (
   <div className={classes.wrapper}>
     <div className={classes.heading}>
-      <Logo />
+      <Logo classes={{ wrapper: classnames({ [classes.smallLogo]: windowHeight < 550 }) }} />
     </div>
     <div>
       <ReactCSSTransitionReplace
@@ -75,6 +79,13 @@ const styles = {
     justifyContent: 'center',
   },
 
+  smallLogo: {
+    width: 100,
+    height: 100,
+    minWidth: 100,
+    minHeight: 100,
+  },
+
   body: {
     width: '100%',
     display: 'flex',
@@ -106,4 +117,4 @@ const styles = {
   },
 };
 
-export default withStyles(styles)(Intro);
+export default windowSize(withStyles(styles)(Intro));

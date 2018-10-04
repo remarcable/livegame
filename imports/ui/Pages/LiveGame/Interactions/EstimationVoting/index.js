@@ -35,7 +35,6 @@ const styles = {
   },
   text: {
     display: 'block',
-    paddingTop: 50,
     width: '90%',
     fontSize: 18,
     textAlign: 'center',

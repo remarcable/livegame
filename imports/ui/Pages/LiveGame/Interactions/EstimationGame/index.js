@@ -1,26 +1,66 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { withStyles } from '@material-ui/core/styles';
+
+import TextField from '/imports/ui/components/TextField';
+import Button from '/imports/ui/components/Button';
+
 const propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   question: PropTypes.string.isRequired,
   submit: PropTypes.func.isRequired,
 };
 
-const handleSubmit = (e, submit) => {
+const EstimationGame = ({ question, submit, classes }) => (
+  <form className={classes.wrapper} onSubmit={onSubmit(submit)}>
+    <span className={classes.text}>{question}</span>
+    <TextField
+      className={classes.textField}
+      classes={{ input: classes.input }}
+      type="number"
+      label="Antwort"
+      name="guess"
+      required
+    />
+    <Button className={classes.button} type="submit">
+      Tipp abgeben
+    </Button>
+  </form>
+);
+
+const onSubmit = (submit) => (e) => {
   e.preventDefault();
-  const answer = e.target.answer.value;
-  submit(answer);
+  const guess = e.target.guess.value;
+  submit(guess);
 };
 
-const EstimationGame = ({ question, submit }) => (
-  <div>
-    <p>Question: {question}</p>
-    <form onSubmit={(e) => handleSubmit(e, submit)}>
-      <input type="number" name="answer" required />
-      <input type="submit" />
-    </form>
-  </div>
-);
 EstimationGame.propTypes = propTypes;
 
-export default EstimationGame;
+const styles = {
+  wrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  text: {
+    width: '90%',
+    display: 'block',
+    fontSize: 18,
+    textAlign: 'center',
+    textTransform: 'uppercase',
+  },
+  textField: {
+    width: '60%',
+    textAlign: 'center',
+  },
+  button: {
+    marginTop: 10,
+  },
+  input: {
+    textAlign: 'center',
+  },
+};
+
+export default withStyles(styles)(EstimationGame);

@@ -13,7 +13,7 @@ const propTypes = {
 
 const TextField = ({ classes, className, ...props }) => (
   <MaterialTextField
-    className={classes.textField}
+    className={classnames(classes.textField, className)}
     margin="dense"
     InputLabelProps={{ className: classes.label }}
     inputProps={{ className: classes.input }}

@@ -3,6 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 
+import KeyHandler from 'react-key-handler';
+
 import Interactions from '/imports/api/interactions/collection';
 import {
   startInteraction,
@@ -26,8 +28,15 @@ const propTypes = {
   hasPrevious: PropTypes.bool.isRequired,
 };
 
+window.onkeydown = (e) => !(e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === ' ');
+
 const ShowScreen = ({ isReady, interactions, games, hasNext, hasPrevious }) => (
   <AdminLayout>
+    <KeyHandler keyValue="ArrowUp" onKeyHandle={() => previousInteraction.call()} />
+    <KeyHandler keyValue="ArrowLeft" onKeyHandle={() => previousInteraction.call()} />
+    <KeyHandler keyValue="ArrowRight" onKeyHandle={() => nextInteraction.call()} />
+    <KeyHandler keyValue="ArrowDown" onKeyHandle={() => nextInteraction.call()} />
+    <KeyHandler keyValue=" " onKeyHandle={() => nextInteraction.call()} />
     <div>
       {!isReady && <div>Loadings</div>}
       {isReady &&

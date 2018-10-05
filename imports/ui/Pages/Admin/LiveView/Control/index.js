@@ -71,6 +71,10 @@ const LiveViewControl = ({ classes, games, votings, activeInteraction, rankDispl
         active={activeInteraction === 'ESTIMATION_GAME_RANKING'}
       />
 
+      <button onClick={() => Meteor.call('ranking.calculateScore')}>
+        Schätzen Ränge berechnen
+      </button>
+
       <select
         onChange={(e) =>
           showRanksUpTo.call({ mode: e.target.options[e.target.selectedIndex].value })

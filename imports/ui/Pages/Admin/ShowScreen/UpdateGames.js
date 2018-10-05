@@ -1,51 +1,97 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import DoneIcon from '@material-ui/icons/Done';
+
+import blue from '@material-ui/core/colors/blue';
 
 const propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   games: PropTypes.array.isRequired, // TODO: better proptype
   updateScores: PropTypes.func.isRequired,
   setWinner: PropTypes.func.isRequired,
+  candidate1Name: PropTypes.string,
+  candidate2Name: PropTypes.string,
 };
 
-const UpdateGames = ({ games, updateScores, setWinner }) => (
+const UpdateGames = ({
+  classes,
+  games,
+  updateScores,
+  setWinner,
+  candidate1Name = 'Kandidat 1',
+  candidate2Name = 'Kandidat 2',
+}) => (
   <>
-    {games.map(({ _id, fullShowGame }) => (
-      <div key={_id}>
-        <form onSubmit={(e) => handleSubmit(e, updateScores, _id)}>
-          <span>{fullShowGame.gameNumber}</span>
-          <input
-            type="number"
-            name="candidate1"
-            placeholder="Punkte Kandidat 1"
-            defaultValue={fullShowGame.pointsCandidate1}
-          />
-          <input
-            type="number"
-            name="candidate2"
-            placeholder="Punkte Kandidat 2"
-            defaultValue={fullShowGame.pointsCandidate2}
-          />
-          <input type="submit" />
-          <button
-            disabled={fullShowGame.winner === 'CANDIDATE1'}
-            onClick={() => setWinner({ _id, winner: 'CANDIDATE1' })}
-          >
-            Kandidat 1
-          </button>
-          <button
-            disabled={fullShowGame.winner === 'CANDIDATE2'}
-            onClick={() => setWinner({ _id, winner: 'CANDIDATE2' })}
-          >
-            Kandidat 2
-          </button>
-          <button
-            disabled={fullShowGame.winner === 'NONE'}
-            onClick={() => setWinner({ _id, winner: 'NONE' })}
-          >
-            KEINER
-          </button>
-        </form>
-      </div>
+    <Table className={classes.table}>
+      <TableHead>
+        <TableRow className={classes.gamesHeader}>
+          <TableCell>Spiele</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {games.map(({ _id, state, fullShowGame }) => (
+          <TableRow key={_id} selected={state === 'ACTIVE'}>
+            <TableCell padding="dense">
+              <form onSubmit={(e) => handleSubmit(e, updateScores, _id)}>
+                {fullShowGame.gameNumber.toString().padStart(2, 0)}.
+                <TextField
+                  type="number"
+                  name="candidate1"
+                  label={candidate1Name}
+                  defaultValue={fullShowGame.pointsCandidate1}
+                  className={classes.textField}
+                />
+                <TextField
+                  type="number"
+                  name="candidate2"
+                  label={candidate2Name}
+                  defaultValue={fullShowGame.pointsCandidate2}
+                  className={classes.textField}
+                />
+                <IconButton type="submit" size="small">
+                  <DoneIcon />
+                </IconButton>
+                <Button
+                  size="small"
+                  disabled={fullShowGame.winner === 'CANDIDATE1'}
+                  classes={{ disabled: classes.disabledButton }}
+                  onClick={() => setWinner({ _id, winner: 'CANDIDATE1' })}
+                >
+                  {candidate1Name}
+                </Button>
+                <Button
+                  size="small"
+                  disabled={fullShowGame.winner === 'CANDIDATE2'}
+                  classes={{ disabled: classes.disabledButton }}
+                  onClick={() => setWinner({ _id, winner: 'CANDIDATE2' })}
+                >
+                  {candidate2Name}
+                </Button>
+                <Button
+                  size="small"
+                  disabled={fullShowGame.winner === 'NONE'}
+                  classes={{ disabled: classes.disabledButton }}
+                  onClick={() => setWinner({ _id, winner: 'NONE' })}
+                >
+                  KEINER
+                </Button>
+              </form>
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
     ))}
   </>
 );
@@ -59,6 +105,18 @@ function handleSubmit(e, updateScores, _id) {
   updateScores({ _id, pointsCandidate1, pointsCandidate2 });
 }
 
+const styles = {
+  textField: {
+    width: 50,
+  },
+  gamesHeader: {
+    textAlign: 'center',
+  },
+  disabledButton: {
+    color: [blue.A400, '!important'],
+  },
+};
+
 UpdateGames.propTypes = propTypes;
 
-export default UpdateGames;
+export default withStyles(styles)(UpdateGames);

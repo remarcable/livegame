@@ -10,10 +10,10 @@ import AppState from '/imports/api/appState/collection';
 import Interactions from '/imports/api/interactions/collection';
 import { interactionTypeNames } from '/imports/api/interactions/types';
 import * as interactionStates from '/imports/api/interactions/states';
+import { setClosedState, unsetClosedState } from '/imports/api/interactions/methods';
 import sortFullShowGames from '/imports/api/helpers/sortFullShowGames';
 
-import { showRanksUpTo } from '/imports/api/appState/methods';
-import { displayInteraction } from '/imports/api/appState/methods';
+import { showRanksUpTo, displayInteraction } from '/imports/api/appState/methods';
 
 import AdminLayout from '/imports/ui/Layouts/AdminLayout';
 import LiveView from '../';
@@ -33,14 +33,23 @@ const LiveViewControl = ({ classes, games, votings, activeInteraction, rankDispl
       <h1>LiveView</h1>
       <h1>Games</h1>
       {games.map((game) => (
-        <StartButton
-          key={game._id}
-          id={game._id}
-          allowedStates={Object.keys(interactionStates)}
-          state={game.state}
-          text={game.fullShowGame.gameNumber}
-          active={game._id === activeInteraction}
-        />
+        <div key={game._id}>
+          <StartButton
+            id={game._id}
+            allowedStates={Object.keys(interactionStates)}
+            state={game.state}
+            text={game.fullShowGame.gameNumber}
+            active={game._id === activeInteraction}
+          />
+          {game.state === 'CLOSED' && (
+            <button onClick={() => unsetClosedState.call({ interactionId: game._id })}>
+              unset
+            </button>
+          )}
+          {game.state === null && (
+            <button onClick={() => setClosedState.call({ interactionId: game._id })}>set</button>
+          )}
+        </div>
       ))}
 
       <StartButton

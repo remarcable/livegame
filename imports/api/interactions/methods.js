@@ -219,3 +219,25 @@ export const removeInteraction = new ValidatedMethod({
     return Interactions.remove({ _id });
   },
 });
+
+export const setClosedState = new ValidatedMethod({
+  name: 'interactions.setClosedState',
+  mixins: [userIsAdminMixin],
+  validate: new SimpleSchema({
+    interactionId: String,
+  }).validator(),
+  run({ interactionId }) {
+    return Interactions.update({ _id: interactionId, state: null }, { $set: { state: 'CLOSED' } });
+  },
+});
+
+export const unsetClosedState = new ValidatedMethod({
+  name: 'interactions.unsetClosedState',
+  mixins: [userIsAdminMixin],
+  validate: new SimpleSchema({
+    interactionId: String,
+  }).validator(),
+  run({ interactionId }) {
+    return Interactions.update({ _id: interactionId, state: 'CLOSED' }, { $set: { state: null } });
+  },
+});

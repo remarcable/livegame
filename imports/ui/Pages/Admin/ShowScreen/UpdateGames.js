@@ -92,7 +92,6 @@ const UpdateGames = ({
         ))}
       </TableBody>
     </Table>
-    ))}
   </>
 );
 

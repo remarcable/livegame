@@ -11,6 +11,8 @@ import Interactions from './collection';
 import interactionTypes from './types';
 import * as interactionStates from './states';
 
+import generateInteractionDocsFromCSV from './generateInteractionDocsFromCSV';
+
 export const startInteraction = new ValidatedMethod({
   name: 'interactions.startInteraction',
   mixins: [userIsAdminMixin],
@@ -147,6 +149,23 @@ export const createInteraction = new ValidatedMethod({
     }
 
     return newInteractionId;
+  },
+});
+
+export const createManyInteractions = new ValidatedMethod({
+  name: 'interactions.createMany',
+  mixins: [userIsAdminMixin],
+  validate({ input }) {
+    check(input, String);
+  },
+  async run({ input }) {
+    const interactions = generateInteractionDocsFromCSV(input);
+
+    interactions.forEach((interaction) => {
+      createInteraction.call(interaction);
+    });
+
+    return 'DONE';
   },
 });
 

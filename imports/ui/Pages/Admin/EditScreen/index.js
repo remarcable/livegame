@@ -11,6 +11,7 @@ import interactionTypes from '/imports/api/interactions/types';
 import {
   moveToPosition,
   createInteraction,
+  createManyInteractions,
   updateInteractionDetails,
   removeInteraction,
 } from '/imports/api/interactions/methods';
@@ -89,10 +90,32 @@ const EditScreen = ({ isReady, interactions, candidates }) => (
         />
       )}
     </div>
+    <div>
+      <form onSubmit={handleOnSubmit}>
+        <h1>Viele Interaktionen als CSV erstellen</h1>
+        <textarea name="interactionsString" style={{ width: '80%', minHeight: 300 }} />
+        <div>
+          <input type="submit" />
+        </div>
+      </form>
+    </div>
   </AdminLayout>
 );
 
 EditScreen.propTypes = propTypes;
+
+function handleOnSubmit(e) {
+  e.preventDefault();
+
+  const input = e.target.interactionsString.value;
+  createManyInteractions.call({ input }, (err, res) => {
+    if (err) {
+      alert(`Fehler: ${err.message}`);
+    } else {
+      alert('Fertig: ', res);
+    }
+  });
+}
 
 export default withTracker(() => {
   const interactionsHandle = Meteor.subscribe('interactions.allInteractions');

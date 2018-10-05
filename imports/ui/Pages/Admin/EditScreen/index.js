@@ -124,5 +124,13 @@ export default withTracker(() => {
   const interactions = Interactions.find().fetch();
   const candidates = Candidates.find().fetch();
 
-  return { interactions: mapSort(interactions), candidates, isReady };
+  let sortedInteractions = [];
+
+  try {
+    sortedInteractions = mapSort(interactions);
+  } catch (e) {
+    console.log(`Fehler beim Sortieren!`, e.message);
+  }
+
+  return { interactions: sortedInteractions, candidates, isReady };
 })(EditScreen);

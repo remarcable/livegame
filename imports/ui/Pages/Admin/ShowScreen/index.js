@@ -137,7 +137,10 @@ const ShowScreen = ({
                   <TableCell padding="dense">{typeToIcon[i.type]}</TableCell>
                   <TableCell>{getText(i)}</TableCell>
                   <TableCell>
-                    <IconButton onClick={() => startInteraction.call({ interactionId: i._id })}>
+                    <IconButton
+                      onClick={() => startInteraction.call({ interactionId: i._id })}
+                      disabled={i.state === 'ACTIVE'}
+                    >
                       <PlayArrowIcon />
                     </IconButton>
                   </TableCell>
@@ -231,8 +234,15 @@ export default withTracker(() => {
   const hasNext = !!currentInteraction.next;
   const hasPrevious = !!currentInteraction.previous;
 
+  let sortedInteractions = [];
+
+  try {
+    sortedInteractions = mapSort(interactions);
+  } catch (e) {
+    console.log(`Fehler beim Sortieren!`, e.message);
+  }
   return {
-    interactions: mapSort(interactions),
+    interactions: sortedInteractions,
     games,
     hasNext,
     hasPrevious,

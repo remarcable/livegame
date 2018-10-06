@@ -29,6 +29,9 @@ import Button from '@material-ui/core/Button';
 import blue from '@material-ui/core/colors/blue';
 
 import AppState from '/imports/api/appState/collection';
+import Candidates from '/imports/api/candidates/collection';
+
+import { setCandidate, unsetCandidate } from '/imports/api/candidates/methods';
 
 import Interactions from '/imports/api/interactions/collection';
 import { interactionTypeNames } from '/imports/api/interactions/types';
@@ -46,10 +49,18 @@ const propTypes = {
   activeInteraction: PropTypes.string.isRequired,
   rankDisplayMode: PropTypes.string.isRequired,
   games: PropTypes.array.isRequired, // TODO: Better proptype
+  candidates: PropTypes.array.isRequired, // TODO: Better proptype
   interactions: PropTypes.array.isRequired, // TODO: Better proptype
 };
 
-const LiveViewControl = ({ classes, games, interactions, activeInteraction, rankDisplayMode }) => (
+const LiveViewControl = ({
+  classes,
+  games,
+  interactions,
+  candidates,
+  activeInteraction,
+  rankDisplayMode,
+}) => (
   <AdminLayout>
     <div className={classes.wrapper}>
       <Paper className={classes.interactions}>
@@ -134,10 +145,9 @@ const LiveViewControl = ({ classes, games, interactions, activeInteraction, rank
             <Button onClick={() => Meteor.call('ranking.calculateScore')}>Ränge berechnen</Button>
           </div>
           <div className={classes.estimationGameHalf}>
-            <FormControl component="fieldset" className={classes.formControl}>
+            <FormControl component="fieldset">
               <RadioGroup
                 aria-label="Ränge anzeigen"
-                name="gender1"
                 className={classes.group}
                 onChange={(e) => showRanksUpTo.call({ mode: e.target.value })}
                 value={rankDisplayMode}
@@ -170,6 +180,35 @@ const LiveViewControl = ({ classes, games, interactions, activeInteraction, rank
               </RadioGroup>
             </FormControl>
           </div>
+        </Paper>
+        <Paper className={classnames(classes.actionWrapper)}>
+          <FormControl component="fieldset">
+            <RadioGroup
+              aria-label="Kandidat auswählen"
+              className={classes.candidatesForm}
+              onChange={(e) => setCandidate.call({ _id: e.target.value, candidateNumber: 1 })}
+              value={(candidates.find((c) => c.candidateNumber === 1) || {})._id || 'NONE'}
+            >
+              <FormControlLabel
+                value="NONE"
+                control={<Radio color="primary" />}
+                label="Keiner"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  unsetCandidate.call({ candidateNumber: 1 });
+                }}
+              />
+              {candidates.map((c) => (
+                <FormControlLabel
+                  key={c._id}
+                  value={c._id}
+                  control={<Radio color="primary" />}
+                  label={c.name}
+                />
+              ))}
+            </RadioGroup>
+          </FormControl>
         </Paper>
       </div>
     </div>
@@ -253,6 +292,9 @@ const styles = (theme) => ({
     backgroundColor: 'rgba(0, 0, 0, 0.08)',
     borderRadius: 4,
   },
+  candidatesForm: {
+    flexDirection: 'row',
+  },
 });
 
 LiveViewControl.propTypes = propTypes;
@@ -260,7 +302,7 @@ LiveViewControl.propTypes = propTypes;
 export default withTracker(() => {
   const interactionsHandle = Meteor.subscribe('interactions.allInteractions');
   const appStateHandle = Meteor.subscribe('appState.admin');
-  const isReady = interactionsHandle.ready() && appStateHandle.ready();
+  const candidatesHandle = Meteor.subscribe('candidates.allCandidates');
 
   const interactions = Interactions.find().fetch();
   const { interactionToShow = '', rankDisplayMode = 'ALL' } = AppState.findOne() || {};
@@ -270,11 +312,13 @@ export default withTracker(() => {
   );
 
   const votings = interactions.filter((i) => i.type === interactionTypeNames.ESTIMATION_VOTING);
+
+  const candidates = Candidates.find({ name: { $ne: 'Paul' } }).fetch();
   return {
     games,
     votings,
     interactions,
-    isReady,
+    candidates,
     activeInteraction: interactionToShow,
     rankDisplayMode,
   };

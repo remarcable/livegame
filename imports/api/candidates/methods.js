@@ -56,6 +56,17 @@ export const updateCandidate = new ValidatedMethod({
   },
 });
 
+export const unsetCandidate = new ValidatedMethod({
+  name: 'candidates.unsetCandidate',
+  mixins: [userIsAdminMixin],
+  validate: new SimpleSchema({
+    candidateNumber: Number,
+  }).validator(),
+  run({ candidateNumber }) {
+    return Candidates.update({ candidateNumber }, { $set: { candidateNumber: null } });
+  },
+});
+
 export const setCandidate = new ValidatedMethod({
   name: 'candidates.setCandidate',
   mixins: [userIsAdminMixin],

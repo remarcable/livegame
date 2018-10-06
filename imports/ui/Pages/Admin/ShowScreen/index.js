@@ -40,6 +40,7 @@ import {
 import { interactionTypeNames } from '/imports/api/interactions/types';
 import { mapSort } from '/imports/api/helpers/mapSort';
 import sortFullShowGames from '/imports/api/helpers/sortFullShowGames';
+import getTextForInteraction from '/imports/api/helpers/getTextForInteraction';
 
 import AdminLayout from '/imports/ui/Layouts/AdminLayout';
 import UpdateGames from './UpdateGames';
@@ -63,32 +64,6 @@ const typeToIcon = {
   FULL_SHOW_GAME: <DonutSmallIcon />,
   FULL_SHOW_WAITING: <HourglassEmptyIcon />,
 };
-
-function getText({ type, ...i }) {
-  if (type === 'SHOW_BREAK') {
-    return `Unterbrechung: ${i.title}`;
-  }
-
-  if (type === 'ESTIMATION_GAME') {
-    return `Schätzen: ${i.title} • ${i.estimationGame.question}`;
-  }
-
-  if (type === 'ESTIMATION_VOTING') {
-    return `Schätzen: ${i.title} • ${i.estimationVoting.question}`;
-  }
-
-  if (type === 'ESTIMATION_WAITING') {
-    return `Schätzen: ${i.title} • Warten`;
-  }
-
-  if (type === 'FULL_SHOW_GAME') {
-    return `${i.fullShowGame.gameNumber}. ${i.title}`;
-  }
-
-  if (type === 'FULL_SHOW_WAITING') {
-    return `${i.title} • Warten`;
-  }
-}
 
 window.onkeydown = (e) => !(e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === ' ');
 
@@ -135,7 +110,7 @@ const ShowScreen = ({
                   }}
                 >
                   <TableCell padding="dense">{typeToIcon[i.type]}</TableCell>
-                  <TableCell>{getText(i)}</TableCell>
+                  <TableCell>{getTextForInteraction(i)}</TableCell>
                   <TableCell>
                     <IconButton
                       onClick={() => startInteraction.call({ interactionId: i._id })}

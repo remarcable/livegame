@@ -3,6 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 
+import { JoinClient } from 'meteor-publish-join';
+
 import classnames from 'classnames';
 
 import KeyHandler from 'react-key-handler';
@@ -54,6 +56,7 @@ const propTypes = {
   hasPrevious: PropTypes.bool.isRequired,
   candidate1Name: PropTypes.string,
   candidate2Name: PropTypes.string,
+  scoreText: PropTypes.string,
 };
 
 const typeToIcon = {
@@ -76,6 +79,7 @@ const ShowScreen = ({
   hasPrevious,
   candidate1Name,
   candidate2Name,
+  scoreText,
 }) => (
   <AdminLayout>
     <KeyHandler keyValue="ArrowUp" onKeyHandle={() => hasPrevious && previousInteraction.call()} />
@@ -136,6 +140,7 @@ const ShowScreen = ({
           }
           candidate1Name={candidate1Name}
           candidate2Name={candidate2Name}
+          scoreText={scoreText}
         />
       </Paper>
 
@@ -209,6 +214,11 @@ export default withTracker(() => {
   const hasNext = !!currentInteraction.next;
   const hasPrevious = !!currentInteraction.previous;
 
+  const { candidate1: scoreCandidate1 = 0, candidate2: scoreCandidate2 = 0 } =
+    JoinClient.get('candidateScores') || {};
+
+  const scoreText = `${scoreCandidate1} : ${scoreCandidate2}`;
+
   let sortedInteractions = [];
 
   try {
@@ -224,5 +234,6 @@ export default withTracker(() => {
     isReady,
     candidate1Name,
     candidate2Name,
+    scoreText,
   };
 })(withStyles(styles)(ShowScreen));

@@ -22,6 +22,7 @@ const propTypes = {
   setWinner: PropTypes.func.isRequired,
   candidate1Name: PropTypes.string,
   candidate2Name: PropTypes.string,
+  scoreText: PropTypes.string,
 };
 
 const UpdateGames = ({
@@ -31,32 +32,27 @@ const UpdateGames = ({
   setWinner,
   candidate1Name = 'Kandidat 1',
   candidate2Name = 'Kandidat 2',
+  scoreText,
 }) => (
   <>
     <Table className={classes.table}>
       <TableHead>
         <TableRow className={classes.gamesHeader}>
-          <TableCell>Spiele</TableCell>
+          <TableCell>Spiel</TableCell>
+          <TableCell>{scoreText}</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
-        {games.map(({ _id, state, fullShowGame }) => (
+        {games.map(({ _id, state, title, fullShowGame }) => (
           <TableRow key={_id} selected={state === 'ACTIVE'}>
+            <TableCell padding="dense">{title}</TableCell>
             <TableCell padding="dense">
               <form onSubmit={(e) => handleSubmit(e, updateScores, _id)}>
-                {fullShowGame.gameNumber.toString().padStart(2, 0)}.
                 <TextField
                   type="number"
                   name="candidate1"
-                  label={candidate1Name}
+                  label="Punkte"
                   defaultValue={fullShowGame.pointsCandidate1}
-                  className={classes.textField}
-                />
-                <TextField
-                  type="number"
-                  name="candidate2"
-                  label={candidate2Name}
-                  defaultValue={fullShowGame.pointsCandidate2}
                   className={classes.textField}
                 />
                 <IconButton type="submit" size="small">
@@ -99,9 +95,8 @@ function handleSubmit(e, updateScores, _id) {
   e.preventDefault();
 
   const pointsCandidate1 = +e.target.candidate1.value;
-  const pointsCandidate2 = +e.target.candidate2.value;
 
-  updateScores({ _id, pointsCandidate1, pointsCandidate2 });
+  updateScores({ _id, pointsCandidate1, pointsCandidate2: 0 });
 }
 
 const styles = {

@@ -22,9 +22,19 @@ const propTypes = {
   ownRank: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   maxRank: PropTypes.number,
   alias: PropTypes.string,
+  fullShow: PropTypes.bool,
 };
 
-const UserInformation = ({ classes, isReady, firstName, lastName, ownRank, maxRank, alias }) => {
+const UserInformation = ({
+  fullShow = false,
+  classes,
+  isReady,
+  firstName,
+  lastName,
+  ownRank,
+  maxRank,
+  alias,
+}) => {
   if (!isReady) {
     return <div>Lädt...</div>;
   }
@@ -49,9 +59,13 @@ const UserInformation = ({ classes, isReady, firstName, lastName, ownRank, maxRa
   return (
     <div className={classes.wrapper}>
       <span>
-        <AnimatedNumber value={rank} /> / <AnimatedNumber value={maxRank} />
+        {!fullShow && (
+          <>
+            <AnimatedNumber value={rank} /> / <AnimatedNumber value={maxRank} />
+          </>
+        )}
       </span>
-      <span className={classes.alias}>Rang für Schätzen</span>
+      {!fullShow && <span className={classes.alias}>Rang für Schätzen</span>}
       <Divider className={classes.divider} />
       {alias ? withAlias : withoutAlias}
     </div>

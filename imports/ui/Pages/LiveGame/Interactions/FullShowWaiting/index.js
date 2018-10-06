@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 
 import ConnectionStatus from '/imports/ui/components/ConnectionStatus';
+import UserInformation from '/imports/ui/components/UserInformation';
 
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
@@ -25,6 +26,7 @@ const FullShowWaiting = ({ hasSubmitted, classes }) => {
     <div className={classes.wrapper}>
       <span className={classes.text}>Bitte warten Sie auf die nächste Runde.</span>
       <ConnectionStatus />
+      <UserInformation fullShow />
     </div>
   );
 };

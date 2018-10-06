@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
@@ -8,20 +8,35 @@ const propTypes = {
   status: PropTypes.string.isRequired,
 };
 
-const StatusIndicatorSymbol = ({ classes, status }) => (
-  <div className={classes.wrapper}>
-    <div
-      className={classnames(classes.circle, classes.inner, {
-        [classes.innerConnected]: status === 'connected',
-        [classes.innerReconnecting]: ['connecting', 'waiting'].includes(status),
-        [classes.innerOffline]: ['failed', 'offline'].includes(status),
-      })}
-    />
-    {['connected', 'waiting', 'connecting'].includes(status) && (
-      <div className={classnames(classes.circle, classes.activeAnimation)} />
-    )}
-  </div>
-);
+class StatusIndicatorSymbol extends Component {
+  state = { active: false };
+  componentDidMount() {
+    window.setTimeout(() => {
+      this.setState(() => ({ active: true }));
+    }, 1000);
+  }
+  render() {
+    const { classes, status } = this.props;
+    return (
+      <div className={classes.wrapper}>
+        <div
+          className={classnames(classes.circle, classes.inner, {
+            [classes.innerConnected]: status === 'connected',
+            [classes.innerReconnecting]: ['connecting', 'waiting'].includes(status),
+            [classes.innerOffline]: ['failed', 'offline'].includes(status),
+          })}
+        />
+        {['connected', 'waiting', 'connecting'].includes(status) && (
+          <div
+            className={classnames(classes.circle, classes.activeAnimation, {
+              [classes.animation]: this.state.active,
+            })}
+          />
+        )}
+      </div>
+    );
+  }
+}
 
 StatusIndicatorSymbol.propTypes = propTypes;
 
@@ -43,7 +58,10 @@ const styles = (theme) => ({
     top: 0,
     left: 0,
     backgroundColor: 'white',
-    animation: `pop-out 3s infinite ${theme.transitions.easing.easeInOut}`,
+    opacity: 0,
+  },
+  animation: {
+    animation: `pop-out 3s infinite ${theme.transitions.easing.easeInOut} .3s`,
   },
   inner: {
     backgroundColor: 'white',

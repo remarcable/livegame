@@ -13,10 +13,12 @@ const interactionsMap = new Map([
 
 const propTypes = {
   interaction: PropTypes.object.isRequired, // TODO: better type
+  candidate1Name: PropTypes.string.isRequired,
+  candidate2Name: PropTypes.string.isRequired,
 };
 
 // TODO we have almost the same component for LiveGame => should be split out to helper component
-const ShowInteraction = ({ interaction }) => {
+const ShowInteraction = ({ interaction, candidate1Name, candidate2Name }) => {
   const { type, additionalData } = interaction;
   const Component = interactionsMap.get(type);
 
@@ -30,6 +32,8 @@ const ShowInteraction = ({ interaction }) => {
       title={interaction.title}
       {...interaction[schemaKey]}
       additionalData={additionalData}
+      candidate1Name={candidate1Name}
+      candidate2Name={candidate2Name}
     />
   );
 };

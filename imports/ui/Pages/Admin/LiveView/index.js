@@ -5,6 +5,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { JoinClient } from 'meteor-publish-join';
 
 import AppState from '/imports/api/appState/collection';
+import Candidates from '/imports/api/candidates/collection';
 import InteractionsCollection from '/imports/api/interactions/collection';
 
 import LiveViewLayout from '/imports/ui/Layouts/LiveViewLayout';
@@ -16,13 +17,17 @@ import FullShowGameRanking from './ShowInteraction/FullShowGameRanking';
 const propTypes = {
   interaction: PropTypes.object.isRequired, // TODO: better type!
   isReady: PropTypes.bool.isRequired,
+  candidate1Name: PropTypes.string.isRequired,
+  candidate2Name: PropTypes.string.isRequired,
 };
 
-const LiveView = ({ isReady, interaction }) => (
-  <LiveViewLayout>{getInteraction({ isReady, interaction })}</LiveViewLayout>
+const LiveView = ({ isReady, interaction, candidate1Name, candidate2Name }) => (
+  <LiveViewLayout>
+    {getInteraction({ isReady, interaction, candidate1Name, candidate2Name })}
+  </LiveViewLayout>
 );
 
-const getInteraction = ({ isReady, interaction }) => {
+const getInteraction = ({ isReady, interaction, candidate1Name, candidate2Name }) => {
   if (!isReady) {
     return <span>Loading</span>;
   }
@@ -35,19 +40,29 @@ const getInteraction = ({ isReady, interaction }) => {
     return <FullShowGameRanking />;
   }
 
-  return <ShowInteraction interaction={interaction} />;
+  return (
+    <ShowInteraction
+      interaction={interaction}
+      candidate1Name={candidate1Name}
+      candidate2Name={candidate2Name}
+    />
+  );
 };
 
 LiveView.propTypes = propTypes;
 
 export default withTracker(() => {
   const appStateHandle = Meteor.subscribe('appState.admin');
+  const candidatesHandle = Meteor.subscribe('candidates.active');
   const { interactionToShow = null } = AppState.findOne() || {};
 
   // because we have to additionally subscribe to
   // interactions.scoreboard, isReady will be false for a short time
   const interactionsHandle = Meteor.subscribe('interactions.scoreboard');
   const interaction = InteractionsCollection.findOne(interactionToShow) || {};
+
+  const { name: candidate1Name = 'Kandidat' } = Candidates.findOne({ candidateNumber: 1 }) || {};
+  const { name: candidate2Name = 'Paul' } = Candidates.findOne({ candidateNumber: 2 }) || {};
 
   const additionalData = {
     yesPercentage: 0,
@@ -56,5 +71,10 @@ export default withTracker(() => {
   };
 
   const isReady = appStateHandle.ready() && (!!interactionsHandle && interactionsHandle.ready());
-  return { interaction: { ...interaction, additionalData, _id: interactionToShow }, isReady };
+  return {
+    interaction: { ...interaction, additionalData, _id: interactionToShow },
+    isReady,
+    candidate1Name,
+    candidate2Name,
+  };
 })(LiveView);

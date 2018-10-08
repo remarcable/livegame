@@ -16,8 +16,8 @@ const propTypes = {
 const EstimationVoting = ({ classes, title, question, additionalData = {} }) => (
   <div className={classes.wrapper}>
     <Chart
-      perc1={additionalData.yesPercentage}
-      perc2={100 - additionalData.yesPercentage}
+      perc1={Math.round(additionalData.yesPercentage)}
+      perc2={100 - Math.round(additionalData.yesPercentage)}
       id="voting"
       leftColors={['#36b526', '#249316']}
       rightColors={['#dd2e2e', '#a41f1f']}

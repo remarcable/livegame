@@ -17,8 +17,8 @@ const propTypes = {
 const FullShowGame = ({ classes, title, additionalData = {}, candidate1Name, candidate2Name }) => (
   <div className={classes.wrapper}>
     <Chart
-      perc1={additionalData.candidate1Percentage}
-      perc2={100 - additionalData.candidate1Percentage}
+      perc1={Math.round(additionalData.candidate1Percentage)}
+      perc2={100 - Math.round(additionalData.candidate1Percentage)}
       id="paulcandidate"
       leftColors={['#E5402A', '#9B2118']}
       rightColors={['#287DED', '#074A8D']}

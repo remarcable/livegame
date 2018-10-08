@@ -12,7 +12,7 @@ Meteor.publish('candidates.active', function publishCandidatesUser() {
   JoinServer.publish({
     context: this,
     name: 'candidateScores',
-    interval: 5000,
+    interval: 1000,
     isShared: true,
     doJoin() {
       return getCandidatePoints(Interactions);

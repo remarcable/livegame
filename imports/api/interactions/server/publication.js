@@ -51,7 +51,7 @@ Meteor.publish('interactions.scoreboard', function interactionsActivePublication
   JoinServer.publish({
     context: this,
     name: 'additionalData',
-    interval: 5000,
+    interval: 2000,
     isShared: true,
     doJoin() {
       const { interactionToShow: interactionId } = AppState.findOne() || {};

@@ -125,6 +125,8 @@ Meteor.publish('users.all', function publishAllUsers() {
         email: 1,
         role: 1,
         estimationGame: 1,
+        newsletter: 1,
+        flags: 1,
       },
       sort: {
         rank: 1,

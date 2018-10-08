@@ -1,11 +1,18 @@
 import { Meteor } from 'meteor/meteor';
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { JoinClient } from 'meteor-publish-join';
 
 import { withTracker } from 'meteor/react-meteor-data';
 import { withStyles } from '@material-ui/core/styles';
+
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 import sumFromIndexToEnd from '/imports/api/helpers/sumFromIndexToEnd';
 
@@ -21,61 +28,108 @@ const propTypes = {
 };
 
 const tablePropTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   users: PropTypes.array.isRequired,
 };
 
 const UserListPage = ({ classes, users = [], minRank, maxRank, minPoints, maxPoints }) => (
   <AdminLayout>
     <div className={classes.wrapper}>
-      <h2>Teilnehmer</h2>
-      {users.length ? (
-        <div className={classes.wrapper}>
-          <span>
-            Rang von {minRank} bis {maxRank}. Punkte von {minPoints} bis {maxPoints}.
-          </span>
-          <div className={classes.tableWrapper}>
-            <UserTable users={users} />
-          </div>
+      <div className={classes.text}>
+        <h1>Teilnehmer</h1>
+        <div className={classes.rankText}>
+          Rang von {minRank} bis {maxRank}. Punkte von {minPoints} bis {maxPoints}.
         </div>
-      ) : (
-        <span>Keine Nutzer</span>
-      )}
+      </div>
+      <StyledUserTable users={users} />
     </div>
   </AdminLayout>
 );
 
-const UserTable = ({ users }) => (
-  <table>
-    <thead>
-      <tr>
-        <th>Vorname</th>
-        <th>Nachname</th>
-        <th>Alias</th>
-        <th>E-Mail</th>
-        <th>ID</th>
-        <th>Schätzen Rang</th>
-        <th>Schätzen Punkte</th>
-        <th>Full Show Rang</th>
-        <th>Full Show Score</th>
-      </tr>
-    </thead>
-    <tbody>
-      {users.map((u) => (
-        <tr key={u._id}>
-          <td>{u.firstName}</td>
-          <td>{u.lastName}</td>
-          <td>{u.alias || '-'}</td>
-          <td>{u.email || '-'}</td>
-          <td>{u._id}</td>
-          <td>{u.points || '-'}</td>
-          <td>{u.rank || '-'}</td>
-          <td>{u.fullShowRank}</td>
-          <td>{u.fullShowScore}</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-);
+class UserTable extends PureComponent {
+  constructor() {
+    super();
+    this.state = {
+      sortBy: 'fullShowRank',
+    };
+  }
+
+  setSortType = (type) => {
+    this.setState(() => ({ sortBy: type }));
+  };
+
+  render() {
+    const { users, classes } = this.props;
+    const { sortBy } = this.state;
+
+    const sortedUsers = users.sort((a, b) => {
+      if (typeof a[sortBy] === 'string' && typeof b[sortBy] === 'string') {
+        return a[sortBy].localeCompare(b[sortBy]);
+      }
+
+      return a[sortBy] - b[sortBy];
+    });
+
+    return (
+      <Paper className={classes.wrapper}>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell padding="dense" onClick={() => this.setSortType('fullShowRank')}>
+                Full Show Rang (Punkte)
+              </TableCell>
+              <TableCell padding="dense" onClick={() => this.setSortType('estimationGameRank')}>
+                Schätzen Rang (Punkte)
+              </TableCell>
+              <TableCell padding="dense" onClick={() => this.setSortType('_id')}>
+                ID
+              </TableCell>
+              <TableCell padding="dense" onClick={() => this.setSortType('firstName')}>
+                Vorname
+              </TableCell>
+              <TableCell padding="dense" onClick={() => this.setSortType('lastName')}>
+                Nachname
+              </TableCell>
+              <TableCell padding="dense" onClick={() => this.setSortType('alias')}>
+                Alias
+              </TableCell>
+              <TableCell padding="dense" onClick={() => this.setSortType('email')}>
+                E-Mail
+              </TableCell>
+              <TableCell padding="dense" onClick={() => this.setSortType('newsletter')}>
+                Newsletter
+              </TableCell>
+              <TableCell padding="dense" onClick={() => this.setSortType('flags')}>
+                Flags
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {sortedUsers.map((u) => (
+              <TableRow key={u._id}>
+                <TableCell padding="dense">
+                  {u.fullShowRank} ({u.fullShowScore})
+                </TableCell>
+                <TableCell padding="dense">
+                  {u.estimationGame.rank || '-'} ({u.estimationGame.points || '-'})
+                </TableCell>
+                <TableCell padding="dense">{u._id}</TableCell>
+                <TableCell padding="dense">{u.firstName}</TableCell>
+                <TableCell padding="dense">{u.lastName}</TableCell>
+                <TableCell padding="dense">{u.alias || '-'}</TableCell>
+                <TableCell padding="dense">{u.email || '-'}</TableCell>
+                <TableCell padding="dense">{u.newsletter ? '✓' : '✕'}</TableCell>
+                <TableCell padding="dense">
+                  {u.flags ? Object.keys(u.flags).join(', ') : '-'}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Paper>
+    );
+  }
+}
 
 UserListPage.propTypes = propTypes;
 UserTable.propTypes = tablePropTypes;
@@ -87,15 +141,26 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
   },
-  tableWrapper: {
+  text: {
+    textAlign: 'center',
     width: '80%',
-    marginTop: 20,
-    padding: 10,
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'column',
   },
 };
+
+const userTableStyles = {
+  wrapper: {
+    maxWidth: '80%',
+    marginTop: 20,
+    marginBottom: 20,
+    padding: 10,
+    overflow: 'scroll',
+  },
+  table: {
+    width: '100%',
+  },
+};
+
+const StyledUserTable = withStyles(userTableStyles)(UserTable);
 
 export default withTracker(() => {
   const userHandle = Meteor.subscribe('users.all');
@@ -110,7 +175,6 @@ export default withTracker(() => {
     correctUserSubmissionsCountsMap.set(userId, score);
   });
 
-  // TODO: sort table by what you want
   const users =
     Meteor.users
       .find({ role: { $ne: 'admin' } })
@@ -122,15 +186,16 @@ export default withTracker(() => {
           ...u,
           fullShowScore,
           fullShowRank: sumFromIndexToEnd(fullShowScore, userRanking) + 1,
+          estimationGameRank: u.estimationGame.rank,
+          newsletter: u.newsletter || !!(u.flags && u.flags.newsletter),
         };
-      })
-      .sort((a, b) => a.fullShowRank - b.fullShowRank) || [];
+      }) || [];
 
-  const maxRank = Math.max(...users.map((u) => u.rank)) || 0;
-  const minRank = Math.min(...users.map((u) => u.rank)) || 0;
+  const maxRank = Math.max(...users.map((u) => u.estimationGame.rank)) || 0;
+  const minRank = Math.min(...users.map((u) => u.estimationGame.rank)) || 0;
 
-  const maxPoints = Math.max(...users.map((u) => u.points)) || 0;
-  const minPoints = Math.min(...users.map((u) => u.points)) || 0;
+  const maxPoints = Math.max(...users.map((u) => u.estimationGame.points)) || 0;
+  const minPoints = Math.min(...users.map((u) => u.estimationGame.points)) || 0;
 
   return {
     maxRank,

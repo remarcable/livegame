@@ -1,10 +1,9 @@
 import '/imports/api/appState/server';
 import '/imports/api/users/server';
 
-import '/imports/api/games/server';
-import '/imports/api/votings/server';
+import '/imports/api/interactions/server';
 import '/imports/api/submissions/server';
-import '/imports/api/votingSubmissions/server';
+import '/imports/api/candidates/server';
 
 import '../both';
 import '../both/admin';

@@ -1,76 +1,40 @@
-import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import SimpleSchema from 'simpl-schema';
+
+import { userIsAdminMixin } from '/imports/api/helpers/validatedMethodMixins';
 
 import AppState from './collection';
 import { rankDisplayModes } from './rank-display-modes';
 
-export const showScoresOnLiveView = new ValidatedMethod({
-  name: 'app.showScoresOnLiveView',
-  validate: null,
-  run() {
-    Meteor.ensureUserIsAdmin(this.userId);
-    AppState.update({}, { $unset: { votingToShow: 1 } });
-  },
-});
-
-export const showVotingOnLiveView = new ValidatedMethod({
-  name: 'app.showVotingOnLiveView',
+export const displayInteraction = new ValidatedMethod({
+  name: 'app.displayInteraction',
+  mixins: [userIsAdminMixin],
   validate: new SimpleSchema({
-    votingId: { type: String },
+    interactionId: { type: String },
   }).validator(),
-  run({ votingId }) {
-    Meteor.ensureUserIsAdmin(this.userId);
-    AppState.update({}, { $set: { votingToShow: votingId } });
+  run({ interactionId }) {
+    AppState.update({}, { $set: { interactionToShow: interactionId } });
   },
 });
 
 export const setHintText = new ValidatedMethod({
   name: 'app.setHintText',
+  mixins: [userIsAdminMixin],
   validate: new SimpleSchema({
     hintText: { type: String },
   }).validator(),
   run({ hintText }) {
-    Meteor.ensureUserIsAdmin(this.userId);
     AppState.update({}, { $set: { hintText } });
-  },
-});
-
-export const endLiveGame = new ValidatedMethod({
-  name: 'app.endLiveGame',
-  validate: null,
-  run() {
-    Meteor.ensureUserIsAdmin(this.userId);
-    AppState.update(
-      {},
-      {
-        $set: { gameEnded: true },
-      },
-    );
-  },
-});
-
-export const unendLiveGame = new ValidatedMethod({
-  name: 'app.unendLiveGame',
-  validate: null,
-  run() {
-    Meteor.ensureUserIsAdmin(this.userId);
-    AppState.update(
-      {},
-      {
-        $set: { gameEnded: false },
-      },
-    );
   },
 });
 
 export const showRanksUpTo = new ValidatedMethod({
   name: 'app.showRanksUpTo',
+  mixins: [userIsAdminMixin],
   validate: new SimpleSchema({
     mode: { type: String, allowedValues: rankDisplayModes },
   }).validator(),
   run({ mode }) {
-    Meteor.ensureUserIsAdmin(this.userId);
     AppState.update(
       {},
       {

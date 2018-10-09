@@ -1,15 +1,17 @@
 import SimpleSchema from 'simpl-schema';
 
 const submissionSchema = new SimpleSchema({
-  userId: {
-    type: SimpleSchema.RegEx.Id,
-  },
-  gameId: {
+  interactionId: {
     type: SimpleSchema.RegEx.Id,
     index: 1,
   },
-  guess: {
-    type: Number,
+  userId: {
+    type: SimpleSchema.RegEx.Id,
+    index: 1,
+  },
+  value: {
+    type: SimpleSchema.oneOf(Number, String), // TODO: see imports/api/submissions/methods.js for comment
+    index: 1,
   },
   createdAt: {
     type: Date,

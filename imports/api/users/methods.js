@@ -1,13 +1,17 @@
 import { Meteor } from 'meteor/meteor';
-import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import SimpleSchema from 'simpl-schema';
+import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
-export const updateEmail = new ValidatedMethod({
-  name: 'users.updateEmail',
+import { userIsLoggedInMixin } from '/imports/api/helpers/validatedMethodMixins';
+
+/* eslint-disable import/prefer-default-export */
+export const setUserFlag = new ValidatedMethod({
+  name: 'users.setFlag',
+  mixins: [userIsLoggedInMixin],
   validate: new SimpleSchema({
-    email: { type: String, optional: true },
+    flag: String,
   }).validator(),
-  run({ email }) {
-    Meteor.users.update({ _id: Meteor.userId() }, { $set: { email } });
+  run({ flag }) {
+    Meteor.users.update(this.userId, { $set: { [`flags.${flag}`]: true } });
   },
 });

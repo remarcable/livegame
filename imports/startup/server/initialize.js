@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { WebApp } from 'meteor/webapp';
 import { Random } from 'meteor/random';
 import { Accounts } from 'meteor/accounts-base';
 
@@ -7,8 +8,9 @@ import AppState from '../../api/appState/collection';
 Meteor.startup(() => {
   if (!AppState.findOne()) {
     AppState.insert({
-      gameEnded: false,
-      gamesOrder: [],
+      hintText: null,
+      interactionToShow: null,
+      rankDisplayMode: 'ALL',
     });
   }
 
@@ -26,5 +28,19 @@ Meteor.startup(() => {
     console.log('userId:', userId);
     console.log('userName:', username);
     console.log('password:', password);
+  }
+
+  const { cdnUrl } = Meteor.settings;
+  if (cdnUrl) {
+    WebAppInternals.setBundledJsCssUrlRewriteHook(
+      (url) => `${cdnUrl}${url}&_g_app_v_=${process.env.GALAXY_APP_VERSION_ID}`,
+    );
+
+    WebApp.rawConnectHandlers.use((req, res, next) => {
+      if (req._parsedUrl.pathname.match(/\.(ttf|ttc|otf|eot|woff|woff2|font\.css|css)$/)) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+      }
+      next();
+    });
   }
 });

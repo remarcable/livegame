@@ -2,28 +2,42 @@ import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
+import { userIsLoggedInMixin } from '/imports/api/helpers/validatedMethodMixins';
+
 import Submissions from './collection';
-import Games from '../games/collection';
+import Interactions from '../interactions/collection';
+
+import * as interactionStates from '../interactions/states';
+import interactionTypes from '../interactions/types';
+
+const submittableInteractionTypeNames = [...interactionTypes.values()]
+  .filter((type) => type.submittable)
+  .map((type) => type.typeName);
 
 /* eslint-disable import/prefer-default-export */
-export const submitAnswer = new ValidatedMethod({
+export const submit = new ValidatedMethod({
   name: 'submissions.insert',
+  mixins: [userIsLoggedInMixin],
   validate: new SimpleSchema({
-    guess: { type: Number },
+    value: SimpleSchema.oneOf(Number, String), // TODO: Explanatory comment: Number for guessing, String for voting. Maybe change?
   }).validator(),
-  run({ guess }) {
-    if (!Meteor.userId()) throw new Error('not-authorized');
-    if (this.isSimulation) return;
-
+  run({ value }) {
+    if (this.isSimulation) return; // TODO: is this really necessary? Doesn't seem like it is to me
     this.unblock();
 
-    const userId = Meteor.userId();
-    const currentGame = Games.findOne({ state: 'active' });
-    if (!currentGame) throw new Meteor.Error('There is no game active');
-    const gameId = currentGame._id;
-    const hasAlreadyAnswered = Submissions.findOne({ userId, gameId });
-    if (hasAlreadyAnswered) throw new Meteor.Error('User has already submitted for this game');
+    const currentInteraction = Interactions.findOne({
+      state: interactionStates.ACTIVE,
+      type: { $in: submittableInteractionTypeNames },
+    });
+    if (!currentInteraction) throw new Meteor.Error('submissions.insert.noActiveInteraction');
 
-    Submissions.insert({ userId, gameId, guess });
+    const userId = Meteor.userId();
+    const interactionId = currentInteraction._id;
+    const hasAlreadyAnswered = !!Submissions.findOne({ userId, interactionId });
+    if (hasAlreadyAnswered) {
+      throw new Meteor.Error('submissions.insert.duplicate');
+    }
+
+    Submissions.insert({ userId, interactionId, value });
   },
 });

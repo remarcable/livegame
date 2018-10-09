@@ -42,81 +42,81 @@ export const sampleGames = [
 export const sampleSubmissionsGame1 = [
   {
     id: 1,
-    gameId: 1,
+    interactionId: 1,
     userId: 101,
-    guess: 300,
+    value: 300,
   },
   {
     id: 2,
-    gameId: 1,
+    interactionId: 1,
     userId: 102,
-    guess: 350,
+    value: 350,
   },
   {
     id: 3,
-    gameId: 1,
+    interactionId: 1,
     userId: 103,
-    guess: 400,
+    value: 400,
   },
   {
     id: 4,
-    gameId: 1,
+    interactionId: 1,
     userId: 104,
-    guess: 450,
+    value: 450,
   },
 ];
 
 export const sampleSubmissionsGame2 = [
   {
     id: 5,
-    gameId: 2,
+    interactionId: 2,
     userId: 101,
-    guess: 900,
+    value: 900,
   },
   {
     id: 6,
-    gameId: 2,
+    interactionId: 2,
     userId: 102,
-    guess: 800,
+    value: 800,
   },
   {
     id: 7,
-    gameId: 2,
+    interactionId: 2,
     userId: 103,
-    guess: 700,
+    value: 700,
   },
   {
     id: 8,
-    gameId: 2,
+    interactionId: 2,
     userId: 104,
-    guess: 700,
+    value: 700,
   },
 ];
 
 export const sampleSubmissionsGame3 = [
   {
     id: 9,
-    gameId: 3,
+    interactionId: 3,
     userId: 101,
-    guess: 50,
+    value: 50,
   },
   {
     id: 10,
-    gameId: 3,
+    interactionId: 3,
     userId: 102,
-    guess: 40,
+    value: 40,
   },
   {
     id: 11,
-    gameId: 3,
+    interactionId: 3,
     userId: 103,
-    guess: 70,
+    value: 70,
   },
   {
     id: 12,
-    gameId: 3,
+    interactionId: 3,
     userId: 104,
-    guess: 50,
+    value: 50,
   },
 ];
 
@@ -152,69 +152,69 @@ export const sampleResult = [
 export const sampleSubmissionsGame1WithMissing = [
   {
     id: 1,
-    gameId: 1,
+    interactionId: 1,
     userId: 101,
-    guess: 300,
+    value: 300,
   },
   {
     id: 2,
-    gameId: 1,
+    interactionId: 1,
     userId: 102,
-    guess: 350,
+    value: 350,
   },
   {
     id: 3,
-    gameId: 1,
+    interactionId: 1,
     userId: 103,
-    guess: 400,
+    value: 400,
   },
 ];
 
 export const sampleSubmissionsGame2WithMissing = [
   {
     id: 5,
-    gameId: 2,
+    interactionId: 2,
     userId: 101,
-    guess: 900,
+    value: 900,
   },
   {
     id: 6,
-    gameId: 2,
+    interactionId: 2,
     userId: 102,
-    guess: 800,
+    value: 800,
   },
   {
     id: 7,
-    gameId: 2,
+    interactionId: 2,
     userId: 103,
-    guess: 700,
+    value: 700,
   },
 ];
 
 export const sampleSubmissionsGame3WithMissing = [
   {
     id: 9,
-    gameId: 3,
+    interactionId: 3,
     userId: 101,
-    guess: 50,
+    value: 50,
   },
   {
     id: 10,
-    gameId: 3,
+    interactionId: 3,
     userId: 102,
-    guess: 40,
+    value: 40,
   },
   {
     id: 11,
-    gameId: 3,
+    interactionId: 3,
     userId: 103,
-    guess: 60,
+    value: 60,
   },
   {
     id: 12,
-    gameId: 3,
+    interactionId: 3,
     userId: 104,
-    guess: 50,
+    value: 50,
   },
 ];
 

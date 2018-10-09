@@ -111,7 +111,8 @@ class UserTable extends PureComponent {
                   {u.fullShowRank} ({u.fullShowScore})
                 </TableCell>
                 <TableCell padding="dense">
-                  {u.estimationGame.rank || '-'} ({u.estimationGame.points || '-'})
+                  {(u.estimationGame && u.estimationGame.rank) || '-'} (
+                  {(u.estimationGame && u.estimationGame.points) || '-'})
                 </TableCell>
                 <TableCell padding="dense">{u._id}</TableCell>
                 <TableCell padding="dense">{u.firstName}</TableCell>
@@ -186,16 +187,16 @@ export default withTracker(() => {
           ...u,
           fullShowScore,
           fullShowRank: sumFromIndexToEnd(fullShowScore, userRanking) + 1,
-          estimationGameRank: u.estimationGame.rank,
+          estimationGameRank: (u.estimationGame && u.estimationGame.rank) || -1,
           newsletter: u.newsletter || !!(u.flags && u.flags.newsletter),
         };
       }) || [];
 
-  const maxRank = Math.max(...users.map((u) => u.estimationGame.rank)) || 0;
-  const minRank = Math.min(...users.map((u) => u.estimationGame.rank)) || 0;
+  const maxRank = Math.max(...users.map((u) => u.estimationGame && u.estimationGame.rank)) || 0;
+  const minRank = Math.min(...users.map((u) => u.estimationGame && u.estimationGame.rank)) || 0;
 
-  const maxPoints = Math.max(...users.map((u) => u.estimationGame.points)) || 0;
-  const minPoints = Math.min(...users.map((u) => u.estimationGame.points)) || 0;
+  const maxPoints = Math.max(...users.map((u) => u.estimationGame && u.estimationGame.points)) || 0;
+  const minPoints = Math.min(...users.map((u) => u.estimationGame && u.estimationGame.points)) || 0;
 
   return {
     maxRank,

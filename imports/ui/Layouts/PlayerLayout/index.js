@@ -7,7 +7,7 @@ import ReactCSSTransitionReplace from 'react-css-transition-replace';
 import { withTracker } from 'meteor/react-meteor-data';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 
-import { theme } from '/imports/ui/theme';
+import { theme } from '/imports/ui/styles/theme';
 
 import FullPageLoading from '/imports/ui/Pages/FullPageLoading';
 import Onboarding from '/imports/ui/Pages/LiveGame/Onboarding';

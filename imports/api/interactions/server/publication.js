@@ -60,7 +60,7 @@ Meteor.publish('interactions.scoreboard', function interactionsActivePublication
         return {};
       }
 
-      const interaction = Interactions.findOne(interactionId);
+      const interaction = Interactions.findOne(interactionId) || {};
       const { type } = interaction;
 
       if (type === interactionTypeNames.ESTIMATION_VOTING) {

@@ -33,7 +33,7 @@ const texts = [
   },
   {
     headline: 'Tolle Preise',
-    body: 'Gewinnen Sie im Laufe das Abends großartige Preise im Wert von über 100 Euro!',
+    body: 'Gewinnen Sie im Laufe des Abends großartige Preise im Wert von über 100 Euro!',
     nextButton: 'Anmeldung >',
   },
 ];

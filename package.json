@@ -8,24 +8,25 @@
     "test": "jest --watch",
     "test:meteor": "TEST_WATCH=1 meteor test --driver-package meteortesting:mocha --port 4000 --extra-packages jquery",
     "prettier": "prettier --write \"./{imports,client,server}/**/*.js\"",
-    "prettier:watch": "onchange './{imports,client,server}/**/*.js' -- prettier --write {{changed}}"
+    "prettier:watch": "onchange './{imports,client,server}/**/*.js' -- prettier --write {{changed}}",
+    "prettier:compatability": "eslint --print-config .eslintrc.json | eslint-config-prettier-check"
   },
   "dependencies": {
-    "@babel/runtime": "^7.3.4",
-    "@material-ui/core": "^3.9.2",
+    "@babel/runtime": "^7.5.5",
+    "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
-    "bcrypt": "^3.0.4",
+    "bcrypt": "^3.0.6",
     "classnames": "^2.2.6",
     "just-random": "^2.1.0",
     "meteor-node-stubs": "^0.4.1",
     "meteor-publish-join": "^1.1.7",
     "normalize.css": "^8.0.1",
     "prop-types": "^15.7.2",
-    "react": "^16.8.3",
+    "react": "^16.9.0",
     "react-animated-number": "^0.4.4",
-    "react-beautiful-dnd": "^10.0.4",
+    "react-beautiful-dnd": "^10.1.1",
     "react-css-transition-replace": "^3.0.3",
-    "react-dom": "^16.8.3",
+    "react-dom": "^16.9.0",
     "react-key-handler": "^1.2.0-beta.3",
     "react-loadable": "^5.5.0",
     "react-minimal-pie-chart": "^3.5.0",
@@ -34,104 +35,35 @@
     "react-window-size": "^1.2.2",
     "simpl-schema": "^1.5.5",
     "typeface-roboto": "0.0.54",
-    "uniforms": "^1.31.0",
-    "uniforms-material": "^1.31.0"
+    "uniforms": "^1.31.1",
+    "uniforms-material": "^1.31.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.3.4",
-    "@babel/preset-env": "^7.3.4",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
-    "babel-eslint": "^10.0.1",
-    "babel-jest": "^24.1.0",
+    "babel-eslint": "^10.0.2",
+    "babel-jest": "^24.8.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-root-slash-import": "^1.1.0",
     "chai": "^4.2.0",
-    "eslint": "^5.14.1",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-config-prettier": "^4.1.0",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.0.0",
     "eslint-import-resolver-meteor": "^0.4.0",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-meteor": "^5.1.0",
-    "eslint-plugin-prettier": "^3.0.1",
-    "eslint-plugin-react": "^7.12.4",
-    "jest": "^24.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-meteor": "^6.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.14.3",
+    "jest": "^24.8.0",
     "onchange": "^5.2.0",
-    "prettier": "^1.16.4"
+    "prettier": "^1.18.2"
   },
   "meteor": {
     "testModule": {
       "client": "imports/testing/clientTests.js",
       "server": "imports/testing/serverTests.js"
     }
-  },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "env": {
-      "browser": true,
-      "es6": true,
-      "jest": true,
-      "node": true
-    },
-    "plugins": [
-      "meteor",
-      "prettier"
-    ],
-    "extends": [
-      "airbnb",
-      "plugin:meteor/recommended",
-      "prettier"
-    ],
-    "settings": {
-      "import/resolver": "meteor"
-    },
-    "rules": {
-      "react/jsx-filename-extension": [
-        1,
-        {
-          "extensions": [
-            ".js",
-            ".jsx"
-          ]
-        }
-      ],
-      "import/no-absolute-path": [
-        0
-      ],
-      "import/no-extraneous-dependencies": "off",
-      "import/extensions": "off",
-      "no-use-before-define": [
-        "warn",
-        {
-          "functions": false,
-          "variables": false
-        }
-      ],
-      "consistent-this": [
-        1,
-        "self"
-      ],
-      "no-underscore-dangle": [
-        "error",
-        {
-          "allow": [
-            "_id"
-          ]
-        }
-      ],
-      "prettier/prettier": "error"
-    }
-  },
-  "prettier": {
-    "printWidth": 100,
-    "singleQuote": true,
-    "trailingComma": "all",
-    "arrowParens": "always"
-  },
-  "jest": {
-    "moduleNameMapper": {
-      "^meteor/(.*)": "<rootDir>/.meteorMocks/index.js"
-    },
-    "testURL": "http://localhost/"
   }
 }

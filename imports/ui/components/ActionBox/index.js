@@ -32,12 +32,11 @@ const ActionBox = ({
     <Headline className={classes.headline}>{headline}</Headline>
     <span className={classes.text}>{text}</span>
     {alternativeElement}
-    {buttonText &&
-      onButtonClick && (
-        <Button className={classes.button} disabled={buttonDisabled} onClick={onButtonClick}>
-          {buttonText}
-        </Button>
-      )}
+    {buttonText && onButtonClick && (
+      <Button className={classes.button} disabled={buttonDisabled} onClick={onButtonClick}>
+        {buttonText}
+      </Button>
+    )}
   </div>
 );
 

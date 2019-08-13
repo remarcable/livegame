@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 
 import AdminLayout from '/imports/ui/Layouts/AdminLayout';
 

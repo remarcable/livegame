@@ -15,7 +15,7 @@ import * as interactionStates from '/imports/api/interactions/states';
 import sortFullShowGames from '/imports/api/helpers/sortFullShowGames';
 import getStateForGameAndSubmission from '/imports/api/helpers/getStateForGameAndSubmission';
 
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 
 import PlayerLayout from '/imports/ui/Layouts/PlayerLayout';
 import ProgressSidebar from '/imports/ui/components/ProgressSidebar';

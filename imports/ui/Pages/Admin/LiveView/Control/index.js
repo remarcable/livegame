@@ -5,7 +5,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 
 import classnames from 'classnames';
 
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';

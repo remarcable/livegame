@@ -5,7 +5,7 @@ import classnames from 'classnames';
 
 import ReactCSSTransitionReplace from 'react-css-transition-replace';
 
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 
 import Intro from './Intro';
 import RegistrationForm from './RegistrationForm';

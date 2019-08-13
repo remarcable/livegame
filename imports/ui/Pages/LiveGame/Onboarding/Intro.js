@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import classnames from 'classnames';
 
-import { withStyles } from '@material-ui/core/styles';
-import windowSize from 'react-window-size';
+import { withStyles } from '@material-ui/styles';
+import { useWindowHeight } from '@react-hook/window-size';
 
 import ReactCSSTransitionReplace from 'react-css-transition-replace';
 
@@ -16,7 +16,6 @@ const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   step: PropTypes.number.isRequired,
   goToNextStep: PropTypes.func.isRequired,
-  windowHeight: PropTypes.number.isRequired,
 };
 
 const texts = [
@@ -38,28 +37,32 @@ const texts = [
   },
 ];
 
-const Intro = ({ classes, step, goToNextStep, windowHeight }) => (
-  <div className={classes.wrapper}>
-    <div className={classes.heading}>
-      <Logo classes={{ wrapper: classnames({ [classes.smallLogo]: windowHeight < 550 }) }} />
+const Intro = ({ classes, step, goToNextStep }) => {
+  const [windowHeight] = useWindowHeight();
+
+  return (
+    <div className={classes.wrapper}>
+      <div className={classes.heading}>
+        <Logo classes={{ wrapper: classnames({ [classes.smallLogo]: windowHeight < 550 }) }} />
+      </div>
+      <div>
+        <ReactCSSTransitionReplace
+          transitionName="slide-left"
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={200}
+        >
+          <div className={classes.body} key={step}>
+            <Headline className={classes.headline}>{texts[step].headline}</Headline>
+            <span className={classes.bodyText}>{texts[step].body}</span>
+          </div>
+        </ReactCSSTransitionReplace>
+      </div>
+      <div className={classes.footer}>
+        <Button onClick={goToNextStep}>{texts[step].nextButton}</Button>
+      </div>
     </div>
-    <div>
-      <ReactCSSTransitionReplace
-        transitionName="slide-left"
-        transitionEnterTimeout={500}
-        transitionLeaveTimeout={200}
-      >
-        <div className={classes.body} key={step}>
-          <Headline className={classes.headline}>{texts[step].headline}</Headline>
-          <span className={classes.bodyText}>{texts[step].body}</span>
-        </div>
-      </ReactCSSTransitionReplace>
-    </div>
-    <div className={classes.footer}>
-      <Button onClick={goToNextStep}>{texts[step].nextButton}</Button>
-    </div>
-  </div>
-);
+  );
+};
 
 Intro.propTypes = propTypes;
 
@@ -117,4 +120,4 @@ const styles = {
   },
 };
 
-export default windowSize(withStyles(styles)(Intro));
+export default withStyles(styles)(Intro);

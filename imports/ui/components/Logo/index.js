@@ -1,7 +1,7 @@
 import React from 'react';
 
 import classnames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 
 const Logo = ({ classes }) => (
   <div className={classes.wrapper}>

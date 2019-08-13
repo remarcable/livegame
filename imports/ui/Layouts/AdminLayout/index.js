@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import 'typeface-roboto';
 
 import { withTracker } from 'meteor/react-meteor-data';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { MuiThemeProvider } from '@material-ui/styles';
 
 import { theme } from '/imports/ui/styles/theme';
 

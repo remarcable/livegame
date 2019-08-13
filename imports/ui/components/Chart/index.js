@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import PieChart from 'react-minimal-pie-chart';
 
 import classnames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 
 import Headline from '/imports/ui/components/Headline';
 

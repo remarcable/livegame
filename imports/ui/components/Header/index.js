@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import ReactCSSTransitionReplace from 'react-css-transition-replace';
 import classnames from 'classnames';
 
-import windowSize from 'react-window-size';
-import { withStyles } from '@material-ui/core/styles';
+import { useWindowHeight } from '@react-hook/window-size';
+import { withStyles } from '@material-ui/styles';
 
 import Logo from '../Logo';
 import Headline from '../Headline';
@@ -13,11 +13,10 @@ const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   isEstimationGame: PropTypes.bool.isRequired,
   title: PropTypes.string,
-  windowHeight: PropTypes.number.isRequired,
 };
 
-const Header = ({ classes, title, isEstimationGame, windowHeight }) => {
-  const currentClientHeight = windowHeight;
+const Header = ({ classes, title, isEstimationGame }) => {
+  const [currentClientHeight] = useWindowHeight();
   const isSmallScreen = currentClientHeight < 600;
 
   return (
@@ -106,4 +105,4 @@ const styles = (theme) => ({
   small: {},
 });
 
-export default windowSize(withStyles(styles)(Header));
+export default withStyles(styles)(Header);

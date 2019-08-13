@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import ReactCSSTransitionReplace from 'react-css-transition-replace';
 
 import { withTracker } from 'meteor/react-meteor-data';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 
 import { theme } from '/imports/ui/styles/theme';
 
@@ -35,7 +35,7 @@ const PlayerLayout = ({ children, isReady, loggedIn, loading }) => {
   }
 
   return (
-    <MuiThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <ReactCSSTransitionReplace
         transitionName="fade-wait"
         transitionEnterTimeout={500}
@@ -45,7 +45,7 @@ const PlayerLayout = ({ children, isReady, loggedIn, loading }) => {
       >
         {component}
       </ReactCSSTransitionReplace>
-    </MuiThemeProvider>
+    </ThemeProvider>
   );
 };
 

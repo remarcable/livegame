@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import windowSize from 'react-window-size';
+import { withStyles } from '@material-ui/styles';
+import { useWindowHeight } from '@react-hook/window-size';
 
 import classnames from 'classnames';
 
@@ -18,11 +18,11 @@ const propTypes = {
         .isRequired,
     }),
   ).isRequired,
-  windowHeight: PropTypes.number.isRequired,
 };
 
-const ProgressSidebar = ({ classes, games, windowHeight }) => {
-  const currentClientHeight = windowHeight;
+const ProgressSidebar = ({ classes, games }) => {
+  // TODO create isSmallScreen hook
+  const [currentClientHeight] = useWindowHeight();
   const isSmallScreen = currentClientHeight < 600;
 
   const correctGamesCount = games.filter((g) => g.state === 'CORRECT').length;
@@ -102,4 +102,4 @@ const styles = () => ({
   },
 });
 
-export default windowSize(withStyles(styles)(ProgressSidebar));
+export default withStyles(styles)(ProgressSidebar);

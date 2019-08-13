@@ -4,7 +4,7 @@ import { JoinClient } from 'meteor-publish-join';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 import { withTracker } from 'meteor/react-meteor-data';
 
 import Divider from '@material-ui/core/Divider';

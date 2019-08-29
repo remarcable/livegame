@@ -7,15 +7,21 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
+const materialLinkPropTypes = {
+  to: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  Icon: PropTypes.elementType.isRequired,
+};
+
 const MaterialLink = ({ to, text, Icon }) => (
   <ListItem
     button
     divider
-    component={({ children, ...props }) => (
-      <Link to={to} {...props}>
+    component={React.forwardRef(({ children, ...props }, ref) => (
+      <Link ref={ref} to={to} {...props}>
         {children}
       </Link>
-    )}
+    ))}
   >
     <ListItemIcon>
       <Icon />
@@ -23,12 +29,6 @@ const MaterialLink = ({ to, text, Icon }) => (
     <ListItemText primary={text} />
   </ListItem>
 );
-
-const materialLinkPropTypes = {
-  to: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-  Icon: PropTypes.func.isRequired,
-};
 
 MaterialLink.propTypes = materialLinkPropTypes;
 

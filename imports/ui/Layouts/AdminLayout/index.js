@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import 'typeface-roboto';
 
 import { withTracker } from 'meteor/react-meteor-data';
-import { MuiThemeProvider } from '@material-ui/styles';
+import { ThemeProvider } from '@material-ui/styles';
 
 import { theme } from '/imports/ui/styles/theme';
 
@@ -24,11 +24,8 @@ const AdminLayout = ({ children, isReady, userIsLoggedInAndAdmin }) => {
     return null;
   }
 
-  return (
-    <MuiThemeProvider theme={theme}>
-      {userIsLoggedInAndAdmin ? children : <Login />}
-    </MuiThemeProvider>
-  );
+  const component = userIsLoggedInAndAdmin ? children : <Login />;
+  return <ThemeProvider theme={theme}>{component}</ThemeProvider>;
 };
 
 AdminLayout.propTypes = propTypes;

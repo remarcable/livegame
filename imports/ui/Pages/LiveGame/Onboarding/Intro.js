@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import { withStyles } from '@material-ui/styles';
-import { useWindowHeight } from '@react-hook/window-size/throttled';
+import { useWindowHeight } from '@react-hook/window-size';
 
 import ReactCSSTransitionReplace from 'react-css-transition-replace';
 

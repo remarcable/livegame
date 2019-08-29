@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactCSSTransitionReplace from 'react-css-transition-replace';
 import classnames from 'classnames';
 
-import { useWindowHeight } from '@react-hook/window-size/throttled';
+import { useWindowHeight } from '@react-hook/window-size';
 import { withStyles } from '@material-ui/styles';
 
 import Logo from '../Logo';

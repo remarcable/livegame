@@ -38,7 +38,7 @@ const texts = [
 ];
 
 const Intro = ({ classes, step, goToNextStep }) => {
-  const [windowHeight] = useWindowHeight();
+  const windowHeight = useWindowHeight();
   const isSmallScreen = windowHeight < 550;
 
   return (

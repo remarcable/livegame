@@ -6,6 +6,9 @@ import PropTypes from 'prop-types';
 
 import { withTracker } from 'meteor/react-meteor-data';
 
+import { ThemeProvider } from '@material-ui/styles';
+import { theme } from '/imports/ui/styles/theme';
+
 import Login from '/imports/ui/Pages/Admin/Login';
 
 const propTypes = {
@@ -23,7 +26,7 @@ const LiveViewLayout = ({ children, isReady, userIsLoggedInAndAdmin }) => {
     return <Login />;
   }
 
-  return children;
+  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 };
 
 LiveViewLayout.propTypes = propTypes;

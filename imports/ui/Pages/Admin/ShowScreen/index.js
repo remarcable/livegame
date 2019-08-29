@@ -95,7 +95,7 @@ const ShowScreen = ({
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <TableCell padding="dense">Typ</TableCell>
+              <TableCell padding="default">Typ</TableCell>
               <TableCell>Nr, Titel, Frage</TableCell>
               <TableCell />
             </TableRow>
@@ -113,7 +113,7 @@ const ShowScreen = ({
                     selected: classes.selected,
                   }}
                 >
-                  <TableCell padding="dense">{typeToIcon[i.type]}</TableCell>
+                  <TableCell padding="default">{typeToIcon[i.type]}</TableCell>
                   <TableCell>{getTextForInteraction(i)}</TableCell>
                   <TableCell>
                     <IconButton
@@ -156,7 +156,7 @@ const ShowScreen = ({
   </AdminLayout>
 );
 
-const styles = (theme) => ({
+const styles = {
   wrapper: {
     paddingTop: 20,
     width: '100%',
@@ -167,7 +167,7 @@ const styles = (theme) => ({
     backgroundColor: [blue.A400, '!important'],
   },
   tableRowRoot: {
-    transition: `background-color ${theme.transitions.duration.shorter}ms`,
+    transition: `background-color 200ms`, // TODO: use theme.transitions.duration.shorter
     '&$estimationGame': {
       backgroundColor: 'rgba(255, 255, 255, 0.08)',
     },
@@ -193,7 +193,7 @@ const styles = (theme) => ({
     backgroundColor: 'rgba(0, 0, 0, 0.08)',
     borderRadius: 4,
   },
-});
+};
 
 ShowScreen.propTypes = propTypes;
 

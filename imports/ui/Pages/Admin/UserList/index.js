@@ -75,31 +75,31 @@ class UserTable extends PureComponent {
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <TableCell padding="dense" onClick={() => this.setSortType('fullShowRank')}>
+              <TableCell padding="default" onClick={() => this.setSortType('fullShowRank')}>
                 Full Show Rang (Punkte)
               </TableCell>
-              <TableCell padding="dense" onClick={() => this.setSortType('estimationGameRank')}>
+              <TableCell padding="default" onClick={() => this.setSortType('estimationGameRank')}>
                 Schätzen Rang (Punkte)
               </TableCell>
-              <TableCell padding="dense" onClick={() => this.setSortType('_id')}>
+              <TableCell padding="default" onClick={() => this.setSortType('_id')}>
                 ID
               </TableCell>
-              <TableCell padding="dense" onClick={() => this.setSortType('firstName')}>
+              <TableCell padding="default" onClick={() => this.setSortType('firstName')}>
                 Vorname
               </TableCell>
-              <TableCell padding="dense" onClick={() => this.setSortType('lastName')}>
+              <TableCell padding="default" onClick={() => this.setSortType('lastName')}>
                 Nachname
               </TableCell>
-              <TableCell padding="dense" onClick={() => this.setSortType('alias')}>
+              <TableCell padding="default" onClick={() => this.setSortType('alias')}>
                 Alias
               </TableCell>
-              <TableCell padding="dense" onClick={() => this.setSortType('email')}>
+              <TableCell padding="default" onClick={() => this.setSortType('email')}>
                 E-Mail
               </TableCell>
-              <TableCell padding="dense" onClick={() => this.setSortType('newsletter')}>
+              <TableCell padding="default" onClick={() => this.setSortType('newsletter')}>
                 Newsletter
               </TableCell>
-              <TableCell padding="dense" onClick={() => this.setSortType('flags')}>
+              <TableCell padding="default" onClick={() => this.setSortType('flags')}>
                 Flags
               </TableCell>
             </TableRow>
@@ -107,20 +107,20 @@ class UserTable extends PureComponent {
           <TableBody>
             {sortedUsers.map((u) => (
               <TableRow key={u._id}>
-                <TableCell padding="dense">
+                <TableCell padding="default">
                   {u.fullShowRank} ({u.fullShowScore})
                 </TableCell>
-                <TableCell padding="dense">
+                <TableCell padding="default">
                   {(u.estimationGame && u.estimationGame.rank) || '-'} (
                   {(u.estimationGame && u.estimationGame.points) || '-'})
                 </TableCell>
-                <TableCell padding="dense">{u._id}</TableCell>
-                <TableCell padding="dense">{u.firstName}</TableCell>
-                <TableCell padding="dense">{u.lastName}</TableCell>
-                <TableCell padding="dense">{u.alias || '-'}</TableCell>
-                <TableCell padding="dense">{u.email || '-'}</TableCell>
-                <TableCell padding="dense">{u.newsletter ? '✓' : '✕'}</TableCell>
-                <TableCell padding="dense">
+                <TableCell padding="default">{u._id}</TableCell>
+                <TableCell padding="default">{u.firstName}</TableCell>
+                <TableCell padding="default">{u.lastName}</TableCell>
+                <TableCell padding="default">{u.alias || '-'}</TableCell>
+                <TableCell padding="default">{u.email || '-'}</TableCell>
+                <TableCell padding="default">{u.newsletter ? '✓' : '✕'}</TableCell>
+                <TableCell padding="default">
                   {u.flags ? Object.keys(u.flags).join(', ') : '-'}
                 </TableCell>
               </TableRow>

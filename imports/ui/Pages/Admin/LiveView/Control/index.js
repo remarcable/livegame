@@ -67,7 +67,7 @@ const LiveViewControl = ({
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <TableCell padding="dense">Start</TableCell>
+              <TableCell padding="default">Start</TableCell>
               <TableCell>Titel</TableCell>
               <TableCell />
             </TableRow>

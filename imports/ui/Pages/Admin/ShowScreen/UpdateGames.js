@@ -45,8 +45,8 @@ const UpdateGames = ({
       <TableBody>
         {games.map(({ _id, state, title, fullShowGame }) => (
           <TableRow key={_id} selected={state === 'ACTIVE'}>
-            <TableCell padding="dense">{title}</TableCell>
-            <TableCell padding="dense">
+            <TableCell padding="default">{title}</TableCell>
+            <TableCell padding="default">
               <form onSubmit={(e) => handleSubmit(e, updateScores, _id)}>
                 <TextField
                   type="number"

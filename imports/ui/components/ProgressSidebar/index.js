@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
-import { useWindowHeight } from '@react-hook/window-size';
+import { useWindowHeight } from '@react-hook/window-size/throttled';
 
 import classnames from 'classnames';
 
@@ -22,7 +22,7 @@ const propTypes = {
 
 const ProgressSidebar = ({ classes, games }) => {
   // TODO create isSmallScreen hook
-  const [currentClientHeight] = useWindowHeight();
+  const currentClientHeight = useWindowHeight();
   const isSmallScreen = currentClientHeight < 600;
 
   const correctGamesCount = games.filter((g) => g.state === 'CORRECT').length;

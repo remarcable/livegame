@@ -32,7 +32,8 @@ const LiveScores = ({
   onClickCandidate2,
   classes,
 }) => {
-  const [windowWidth] = useWindowWidth();
+  const windowWidth = useWindowWidth();
+  const isSmallScreen = windowWidth < 380;
   return (
     <div
       className={classnames(classes.wrapper, {
@@ -63,11 +64,11 @@ const LiveScores = ({
             big={mode === 'BIG'}
             className={classnames({
               [classes.smallPictureLeft]: mode === 'SMALL',
-              [classes.smallWindow]: windowWidth < 380,
+              [classes.smallWindow]: isSmallScreen,
             })}
             classes={{
-              wrapper: windowWidth < 380 && classes.smallerImageWrapper,
-              image: windowWidth < 380 && classes.smallerImage,
+              wrapper: isSmallScreen && classes.smallerImageWrapper,
+              image: isSmallScreen && classes.smallerImage,
             }}
             onClick={() => onClickCandidate1()}
             wasSubmitted={submittedFor === 'CANDIDATE1'}
@@ -80,11 +81,11 @@ const LiveScores = ({
             big={mode === 'BIG'}
             className={classnames({
               [classes.smallPictureRight]: mode === 'SMALL',
-              [classes.smallWindow]: windowWidth < 380,
+              [classes.smallWindow]: isSmallScreen,
             })}
             classes={{
-              wrapper: windowWidth < 380 && classes.smallerImageWrapper,
-              image: windowWidth < 380 && classes.smallerImage,
+              wrapper: isSmallScreen && classes.smallerImageWrapper,
+              image: isSmallScreen && classes.smallerImage,
             }}
             onClick={() => onClickCandidate2()}
             wasSubmitted={submittedFor === 'CANDIDATE2'}

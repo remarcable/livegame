@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import { withStyles } from '@material-ui/styles';
-import { useWindowHeight } from '@react-hook/window-size';
+import { useWindowHeight } from '@react-hook/window-size/throttled';
 
 import ReactCSSTransitionReplace from 'react-css-transition-replace';
 
@@ -39,11 +39,12 @@ const texts = [
 
 const Intro = ({ classes, step, goToNextStep }) => {
   const [windowHeight] = useWindowHeight();
+  const isSmallScreen = windowHeight < 550;
 
   return (
     <div className={classes.wrapper}>
       <div className={classes.heading}>
-        <Logo classes={{ wrapper: classnames({ [classes.smallLogo]: windowHeight < 550 }) }} />
+        <Logo classes={{ wrapper: classnames({ [classes.smallLogo]: isSmallScreen }) }} />
       </div>
       <div>
         <ReactCSSTransitionReplace

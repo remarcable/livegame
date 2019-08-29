@@ -67,7 +67,7 @@ const LiveViewControl = ({
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <TableCell padding="default">Start</TableCell>
+              <TableCell>Start</TableCell>
               <TableCell>Titel</TableCell>
               <TableCell />
             </TableRow>
@@ -219,7 +219,7 @@ const LiveViewControl = ({
   </AdminLayout>
 );
 
-const styles = (theme) => ({
+const styles = {
   wrapper: {
     paddingTop: 20,
     width: '100%',
@@ -230,7 +230,7 @@ const styles = (theme) => ({
     backgroundColor: [blue.A400, '!important'],
   },
   tableRowRoot: {
-    transition: `background-color ${theme.transitions.duration.shorter}ms`,
+    transition: `background-color 200ms`, // TODO: use theme.transitions.duration.shorter
     '&$estimationGame': {
       backgroundColor: 'rgba(255, 255, 255, 0.08)',
     },
@@ -295,7 +295,7 @@ const styles = (theme) => ({
   candidatesForm: {
     flexDirection: 'row',
   },
-});
+};
 
 LiveViewControl.propTypes = propTypes;
 

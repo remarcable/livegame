@@ -95,7 +95,7 @@ const ShowScreen = ({
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <TableCell padding="default">Typ</TableCell>
+              <TableCell>Typ</TableCell>
               <TableCell>Nr, Titel, Frage</TableCell>
               <TableCell />
             </TableRow>
@@ -113,7 +113,7 @@ const ShowScreen = ({
                     selected: classes.selected,
                   }}
                 >
-                  <TableCell padding="default">{typeToIcon[i.type]}</TableCell>
+                  <TableCell>{typeToIcon[i.type]}</TableCell>
                   <TableCell>{getTextForInteraction(i)}</TableCell>
                   <TableCell>
                     <IconButton

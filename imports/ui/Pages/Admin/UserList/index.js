@@ -75,31 +75,31 @@ class UserTable extends PureComponent {
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <TableCell padding="default" onClick={() => this.setSortType('fullShowRank')}>
+              <TableCell onClick={() => this.setSortType('fullShowRank')}>
                 Full Show Rang (Punkte)
               </TableCell>
-              <TableCell padding="default" onClick={() => this.setSortType('estimationGameRank')}>
+              <TableCell onClick={() => this.setSortType('estimationGameRank')}>
                 Schätzen Rang (Punkte)
               </TableCell>
-              <TableCell padding="default" onClick={() => this.setSortType('_id')}>
+              <TableCell onClick={() => this.setSortType('_id')}>
                 ID
               </TableCell>
-              <TableCell padding="default" onClick={() => this.setSortType('firstName')}>
+              <TableCell onClick={() => this.setSortType('firstName')}>
                 Vorname
               </TableCell>
-              <TableCell padding="default" onClick={() => this.setSortType('lastName')}>
+              <TableCell onClick={() => this.setSortType('lastName')}>
                 Nachname
               </TableCell>
-              <TableCell padding="default" onClick={() => this.setSortType('alias')}>
+              <TableCell onClick={() => this.setSortType('alias')}>
                 Alias
               </TableCell>
-              <TableCell padding="default" onClick={() => this.setSortType('email')}>
+              <TableCell onClick={() => this.setSortType('email')}>
                 E-Mail
               </TableCell>
-              <TableCell padding="default" onClick={() => this.setSortType('newsletter')}>
+              <TableCell onClick={() => this.setSortType('newsletter')}>
                 Newsletter
               </TableCell>
-              <TableCell padding="default" onClick={() => this.setSortType('flags')}>
+              <TableCell onClick={() => this.setSortType('flags')}>
                 Flags
               </TableCell>
             </TableRow>
@@ -107,20 +107,20 @@ class UserTable extends PureComponent {
           <TableBody>
             {sortedUsers.map((u) => (
               <TableRow key={u._id}>
-                <TableCell padding="default">
+                <TableCell>
                   {u.fullShowRank} ({u.fullShowScore})
                 </TableCell>
-                <TableCell padding="default">
+                <TableCell>
                   {(u.estimationGame && u.estimationGame.rank) || '-'} (
                   {(u.estimationGame && u.estimationGame.points) || '-'})
                 </TableCell>
-                <TableCell padding="default">{u._id}</TableCell>
-                <TableCell padding="default">{u.firstName}</TableCell>
-                <TableCell padding="default">{u.lastName}</TableCell>
-                <TableCell padding="default">{u.alias || '-'}</TableCell>
-                <TableCell padding="default">{u.email || '-'}</TableCell>
-                <TableCell padding="default">{u.newsletter ? '✓' : '✕'}</TableCell>
-                <TableCell padding="default">
+                <TableCell>{u._id}</TableCell>
+                <TableCell>{u.firstName}</TableCell>
+                <TableCell>{u.lastName}</TableCell>
+                <TableCell>{u.alias || '-'}</TableCell>
+                <TableCell>{u.email || '-'}</TableCell>
+                <TableCell>{u.newsletter ? '✓' : '✕'}</TableCell>
+                <TableCell>
                   {u.flags ? Object.keys(u.flags).join(', ') : '-'}
                 </TableCell>
               </TableRow>

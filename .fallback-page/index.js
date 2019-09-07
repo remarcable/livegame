@@ -1,1 +1,1 @@
-import './src/myFile';
+import './src/timer';

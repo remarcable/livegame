@@ -3,4 +3,6 @@ node_modules/
 npm-debug.log
 
 /settings.json
-public/webfonts
+webfonts/
+.cache/
+dist/

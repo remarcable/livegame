@@ -62,6 +62,10 @@
     "prettier": "^1.18.2"
   },
   "meteor": {
+    "mainModule": {
+      "client": "client/main.js",
+      "server": "server/main.js"
+    },
     "testModule": {
       "client": "imports/testing/clientTests.js",
       "server": "imports/testing/serverTests.js"

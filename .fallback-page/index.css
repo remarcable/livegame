@@ -1,15 +1,4 @@
 @font-face {
-  font-family: 'MyriadPro-Semibold';
-  src: url('/webfonts/MyriadPro-Semibold.eot?#iefix') format('embedded-opentype'),
-    url('/webfonts/MyriadPro-Semibold.otf') format('opentype'),
-    url('/webfonts/MyriadPro-Semibold.woff') format('woff'),
-    url('/webfonts/MyriadPro-Semibold.ttf') format('truetype'),
-    url('/webfonts/MyriadPro-Semibold.svg#MyriadPro-Semibold') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
   font-family: 'MyriadProLight';
   src: url('/webfonts/MyriadPro-Light.eot?#iefix') format('embedded-opentype'),
     url('/webfonts/MyriadPro-Light.otf') format('opentype'),

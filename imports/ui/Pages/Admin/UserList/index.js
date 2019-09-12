@@ -81,27 +81,13 @@ class UserTable extends PureComponent {
               <TableCell onClick={() => this.setSortType('estimationGameRank')}>
                 Schätzen Rang (Punkte)
               </TableCell>
-              <TableCell onClick={() => this.setSortType('_id')}>
-                ID
-              </TableCell>
-              <TableCell onClick={() => this.setSortType('firstName')}>
-                Vorname
-              </TableCell>
-              <TableCell onClick={() => this.setSortType('lastName')}>
-                Nachname
-              </TableCell>
-              <TableCell onClick={() => this.setSortType('alias')}>
-                Alias
-              </TableCell>
-              <TableCell onClick={() => this.setSortType('email')}>
-                E-Mail
-              </TableCell>
-              <TableCell onClick={() => this.setSortType('newsletter')}>
-                Newsletter
-              </TableCell>
-              <TableCell onClick={() => this.setSortType('flags')}>
-                Flags
-              </TableCell>
+              <TableCell onClick={() => this.setSortType('_id')}>ID</TableCell>
+              <TableCell onClick={() => this.setSortType('firstName')}>Vorname</TableCell>
+              <TableCell onClick={() => this.setSortType('lastName')}>Nachname</TableCell>
+              <TableCell onClick={() => this.setSortType('alias')}>Alias</TableCell>
+              <TableCell onClick={() => this.setSortType('email')}>E-Mail</TableCell>
+              <TableCell onClick={() => this.setSortType('newsletter')}>Newsletter</TableCell>
+              <TableCell onClick={() => this.setSortType('flags')}>Flags</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -120,9 +106,7 @@ class UserTable extends PureComponent {
                 <TableCell>{u.alias || '-'}</TableCell>
                 <TableCell>{u.email || '-'}</TableCell>
                 <TableCell>{u.newsletter ? '✓' : '✕'}</TableCell>
-                <TableCell>
-                  {u.flags ? Object.keys(u.flags).join(', ') : '-'}
-                </TableCell>
+                <TableCell>{u.flags ? Object.keys(u.flags).join(', ') : '-'}</TableCell>
               </TableRow>
             ))}
           </TableBody>

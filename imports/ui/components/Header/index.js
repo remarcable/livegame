@@ -100,7 +100,7 @@ const styles = (theme) => ({
   },
   title: {
     fontSize: 20,
-    margin: 0,
+    margin: '0 20px',
   },
   small: {},
 });

@@ -45,6 +45,7 @@ const LiveScores = ({
         <Headline
           className={classnames(classes.scores, {
             [classes.scoresMatchball]: false, // TODO: Implement logic
+            [classes.smallWindow]: isSmallScreen,
           })}
         >
           <span>
@@ -133,6 +134,9 @@ const styles = {
     transition: 'all .3s',
     fontSize: 36,
     fontFamily: 'MyriadPro-Semibold',
+    '&$smallWindow': {
+      fontSize: 30,
+    },
   },
   hide: {
     opacity: 0,

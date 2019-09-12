@@ -23,7 +23,7 @@ const ShowInteraction = ({ interaction, candidate1Name, candidate2Name }) => {
   const Component = interactionsMap.get(type);
 
   if (!Component) {
-    return <div>TODO: Show graceful failure message here</div>; // TODO
+    return <div>Es ist ein Fehler aufgetreten. Bitte laden Sie die Seite neu.</div>; // TODO Show graceful failure message here
   }
 
   const { schemaKey } = interactionTypes.get(type);

@@ -68,7 +68,7 @@ const Interactions = ({
   }
 
   if (!Component) {
-    return <div>TODO: Show graceful failure message here</div>; // TODO
+    return <div>Es ist ein Fehler aufgetreten. Bitte laden Sie die Seite neu.</div>; // TODO Show graceful failure message here
   }
 
   const hasCandidates = !!candidate1.imageUrl && !!candidate2.imageUrl;

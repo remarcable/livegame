@@ -5,8 +5,11 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
+import DocumentTitle from '/imports/ui/components/DocumentTitle';
+
 const AdminLoginPage = () => (
   <div style={wrapperStyles}>
+    <DocumentTitle>Admin-Login</DocumentTitle>
     <h1 style={{ textAlign: 'center' }}>Admin</h1>
     {Meteor.userId() && !Meteor.userIsAdmin() && <LoggedInAsAdminNotice />}
     <form style={styles} onSubmit={handleOnSubmit}>

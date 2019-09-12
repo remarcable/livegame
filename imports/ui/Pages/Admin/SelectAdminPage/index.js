@@ -7,6 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/styles';
 
 import AdminLayout from '/imports/ui/Layouts/AdminLayout';
+import DocumentTitle from '/imports/ui/components/DocumentTitle';
 
 import LinkItems from './LinkItems';
 import UserFunctionItems from './UserFunctionItems';
@@ -17,6 +18,7 @@ const propTypes = {
 
 const SelectAdminPage = ({ classes }) => (
   <AdminLayout>
+    <DocumentTitle>Admin-Übersicht</DocumentTitle>
     <div className={classes.wrapper}>
       <Paper className={classes.content}>
         <List

@@ -15,6 +15,8 @@ import DoneIcon from '@material-ui/icons/Done';
 
 import blue from '@material-ui/core/colors/blue';
 
+import DocumentTitle from '/imports/ui/components/DocumentTitle';
+
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   games: PropTypes.array.isRequired, // TODO: better proptype
@@ -36,6 +38,7 @@ const UpdateGames = ({
 }) => (
   <>
     <Table className={classes.table}>
+      <DocumentTitle>App-Steuerung</DocumentTitle>
       <TableHead>
         <TableRow className={classes.gamesHeader}>
           <TableCell>Spiel</TableCell>

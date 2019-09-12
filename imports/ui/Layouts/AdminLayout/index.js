@@ -11,6 +11,7 @@ import { ThemeProvider } from '@material-ui/styles';
 
 import { theme } from '/imports/ui/styles/theme';
 
+import DocumentTitle from '/imports/ui/components/DocumentTitle';
 import Login from '/imports/ui/Pages/Admin/Login';
 
 const propTypes = {
@@ -25,7 +26,12 @@ const AdminLayout = ({ children, isReady, userIsLoggedInAndAdmin }) => {
   }
 
   const component = userIsLoggedInAndAdmin ? children : <Login />;
-  return <ThemeProvider theme={theme}>{component}</ThemeProvider>;
+  return (
+    <ThemeProvider theme={theme}>
+      <DocumentTitle />
+      {component}
+    </ThemeProvider>
+  );
 };
 
 AdminLayout.propTypes = propTypes;

@@ -35,14 +35,14 @@ import { setCandidate, unsetCandidate } from '/imports/api/candidates/methods';
 
 import Interactions from '/imports/api/interactions/collection';
 import { interactionTypeNames } from '/imports/api/interactions/types';
-import * as interactionStates from '/imports/api/interactions/states';
 import { setClosedState, unsetClosedState } from '/imports/api/interactions/methods';
 import getTextForInteraction from '/imports/api/helpers/getTextForInteraction';
 
 import { showRanksUpTo, displayInteraction } from '/imports/api/appState/methods';
 
 import AdminLayout from '/imports/ui/Layouts/AdminLayout';
-import LiveView from '../';
+import DocumentTitle from '/imports/ui/components/DocumentTitle';
+import LiveView from '..';
 
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
@@ -62,6 +62,7 @@ const LiveViewControl = ({
   rankDisplayMode,
 }) => (
   <AdminLayout>
+    <DocumentTitle>Liveview-Steuerung</DocumentTitle>
     <div className={classes.wrapper}>
       <Paper className={classes.interactions}>
         <Table className={classes.table}>

@@ -17,6 +17,7 @@ import Paper from '@material-ui/core/Paper';
 import sumFromIndexToEnd from '/imports/api/helpers/sumFromIndexToEnd';
 
 import AdminLayout from '/imports/ui/Layouts/AdminLayout';
+import DocumentTitle from '/imports/ui/components/DocumentTitle';
 
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
@@ -34,6 +35,7 @@ const tablePropTypes = {
 
 const UserListPage = ({ classes, users = [], minRank, maxRank, minPoints, maxPoints }) => (
   <AdminLayout>
+    <DocumentTitle>Spielerliste</DocumentTitle>
     <div className={classes.wrapper}>
       <div className={classes.text}>
         <h1>Teilnehmer</h1>

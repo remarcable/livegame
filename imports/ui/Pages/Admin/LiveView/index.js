@@ -9,6 +9,7 @@ import Candidates from '/imports/api/candidates/collection';
 import InteractionsCollection from '/imports/api/interactions/collection';
 
 import LiveViewLayout from '/imports/ui/Layouts/LiveViewLayout';
+import DocumentTitle from '/imports/ui/components/DocumentTitle';
 import ShowInteraction from './ShowInteraction';
 
 import EstimationGameRanking from './ShowInteraction/EstimationGameRanking';
@@ -23,6 +24,7 @@ const propTypes = {
 
 const LiveView = ({ isReady, interaction, candidate1Name, candidate2Name }) => (
   <LiveViewLayout>
+    <DocumentTitle>Liveview</DocumentTitle>
     {getInteraction({ isReady, interaction, candidate1Name, candidate2Name })}
   </LiveViewLayout>
 );

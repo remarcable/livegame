@@ -49,5 +49,9 @@ module.exports = {
     'react/jsx-props-no-multi-spaces': 'off',
     'react/jsx-tag-spacing': 'off',
     'react/jsx-wrap-multilines': 'off',
+
+    // turn on again later
+    'react/require-default-props': 'off',
+    'react/forbid-prop-types': 'off',
   },
 };

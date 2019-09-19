@@ -10,11 +10,13 @@ const propTypes = {
 
 class StatusIndicatorSymbol extends Component {
   state = { active: false };
+
   componentDidMount() {
     window.setTimeout(() => {
       this.setState(() => ({ active: true }));
     }, 1000);
   }
+
   render() {
     const { classes, status } = this.props;
     return (

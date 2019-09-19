@@ -27,7 +27,8 @@ export const estimationGame = new InteractionType({
         // check for undefined because answer could be 0
         if (answer === undefined && !votingId) {
           return isInSchemaRequired(this);
-        } else if (answer && votingId) {
+        }
+        if (answer && votingId) {
           return shouldNotBeSetInSchema(this);
         }
       },
@@ -47,7 +48,8 @@ export const estimationGame = new InteractionType({
         // check for undefined because answer could be 0
         if (answer === undefined && !votingId) {
           return isInSchemaRequired(this);
-        } else if (answer && votingId) {
+        }
+        if (answer && votingId) {
           return shouldNotBeSetInSchema(this);
         }
       },

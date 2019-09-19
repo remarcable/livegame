@@ -14,7 +14,7 @@ export default class InteractionType {
     this.typeName = typeName;
     this.submittable = submittable;
     this.schemaKey = schemaKey || null;
-    this.fields = fields ? Object.assign({}, fields) : null;
+    this.fields = fields ? { ...fields } : null;
 
     if (validate) {
       check(validate, Function);
@@ -38,7 +38,7 @@ export default class InteractionType {
   }
 
   getFields() {
-    return Object.assign({}, this.fields);
+    return { ...this.fields };
   }
 
   getPublishFields() {

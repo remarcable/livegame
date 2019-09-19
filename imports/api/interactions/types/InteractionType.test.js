@@ -216,7 +216,8 @@ describe('InteractionType({typeName, schemaKey, fields})', () => {
             // check for undefined because answer could be 0
             if (answer === undefined && !votingId) {
               return isInSchemaRequired(this);
-            } else if (answer && votingId) {
+            }
+            if (answer && votingId) {
               return shouldNotBeSetInSchema(this);
             }
           },
@@ -233,7 +234,8 @@ describe('InteractionType({typeName, schemaKey, fields})', () => {
             // check for undefined because answer could be 0
             if (answer === undefined && !votingId) {
               return isInSchemaRequired(this);
-            } else if (answer && votingId) {
+            }
+            if (answer && votingId) {
               return shouldNotBeSetInSchema(this);
             }
           },

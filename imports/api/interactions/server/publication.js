@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-import { check } from 'meteor/check';
 import { JoinServer } from 'meteor-publish-join';
 
 import Submissions from '/imports/api/submissions/collection';

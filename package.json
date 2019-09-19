@@ -38,6 +38,7 @@
     "simpl-schema": "^1.5.5",
     "typeface-roboto": "0.0.75",
     "uniforms": "^2.4.0",
+    "uniforms-bridge-simple-schema-2": "^2.4.0",
     "uniforms-material": "^2.4.0"
   },
   "devDependencies": {

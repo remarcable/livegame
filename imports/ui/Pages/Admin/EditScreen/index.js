@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 
 import SimpleSchema from 'simpl-schema';
+import SimpleSchemaBridge from 'uniforms-bridge-simple-schema-2';
 import AutoForm from 'uniforms-material/AutoForm';
 
 import Interactions from '/imports/api/interactions/collection';
@@ -50,6 +51,7 @@ const InteractionsEditList = ({ interactions }) =>
     const interactionType = interactionTypes.get(i.type);
     const { schemaKey } = interactionType;
     const schema = new SimpleSchema({ title: String, ...interactionType.getFields() });
+    const schemaBridge = new SimpleSchemaBridge(schema);
 
     return (
       <div key={i._id}>
@@ -58,7 +60,7 @@ const InteractionsEditList = ({ interactions }) =>
           <button onClick={() => removeInteraction.call({ id: i._id })}>X</button>
         </h3>
         <AutoForm
-          schema={schema}
+          schema={schemaBridge}
           model={{ title: i.title || '', ...i[schemaKey] }}
           onSubmit={(data) => handleSubmit(i._id, data, schema)}
         />

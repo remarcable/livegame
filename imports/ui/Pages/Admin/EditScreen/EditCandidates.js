@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import SimpleSchema from 'simpl-schema';
+import SimpleSchemaBridge from 'uniforms-bridge-simple-schema-2';
 import AutoForm from 'uniforms-material/AutoForm';
 
 const propTypes = {
@@ -17,6 +18,8 @@ const schema = new SimpleSchema({
   imageUrl: { type: String, label: 'Bild-URL', regEx: SimpleSchema.RegEx.Url },
 });
 
+const schemaBridge = new SimpleSchemaBridge(schema);
+
 // Todo: after inserting candidate, clear the form
 const EditCandidates = ({
   candidates,
@@ -28,7 +31,7 @@ const EditCandidates = ({
   <div>
     <h1>Candidates</h1>
     <h2>Neuer Kandidat</h2>
-    <AutoForm schema={schema} onSubmit={(data) => insertCandidate(data)} />
+    <AutoForm schema={schemaBridge} onSubmit={(data) => insertCandidate(data)} />
 
     {candidates.map(({ _id, name, imageUrl, candidateNumber }) => (
       <div key={_id}>
@@ -40,7 +43,7 @@ const EditCandidates = ({
         <button onClick={() => removeCandidate({ _id })}>Delete {name}</button>
 
         <AutoForm
-          schema={schema}
+          schema={schemaBridge}
           onSubmit={(data) => updateCandidate({ _id, ...data })}
           model={{ name, imageUrl }}
         />

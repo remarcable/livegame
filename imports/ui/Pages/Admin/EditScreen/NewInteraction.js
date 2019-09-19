@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import SimpleSchema from 'simpl-schema';
+import SimpleSchemaBridge from 'uniforms-bridge-simple-schema-2';
 import AutoForm from 'uniforms-material/AutoForm';
 
 import interactionTypes from '/imports/api/interactions/types';
@@ -28,7 +29,10 @@ class NewInteraction extends PureComponent {
     this.setState({ selected });
 
     const interactionType = interactionTypes.get(selected);
-    this.schema = new SimpleSchema({ title: String, ...interactionType.getFields() });
+    const schema = new SimpleSchema({ title: String, ...interactionType.getFields() });
+    const schemaBridge = new SimpleSchemaBridge(schema);
+    this.schema = schema;
+    this.schemaBridge = schemaBridge;
   }
 
   handleSubmit(values) {
@@ -59,7 +63,7 @@ class NewInteraction extends PureComponent {
         {state.selected && (
           <AutoForm
             ref={(ref) => (this.form = ref)}
-            schema={this.schema}
+            schema={this.schemaBridge}
             onSubmit={this.handleSubmit}
           />
         )}

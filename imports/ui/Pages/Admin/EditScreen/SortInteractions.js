@@ -40,6 +40,10 @@ class SortInteractions extends PureComponent {
       return;
     }
 
+    if (result.source.index === result.destination.index) {
+      return;
+    }
+
     const { interactions, changeOrder } = this.props;
     const { _id: id } = interactions[result.source.index];
 
@@ -61,7 +65,7 @@ class SortInteractions extends PureComponent {
                       {...provided.dragHandleProps}
                       style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
                     >
-                      {item._id}
+                      {`${item.title} ${item.type}`}
                     </div>
                   )}
                 </Draggable>

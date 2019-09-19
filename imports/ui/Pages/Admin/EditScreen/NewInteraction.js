@@ -28,6 +28,10 @@ class NewInteraction extends PureComponent {
     const { value: selected } = event.target;
     this.setState({ selected });
 
+    if (!selected) {
+      return;
+    }
+
     const interactionType = interactionTypes.get(selected);
     const schema = new SimpleSchema({ title: String, ...interactionType.getFields() });
     const schemaBridge = new SimpleSchemaBridge(schema);

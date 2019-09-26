@@ -6,6 +6,8 @@ import HowToRegIcon from '@material-ui/icons/HowToReg';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
 import GroupIcon from '@material-ui/icons/Group';
 
+import EditCandidates from './screens/EditCandidates';
+
 const makeSettingsLink = (to) =>
   React.forwardRef((props, ref) => <Link {...props} innerRef={ref} to={`/admin/edit/${to}`} />);
 
@@ -17,7 +19,7 @@ export const screens = [
       Link: makeSettingsLink('candidates'),
       title: 'Kandidaten',
       Icon: HowToRegIcon,
-      Component: () => <>EditCandidates</>,
+      Component: EditCandidates,
     },
     {
       id: 'interactions',

@@ -7,7 +7,7 @@ export default {
   estimationGameCoupon: {
     headline: 'Gutschein',
     text:
-      'Als einer der Gewinner des Schätzenspiels erhalten Sie ein nicht-alkoholisches Freigetränk umsonst!',
+      'Als einer der GewinnerInnen des Schätzenspiels erhalten Sie ein nicht-alkoholisches Freigetränk umsonst!',
   },
   estimationGameLoose: {
     headline: 'Schätzen',
@@ -30,6 +30,6 @@ export default {
   jwz: {
     headline: 'Jedes Wort Zählt',
     text:
-      'Am 30. Oktober findet wieder der südlichste Poetry-Slam Nordbrandenburgs statt. Seien Sie mit dabei und lassen Sie sich rechtzeitig erinnern.',
+      'Am 01. November findet wieder der südlichste Poetry-Slam Nordbrandenburgs statt. Seien Sie mit dabei und lassen Sie sich rechtzeitig erinnern.',
   },
 };

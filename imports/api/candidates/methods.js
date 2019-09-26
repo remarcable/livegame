@@ -36,16 +36,15 @@ export const updateCandidate = new ValidatedMethod({
     name: { type: String, optional: true },
     imageUrl: { type: String, regEx: SimpleSchema.RegEx.Url, optional: true },
   }).validator(),
-  run({ _id, name, imageUrl }) {
-    const updateQuery = {};
-
-    if (name) {
-      updateQuery.name = name;
-    }
-
-    if (imageUrl) {
-      updateQuery.imageUrl = imageUrl;
-    }
+  run({ _id, ...fields }) {
+    const updateQuery = Object.entries(fields)
+      .filter(([, value]) => !!value)
+      .reduce((akk, [key, value]) => {
+        return {
+          ...akk,
+          [key]: value,
+        };
+      }, {});
 
     const wantsToUpdateSomething = Object.keys(updateQuery).length > 0;
     if (wantsToUpdateSomething) {

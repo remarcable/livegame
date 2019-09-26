@@ -7,6 +7,9 @@ import FastfoodIcon from '@material-ui/icons/Fastfood';
 import GroupIcon from '@material-ui/icons/Group';
 
 import EditCandidates from './screens/EditCandidates';
+import EditInteractions from './screens/EditInteractions';
+import EditMenu from './screens/EditMenu';
+import EditAdmins from './screens/EditAdmins';
 
 const makeSettingsLink = (to) =>
   React.forwardRef((props, ref) => <Link {...props} innerRef={ref} to={`/admin/edit/${to}`} />);
@@ -26,14 +29,14 @@ export const screens = [
       Link: makeSettingsLink('interactions'),
       title: 'Interaktionen',
       Icon: ViewListIcon,
-      Component: () => <>EditInteractions</>,
+      Component: EditInteractions,
     },
     {
       id: 'menu',
       Link: makeSettingsLink('menu'),
       title: 'Getränkekarte',
       Icon: FastfoodIcon,
-      Component: () => <>EditMenu</>,
+      Component: EditMenu,
     },
   ],
   [
@@ -42,7 +45,7 @@ export const screens = [
       Link: makeSettingsLink('admins'),
       title: 'Adminbenutzer',
       Icon: GroupIcon,
-      Component: () => <>EditAdmins</>,
+      Component: EditAdmins,
     },
   ],
 ];

@@ -67,7 +67,12 @@ const typeToIcon = {
   FULL_SHOW_WAITING: <HourglassEmptyIcon />,
 };
 
-window.onkeydown = (e) => !(e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === ' ');
+window.onkeydown = (e) =>
+  !(
+    e.key === 'ArrowUp' ||
+    e.key === 'ArrowDown' ||
+    (e.key === ' ' && window.location.pathname === '/admin/show')
+  );
 
 const ShowScreen = ({
   classes,

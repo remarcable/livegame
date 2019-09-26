@@ -6,7 +6,7 @@ import AdminLayout from '/imports/ui/Layouts/AdminLayout';
 
 import SelectAdminPage from './SelectAdminPage';
 import ShowScreen from './ShowScreen';
-import EditScreen from './EditScreen_New';
+import EditScreen from './EditScreen';
 import UserList from './UserList';
 import LiveView from './LiveView';
 import LiveViewControl from './LiveView/Control';

@@ -45,11 +45,10 @@ const Navigation = (props) => {
           </Typography>
         </Box>
       </div>
-      <Divider />
       {screens.map((division) => (
         <div key={division}>
-          <ListItems items={division} activeLink={activeLink} />
           <Divider />
+          <ListItems items={division} activeLink={activeLink} />
         </div>
       ))}
     </Drawer>

@@ -28,7 +28,6 @@ import {
   setCandidate,
 } from '/imports/api/candidates/methods';
 
-import AdminLayout from '/imports/ui/Layouts/AdminLayout';
 import DocumentTitle from '/imports/ui/components/DocumentTitle';
 
 import NewInteraction from './NewInteraction';
@@ -69,7 +68,7 @@ const InteractionsEditList = ({ interactions }) =>
   });
 
 const EditScreen = ({ isReady, interactions, candidates }) => (
-  <AdminLayout>
+  <>
     <DocumentTitle>Spieldaten bearbeiten</DocumentTitle>
     <div>
       <NewInteraction createInteraction={(data) => createInteraction.call(data)} />
@@ -104,7 +103,7 @@ const EditScreen = ({ isReady, interactions, candidates }) => (
         </div>
       </form>
     </div>
-  </AdminLayout>
+  </>
 );
 
 EditScreen.propTypes = propTypes;

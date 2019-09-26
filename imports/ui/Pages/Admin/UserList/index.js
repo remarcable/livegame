@@ -16,7 +16,6 @@ import Paper from '@material-ui/core/Paper';
 
 import sumFromIndexToEnd from '/imports/api/helpers/sumFromIndexToEnd';
 
-import AdminLayout from '/imports/ui/Layouts/AdminLayout';
 import DocumentTitle from '/imports/ui/components/DocumentTitle';
 
 const propTypes = {
@@ -34,7 +33,7 @@ const tablePropTypes = {
 };
 
 const UserListPage = ({ classes, users = [], minRank, maxRank, minPoints, maxPoints }) => (
-  <AdminLayout>
+  <>
     <DocumentTitle>Spielerliste</DocumentTitle>
     <div className={classes.wrapper}>
       <div className={classes.text}>
@@ -45,7 +44,7 @@ const UserListPage = ({ classes, users = [], minRank, maxRank, minPoints, maxPoi
       </div>
       <StyledUserTable users={users} />
     </div>
-  </AdminLayout>
+  </>
 );
 
 class UserTable extends PureComponent {

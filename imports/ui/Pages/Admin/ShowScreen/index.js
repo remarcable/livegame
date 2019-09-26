@@ -44,7 +44,6 @@ import { mapSort } from '/imports/api/helpers/mapSort';
 import sortFullShowGames from '/imports/api/helpers/sortFullShowGames';
 import getTextForInteraction from '/imports/api/helpers/getTextForInteraction';
 
-import AdminLayout from '/imports/ui/Layouts/AdminLayout';
 import UpdateGames from './UpdateGames';
 
 const propTypes = {
@@ -81,7 +80,7 @@ const ShowScreen = ({
   candidate2Name,
   scoreText,
 }) => (
-  <AdminLayout>
+  <>
     <KeyHandler keyValue="ArrowUp" onKeyHandle={() => hasPrevious && previousInteraction.call()} />
     <KeyHandler
       keyValue="ArrowLeft"
@@ -153,7 +152,7 @@ const ShowScreen = ({
         </IconButton>
       </div>
     </div>
-  </AdminLayout>
+  </>
 );
 
 const styles = {

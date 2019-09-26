@@ -40,7 +40,6 @@ import getTextForInteraction from '/imports/api/helpers/getTextForInteraction';
 
 import { showRanksUpTo, displayInteraction } from '/imports/api/appState/methods';
 
-import AdminLayout from '/imports/ui/Layouts/AdminLayout';
 import DocumentTitle from '/imports/ui/components/DocumentTitle';
 import LiveView from '..';
 
@@ -61,7 +60,7 @@ const LiveViewControl = ({
   activeInteraction,
   rankDisplayMode,
 }) => (
-  <AdminLayout>
+  <>
     <DocumentTitle>Liveview-Steuerung</DocumentTitle>
     <div className={classes.wrapper}>
       <Paper className={classes.interactions}>
@@ -217,7 +216,7 @@ const LiveViewControl = ({
       {interactions.find((i) => i.state === 'ACTIVE') &&
         getTextForInteraction(interactions.find((i) => i.state === 'ACTIVE'))}
     </div>
-  </AdminLayout>
+  </>
 );
 
 const styles = {

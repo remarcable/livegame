@@ -9,6 +9,8 @@ import 'typeface-roboto';
 import { withTracker } from 'meteor/react-meteor-data';
 import { ThemeProvider } from '@material-ui/styles';
 
+import ErrorBoundary from 'react-error-boundary';
+
 import { theme } from '/imports/ui/styles/theme';
 
 import DocumentTitle from '/imports/ui/components/DocumentTitle';
@@ -27,10 +29,12 @@ const AdminLayout = ({ children, isReady, userIsLoggedInAndAdmin }) => {
 
   const component = userIsLoggedInAndAdmin ? children : <Login />;
   return (
-    <ThemeProvider theme={theme}>
-      <DocumentTitle />
-      {component}
-    </ThemeProvider>
+    <ErrorBoundary onError={console.log}>
+      <ThemeProvider theme={theme}>
+        <DocumentTitle />
+        {component}
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 };
 

@@ -6,10 +6,10 @@ import HowToRegIcon from '@material-ui/icons/HowToReg';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
 import GroupIcon from '@material-ui/icons/Group';
 
-import EditCandidates from './screens/EditCandidates';
-import EditInteractions from './screens/EditInteractions';
-import EditMenu from './screens/EditMenu';
-import EditAdmins from './screens/EditAdmins';
+import EditCandidates from './EditCandidates';
+import EditInteractions from './EditInteractions';
+import EditMenu from './EditMenu';
+import EditAdmins from './EditAdmins';
 
 const makeSettingsLink = (to) =>
   React.forwardRef((props, ref) => <Link {...props} innerRef={ref} to={`/admin/edit/${to}`} />);

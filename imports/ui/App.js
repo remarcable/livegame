@@ -7,6 +7,8 @@ import 'normalize.css';
 import LiveGame from './Pages/LiveGame';
 import FullPageLoading from './Pages/FullPageLoading';
 
+// import AdminRouterLoadable from './Pages/Admin/AdminRouter';
+
 const App = () => (
   <Router>
     <Switch>

@@ -29,51 +29,14 @@ export const removeMenuItem = new ValidatedMethod({
 export const updateMenuItem = new ValidatedMethod({
   name: 'menuItem.update',
   mixins: [userIsAdminMixin],
-  validate: new SimpleSchema({
-    _id: { type: String },
-    title: {
-      type: String,
-      optional: true,
-    },
-    subtitle: {
-      type: String,
-      optional: true,
-    },
-    price: {
-      type: String,
-      label: 'Preis',
-      optional: true,
-    },
-    priceOverwrite: {
-      type: String,
-      optional: true,
-    },
-    type: {
-      type: String,
-      allowedValues: ['Cocktails', 'Speisen', 'Snacks', 'Getränke'],
-      optional: true,
-    },
-    imageUrl: {
-      type: String,
-      optional: true,
-      regEx: SimpleSchema.RegEx.Url,
-    },
-  }).validator(),
+  validate: (obj) => {
+    const { _id, ...fields } = obj;
+    new SimpleSchema({
+      _id: { type: String },
+    }).validator()({ _id });
+    return schema.validator()(fields);
+  },
   run({ _id, ...fields }) {
-    const updateQuery = Object.entries(fields)
-      .filter(([, value]) => !!value)
-      .reduce((akk, [key, value]) => {
-        return {
-          ...akk,
-          [key]: value,
-        };
-      }, {});
-
-    const wantsToUpdateSomething = Object.keys(updateQuery).length > 0;
-    if (wantsToUpdateSomething) {
-      return Menu.update({ _id }, { $set: updateQuery });
-    }
-
-    return null;
+    return Menu.update({ _id }, { $set: fields });
   },
 });

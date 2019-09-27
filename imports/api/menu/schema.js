@@ -1,6 +1,6 @@
 import SimpleSchema from 'simpl-schema';
 
-const menuSchema = new SimpleSchema({
+const menuTextSchema = new SimpleSchema({
   title: {
     type: String,
     label: 'Titel',
@@ -19,16 +19,34 @@ const menuSchema = new SimpleSchema({
     optional: true,
     label: 'Überschriebener Preis',
   },
-  type: {
-    type: String,
-    allowedValues: ['Cocktails', 'Speisen', 'Snacks', 'Getränke'],
-    label: 'Typ',
-  },
+});
+
+const menuSectionSchema = new SimpleSchema({
   imageUrl: {
     type: String,
     optional: true,
     regEx: SimpleSchema.RegEx.Url,
     label: 'Bild-URL',
+  },
+  texts: {
+    type: Array,
+  },
+  'texts.$': {
+    type: menuTextSchema,
+  },
+});
+
+const menuSchema = new SimpleSchema({
+  title: {
+    type: String,
+    label: 'Überschrift',
+  },
+  items: {
+    type: Array,
+    label: 'Items',
+  },
+  'items.$': {
+    type: menuSectionSchema,
   },
 });
 

@@ -7,37 +7,30 @@ import Box from '@material-ui/core/Box';
 import MenuItemText from './MenuItemText';
 
 const propTypes = {
-  title: PropTypes.string.isRequired,
-  subtitle: PropTypes.string,
-  price: PropTypes.string.isRequired,
-  priceOverwrite: PropTypes.string,
   imageUrl: PropTypes.string,
+  texts: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      subtitle: PropTypes.string,
+      price: PropTypes.string.isRequired,
+      priceOverwrite: PropTypes.string,
+    }),
+  ).isRequired,
 };
 
-const MenuItem = ({ title, subtitle, price, priceOverwrite, imageUrl }) => {
+const MenuItem = ({ texts, imageUrl }) => {
   const classes = useStyles();
   return (
     <div className={classes.wrapper}>
       {imageUrl && (
         <Box className={classes.imageWrapper}>
-          <img className={classes.image} src={imageUrl} alt="Bild vom Produkt" />
+          <img className={classes.image} src={imageUrl} />
         </Box>
       )}
 
-      <MenuItemText
-        title={title}
-        subtitle={subtitle}
-        price={price}
-        priceOverwrite={priceOverwrite}
-      />
-      {!imageUrl && (
-        <MenuItemText
-          title={title}
-          subtitle={subtitle}
-          price={price}
-          priceOverwrite={priceOverwrite}
-        />
-      )}
+      {texts.map((text, i) => (
+        <MenuItemText key={i} {...text} />
+      ))}
     </div>
   );
 };
@@ -60,6 +53,9 @@ const useStyles = makeStyles((theme) => ({
   image: {
     width: '100%',
     height: 150,
+    minHeight: 150,
+    minWidth: '100%',
+    backgroundImage: 'linear-gradient(#fff, rgba(0,0,0,0.4))',
     objectFit: 'cover',
   },
   title: {

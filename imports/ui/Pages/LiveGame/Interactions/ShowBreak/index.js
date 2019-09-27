@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/styles';
@@ -7,6 +7,7 @@ import { setUserFlag } from '/imports/api/users/methods';
 
 import ActionBox from '/imports/ui/components/ActionBox';
 
+import Menu from './Menu';
 import texts from './texts';
 
 const propTypes = {
@@ -25,6 +26,10 @@ const ShowBreak = ({
   classes,
   user: { flags = {}, newsletter, estimationGame = {} } = {},
 }) => {
+  const [menuIsOpen, setMenuIsOpen] = useState(true);
+  const openMenu = () => setMenuIsOpen(true);
+  const closeMenu = () => setMenuIsOpen(false);
+
   const showStartBox = (
     <ActionBox
       className={classes.welcome}
@@ -76,7 +81,7 @@ const ShowBreak = ({
         text={texts.showMenu.text}
         buttonText="Karte anzeigen"
         onButtonClick={() => {
-          alert('Funktioniert!');
+          openMenu();
         }}
       />
       <ActionBox
@@ -127,15 +132,18 @@ const ShowBreak = ({
   );
 
   return (
-    <div className={classes.wrapper}>
-      <div className={classes.scrollContainer}>
-        <div className={classes.spacerSmall} />
-        {template === 'SHOWSTART' && showStartBox}
-        {['MIDBREAK', 'SHOWEND'].includes(template) && midbreakAndShowEndBox}
-        {permanentBoxes}
-        <div className={classes.spacer} />
+    <>
+      <Menu open={menuIsOpen} handleClose={closeMenu} />
+      <div className={classes.wrapper}>
+        <div className={classes.scrollContainer}>
+          <div className={classes.spacerSmall} />
+          {template === 'SHOWSTART' && showStartBox}
+          {['MIDBREAK', 'SHOWEND'].includes(template) && midbreakAndShowEndBox}
+          {permanentBoxes}
+          <div className={classes.spacer} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

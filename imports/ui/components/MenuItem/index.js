@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[15],
     marginBottom: 10,
     borderRadius: '5px',
+    paddingBottom: 5,
   },
   imageWrapper: {
     overflow: 'hidden',

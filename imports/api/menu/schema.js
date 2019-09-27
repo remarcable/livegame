@@ -41,11 +41,11 @@ const menuSchema = new SimpleSchema({
     type: String,
     label: 'Überschrift',
   },
-  items: {
+  sections: {
     type: Array,
     label: 'Items',
   },
-  'items.$': {
+  'sections.$': {
     type: menuSectionSchema,
   },
 });

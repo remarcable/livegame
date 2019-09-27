@@ -26,7 +26,7 @@ const ShowBreak = ({
   classes,
   user: { flags = {}, newsletter, estimationGame = {} } = {},
 }) => {
-  const [menuIsOpen, setMenuIsOpen] = useState(true);
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
   const openMenu = () => setMenuIsOpen(true);
   const closeMenu = () => setMenuIsOpen(false);
 

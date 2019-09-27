@@ -71,6 +71,15 @@ const ShowBreak = ({
   const permanentBoxes = (
     <>
       <ActionBox
+        className={classes.showMenu}
+        headline={texts.showMenu.headline}
+        text={texts.showMenu.text}
+        buttonText="Karte anzeigen"
+        onButtonClick={() => {
+          alert('Funktioniert!');
+        }}
+      />
+      <ActionBox
         className={classes.cocktailCoupon}
         headline={texts.cocktailCoupon.headline}
         text={texts.cocktailCoupon.text}
@@ -154,6 +163,9 @@ const styles = {
   },
   welcome: {
     backgroundImage: 'linear-gradient(#FFB13D 0%, #CD790C 100%)',
+  },
+  showMenu: {
+    backgroundImage: 'linear-gradient(#00BCD4 0%, #3F51B5 100%)',
   },
   paypal: {
     backgroundImage: 'linear-gradient(#4EA1CA 0%, #23516A 100%)',

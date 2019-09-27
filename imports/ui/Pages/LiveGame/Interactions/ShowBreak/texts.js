@@ -4,6 +4,11 @@ export default {
     text:
       'Auf der linken Seite finden Sie 15 Sterne - stellvertretend für die 15 Spiele. Tippen Sie richtig, so erhalten Sie einen Punkt und der Stern färbt sich Gold.',
   },
+  showMenu: {
+    headline: 'Getränke und Speisen',
+    text:
+      'Sind Sie neugierig welche Köstlichkeiten es an unseren Verkaufsständen gibt? Informieren Sie sich hier',
+  },
   estimationGameCoupon: {
     headline: 'Gutschein',
     text:

@@ -85,7 +85,7 @@ const styles = (theme) => ({
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: 15,
 
     '&$small': {
       position: 'fixed',

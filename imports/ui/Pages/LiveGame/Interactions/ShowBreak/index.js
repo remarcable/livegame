@@ -19,7 +19,7 @@ const propTypes = {
 const setFlag = (flag) => setUserFlag.call({ flag });
 
 const redeemVoucherText =
-  'Sind Sie sicher, dass Sie den Gutschein einlösen wollen? Bitte lösen Sie ihn nur in Anweisenheit einer unserer freundlichen VerkäuferInnen ein.';
+  'Sind Sie sicher, dass Sie den Gutschein einlösen wollen? Lösen Sie ihn bitte nur in Anweisenheit einer unserer freundlichen VerkäuferInnen ein.';
 
 const ShowBreak = ({
   template,
@@ -53,7 +53,7 @@ const ShowBreak = ({
           text={texts.estimationGameCoupon.text}
           buttonText={flags.estimationGameCoupon ? '✓ Gutschein eingelöst' : 'Gutschein einlösen'}
           onButtonClick={() => {
-            if (confirm(redeemVoucherText)) {
+            if (window.confirm(redeemVoucherText)) {
               setFlag('estimationGameCoupon');
             }
           }}
@@ -81,6 +81,7 @@ const ShowBreak = ({
         text={texts.showMenu.text}
         buttonText="Karte anzeigen"
         onButtonClick={() => {
+          setFlag('showedMenu');
           openMenu();
         }}
       />
@@ -90,7 +91,7 @@ const ShowBreak = ({
         text={texts.cocktailCoupon.text}
         buttonText={flags.cocktailCoupon ? '✓ Gutschein eingelöst' : 'Gutschein einlösen'}
         onButtonClick={() => {
-          if (confirm(redeemVoucherText)) {
+          if (window.confirm(redeemVoucherText)) {
             setFlag('cocktailCoupon');
           }
         }}

@@ -308,29 +308,18 @@ export default withTracker(() => {
   const { interactionToShow = '', rankDisplayMode = 'ALL' } = AppState.findOne() || {};
 
   const games = interactions
-    .filter((i) =>
-      [interactionTypeNames.FULL_SHOW_GAME, interactionTypeNames.ESTIMATION_VOTING].includes(
-        i.type,
-      ),
-    )
+    .filter((i) => [interactionTypeNames.FULL_SHOW_GAME].includes(i.type))
     .sort((a, b) => {
-      if (
-        a.type === interactionTypeNames.FULL_SHOW_GAME &&
-        b.type === interactionTypeNames.FULL_SHOW_GAME
-      ) {
-        const n1 = a.fullShowGame.gameNumber;
-        const n2 = b.fullShowGame.gameNumber;
-        return n1 - n2;
-      }
-
-      return 1;
+      const n1 = a.fullShowGame.gameNumber;
+      const n2 = b.fullShowGame.gameNumber;
+      return n1 - n2;
     });
 
   const votings = interactions.filter((i) => i.type === interactionTypeNames.ESTIMATION_VOTING);
 
   const candidates = Candidates.find({ name: { $ne: 'Paul' } }).fetch();
   return {
-    games,
+    games: [...games, ...votings],
     votings,
     interactions,
     candidates,

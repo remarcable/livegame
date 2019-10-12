@@ -17,6 +17,14 @@ export const usersWithCorrectSubmissionsCountAggregation = [
             isCorrect: { $cond: { if: { $eq: ['$value', '$$winner'] }, then: 1, else: 0 } },
           },
         },
+        // safety check: remove duplicate submissions
+        {
+          $group: {
+            _id: '$userId',
+            userId: { $first: '$userId' },
+            isCorrect: { $first: '$isCorrect' },
+          },
+        },
       ],
       as: 'submissions',
     },

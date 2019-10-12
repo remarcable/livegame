@@ -130,5 +130,45 @@ describe('getUserRanks(interactionsCollection)', () => {
         ),
       );
     });
+
+    it("doesn't count duplicate submissions", async () => {
+      const usersToBeInserted = [
+        { _id: 'U01' }, // 2 points
+        { _id: 'U02' }, // 3 points
+      ];
+
+      const interactionsToBeInserted = [
+        { _id: 'I01', type: 'FULL_SHOW_GAME', fullShowGame: { winner: 'CANDIDATE1' } },
+        { _id: 'I02', type: 'FULL_SHOW_GAME', fullShowGame: { winner: 'CANDIDATE2' } },
+      ];
+
+      const submissionsToBeInserted = [
+        // duplicate submission for I01. Should count as one point each
+        { _id: 'S010', userId: 'U01', interactionId: 'I01', value: 'CANDIDATE1' },
+        { _id: 'S011', userId: 'U01', interactionId: 'I01', value: 'CANDIDATE1' },
+        { _id: 'S012', userId: 'U01', interactionId: 'I01', value: 'CANDIDATE1' },
+        { _id: 'S013', userId: 'U01', interactionId: 'I02', value: 'CANDIDATE2' },
+
+        // user 2 selects two different values for I02. Here we don't care which one gets used for ranking
+        // (the first one would be preferred though)
+        { _id: 'S021', userId: 'U02', interactionId: 'I01', value: 'CANDIDATE1' },
+        { _id: 'S022', userId: 'U02', interactionId: 'I01', value: 'CANDIDATE2' },
+        { _id: 'S023', userId: 'U02', interactionId: 'I02', value: 'CANDIDATE1' },
+        { _id: 'S024', userId: 'U02', interactionId: 'I02', value: 'CANDIDATE1' },
+      ];
+
+      await UsersCollection.rawCollection().insertMany(usersToBeInserted);
+      await InteractionsCollection.rawCollection().insertMany(interactionsToBeInserted);
+      await SubmissionsCollection.rawCollection().insertMany(submissionsToBeInserted);
+
+      const result = getUserRanks(InteractionsCollection);
+
+      expect(result.sort(sortingFunc)).to.deep.equal(
+        // for U02 "correctSubmissions: 4" would be incorrect
+        [{ _id: 'U01', correctSubmissions: 2 }, { _id: 'U02', correctSubmissions: 1 }].sort(
+          sortingFunc,
+        ),
+      );
+    });
   });
 });

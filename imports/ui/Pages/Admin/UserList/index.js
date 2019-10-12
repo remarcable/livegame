@@ -15,12 +15,14 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 import sumFromIndexToEnd from '/imports/api/helpers/sumFromIndexToEnd';
+import { getAllFlagNames } from '/imports/api/helpers/getAllFlagNames';
 
 import DocumentTitle from '/imports/ui/components/DocumentTitle';
 
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   users: PropTypes.array.isRequired, // TODO: better type
+  flagNames: PropTypes.array.isRequired, // TODO: better type
   minRank: PropTypes.number.isRequired,
   maxRank: PropTypes.number.isRequired,
   minPoints: PropTypes.number.isRequired,
@@ -30,9 +32,18 @@ const propTypes = {
 const tablePropTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   users: PropTypes.array.isRequired,
+  flagNames: PropTypes.array.isRequired, // TODO: better type
 };
 
-const UserListPage = ({ classes, users = [], minRank, maxRank, minPoints, maxPoints }) => (
+const UserListPage = ({
+  classes,
+  users = [],
+  flagNames = [],
+  minRank,
+  maxRank,
+  minPoints,
+  maxPoints,
+}) => (
   <>
     <DocumentTitle>Spielerliste</DocumentTitle>
     <div className={classes.wrapper}>
@@ -42,7 +53,7 @@ const UserListPage = ({ classes, users = [], minRank, maxRank, minPoints, maxPoi
           Rang von {minRank} bis {maxRank}. Punkte von {minPoints} bis {maxPoints}.
         </div>
       </div>
-      <StyledUserTable users={users} />
+      <StyledUserTable users={users} flagNames={flagNames} />
     </div>
   </>
 );
@@ -60,10 +71,18 @@ class UserTable extends PureComponent {
   };
 
   render() {
-    const { users, classes } = this.props;
+    const { users, flagNames, classes } = this.props;
     const { sortBy } = this.state;
 
     const sortedUsers = users.sort((a, b) => {
+      if (sortBy.includes('flags')) {
+        const flag = sortBy.split('flags-')[1];
+        const userAFlagValue = (a.flags && a.flags[flag]) || false;
+        const userBFlagValue = (b.flags && b.flags[flag]) || false;
+
+        return +userBFlagValue - +userAFlagValue;
+      }
+
       if (typeof a[sortBy] === 'string' && typeof b[sortBy] === 'string') {
         return a[sortBy].localeCompare(b[sortBy]);
       }
@@ -88,7 +107,11 @@ class UserTable extends PureComponent {
               <TableCell onClick={() => this.setSortType('alias')}>Alias</TableCell>
               <TableCell onClick={() => this.setSortType('email')}>E-Mail</TableCell>
               <TableCell onClick={() => this.setSortType('newsletter')}>Newsletter</TableCell>
-              <TableCell onClick={() => this.setSortType('flags')}>Flags</TableCell>
+              {flagNames.map((flagName) => (
+                <TableCell key={flagName} onClick={() => this.setSortType(`flags-${flagName}`)}>
+                  {flagName}
+                </TableCell>
+              ))}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -107,7 +130,9 @@ class UserTable extends PureComponent {
                 <TableCell>{u.alias || '-'}</TableCell>
                 <TableCell>{u.email || '-'}</TableCell>
                 <TableCell>{u.newsletter ? '✓' : '✕'}</TableCell>
-                <TableCell>{u.flags ? Object.keys(u.flags).join(', ') : '-'}</TableCell>
+                {flagNames.map((flagName) => (
+                  <TableCell key={flagName}>{u.flags && u.flags[flagName] ? '✓' : '✕'}</TableCell>
+                ))}
               </TableRow>
             ))}
           </TableBody>
@@ -126,6 +151,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    userSelect: 'inital',
   },
   text: {
     textAlign: 'center',
@@ -149,8 +175,8 @@ const userTableStyles = {
 const StyledUserTable = withStyles(userTableStyles)(UserTable);
 
 export default withTracker(() => {
-  const userHandle = Meteor.subscribe('users.all');
-  const userCountHandle = Meteor.subscribe('users.count');
+  Meteor.subscribe('users.all');
+  Meteor.subscribe('users.count');
 
   const correctUserSubmissionsCounts = JoinClient.get('userRanks') || [];
   const correctUserSubmissionsCountsMap = new Map();
@@ -177,6 +203,8 @@ export default withTracker(() => {
         };
       }) || [];
 
+  const flagNames = getAllFlagNames(users).filter((flagName) => flagName !== 'newsletter');
+
   const maxRank = Math.max(...users.map((u) => u.estimationGame && u.estimationGame.rank)) || 0;
   const minRank = Math.min(...users.map((u) => u.estimationGame && u.estimationGame.rank)) || 0;
 
@@ -188,6 +216,7 @@ export default withTracker(() => {
     minRank,
     maxPoints,
     minPoints,
+    flagNames,
     users,
   };
 })(withStyles(styles)(UserListPage));

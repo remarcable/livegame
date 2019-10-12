@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import { JoinClient } from 'meteor-publish-join';
 
+import { Helmet } from 'react-helmet';
+
 import { withTracker } from 'meteor/react-meteor-data';
 import { withStyles } from '@material-ui/styles';
 
@@ -46,6 +48,19 @@ const UserListPage = ({
 }) => (
   <>
     <DocumentTitle>Spielerliste</DocumentTitle>
+
+    <Helmet>
+      <style>{`
+    html {
+        user-select: initial !important;
+        -webkit-user-select: initial !important;
+    }
+
+    * {
+        user-select: initial !important;
+    }
+    `}</style>
+    </Helmet>
     <div className={classes.wrapper}>
       <div className={classes.text}>
         <h1>Teilnehmer</h1>
@@ -95,18 +110,22 @@ class UserTable extends PureComponent {
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <TableCell onClick={() => this.setSortType('fullShowRank')}>
-                Full Show Rang (Punkte)
-              </TableCell>
-              <TableCell onClick={() => this.setSortType('estimationGameRank')}>
-                Schätzen Rang (Punkte)
-              </TableCell>
               <TableCell onClick={() => this.setSortType('_id')}>ID</TableCell>
               <TableCell onClick={() => this.setSortType('firstName')}>Vorname</TableCell>
               <TableCell onClick={() => this.setSortType('lastName')}>Nachname</TableCell>
               <TableCell onClick={() => this.setSortType('alias')}>Alias</TableCell>
               <TableCell onClick={() => this.setSortType('email')}>E-Mail</TableCell>
               <TableCell onClick={() => this.setSortType('newsletter')}>Newsletter</TableCell>
+              <TableCell onClick={() => this.setSortType('fullShowRank')}>Full Show Rang</TableCell>
+              <TableCell onClick={() => this.setSortType('fullShowRank')}>
+                Full Show Punkte
+              </TableCell>
+              <TableCell onClick={() => this.setSortType('estimationGameRank')}>
+                Schätzen Rang
+              </TableCell>
+              <TableCell onClick={() => this.setSortType('estimationGameRank')}>
+                Schätzen Punkte
+              </TableCell>
               {flagNames.map((flagName) => (
                 <TableCell key={flagName} onClick={() => this.setSortType(`flags-${flagName}`)}>
                   {flagName}
@@ -117,19 +136,16 @@ class UserTable extends PureComponent {
           <TableBody>
             {sortedUsers.map((u) => (
               <TableRow key={u._id}>
-                <TableCell>
-                  {u.fullShowRank} ({u.fullShowScore})
-                </TableCell>
-                <TableCell>
-                  {(u.estimationGame && u.estimationGame.rank) || '-'} (
-                  {(u.estimationGame && u.estimationGame.points) || '-'})
-                </TableCell>
                 <TableCell>{u._id}</TableCell>
                 <TableCell>{u.firstName}</TableCell>
                 <TableCell>{u.lastName}</TableCell>
                 <TableCell>{u.alias || '-'}</TableCell>
                 <TableCell>{u.email || '-'}</TableCell>
                 <TableCell>{u.newsletter ? '✓' : '✕'}</TableCell>
+                <TableCell>{u.fullShowRank}</TableCell>
+                <TableCell>{u.fullShowScore}</TableCell>
+                <TableCell>{(u.estimationGame && u.estimationGame.rank) || '-'}</TableCell>
+                <TableCell>{(u.estimationGame && u.estimationGame.points) || '-'}</TableCell>
                 {flagNames.map((flagName) => (
                   <TableCell key={flagName}>{u.flags && u.flags[flagName] ? '✓' : '✕'}</TableCell>
                 ))}
@@ -166,6 +182,7 @@ const userTableStyles = {
     marginBottom: 20,
     padding: 10,
     overflow: 'scroll',
+    fontFamily: 'Roboto Condensed',
   },
   table: {
     width: '100%',

@@ -1,120 +1,98 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/styles';
+import CheckIcon from '@material-ui/icons/Check';
+import ClearIcon from '@material-ui/icons/Clear';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import SearchIcon from '@material-ui/icons/Search';
+import RemoveIcon from '@material-ui/icons/Remove';
+import FirstPageIcon from '@material-ui/icons/FirstPage';
+import LastPageIcon from '@material-ui/icons/LastPage';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import SaveIcon from '@material-ui/icons/SaveAlt';
+import ViewColumnIcon from '@material-ui/icons/ViewColumn';
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import MaterialTable from 'material-table';
 
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   users: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   flagNames: PropTypes.array.isRequired, // TODO: better type
 };
 
-class UserTable extends PureComponent {
-  constructor() {
-    super();
-    this.state = {
-      sortBy: 'fullShowRank',
-    };
-  }
+const UserTable = ({ isLoading, classes, users, flagNames }) => (
+  <div className={classes.wrapper}>
+    <MaterialTable
+      columns={getColumns(flagNames)}
+      data={users}
+      isLoading={isLoading}
+      title="Spielerliste"
+      options={options}
+      icons={icons}
+    />
+  </div>
+);
 
-  setSortType = (type) => {
-    this.setState(() => ({ sortBy: type }));
-  };
+const getColumns = (flagNames) => [
+  { title: 'ID', field: '_id', hidden: true },
+  { title: 'Vorname', field: 'firstName' },
+  { title: 'Nachname', field: 'lastName' },
+  { title: 'Alias', field: 'alias', emptyValue: '-', hidden: true },
+  { title: 'E-Mail', field: 'email', emptyValue: '-' },
+  { title: 'Newsletter', field: 'newsletter', type: 'boolean' },
+  { title: 'Full Show Rang', field: 'fullShowRank', type: 'numeric' },
+  { title: 'Full Show Punkte', field: 'fullShowScore', type: 'numeric' },
+  { title: 'Schätzen Rang', field: 'estimationGame.rank', type: 'numeric' },
+  { title: 'Schätzen Punkte', field: 'estimationGame.points', type: 'numeric' },
+  ...flagNames.map((name) => ({
+    title: name,
+    field: `flags.${name}`,
+    type: 'boolean',
+  })),
+];
 
-  render() {
-    const { users, flagNames, classes } = this.props;
-    const { sortBy } = this.state;
+const options = {
+  pageSize: 20,
+  columnsButton: true,
+  pageSizeOptions: [20, 50, 100, 200, 500],
+  maxBodyHeight: '80vh',
+  doubleHorizontalScroll: true,
+  exportButton: true,
+  exportAllData: true,
+  exportFileName: 'WBP Live User Data',
+  padding: 'dense',
+  showEmptyDataSourceMessage: true,
+  searchFieldAlignment: 'left',
+};
 
-    const sortedUsers = users.sort((a, b) => {
-      if (sortBy.includes('flags')) {
-        const flag = sortBy.split('flags-')[1];
-        const userAFlagValue = (a.flags && a.flags[flag]) || false;
-        const userBFlagValue = (b.flags && b.flags[flag]) || false;
-
-        return +userBFlagValue - +userAFlagValue;
-      }
-
-      if (typeof a[sortBy] === 'string' && typeof b[sortBy] === 'string') {
-        return a[sortBy].localeCompare(b[sortBy]);
-      }
-
-      return a[sortBy] - b[sortBy];
-    });
-
-    return (
-      <Paper className={classes.wrapper}>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell onClick={() => this.setSortType('_id')}>ID</TableCell>
-              <TableCell onClick={() => this.setSortType('firstName')}>Vorname</TableCell>
-              <TableCell onClick={() => this.setSortType('lastName')}>Nachname</TableCell>
-              <TableCell onClick={() => this.setSortType('alias')}>Alias</TableCell>
-              <TableCell onClick={() => this.setSortType('email')}>E-Mail</TableCell>
-              <TableCell onClick={() => this.setSortType('newsletter')}>Newsletter</TableCell>
-              <TableCell onClick={() => this.setSortType('fullShowRank')}>Full Show Rang</TableCell>
-              <TableCell onClick={() => this.setSortType('fullShowRank')}>
-                Full Show Punkte
-              </TableCell>
-              <TableCell onClick={() => this.setSortType('estimationGameRank')}>
-                Schätzen Rang
-              </TableCell>
-              <TableCell onClick={() => this.setSortType('estimationGameRank')}>
-                Schätzen Punkte
-              </TableCell>
-              {flagNames.map((flagName) => (
-                <TableCell key={flagName} onClick={() => this.setSortType(`flags-${flagName}`)}>
-                  {flagName}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {sortedUsers.map((u) => (
-              <TableRow key={u._id}>
-                <TableCell>{u._id}</TableCell>
-                <TableCell>{u.firstName}</TableCell>
-                <TableCell>{u.lastName}</TableCell>
-                <TableCell>{u.alias || '-'}</TableCell>
-                <TableCell>{u.email || '-'}</TableCell>
-                <TableCell>{u.newsletter ? '✓' : '✕'}</TableCell>
-                <TableCell>{u.fullShowRank}</TableCell>
-                <TableCell>{u.fullShowScore}</TableCell>
-                <TableCell>{(u.estimationGame && u.estimationGame.rank) || '-'}</TableCell>
-                <TableCell>{(u.estimationGame && u.estimationGame.points) || '-'}</TableCell>
-                {flagNames.map((flagName) => (
-                  <TableCell key={flagName}>{u.flags && u.flags[flagName] ? '✓' : '✕'}</TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Paper>
-    );
-  }
-}
+const icons = {
+  Check: CheckIcon,
+  SortArrow: ArrowUpwardIcon,
+  Search: SearchIcon,
+  ResetSearch: ClearIcon,
+  ThirdStateCheck: RemoveIcon,
+  FirstPage: FirstPageIcon,
+  LastPage: LastPageIcon,
+  NextPage: ChevronRightIcon,
+  PreviousPage: ChevronLeftIcon,
+  Export: SaveIcon,
+  ViewColumn: ViewColumnIcon,
+};
 
 UserTable.propTypes = propTypes;
 
-const userTableStyles = {
+const styles = {
   wrapper: {
-    maxWidth: '80%',
+    maxWidth: '95%',
     marginTop: 20,
     marginBottom: 20,
     padding: 10,
     overflow: 'scroll',
     fontFamily: 'Roboto Condensed',
   },
-  table: {
-    width: '100%',
-  },
 };
 
-export default withStyles(userTableStyles)(UserTable);
+export default withStyles(styles)(UserTable);

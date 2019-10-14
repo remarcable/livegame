@@ -20,6 +20,7 @@
     "bcrypt": "^3.0.6",
     "classnames": "^2.2.6",
     "just-random": "^2.1.0",
+    "material-table": "^1.52.0",
     "meteor-node-stubs": "^0.4.1",
     "meteor-publish-join": "^1.1.7",
     "normalize.css": "^8.0.1",

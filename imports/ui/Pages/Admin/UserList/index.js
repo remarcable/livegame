@@ -41,19 +41,7 @@ const UserListPage = ({ classes, users = [], flagNames = [], isReady }) => (
     </Helmet>
 
     <div className={classes.wrapper}>
-      <Typography variant="h4" align="center">
-        Spielerliste
-      </Typography>
-
-      <UserTable users={users} flagNames={flagNames} />
-
-      {!isReady && <Typography align="center">Lädt...</Typography>}
-      {isReady && users.length === 0 && (
-        <Typography align="center">
-          Es haben sich noch keine Spieler registriert. Sobald es Spieler gibt wird hier eine
-          Übersicht angezeigt.
-        </Typography>
-      )}
+      <UserTable isLoading={!isReady} users={users} flagNames={flagNames} />
     </div>
   </>
 );
@@ -95,7 +83,6 @@ export default withTracker(() => {
           ...u,
           fullShowScore,
           fullShowRank: sumFromIndexToEnd(fullShowScore, userRanking) + 1,
-          estimationGameRank: (u.estimationGame && u.estimationGame.rank) || -1,
           newsletter: u.newsletter || !!(u.flags && u.flags.newsletter),
         };
       }) || [];

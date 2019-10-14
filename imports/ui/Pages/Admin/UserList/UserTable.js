@@ -60,7 +60,6 @@ const options = {
   columnsButton: true,
   pageSizeOptions: [20, 50, 100, 200, 500],
   maxBodyHeight: '80vh',
-  doubleHorizontalScroll: true,
   exportButton: true,
   exportAllData: true,
   exportFileName: 'WBP Live User Data',
@@ -98,11 +97,11 @@ const localization = {
   },
   toolbar: {
     addRemoveColumns: 'Spalten hinzufügen oder entfernen',
-    showColumnsTitle: 'Spalten anzeigen',
+    showColumnsTitle: 'Spalten auswählen',
     exportTitle: 'Exportieren',
     exportName: 'Als CSV exportieren',
     searchTooltip: 'Suche',
-    searchPlaceholder: 'Suchen...',
+    searchPlaceholder: 'Suchbegriff...',
   },
 };
 

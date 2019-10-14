@@ -31,6 +31,7 @@ const UserTable = ({ isLoading, classes, users, flagNames }) => (
       isLoading={isLoading}
       title="Spielerliste"
       options={options}
+      localization={localization}
       icons={icons}
     />
   </div>
@@ -80,6 +81,29 @@ const icons = {
   PreviousPage: ChevronLeftIcon,
   Export: SaveIcon,
   ViewColumn: ViewColumnIcon,
+};
+
+const localization = {
+  body: {
+    emptyDataSourceMessage: 'Keine Spieler gefunden',
+  },
+  pagination: {
+    labelDisplayedRows: '{from}-{to} von {count}',
+    labelRowsSelect: 'Einträge',
+    labelRowsPerPage: 'Einträge pro Seite',
+    firstTooltip: 'Erste Seite',
+    previousTooltip: 'Zurück',
+    nextTooltip: 'Vor',
+    lastTooltip: 'Letzte Seite',
+  },
+  toolbar: {
+    addRemoveColumns: 'Spalten hinzufügen oder entfernen',
+    showColumnsTitle: 'Spalten anzeigen',
+    exportTitle: 'Exportieren',
+    exportName: 'Als CSV exportieren',
+    searchTooltip: 'Suche',
+    searchPlaceholder: 'Suchen...',
+  },
 };
 
 UserTable.propTypes = propTypes;

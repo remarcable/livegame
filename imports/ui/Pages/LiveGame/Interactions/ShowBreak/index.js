@@ -12,7 +12,7 @@ import texts from './texts';
 
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  template: PropTypes.string.isRequired, // SHOWSTART, MIDBREAK, SHOWEND
+  template: PropTypes.oneOf(['SHOWSTART', 'MIDBREAK', 'SHOWEND']).isRequired,
   user: PropTypes.object,
 };
 
@@ -58,14 +58,14 @@ const ShowBreak = ({
             }
           }}
           buttonDisabled={!!flags.estimationGameCoupon}
-          alternativeElement={<span className={classes.estimationGameRank}>Platz {userRank}</span>}
+          additionalElement={<span className={classes.estimationGameRank}>Platz {userRank}</span>}
         />
       ) : (
         <ActionBox
           className={classes.estimationGameLoose}
           headline={texts.estimationGameLoose.headline}
           text={texts.estimationGameLoose.text}
-          alternativeElement={
+          additionalElement={
             <span className={classes.estimationGameRank}>Platz {userRank || 'X'}</span>
           }
         />

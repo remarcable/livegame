@@ -14,7 +14,7 @@ const propTypes = {
   buttonText: PropTypes.string,
   onButtonClick: PropTypes.func,
   buttonDisabled: PropTypes.bool,
-  alternativeElement: PropTypes.node,
+  additionalElement: PropTypes.node,
   className: PropTypes.string,
 };
 
@@ -25,13 +25,13 @@ const ActionBox = ({
   buttonText,
   onButtonClick,
   buttonDisabled = false,
-  alternativeElement,
+  additionalElement,
   className,
 }) => (
   <div className={classnames(classes.wrapper, className)}>
     <Headline className={classes.headline}>{headline}</Headline>
     <span className={classes.text}>{text}</span>
-    {alternativeElement}
+    {additionalElement}
     {buttonText && onButtonClick && (
       <Button className={classes.button} disabled={buttonDisabled} onClick={onButtonClick}>
         {buttonText}

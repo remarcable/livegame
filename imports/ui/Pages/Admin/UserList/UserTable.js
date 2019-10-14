@@ -109,7 +109,7 @@ UserTable.propTypes = propTypes;
 
 const styles = {
   wrapper: {
-    maxWidth: '95%',
+    width: '95%',
     marginTop: 20,
     marginBottom: 20,
     padding: 10,

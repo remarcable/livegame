@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { JoinClient } from 'meteor-publish-join';
@@ -9,157 +9,56 @@ import { Helmet } from 'react-helmet';
 import { withTracker } from 'meteor/react-meteor-data';
 import { withStyles } from '@material-ui/styles';
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 import sumFromIndexToEnd from '/imports/api/helpers/sumFromIndexToEnd';
 import { getAllFlagNames } from '/imports/api/helpers/getAllFlagNames';
 
 import DocumentTitle from '/imports/ui/components/DocumentTitle';
+import UserTable from './UserTable';
 
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   users: PropTypes.array.isRequired, // TODO: better type
   flagNames: PropTypes.array.isRequired, // TODO: better type
-  minRank: PropTypes.number.isRequired,
-  maxRank: PropTypes.number.isRequired,
-  minPoints: PropTypes.number.isRequired,
-  maxPoints: PropTypes.number.isRequired,
+  isReady: PropTypes.bool.isRequired,
 };
 
-const tablePropTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  users: PropTypes.array.isRequired,
-  flagNames: PropTypes.array.isRequired, // TODO: better type
-};
-
-const UserListPage = ({
-  classes,
-  users = [],
-  flagNames = [],
-  minRank,
-  maxRank,
-  minPoints,
-  maxPoints,
-}) => (
+const UserListPage = ({ classes, users = [], flagNames = [], isReady }) => (
   <>
     <DocumentTitle>Spielerliste</DocumentTitle>
-
     <Helmet>
       <style>{`
-    html {
-        user-select: initial !important;
-        -webkit-user-select: initial !important;
-    }
+        html {
+            user-select: initial !important;
+            -webkit-user-select: initial !important;
+        }
 
-    * {
-        user-select: initial !important;
-    }
+        * {
+            user-select: initial !important;
+        }
     `}</style>
     </Helmet>
+
     <div className={classes.wrapper}>
-      <div className={classes.text}>
-        <h1>Teilnehmer</h1>
-        <div className={classes.rankText}>
-          Rang von {minRank} bis {maxRank}. Punkte von {minPoints} bis {maxPoints}.
-        </div>
-      </div>
-      <StyledUserTable users={users} flagNames={flagNames} />
+      <Typography variant="h4" align="center">
+        Spielerliste
+      </Typography>
+
+      <UserTable users={users} flagNames={flagNames} />
+
+      {!isReady && <Typography align="center">Lädt...</Typography>}
+      {isReady && users.length === 0 && (
+        <Typography align="center">
+          Es haben sich noch keine Spieler registriert. Sobald es Spieler gibt wird hier eine
+          Übersicht angezeigt.
+        </Typography>
+      )}
     </div>
   </>
 );
 
-class UserTable extends PureComponent {
-  constructor() {
-    super();
-    this.state = {
-      sortBy: 'fullShowRank',
-    };
-  }
-
-  setSortType = (type) => {
-    this.setState(() => ({ sortBy: type }));
-  };
-
-  render() {
-    const { users, flagNames, classes } = this.props;
-    const { sortBy } = this.state;
-
-    const sortedUsers = users.sort((a, b) => {
-      if (sortBy.includes('flags')) {
-        const flag = sortBy.split('flags-')[1];
-        const userAFlagValue = (a.flags && a.flags[flag]) || false;
-        const userBFlagValue = (b.flags && b.flags[flag]) || false;
-
-        return +userBFlagValue - +userAFlagValue;
-      }
-
-      if (typeof a[sortBy] === 'string' && typeof b[sortBy] === 'string') {
-        return a[sortBy].localeCompare(b[sortBy]);
-      }
-
-      return a[sortBy] - b[sortBy];
-    });
-
-    return (
-      <Paper className={classes.wrapper}>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell onClick={() => this.setSortType('_id')}>ID</TableCell>
-              <TableCell onClick={() => this.setSortType('firstName')}>Vorname</TableCell>
-              <TableCell onClick={() => this.setSortType('lastName')}>Nachname</TableCell>
-              <TableCell onClick={() => this.setSortType('alias')}>Alias</TableCell>
-              <TableCell onClick={() => this.setSortType('email')}>E-Mail</TableCell>
-              <TableCell onClick={() => this.setSortType('newsletter')}>Newsletter</TableCell>
-              <TableCell onClick={() => this.setSortType('fullShowRank')}>Full Show Rang</TableCell>
-              <TableCell onClick={() => this.setSortType('fullShowRank')}>
-                Full Show Punkte
-              </TableCell>
-              <TableCell onClick={() => this.setSortType('estimationGameRank')}>
-                Schätzen Rang
-              </TableCell>
-              <TableCell onClick={() => this.setSortType('estimationGameRank')}>
-                Schätzen Punkte
-              </TableCell>
-              {flagNames.map((flagName) => (
-                <TableCell key={flagName} onClick={() => this.setSortType(`flags-${flagName}`)}>
-                  {flagName}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {sortedUsers.map((u) => (
-              <TableRow key={u._id}>
-                <TableCell>{u._id}</TableCell>
-                <TableCell>{u.firstName}</TableCell>
-                <TableCell>{u.lastName}</TableCell>
-                <TableCell>{u.alias || '-'}</TableCell>
-                <TableCell>{u.email || '-'}</TableCell>
-                <TableCell>{u.newsletter ? '✓' : '✕'}</TableCell>
-                <TableCell>{u.fullShowRank}</TableCell>
-                <TableCell>{u.fullShowScore}</TableCell>
-                <TableCell>{(u.estimationGame && u.estimationGame.rank) || '-'}</TableCell>
-                <TableCell>{(u.estimationGame && u.estimationGame.points) || '-'}</TableCell>
-                {flagNames.map((flagName) => (
-                  <TableCell key={flagName}>{u.flags && u.flags[flagName] ? '✓' : '✕'}</TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Paper>
-    );
-  }
-}
-
 UserListPage.propTypes = propTypes;
-UserTable.propTypes = tablePropTypes;
 
 const styles = {
   wrapper: {
@@ -167,33 +66,14 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    userSelect: 'inital',
-  },
-  text: {
-    textAlign: 'center',
-    width: '80%',
   },
 };
-
-const userTableStyles = {
-  wrapper: {
-    maxWidth: '80%',
-    marginTop: 20,
-    marginBottom: 20,
-    padding: 10,
-    overflow: 'scroll',
-    fontFamily: 'Roboto Condensed',
-  },
-  table: {
-    width: '100%',
-  },
-};
-
-const StyledUserTable = withStyles(userTableStyles)(UserTable);
 
 export default withTracker(() => {
-  Meteor.subscribe('users.all');
-  Meteor.subscribe('users.count');
+  const allUsersHandle = Meteor.subscribe('users.all');
+  const userCountHandle = Meteor.subscribe('users.count');
+
+  const isReady = allUsersHandle.ready() && userCountHandle.ready();
 
   const correctUserSubmissionsCounts = JoinClient.get('userRanks') || [];
   const correctUserSubmissionsCountsMap = new Map();
@@ -208,7 +88,7 @@ export default withTracker(() => {
     Meteor.users
       .find({ role: { $ne: 'admin' } })
       .fetch()
-      .filter((u) => u.username === undefined) // filter out admins
+      .filter((u) => u.username === undefined) // don't show admin users
       .map((u) => {
         const fullShowScore = correctUserSubmissionsCountsMap.get(u._id);
         return {
@@ -222,18 +102,5 @@ export default withTracker(() => {
 
   const flagNames = getAllFlagNames(users).filter((flagName) => flagName !== 'newsletter');
 
-  const maxRank = Math.max(...users.map((u) => u.estimationGame && u.estimationGame.rank)) || 0;
-  const minRank = Math.min(...users.map((u) => u.estimationGame && u.estimationGame.rank)) || 0;
-
-  const maxPoints = Math.max(...users.map((u) => u.estimationGame && u.estimationGame.points)) || 0;
-  const minPoints = Math.min(...users.map((u) => u.estimationGame && u.estimationGame.points)) || 0;
-
-  return {
-    maxRank,
-    minRank,
-    maxPoints,
-    minPoints,
-    flagNames,
-    users,
-  };
+  return { flagNames, users, isReady };
 })(withStyles(styles)(UserListPage));

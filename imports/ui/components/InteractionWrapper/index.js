@@ -15,6 +15,7 @@ const propTypes = {
   liveScoreProps: PropTypes.shape({
     // TODO: duplicate proptypes with LiveScores
     mode: PropTypes.oneOf(['HIDE', 'SMALL', 'BIG']).isRequired,
+    hasSubmitted: PropTypes.bool.isRequired,
     submittedFor: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     scoreCandidate1: PropTypes.number.isRequired,
     scoreCandidate2: PropTypes.number.isRequired,
@@ -39,10 +40,18 @@ const InteractionWrapper = ({
     <LiveScores
       {...liveScoreProps}
       onClickCandidate1={() =>
-        maybeSubmit({ submit, value: 'CANDIDATE1', canSubmit: liveScoreProps.mode === 'BIG' })
+        maybeSubmit({
+          submit,
+          value: 'CANDIDATE1',
+          canSubmit: liveScoreProps.mode === 'BIG' && !liveScoreProps.hasSubmitted,
+        })
       }
       onClickCandidate2={() =>
-        maybeSubmit({ submit, value: 'CANDIDATE2', canSubmit: liveScoreProps.mode === 'BIG' })
+        maybeSubmit({
+          submit,
+          value: 'CANDIDATE2',
+          canSubmit: liveScoreProps.mode === 'BIG' && !liveScoreProps.hasSubmitted,
+        })
       }
     />
   </div>

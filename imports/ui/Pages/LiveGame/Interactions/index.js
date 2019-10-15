@@ -63,7 +63,8 @@ const Interactions = ({
   const { type } = interaction;
   let Component = interactionsMap.get(type);
 
-  if (hasSubmitted && hasSubmittedMap.has(type)) {
+  const shouldShowSubmitSuccessfulComponent = hasSubmitted && hasSubmittedMap.has(type);
+  if (shouldShowSubmitSuccessfulComponent) {
     Component = hasSubmittedMap.get(type);
   }
 
@@ -81,6 +82,7 @@ const Interactions = ({
 
   const liveScoreProps = {
     mode,
+    hasSubmitted,
     submittedFor,
     scoreCandidate1,
     scoreCandidate2,

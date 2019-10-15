@@ -1,4 +1,6 @@
 import { Meteor } from 'meteor/meteor';
+import { ReactiveVar } from 'meteor/reactive-var';
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -54,7 +56,7 @@ const LiveGame = ({
       <div className={classes.interactionsWrapper}>
         <Interactions
           interaction={interaction}
-          submit={(value) => submit.call({ value })}
+          submit={submitValue}
           hasSubmitted={hasSubmitted}
           submittedFor={submittedFor}
           candidate1={candidate1}
@@ -87,6 +89,20 @@ const styles = {
 // this prevents paint flashing a loading message
 let lastInteraction = {};
 
+// optimistically update the UI when the user made a choice
+const isSubmitting = new ReactiveVar(false);
+
+const submitValue = (value) => {
+  isSubmitting.set(true);
+  submit.call({ value }, (err) => {
+    if (err) {
+      console.error('Error submitting value', err);
+    }
+
+    isSubmitting.set(false);
+  });
+};
+
 export default withTracker(() => {
   const ownInteractionsHandle = Meteor.subscribe('interactions.active');
   const ownSubmissionsHandle = Meteor.subscribe('submissions.own');
@@ -95,8 +111,10 @@ export default withTracker(() => {
     ownInteractionsHandle.ready() && ownSubmissionsHandle.ready() && candidatesHandle.ready();
 
   const interaction = InteractionsCollection.findOne({ state: interactionStates.ACTIVE });
-  if (interaction) {
+  if (interaction && interaction._id !== lastInteraction._id) {
     lastInteraction = interaction;
+    // reset isSubmitting state for every new interaction
+    isSubmitting.set(false);
   }
 
   const { value: submissionValueForCurrentInteraction } =
@@ -136,7 +154,7 @@ export default withTracker(() => {
     user,
     interaction: lastInteraction,
     games: isReady ? games : [],
-    hasSubmitted: !!submissionValueForCurrentInteraction,
+    hasSubmitted: !!submissionValueForCurrentInteraction || isSubmitting.get(),
     submittedFor: submissionValueForCurrentInteraction,
     loading: !isReady,
     candidate1,

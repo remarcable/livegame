@@ -1,1 +1,2 @@
+import './addIndexes';
 import './publication';

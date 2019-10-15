@@ -33,11 +33,17 @@ export const submit = new ValidatedMethod({
 
     const userId = Meteor.userId();
     const interactionId = currentInteraction._id;
-    const hasAlreadyAnswered = !!Submissions.findOne({ userId, interactionId });
-    if (hasAlreadyAnswered) {
-      throw new Meteor.Error('submissions.insert.duplicate');
-    }
 
-    Submissions.insert({ userId, interactionId, value });
+    try {
+      Submissions.insert({ userId, interactionId, value });
+    } catch (e) {
+      console.error(e);
+
+      if (e.code === 11000) {
+        throw new Meteor.Error('submissions.insert.duplicate');
+      } else {
+        throw new Meteor.Error('submissions.insert.generic');
+      }
+    }
   },
 });

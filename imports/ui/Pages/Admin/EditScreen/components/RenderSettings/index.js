@@ -33,7 +33,7 @@ const RenderSettings = ({ title, Component, drawerWidth }) => {
             <AddIcon />
           </IconButton>
         </Box>
-        {<Component closeModal={closeModal} modalIsOpened={modalIsOpened} />}
+        {<Component openModal={openModal} closeModal={closeModal} modalIsOpened={modalIsOpened} />}
       </Box>
     </Box>
   );

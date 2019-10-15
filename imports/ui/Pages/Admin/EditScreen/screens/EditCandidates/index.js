@@ -15,16 +15,19 @@ import {
 
 import CandidatesTable from './CandidatesTable';
 import Dialog from './Dialog';
+import NoCandidates from './NoCandidates';
 
 const propTypes = {
   candidates: PropTypes.array.isRequired, // TODO: better type
+  openModal: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
   modalIsOpened: PropTypes.bool.isRequired,
+  isReady: PropTypes.bool.isRequired,
 };
 
 const callSetCandidate = ({ _id, candidateNumber }) => setCandidate.call({ _id, candidateNumber });
 
-const EditCandidates = ({ candidates, closeModal, modalIsOpened }) => {
+const EditCandidates = ({ candidates, openModal, closeModal, modalIsOpened, isReady }) => {
   // have both editDialogId and editDialogIsOpened in state to be able to close the dialog
   // and still being able to show the edited data while transitioning
   const [editDialogId, setEditDialogId] = useState(null);
@@ -37,17 +40,20 @@ const EditCandidates = ({ candidates, closeModal, modalIsOpened }) => {
 
   return (
     <>
-      <CandidatesTable
-        candidates={candidates}
-        onEditCandidate={(_id) => openEditDialog(_id)}
-        onDeleteCandidate={(_id) => {
-          const shouldDelete = confirm('Soll der Kandidat wirklich gelöscht werden?');
-          if (shouldDelete) {
-            removeCandidate.call({ _id });
-          }
-        }}
-        setCandidate={callSetCandidate}
-      />
+      {isReady && candidates.length === 0 && <NoCandidates handleClick={openModal} />}
+      {isReady && (
+        <CandidatesTable
+          candidates={candidates}
+          onEditCandidate={(_id) => openEditDialog(_id)}
+          onDeleteCandidate={(_id) => {
+            const shouldDelete = confirm('Soll der Kandidat wirklich gelöscht werden?');
+            if (shouldDelete) {
+              removeCandidate.call({ _id });
+            }
+          }}
+          setCandidate={callSetCandidate}
+        />
+      )}
 
       <Dialog
         title="Kandidat erstellen"
@@ -86,8 +92,8 @@ const EditCandidates = ({ candidates, closeModal, modalIsOpened }) => {
 EditCandidates.propTypes = propTypes;
 
 export default withTracker(() => {
-  Meteor.subscribe('candidates.allCandidates');
+  const candidatesHandle = Meteor.subscribe('candidates.allCandidates');
   const candidates = Candidates.find().fetch();
-
-  return { candidates };
+  const isReady = candidatesHandle.ready();
+  return { candidates, isReady };
 })(EditCandidates);

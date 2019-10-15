@@ -30,6 +30,9 @@ const ShowBreak = ({
   const openMenu = () => setMenuIsOpen(true);
   const closeMenu = () => setMenuIsOpen(false);
 
+  const userRank = estimationGame.rank;
+  const userGetsFreeDrink = userRank >= 4 && userRank <= 20;
+
   const showStartBox = (
     <ActionBox
       className={classes.welcome}
@@ -42,35 +45,36 @@ const ShowBreak = ({
       buttonDisabled={!!flags.welcome}
     />
   );
-  const userRank = estimationGame.rank;
-  const userGetsFreeDrink = userRank >= 4 && userRank <= 20;
+
+  const freeDrinkEstimationGameBox = (
+    <ActionBox
+      className={classes.estimationGameCoupon}
+      headline={texts.estimationGameCoupon.headline}
+      text={texts.estimationGameCoupon.text}
+      buttonText={flags.estimationGameCoupon ? '✓ Gutschein eingelöst' : 'Gutschein einlösen'}
+      onButtonClick={() => {
+        if (window.confirm(redeemVoucherText)) {
+          setFlag('estimationGameCoupon');
+        }
+      }}
+      buttonDisabled={!!flags.estimationGameCoupon}
+      additionalElement={<span className={classes.estimationGameRank}>Platz {userRank}</span>}
+    />
+  );
+
+  const defaultEstimationGameBox = (
+    <ActionBox
+      className={classes.estimationGameLoose}
+      headline={texts.estimationGameLoose.headline}
+      text={texts.estimationGameLoose.text}
+      additionalElement={
+        <span className={classes.estimationGameRank}>Platz {userRank || 'X'}</span>
+      }
+    />
+  );
+
   const midbreakAndShowEndBox = (
-    <>
-      {userGetsFreeDrink ? (
-        <ActionBox
-          className={classes.estimationGameCoupon}
-          headline={texts.estimationGameCoupon.headline}
-          text={texts.estimationGameCoupon.text}
-          buttonText={flags.estimationGameCoupon ? '✓ Gutschein eingelöst' : 'Gutschein einlösen'}
-          onButtonClick={() => {
-            if (window.confirm(redeemVoucherText)) {
-              setFlag('estimationGameCoupon');
-            }
-          }}
-          buttonDisabled={!!flags.estimationGameCoupon}
-          additionalElement={<span className={classes.estimationGameRank}>Platz {userRank}</span>}
-        />
-      ) : (
-        <ActionBox
-          className={classes.estimationGameLoose}
-          headline={texts.estimationGameLoose.headline}
-          text={texts.estimationGameLoose.text}
-          additionalElement={
-            <span className={classes.estimationGameRank}>Platz {userRank || 'X'}</span>
-          }
-        />
-      )}
-    </>
+    <>{userGetsFreeDrink ? freeDrinkEstimationGameBox : userRank && defaultEstimationGameBox}</>
   );
 
   const permanentBoxes = (

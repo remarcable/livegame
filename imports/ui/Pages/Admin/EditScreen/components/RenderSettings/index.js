@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
+
+import AddIcon from '@material-ui/icons/Add';
 
 const propTypes = {
   title: PropTypes.string.isRequired,
@@ -11,6 +14,10 @@ const propTypes = {
 };
 
 const RenderSettings = ({ title, Component, drawerWidth }) => {
+  const [modalIsOpened, setModalIsOpened] = useState(false);
+  const openModal = () => setModalIsOpened(true);
+  const closeModal = () => setModalIsOpened(false);
+
   return (
     <Box
       ml={30}
@@ -20,8 +27,13 @@ const RenderSettings = ({ title, Component, drawerWidth }) => {
       justifyContent="center"
     >
       <Box width={0.95}>
-        <Typography variant="h5">{title}</Typography>
-        {<Component />}
+        <Box mb={3} display="flex" justifyContent="space-between" alignItems="center">
+          <Typography variant="h5">{title}</Typography>
+          <IconButton aria-label="add" onClick={openModal}>
+            <AddIcon />
+          </IconButton>
+        </Box>
+        {<Component closeModal={closeModal} modalIsOpened={modalIsOpened} />}
       </Box>
     </Box>
   );

@@ -120,6 +120,16 @@ const ShowBreak = ({
         />
       )}
       <ActionBox
+        className={classes.facebook}
+        headline={texts.facebook.headline}
+        text={texts.facebook.text}
+        buttonText="Seite öffnen"
+        onButtonClick={() => {
+          setFlag('clickedFacebook');
+          window.open('https://www.facebook.com/werbesiegtpaul', '_blank');
+        }}
+      />
+      <ActionBox
         className={classes.jwz}
         headline={texts.jwz.headline}
         text={texts.jwz.text}
@@ -177,7 +187,10 @@ const styles = {
     backgroundImage: 'linear-gradient(#00BCD4 0%, #3F51B5 100%)',
   },
   paypal: {
-    backgroundImage: 'linear-gradient(#4EA1CA 0%, #23516A 100%)',
+    backgroundImage: 'linear-gradient(#FF9800 0%, #FF5722 100%)',
+  },
+  facebook: {
+    backgroundImage: 'linear-gradient(#287DED 0%, #074A8D 100%)',
   },
   jwz: {
     backgroundImage: 'linear-gradient(#9F4DEC 0%, #4F0C96 100%)',
@@ -186,7 +199,7 @@ const styles = {
     backgroundImage: 'linear-gradient(#80B501 0%, #299B0A 100%)',
   },
   newsletter: {
-    backgroundImage: 'linear-gradient(#E5402A 0%, #9B2118 100%)',
+    backgroundImage: 'linear-gradient(#fd4c34 0%, #bb0d00 100%)',
   },
   estimationGameLoose: {
     backgroundImage: 'linear-gradient(#D3CCBE 0%, #464A62 100%)',

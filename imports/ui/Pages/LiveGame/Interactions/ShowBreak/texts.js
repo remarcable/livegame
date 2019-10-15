@@ -37,4 +37,9 @@ export default {
     text:
       'Am 01. November findet wieder der südlichste Poetry-Slam Nordbrandenburgs statt. Seien Sie mit dabei und lassen Sie sich rechtzeitig erinnern.',
   },
+  facebook: {
+    headline: 'Auf Facebook liken',
+    text:
+      'Auf keinen Fall vergessen: Auf Facebook gibt es neben phänomenalen behind-the-scenes auch heiße Gewinnspiele.',
+  },
 };

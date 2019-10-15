@@ -18,7 +18,7 @@ import getStateForGameAndSubmission from '/imports/api/helpers/getStateForGameAn
 import { withStyles } from '@material-ui/styles';
 
 import PlayerLayout from '/imports/ui/Layouts/PlayerLayout';
-import ProgressSidebar from '/imports/ui/components/ProgressSidebar';
+import ScoreSidebar from '/imports/ui/components/ScoreSidebar';
 import Interactions from './Interactions';
 
 const propTypes = {
@@ -50,7 +50,7 @@ const LiveGame = ({
 }) => (
   <PlayerLayout loading={loading}>
     <div className={classes.wrapper}>
-      <ProgressSidebar games={games} />
+      <ScoreSidebar games={games} />
       <div className={classes.interactionsWrapper}>
         <Interactions
           interaction={interaction}
@@ -76,7 +76,7 @@ const styles = {
     height: '100%',
   },
   interactionsWrapper: {
-    width: 'calc(100% - 50px)', // -50px for ProgressSidebar
+    width: 'calc(100% - 50px)', // -50px for ScoreSidebar
     marginLeft: 50,
     maxWidth: 'calc(100% - 50px)',
     height: '100%',

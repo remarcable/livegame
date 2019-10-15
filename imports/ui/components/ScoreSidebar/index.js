@@ -20,7 +20,7 @@ const propTypes = {
   ).isRequired,
 };
 
-const ProgressSidebar = ({ classes, games }) => {
+const ScoreSidebar = ({ classes, games }) => {
   // TODO create isSmallScreen hook
   const currentClientHeight = useWindowHeight();
   const isSmallScreen = currentClientHeight < 600;
@@ -48,7 +48,7 @@ const ProgressSidebar = ({ classes, games }) => {
   );
 };
 
-ProgressSidebar.propTypes = propTypes;
+ScoreSidebar.propTypes = propTypes;
 
 // TODO: use theme variable
 const width = 50;
@@ -102,4 +102,4 @@ const styles = () => ({
   },
 });
 
-export default withStyles(styles)(ProgressSidebar);
+export default withStyles(styles)(ScoreSidebar);

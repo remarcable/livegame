@@ -1,1 +1,1 @@
-export default (str) => [...str].map(() => 'X').join('');
+export default (str) => [...str].map((s) => (s === ' ' ? ' ' : 'X')).join('');

@@ -13,10 +13,17 @@ import {
   removeInteraction,
 } from '/imports/api/interactions/methods';
 
+import interactionTypes from '/imports/api/interactions/types';
 import { mapSort } from '/imports/api/helpers/mapSort';
 
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Typography from '@material-ui/core/Typography';
+
+import InteractionIcon from '/imports/ui/components/InteractionIcon';
 
 import InteractionsTable from './InteractionsTable';
 import Dialog from './Dialog';
@@ -27,10 +34,18 @@ const propTypes = {
   openModal: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
   modalIsOpened: PropTypes.bool.isRequired,
+  createNewButtonRef: PropTypes.object.isRequired, // TODO: better type
   isReady: PropTypes.bool.isRequired,
 };
 
-const EditInteractions = ({ interactions, openModal, closeModal, modalIsOpened, isReady }) => {
+const EditInteractions = ({
+  interactions,
+  openModal,
+  closeModal,
+  modalIsOpened,
+  createNewButtonRef,
+  isReady,
+}) => {
   // have both editDialogId and editDialogIsOpened in state to be able to close the dialog
   // and still being able to show the edited data while transitioning
   const [editDialogId, setEditDialogId] = useState(null);
@@ -40,6 +55,14 @@ const EditInteractions = ({ interactions, openModal, closeModal, modalIsOpened, 
     setEditDialogIsOpened(true);
   };
   const closeEditDialog = () => setEditDialogIsOpened(false);
+
+  const [createInteractionDialogType, setCreateInteractionDialogType] = useState(null);
+  const [createInteractionDialogIsOpened, setCreateInteractionDialogIsOpened] = useState(false);
+  const openCreateInteractionDialog = (type) => {
+    setCreateInteractionDialogType(type);
+    setCreateInteractionDialogIsOpened(true);
+  };
+  const closeCreateInteractionDialog = () => setCreateInteractionDialogIsOpened(false);
 
   return (
     <>
@@ -60,17 +83,41 @@ const EditInteractions = ({ interactions, openModal, closeModal, modalIsOpened, 
         />
       )}
 
-      <Dialog
-        dialogTitle="Interaktion erstellen"
+      <Menu
+        id="create-interaction"
+        anchorEl={createNewButtonRef}
         open={modalIsOpened}
+        onClose={() => closeModal()}
+      >
+        {[...interactionTypes.keys()].map((typeName) => (
+          <MenuItem
+            key={typeName}
+            onClick={() => {
+              closeModal();
+              openCreateInteractionDialog();
+              setCreateInteractionDialogType(typeName);
+            }}
+          >
+            <ListItemIcon>
+              <InteractionIcon type={typeName} disableTooltip />
+            </ListItemIcon>
+            <Typography variant="inherit">{typeName}</Typography>
+          </MenuItem>
+        ))}
+      </Menu>
+
+      <Dialog
+        dialogTitle={`${createInteractionDialogType} erstellen`}
+        interactionModel={{ type: createInteractionDialogType }}
+        open={createInteractionDialogIsOpened}
         handleClose={(submittedData) => {
-          closeModal();
+          closeCreateInteractionDialog();
           if (!submittedData) {
             return;
           }
 
-          const { interactionType, title, data } = submittedData;
-          createInteraction.call({ interactionType, title, data });
+          const { title, data } = submittedData;
+          createInteraction.call({ interactionType: createInteractionDialogType, title, data });
         }}
       />
 

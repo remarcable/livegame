@@ -16,9 +16,10 @@ const propTypes = {
     'FULL_SHOW_GAME',
     'FULL_SHOW_WAITING',
   ]).isRequired,
+  disableTooltip: PropTypes.bool,
 };
 
-const InteractionIcon = ({ type }) => {
+const InteractionIcon = ({ type, disableTooltip = false }) => {
   const icon = typeToIcon[type];
 
   if (!icon) {
@@ -26,7 +27,7 @@ const InteractionIcon = ({ type }) => {
   }
 
   return (
-    <Tooltip title={type} placement="right">
+    <Tooltip title={type} placement="right" open={!disableTooltip && undefined}>
       {icon}
     </Tooltip>
   );

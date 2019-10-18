@@ -15,6 +15,7 @@ const propTypes = {
 
 const RenderSettings = ({ title, Component, drawerWidth }) => {
   const [modalIsOpened, setModalIsOpened] = useState(false);
+  const [createNewButtonRef, setCreateNewButtonRef] = useState({}); // TODO: is this correct?
   const openModal = () => setModalIsOpened(true);
   const closeModal = () => setModalIsOpened(false);
 
@@ -29,11 +30,20 @@ const RenderSettings = ({ title, Component, drawerWidth }) => {
       <Box width={0.95}>
         <Box mb={3} display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="h5">{title}</Typography>
-          <IconButton aria-label="add" onClick={openModal}>
+          <IconButton
+            aria-label="add"
+            onClick={openModal}
+            ref={(ref) => setCreateNewButtonRef(ref)}
+          >
             <AddIcon />
           </IconButton>
         </Box>
-        {<Component openModal={openModal} closeModal={closeModal} modalIsOpened={modalIsOpened} />}
+        <Component
+          createNewButtonRef={createNewButtonRef}
+          openModal={openModal}
+          closeModal={closeModal}
+          modalIsOpened={modalIsOpened}
+        />
       </Box>
     </Box>
   );

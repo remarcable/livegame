@@ -8,94 +8,56 @@ import AutoField from 'uniforms-material/AutoField';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import Box from '@material-ui/core/Box';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import MuiDialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
 
-import ImageUrlInfoDialog from './ImageUrlInfoDialog';
+import interactionTypes from '/imports/api/interactions/types';
 
 const propTypes = {
-  title: PropTypes.string.isRequired,
-  candidateModel: PropTypes.object, // TODO: better type
+  dialogTitle: PropTypes.string.isRequired,
+  interactionModel: PropTypes.object, // TODO: better type
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
 };
 
-const schema = new SimpleSchema({
-  name: { type: String, label: 'Name' },
-  imageUrl: { type: String, label: 'Bild-URL', regEx: SimpleSchema.RegEx.Url },
-});
-
-const schemaBridge = new SimpleSchemaBridge(schema);
-
 // eslint-disable-next-line import/prefer-default-export
-const Dialog = ({ title, candidateModel = {}, open, handleClose }) => {
+const Dialog = ({ dialogTitle, interactionModel = {}, open, handleClose }) => {
   const classes = useStyles();
-
   const [formInstance, setForm] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null);
-  const [name, setName] = useState(null);
 
-  const [imageUrlDialogOpened, setImageUrlDialogOpened] = useState(false);
-  const openImageUrlDialog = () => setImageUrlDialogOpened(true);
-  const closeImageUrlDialog = () => setImageUrlDialogOpened(false);
-
-  const close = (...args) => {
-    handleClose(...args);
-    setImageUrl(null);
-    setName(null);
-  };
-
-  const image = imageUrl || candidateModel.imageUrl;
+  const interactionType = interactionTypes.get(interactionModel.type);
+  let autoForm;
+  if (interactionType) {
+    const { schemaKey } = interactionType;
+    const schema = new SimpleSchema({
+      title: {
+        type: String,
+        label: 'Titel',
+      },
+      ...interactionType.getFields(),
+    });
+    const schemaBridge = new SimpleSchemaBridge(schema);
+    autoForm = (
+      <AutoForm
+        schema={schemaBridge}
+        ref={(form) => setForm(form)}
+        model={{ title: interactionModel.title || '', ...interactionModel[schemaKey] }}
+        onSubmit={({ title, ...data }) => handleClose({ id: interactionModel._id, title, data })}
+        submitField={() => <input type="submit" hidden />}
+      />
+    );
+  }
 
   return (
     <>
-      <MuiDialog open={open} onClose={() => close()}>
-        <DialogTitle>{title}</DialogTitle>
-        <DialogContent className={classes.dialogContent}>
-          <Box display="flex" justifyContent="center" alignItems="center" mb={1}>
-            <Avatar src={image} className={classes.avatar}>
-              {!image && name && name[0].toUpperCase()}
-            </Avatar>
-          </Box>
-          <AutoForm
-            schema={schemaBridge}
-            onSubmit={(data) => {
-              close({ _id: candidateModel._id, ...data });
-            }}
-            model={{ name: candidateModel.name, imageUrl: candidateModel.imageUrl }}
-            ref={(form) => setForm(form)}
-            submitField={() => <input type="submit" hidden />}
-            onChange={(key, value) => {
-              // for automatically updaing the avatar
-              if (key === 'imageUrl') {
-                setImageUrl(value);
-              }
-
-              if (key === 'name') {
-                setName(value);
-              }
-            }}
-          >
-            <AutoField name="name" />
-            <Box display="flex">
-              <AutoField name="imageUrl" />
-              <Box width={48} display="flex" justifyContent="center" alignItems="center">
-                <IconButton onClick={openImageUrlDialog}>
-                  <InfoIcon />
-                </IconButton>
-              </Box>
-            </Box>
-          </AutoForm>
-        </DialogContent>
+      <MuiDialog open={open} onClose={() => handleClose()}>
+        <DialogTitle>{dialogTitle}</DialogTitle>
+        <DialogContent className={classes.dialogContent}>{autoForm}</DialogContent>
         <DialogActions>
-          <Button onClick={() => close()} color="primary">
+          <Button onClick={() => handleClose()} color="primary">
             Abbrechen
           </Button>
           <Button
@@ -110,7 +72,6 @@ const Dialog = ({ title, candidateModel = {}, open, handleClose }) => {
           </Button>
         </DialogActions>
       </MuiDialog>
-      <ImageUrlInfoDialog open={imageUrlDialogOpened} handleClose={closeImageUrlDialog} />
     </>
   );
 };

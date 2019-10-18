@@ -22,4 +22,7 @@ export default ({ type, ...i }) => {
   if (type === 'FULL_SHOW_WAITING') {
     return `${i.title} • Warten`;
   }
+
+  console.error(`No text for type ${type} implemented`);
+  return `${i.title} • ${type}`;
 };

@@ -61,7 +61,7 @@ const EditInteractions = ({ interactions, openModal, closeModal, modalIsOpened, 
       )}
 
       <Dialog
-        title="Interaktion erstellen"
+        dialogTitle="Interaktion erstellen"
         open={modalIsOpened}
         handleClose={(submittedData) => {
           closeModal();
@@ -75,8 +75,8 @@ const EditInteractions = ({ interactions, openModal, closeModal, modalIsOpened, 
       />
 
       <Dialog
-        title="Interaktion bearbeiten"
-        candidateModel={
+        dialogTitle="Interaktion bearbeiten"
+        interactionModel={
           editDialogId ? interactions.find(({ _id }) => _id === editDialogId) : undefined
         }
         open={editDialogIsOpened}
@@ -85,7 +85,7 @@ const EditInteractions = ({ interactions, openModal, closeModal, modalIsOpened, 
           if (!submittedData) {
             return;
           }
-          alert('updateInteractionDetails not yet implemented correctly');
+
           const { id, title, data } = submittedData;
           updateInteractionDetails.call({ id, title, data });
         }}

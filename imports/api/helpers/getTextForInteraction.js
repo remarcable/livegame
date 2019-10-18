@@ -16,7 +16,7 @@ export default ({ type, ...i }) => {
   }
 
   if (type === 'FULL_SHOW_GAME') {
-    return `${i.fullShowGame.gameNumber}. ${i.title}`;
+    return `${i.fullShowGame.gameNumber}. Spiel: ${i.title}`;
   }
 
   if (type === 'FULL_SHOW_WAITING') {

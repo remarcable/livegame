@@ -20,10 +20,6 @@ import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import RestaurantIcon from '@material-ui/icons/Restaurant';
-import DonutSmallIcon from '@material-ui/icons/DonutSmall';
-import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
-import EqualizerIcon from '@material-ui/icons/Equalizer';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 
@@ -44,6 +40,7 @@ import { mapSort } from '/imports/api/helpers/mapSort';
 import sortFullShowGames from '/imports/api/helpers/sortFullShowGames';
 import getTextForInteraction from '/imports/api/helpers/getTextForInteraction';
 
+import InteractionIcon from '/imports/ui/components/InteractionIcon';
 import UpdateGames from './UpdateGames';
 
 const propTypes = {
@@ -56,15 +53,6 @@ const propTypes = {
   candidate1Name: PropTypes.string,
   candidate2Name: PropTypes.string,
   scoreText: PropTypes.string,
-};
-
-const typeToIcon = {
-  SHOW_BREAK: <RestaurantIcon />,
-  ESTIMATION_GAME: <DonutSmallIcon />,
-  ESTIMATION_VOTING: <EqualizerIcon />,
-  ESTIMATION_WAITING: <HourglassEmptyIcon />,
-  FULL_SHOW_GAME: <DonutSmallIcon />,
-  FULL_SHOW_WAITING: <HourglassEmptyIcon />,
 };
 
 window.onkeydown = (e) =>
@@ -117,7 +105,9 @@ const ShowScreen = ({
                     selected: classes.selected,
                   }}
                 >
-                  <TableCell>{typeToIcon[i.type]}</TableCell>
+                  <TableCell>
+                    <InteractionIcon type={i.type} />
+                  </TableCell>
                   <TableCell>{getTextForInteraction(i)}</TableCell>
                   <TableCell>
                     <IconButton

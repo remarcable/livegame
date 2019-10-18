@@ -13,6 +13,9 @@ import {
   setCandidate,
 } from '/imports/api/candidates/methods';
 
+import Box from '@material-ui/core/Box';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import CandidatesTable from './CandidatesTable';
 import Dialog from './Dialog';
 import NoCandidates from './NoCandidates';
@@ -40,6 +43,9 @@ const EditCandidates = ({ candidates, openModal, closeModal, modalIsOpened, isRe
 
   return (
     <>
+      <Box display="flex" justifyContent="center">
+        {!isReady && <CircularProgress />}
+      </Box>
       {isReady && candidates.length === 0 && <NoCandidates handleClick={openModal} />}
       {isReady && (
         <CandidatesTable

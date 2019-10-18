@@ -46,14 +46,16 @@ const Dialog = ({ title, candidateModel = {}, open, handleClose }) => {
     setName(null);
   };
 
+  const image = imageUrl || candidateModel.imageUrl;
+
   return (
     <MuiDialog open={open} onClose={() => close()} className={classes.dialog}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <Box display="flex" justifyContent="center" alignItems="center" mb={1}>
           <Box mr={3}>
-            <Avatar src={imageUrl || candidateModel.imageUrl} className={classes.avatar}>
-              {!imageUrl && name && name[0].toUpperCase()}
+            <Avatar src={image} className={classes.avatar}>
+              {!image && name && name[0].toUpperCase()}
             </Avatar>
           </Box>
           <DialogContentText className={classes.hintText}>{hintText}</DialogContentText>

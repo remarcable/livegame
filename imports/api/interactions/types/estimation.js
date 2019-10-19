@@ -5,6 +5,7 @@ import InteractionType from './InteractionType';
 
 export const estimationGame = new InteractionType({
   typeName: 'ESTIMATION_GAME',
+  label: 'Schätzen • Frage',
   schemaKey: 'estimationGame',
   submittable: true,
   fields: {
@@ -63,6 +64,7 @@ export const estimationGame = new InteractionType({
 // TODO: add 'editable: false' property (defaults to true)
 export const estimationVoting = new InteractionType({
   typeName: 'ESTIMATION_VOTING',
+  label: 'Schätzen • Voting',
   schemaKey: 'estimationVoting',
   submittable: true,
   fields: {
@@ -76,4 +78,5 @@ export const estimationVoting = new InteractionType({
 
 export const estimationWaiting = new InteractionType({
   typeName: 'ESTIMATION_WAITING',
+  label: 'Schätzen • Warten',
 });

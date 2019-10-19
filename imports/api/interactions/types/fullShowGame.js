@@ -2,6 +2,7 @@ import InteractionType from './InteractionType';
 
 export const fullShowGame = new InteractionType({
   typeName: 'FULL_SHOW_GAME',
+  label: 'Show • Spiel',
   schemaKey: 'fullShowGame',
   submittable: true,
   fields: {
@@ -36,4 +37,5 @@ export const fullShowGame = new InteractionType({
 
 export const fullShowWaiting = new InteractionType({
   typeName: 'FULL_SHOW_WAITING',
+  label: 'Show • Warten',
 });

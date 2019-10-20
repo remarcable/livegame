@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import SimpleSchema from 'simpl-schema';
-import SimpleSchemaBridge from 'uniforms-bridge-simple-schema-2';
-import AutoForm from 'uniforms-material/AutoForm';
-import AutoField from 'uniforms-material/AutoField';
-
 import { makeStyles } from '@material-ui/core/styles';
 
 import Button from '@material-ui/core/Button';
@@ -14,7 +9,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import interactionTypes from '/imports/api/interactions/types';
+import DialogForm from './DialogForm';
 
 const propTypes = {
   dialogTitle: PropTypes.string.isRequired,
@@ -27,35 +22,17 @@ const propTypes = {
 const Dialog = ({ dialogTitle, interactionModel = {}, open, handleClose }) => {
   const classes = useStyles();
   const [formInstance, setForm] = useState(null);
-
-  const interactionType = interactionTypes.get(interactionModel.type);
-  let autoForm;
-  if (interactionType) {
-    const { schemaKey } = interactionType;
-    const schema = new SimpleSchema({
-      title: {
-        type: String,
-        label: 'Titel',
-      },
-      ...interactionType.getFields(),
-    });
-    const schemaBridge = new SimpleSchemaBridge(schema);
-    autoForm = (
-      <AutoForm
-        schema={schemaBridge}
-        ref={(form) => setForm(form)}
-        model={{ title: interactionModel.title || '', ...interactionModel[schemaKey] }}
-        onSubmit={({ title, ...data }) => handleClose({ id: interactionModel._id, title, data })}
-        submitField={() => <input type="submit" hidden />}
-      />
-    );
-  }
-
   return (
     <>
       <MuiDialog open={open} onClose={() => handleClose()}>
         <DialogTitle>{dialogTitle}</DialogTitle>
-        <DialogContent className={classes.dialogContent}>{autoForm}</DialogContent>
+        <DialogContent className={classes.dialogContent}>
+          <DialogForm
+            setForm={setForm}
+            interactionModel={interactionModel}
+            handleClose={handleClose}
+          />
+        </DialogContent>
         <DialogActions>
           <Button onClick={() => handleClose()} color="primary">
             Abbrechen

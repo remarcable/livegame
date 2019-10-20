@@ -83,9 +83,9 @@ const Dialog = ({ title, candidateModel = {}, open, handleClose }) => {
               }
             }}
           >
-            <AutoField name="name" />
+            <AutoField name="name" showInlineError />
             <Box display="flex">
-              <AutoField name="imageUrl" />
+              <AutoField name="imageUrl" showInlineError />
               <Box width={48} display="flex" justifyContent="center" alignItems="center">
                 <IconButton onClick={openImageUrlDialog}>
                   <InfoIcon />

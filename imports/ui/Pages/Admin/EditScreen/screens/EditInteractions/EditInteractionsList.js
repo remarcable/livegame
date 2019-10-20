@@ -11,7 +11,7 @@ const EditInteractionsList = ({ interactions }) =>
   interactions.map((i) => {
     const interactionType = interactionTypes.get(i.type);
     const { schemaKey } = interactionType;
-    const schema = new SimpleSchema({ title: String, ...interactionType.getFields() });
+    const schema = new SimpleSchema({ title: String, ...interactionType.getFieldDefinitions() });
     const schemaBridge = new SimpleSchemaBridge(schema);
 
     return (

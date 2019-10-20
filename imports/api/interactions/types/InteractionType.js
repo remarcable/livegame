@@ -27,7 +27,7 @@ export default class InteractionType {
             originalValidate,
             schemaKey,
             subSchema: this.getSubSchema(),
-            fields: this.getFields(),
+            fields: this.getFieldDefinitions(),
             typeName,
           },
         );
@@ -38,7 +38,7 @@ export default class InteractionType {
     return this.typeName;
   }
 
-  getFields() {
+  getFieldDefinitions() {
     return { ...this.fields };
   }
 
@@ -77,7 +77,7 @@ export default class InteractionType {
     };
   }
 
-  validate({ data = {}, subSchema = this.getFields() } = {}) {
+  validate({ data = {}, subSchema = this.getFieldDefinitions() } = {}) {
     const schema = new SimpleSchema(subSchema);
     schema.validate(data);
   }

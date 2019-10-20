@@ -33,7 +33,7 @@ class NewInteraction extends PureComponent {
     }
 
     const interactionType = interactionTypes.get(selected);
-    const schema = new SimpleSchema({ title: String, ...interactionType.getFields() });
+    const schema = new SimpleSchema({ title: String, ...interactionType.getFieldDefinitions() });
     const schemaBridge = new SimpleSchemaBridge(schema);
     this.schema = schema;
     this.schemaBridge = schemaBridge;

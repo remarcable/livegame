@@ -107,7 +107,7 @@ describe('InteractionType({typeName, schemaKey, fields})', () => {
     });
   });
 
-  describe('getFields()', () => {
+  describe('getFieldDefinitions()', () => {
     const fields = { key: Number, key2: String };
 
     it('returns the passed fields', () => {
@@ -116,7 +116,7 @@ describe('InteractionType({typeName, schemaKey, fields})', () => {
         schemaKey: 'typeName',
         fields,
       });
-      expect(interactionType.getFields()).toEqual(fields);
+      expect(interactionType.getFieldDefinitions()).toEqual(fields);
     });
 
     it('only returns a copy of the fields', () => {
@@ -125,7 +125,7 @@ describe('InteractionType({typeName, schemaKey, fields})', () => {
         schemaKey: 'typeName',
         fields,
       });
-      expect(interactionType.getFields()).not.toBe(interactionType.fields);
+      expect(interactionType.getFieldDefinitions()).not.toBe(interactionType.fields);
     });
   });
 
@@ -190,7 +190,7 @@ describe('InteractionType({typeName, schemaKey, fields})', () => {
     });
   });
 
-  describe('validate({ data = {}, subSchema = this.getFields() })', () => {
+  describe('validate({ data = {}, subSchema = this.getFieldDefinitions() })', () => {
     const testInteractionType = new InteractionType({
       typeName: 'TYPE_NAME',
       schemaKey: 'schemaKey',

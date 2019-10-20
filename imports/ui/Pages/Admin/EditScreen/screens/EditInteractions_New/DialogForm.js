@@ -30,7 +30,7 @@ const DialogForm = ({ interactionModel, handleClose, setForm }) => {
       type: String,
       label: 'Titel',
     },
-    ...interactionType.getFields(),
+    ...interactionType.getFieldDefinitions(),
   });
   const schemaBridge = new SimpleSchemaBridge(schema);
 

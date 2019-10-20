@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import { sortableContainer, sortableElement, sortableHandle } from 'react-sortable-hoc';
 
+import { makeStyles } from '@material-ui/core/styles';
+
 import Box from '@material-ui/core/Box';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -27,37 +29,44 @@ const propTypes = {
   onDeleteInteraction: PropTypes.func.isRequired,
 };
 
-const DragHandle = sortableHandle(() => <ReorderIcon color="disabled" />);
+const DragHandle = sortableHandle(() => {
+  const classes = useStyles();
+  return <ReorderIcon color="disabled" className={classes.dragHandle} />;
+});
 
-const SortableItem = sortableElement(({ interaction, onEditInteraction, onDeleteInteraction }) => (
-  <TableRow key={interaction._id}>
-    <TableCell padding="checkbox">
-      <Box m={2}>
-        <DragHandle />
-      </Box>
-    </TableCell>
-    <TableCell padding="checkbox">
-      <Box m={2}>
-        <InteractionIcon type={interaction.type} />
-      </Box>
-    </TableCell>
-    <TableCell>{getTextForInteraction(interaction)}</TableCell>
-    <TableCell padding="checkbox">
-      <Tooltip title="Bearbeiten">
-        <IconButton onClick={() => onEditInteraction(interaction._id)}>
-          <EditIcon />
-        </IconButton>
-      </Tooltip>
-    </TableCell>
-    <TableCell padding="checkbox">
-      <Tooltip title="Löschen">
-        <IconButton onClick={() => onDeleteInteraction(interaction._id)}>
-          <DeleteIcon />
-        </IconButton>
-      </Tooltip>
-    </TableCell>
-  </TableRow>
-));
+const SortableItem = sortableElement(({ interaction, onEditInteraction, onDeleteInteraction }) => {
+  const classes = useStyles();
+
+  return (
+    <TableRow key={interaction._id} className={classes.tableRow}>
+      <TableCell padding="checkbox">
+        <Box m={2}>
+          <DragHandle />
+        </Box>
+      </TableCell>
+      <TableCell padding="checkbox">
+        <Box m={2}>
+          <InteractionIcon type={interaction.type} />
+        </Box>
+      </TableCell>
+      <TableCell className={classes.textTableCell}>{getTextForInteraction(interaction)}</TableCell>
+      <TableCell padding="checkbox">
+        <Tooltip title="Bearbeiten">
+          <IconButton onClick={() => onEditInteraction(interaction._id)}>
+            <EditIcon />
+          </IconButton>
+        </Tooltip>
+      </TableCell>
+      <TableCell padding="checkbox">
+        <Tooltip title="Löschen">
+          <IconButton onClick={() => onDeleteInteraction(interaction._id)}>
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
+      </TableCell>
+    </TableRow>
+  );
+});
 
 const SortableContainer = sortableContainer(({ children }) => {
   return (
@@ -93,6 +102,19 @@ const InteractionsTable = ({ interactions, onEditInteraction, onDeleteInteractio
     </SortableContainer>
   );
 };
+
+const useStyles = makeStyles({
+  tableRow: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  textTableCell: {
+    flexGrow: 1,
+  },
+  dragHandle: {
+    cursor: 'ns-resize',
+  },
+});
 
 InteractionsTable.propTypes = propTypes;
 

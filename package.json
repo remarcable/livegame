@@ -27,7 +27,6 @@
     "prop-types": "^15.7.2",
     "react": "^16.10.2",
     "react-animated-number": "^0.4.4",
-    "react-beautiful-dnd": "^11.0.5",
     "react-css-transition-replace": "^4.0.2",
     "react-dom": "^16.10.2",
     "react-error-boundary": "^1.2.5",

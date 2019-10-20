@@ -27,7 +27,7 @@ const InteractionIcon = ({ type, disableTooltip = false }) => {
   }
 
   return (
-    <Tooltip title={type} placement="right" open={!disableTooltip && undefined}>
+    <Tooltip title={type} placement="left" open={!disableTooltip && undefined}>
       {icon}
     </Tooltip>
   );

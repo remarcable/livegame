@@ -64,7 +64,7 @@ export const estimationGame = new InteractionType({
 // TODO: add 'editable: false' property (defaults to true)
 export const estimationVoting = new InteractionType({
   typeName: 'ESTIMATION_VOTING',
-  label: 'Schätzen • Voting',
+  label: 'Schätzen • Zuschauerfrage',
   schemaKey: 'estimationVoting',
   submittable: true,
   fields: {

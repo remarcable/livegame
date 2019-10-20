@@ -13,7 +13,8 @@ import {
   removeInteraction,
 } from '/imports/api/interactions/methods';
 
-import interactionTypes from '/imports/api/interactions/types';
+import { interactionTypeNames } from '/imports/api/interactions/types';
+import { getLabelForInteractionTypeName } from '/imports/api/helpers/getLabelForInteractionTypeName';
 import { mapSort } from '/imports/api/helpers/mapSort';
 
 import Box from '@material-ui/core/Box';
@@ -89,7 +90,7 @@ const EditInteractions = ({
         open={modalIsOpened}
         onClose={() => closeModal()}
       >
-        {[...interactionTypes.keys()].map((typeName) => (
+        {Object.keys(interactionTypeNames).map((typeName) => (
           <MenuItem
             key={typeName}
             onClick={() => {
@@ -101,13 +102,13 @@ const EditInteractions = ({
             <ListItemIcon>
               <InteractionIcon type={typeName} disableTooltip />
             </ListItemIcon>
-            <Typography variant="inherit">{typeName}</Typography>
+            <Typography variant="inherit">{getLabelForInteractionTypeName(typeName)}</Typography>
           </MenuItem>
         ))}
       </Menu>
 
       <Dialog
-        dialogTitle={`${createInteractionDialogType} erstellen`}
+        dialogTitle={`${getLabelForInteractionTypeName(createInteractionDialogType)} erstellen`}
         interactionModel={{ type: createInteractionDialogType }}
         open={createInteractionDialogIsOpened}
         handleClose={(submittedData) => {

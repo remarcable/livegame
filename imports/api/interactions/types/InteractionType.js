@@ -2,7 +2,7 @@ import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
 
 export default class InteractionType {
-  constructor({ typeName, schemaKey, fields, validate, submittable = false } = {}) {
+  constructor({ typeName, label, schemaKey, fields, validate, submittable = false } = {}) {
     check(typeName, String);
     check(submittable, Boolean);
 
@@ -13,6 +13,7 @@ export default class InteractionType {
 
     this.typeName = typeName;
     this.submittable = submittable;
+    this.label = label;
     this.schemaKey = schemaKey || null;
     this.fields = fields ? { ...fields } : null;
 

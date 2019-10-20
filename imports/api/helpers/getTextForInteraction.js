@@ -1,18 +1,21 @@
+import { getLabelForInteractionTypeName } from './getLabelForInteractionTypeName';
+
 export default ({ type, ...i }) => {
+  const label = getLabelForInteractionTypeName(type);
   if (type === 'SHOW_BREAK') {
-    return `Unterbrechung: ${i.title}`;
+    return `${label}: ${i.title}`;
   }
 
   if (type === 'ESTIMATION_GAME') {
-    return `Schätzen: ${i.title} • ${i.estimationGame.question}`;
+    return `${label}: ${i.title} • ${i.estimationGame.question}`;
   }
 
   if (type === 'ESTIMATION_VOTING') {
-    return `Schätzen: ${i.title} • ${i.estimationVoting.question}`;
+    return `${label}: ${i.title} • ${i.estimationVoting.question}`;
   }
 
   if (type === 'ESTIMATION_WAITING') {
-    return `Schätzen: ${i.title} • Warten`;
+    return `${label}: ${i.title}`;
   }
 
   if (type === 'FULL_SHOW_GAME') {
@@ -24,5 +27,5 @@ export default ({ type, ...i }) => {
   }
 
   console.error(`No text for type ${type} implemented`);
-  return `${i.title} • ${type}`;
+  return `${label}: ${i.title}`;
 };

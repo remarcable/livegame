@@ -2,13 +2,22 @@ import { showBreak } from './showBreak';
 import { estimationGame, estimationVoting, estimationWaiting } from './estimation';
 import { fullShowGame, fullShowWaiting } from './fullShowGame';
 
-const interactionTypes = new Map();
+const interactionTypes = [
+  showBreak,
+  estimationGame,
+  estimationVoting,
+  estimationWaiting,
+  fullShowGame,
+  fullShowWaiting,
+];
+
+const interactionTypesMap = new Map();
 const schemaKeys = [];
 
 function addInteractionTypeToMap(interactionType) {
   const { typeName, schemaKey } = interactionType;
 
-  if (interactionTypes.has(typeName)) {
+  if (interactionTypesMap.has(typeName)) {
     throw new Error(`InteractionType Map: There already is an interactionType called ${typeName}`);
   }
   if (schemaKey && schemaKeys.includes(schemaKey)) {
@@ -16,24 +25,21 @@ function addInteractionTypeToMap(interactionType) {
   }
 
   schemaKeys.push(schemaKey);
-  interactionTypes.set(typeName, interactionType);
+  interactionTypesMap.set(typeName, interactionType);
 }
 
-[
-  showBreak,
-  estimationGame,
-  estimationVoting,
-  estimationWaiting,
-  fullShowGame,
-  fullShowWaiting,
-].forEach((type) => addInteractionTypeToMap(type));
+interactionTypes.forEach((type) => addInteractionTypeToMap(type));
 
-export const interactionTypeNames = [...interactionTypes.keys()].reduce(
-  (obj, key) => ({
-    ...obj,
-    [key]: key,
-  }),
-  {},
-);
+export const interactionTypeNames = interactionTypes
+  .map((interaction) => interaction.typeName)
+  .reduce(
+    (obj, key) => ({
+      ...obj,
+      [key]: key,
+    }),
+    {},
+  );
 
-export default interactionTypes;
+export const interactionTypeLabels = interactionTypes.map((interaction) => interaction.label);
+
+export default interactionTypesMap;

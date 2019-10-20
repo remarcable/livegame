@@ -5,7 +5,7 @@ import SimpleSchema from 'simpl-schema';
 import SimpleSchemaBridge from 'uniforms-bridge-simple-schema-2';
 import AutoForm from 'uniforms-material/AutoForm';
 
-import interactionTypes from '/imports/api/interactions/types';
+import interactionTypes, { interactionTypeNames } from '/imports/api/interactions/types';
 
 const propTypes = {
   createInteraction: PropTypes.func.isRequired,
@@ -51,7 +51,7 @@ class NewInteraction extends PureComponent {
 
   render() {
     const { state } = this;
-    const interactionTypeOptions = [...interactionTypes.keys()].map((typeName) => (
+    const interactionTypeOptions = Object.keys(interactionTypeNames).map((typeName) => (
       <option key={typeName} value={typeName}>
         {typeName}
       </option>

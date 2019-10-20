@@ -7,7 +7,7 @@ import FastfoodIcon from '@material-ui/icons/Fastfood';
 import GroupIcon from '@material-ui/icons/Group';
 
 import EditCandidates from './EditCandidates';
-import EditInteractions from './EditInteractions_New';
+import EditInteractions from './EditInteractions';
 import EditMenu from './EditMenu';
 import EditAdmins from './EditAdmins';
 

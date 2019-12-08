@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 
 import SimpleSchema from 'simpl-schema';
 import SimpleSchemaBridge from 'uniforms-bridge-simple-schema-2';
-import AutoForm from 'uniforms-material/AutoForm';
-import AutoField from 'uniforms-material/AutoField';
+import { AutoForm, AutoField } from 'uniforms-material';
 
 import { makeStyles } from '@material-ui/core/styles';
 

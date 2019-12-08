@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 
 import SimpleSchemaBridge from 'uniforms-bridge-simple-schema-2';
-import AutoForm from 'uniforms-material/AutoForm';
+import { AutoForm } from 'uniforms-material';
 
 import MenuCollection from '/imports/api/menu/collection';
 import schema from '/imports/api/menu/schema';

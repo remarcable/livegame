@@ -9,6 +9,8 @@ export const showBreak = new InteractionType({
     template: {
       type: String,
       label: 'Template',
+      defaultValue: 'NONE',
+      allowedValues: ['NONE', 'SHOWSTART', 'MIDBREAK', 'SHOWEND'],
       publish: true,
     },
   },

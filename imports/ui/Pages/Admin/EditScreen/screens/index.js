@@ -34,7 +34,7 @@ export const screens = [
     {
       id: 'menu',
       Link: makeSettingsLink('menu'),
-      title: 'Getränkekarte',
+      title: 'Speisen / Getränke',
       Icon: FastfoodIcon,
       Component: EditMenu,
     },

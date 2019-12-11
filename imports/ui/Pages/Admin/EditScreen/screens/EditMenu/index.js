@@ -3,13 +3,17 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 
+import { makeStyles } from '@material-ui/styles';
+import Box from '@material-ui/core/Box';
+
+import MenuCollection from '/imports/api/menu/collection';
+import { insertMenuItem, removeMenuItem, updateMenuItem } from '/imports/api/menu/methods';
+
+import Menu from '/imports/ui/components/Menu/Menu';
+
 import Dialog from './Dialog';
 import NoMenu from './NoMenu';
 import MenuTable from './MenuTable';
-
-import MenuCollection from '/imports/api/menu/collection';
-
-import { insertMenuItem, removeMenuItem, updateMenuItem } from '/imports/api/menu/methods';
 
 const propTypes = {
   menuItems: PropTypes.array.isRequired, // TODO: better type
@@ -21,6 +25,8 @@ const propTypes = {
 
 // Todo: after inserting menu, clear the form
 const EditMenu = ({ menuItems, openModal, closeModal, modalIsOpened, isReady }) => {
+  const classes = useStyles();
+
   const [editDialogId, setEditDialogId] = useState(null);
   const [editDialogIsOpened, setEditDialogIsOpened] = useState(false);
   const openEditDialog = (id) => {
@@ -31,16 +37,31 @@ const EditMenu = ({ menuItems, openModal, closeModal, modalIsOpened, isReady }) 
 
   return (
     <>
-      <MenuTable
-        menuItems={menuItems}
-        onEditMenuItem={openEditDialog}
-        onDeleteMenuItem={(_id) => {
-          const shouldDelete = confirm('Soll das Menu-Item wirklich gelöscht werden?'); // eslint-disable-line no-alert,no-restricted-globals
-          if (shouldDelete) {
-            removeMenuItem.call({ _id });
-          }
-        }}
-      />
+      <Box display="flex">
+        <Box flexGrow={1}>
+          <MenuTable
+            menuItems={menuItems}
+            onEditMenuItem={openEditDialog}
+            onDeleteMenuItem={(_id) => {
+              const shouldDelete = confirm('Soll das Menu-Item wirklich gelöscht werden?'); // eslint-disable-line no-alert,no-restricted-globals
+              if (shouldDelete) {
+                removeMenuItem.call({ _id });
+              }
+            }}
+          />
+        </Box>
+        <Box
+          width={375}
+          height={667}
+          ml={3}
+          top={16}
+          position="sticky"
+          className={classes.menuPreview}
+          boxShadow={5}
+        >
+          <Menu menuItems={menuItems} isReady />
+        </Box>
+      </Box>
 
       {isReady && menuItems.length === 0 && <NoMenu handleClick={openModal} />}
 
@@ -73,6 +94,13 @@ const EditMenu = ({ menuItems, openModal, closeModal, modalIsOpened, isReady }) 
     </>
   );
 };
+
+const useStyles = makeStyles({
+  menuPreview: {
+    borderRadius: 8,
+    overflow: 'scroll',
+  },
+});
 
 EditMenu.propTypes = propTypes;
 

@@ -7,12 +7,12 @@ import { setUserFlag } from '/imports/api/users/methods';
 
 import ActionBox from '/imports/ui/components/ActionBox';
 
-import Menu from './Menu';
+import Menu from '/imports/ui/components/Menu';
 import texts from './texts';
 
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  template: PropTypes.oneOf(['SHOWSTART', 'MIDBREAK', 'SHOWEND']).isRequired,
+  template: PropTypes.oneOf(['NONE', 'SHOWSTART', 'MIDBREAK', 'SHOWEND']).isRequired,
   user: PropTypes.object,
 };
 

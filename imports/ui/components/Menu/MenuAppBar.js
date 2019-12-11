@@ -7,22 +7,23 @@ import Headline from '/imports/ui/components/Headline';
 import Button from '/imports/ui/components/Button';
 
 const propTypes = {
-  handleClose: PropTypes.func.isRequired,
+  handleClose: PropTypes.func,
 };
 
 const AppBar = ({ handleClose }) => {
   const classes = useStyles();
   return (
     <>
-      <Box position="fixed" className={classes.header} boxShadow={2} width={1}>
+      <Box position="sticky" top={0} className={classes.header} boxShadow={2} width={1}>
         <Box display="flex" justifyContent="space-between" alignItems="center" mx={2} height={50}>
           <Headline>Speisen und Getränke</Headline>
-          <Button onClick={handleClose} className={classes.closeButton}>
-            X
-          </Button>
+          {handleClose && (
+            <Button onClick={handleClose} className={classes.closeButton}>
+              X
+            </Button>
+          )}
         </Box>
       </Box>
-      <Box height={50} mb={2} />
     </>
   );
 };

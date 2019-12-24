@@ -42,6 +42,11 @@ const menuSchema = new SimpleSchema({
     type: String,
     label: 'Überschrift',
   },
+  sortIndex: {
+    type: Number,
+    index: 1,
+    label: 'Sortier-Index',
+  },
   sections: {
     type: Array,
     label: 'Karten',

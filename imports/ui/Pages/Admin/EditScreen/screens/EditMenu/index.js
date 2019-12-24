@@ -107,7 +107,7 @@ EditMenu.propTypes = propTypes;
 
 export default withTracker(() => {
   const menuItemsHandle = Meteor.subscribe('menuItems');
-  const menuItems = MenuCollection.find().fetch();
+  const menuItems = MenuCollection.find({}, { sort: { sortIndex: 1 } }).fetch();
   const isReady = menuItemsHandle.ready();
 
   return { menuItems, isReady };

@@ -50,17 +50,19 @@ const EditMenu = ({ menuItems, openModal, closeModal, modalIsOpened, isReady }) 
             }}
           />
         </Box>
-        <Box
-          width={375}
-          height={667}
-          ml={3}
-          top={16}
-          position="sticky"
-          className={classes.menuPreview}
-          boxShadow={1}
-        >
-          <Menu menuItems={menuItems} isReady />
-        </Box>
+        {isReady && menuItems.length > 0 && (
+          <Box
+            width={375}
+            height={667}
+            ml={3}
+            top={16}
+            position="sticky"
+            className={classes.menuPreview}
+            boxShadow={1}
+          >
+            <Menu menuItems={menuItems} isReady />
+          </Box>
+        )}
       </Box>
 
       {isReady && menuItems.length === 0 && <NoMenu handleClick={openModal} />}

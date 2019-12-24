@@ -3,10 +3,6 @@ import SimpleSchema from 'simpl-schema';
 import { rankDisplayModes } from './rank-display-modes';
 
 const appStateSchema = new SimpleSchema({
-  hintText: {
-    type: String,
-    optional: true,
-  },
   interactionToShow: {
     type: String,
     optional: true,

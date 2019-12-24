@@ -8,7 +8,6 @@ import AppState from '../../api/appState/collection';
 Meteor.startup(() => {
   if (!AppState.findOne()) {
     AppState.insert({
-      hintText: null,
       interactionToShow: null,
       rankDisplayMode: 'ALL',
     });

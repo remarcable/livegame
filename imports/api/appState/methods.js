@@ -17,17 +17,6 @@ export const displayInteraction = new ValidatedMethod({
   },
 });
 
-export const setHintText = new ValidatedMethod({
-  name: 'app.setHintText',
-  mixins: [userIsAdminMixin],
-  validate: new SimpleSchema({
-    hintText: { type: String },
-  }).validator(),
-  run({ hintText }) {
-    AppState.update({}, { $set: { hintText } });
-  },
-});
-
 export const showRanksUpTo = new ValidatedMethod({
   name: 'app.showRanksUpTo',
   mixins: [userIsAdminMixin],

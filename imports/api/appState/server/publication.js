@@ -7,7 +7,6 @@ Meteor.publish('appState', function publishUserAppState() {
     {},
     {
       fields: {
-        hintText: 1,
         rankDisplayMode: 1,
       },
       limit: 1,

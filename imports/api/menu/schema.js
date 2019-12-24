@@ -44,6 +44,7 @@ const menuSchema = new SimpleSchema({
   },
   sortIndex: {
     type: Number,
+    optional: true,
     index: 1,
     label: 'Sortier-Index',
   },

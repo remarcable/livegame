@@ -43,7 +43,7 @@ const EditMenu = ({ menuItems, openModal, closeModal, modalIsOpened, isReady }) 
             menuItems={menuItems}
             onEditMenuItem={openEditDialog}
             onDeleteMenuItem={(_id) => {
-              const shouldDelete = confirm('Soll das Menu-Item wirklich gelöscht werden?'); // eslint-disable-line no-alert,no-restricted-globals
+              const shouldDelete = confirm('Soll der Abschnitt wirklich gelöscht werden?'); // eslint-disable-line no-alert,no-restricted-globals
               if (shouldDelete) {
                 removeMenuItem.call({ _id });
               }
@@ -57,7 +57,7 @@ const EditMenu = ({ menuItems, openModal, closeModal, modalIsOpened, isReady }) 
           top={16}
           position="sticky"
           className={classes.menuPreview}
-          boxShadow={5}
+          boxShadow={1}
         >
           <Menu menuItems={menuItems} isReady />
         </Box>
@@ -66,7 +66,7 @@ const EditMenu = ({ menuItems, openModal, closeModal, modalIsOpened, isReady }) 
       {isReady && menuItems.length === 0 && <NoMenu handleClick={openModal} />}
 
       <Dialog
-        title="Menu-Item erstellen"
+        title="Abschnitt erstellen"
         open={modalIsOpened}
         handleClose={(data) => {
           closeModal();
@@ -79,7 +79,7 @@ const EditMenu = ({ menuItems, openModal, closeModal, modalIsOpened, isReady }) 
         }}
       />
       <Dialog
-        title="Menu-Item bearbeiten"
+        title="Abschnitt bearbeiten"
         menuModel={editDialogId ? menuItems.find(({ _id }) => _id === editDialogId) : undefined}
         open={editDialogIsOpened}
         handleClose={(data) => {
@@ -97,8 +97,9 @@ const EditMenu = ({ menuItems, openModal, closeModal, modalIsOpened, isReady }) 
 
 const useStyles = makeStyles({
   menuPreview: {
-    borderRadius: 8,
+    borderRadius: 4,
     overflow: 'scroll',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
 });
 

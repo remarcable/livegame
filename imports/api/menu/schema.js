@@ -3,21 +3,21 @@ import SimpleSchema from 'simpl-schema';
 const menuTextSchema = new SimpleSchema({
   title: {
     type: String,
-    label: 'Titel',
+    label: 'Name',
   },
   subtitle: {
     type: String,
     optional: true,
-    label: 'Untertitel',
+    label: 'Beschreibung',
   },
   price: {
     type: String,
-    label: 'Preis',
+    label: 'Normalpreis',
   },
   priceOverwrite: {
     type: String,
     optional: true,
-    label: 'Überschriebener Preis',
+    label: 'Angebotspreis',
   },
 });
 
@@ -30,6 +30,7 @@ const menuSectionSchema = new SimpleSchema({
   },
   texts: {
     type: Array,
+    label: 'Einträge',
   },
   'texts.$': {
     type: menuTextSchema,
@@ -43,7 +44,7 @@ const menuSchema = new SimpleSchema({
   },
   sections: {
     type: Array,
-    label: 'Items',
+    label: 'Karten',
   },
   'sections.$': {
     type: menuSectionSchema,

@@ -22,7 +22,7 @@ const RenderSettings = ({ title, Component, drawerWidth }) => {
   return (
     <Box
       ml={30}
-      mt={2}
+      pt={2}
       width={`calc(100% - ${drawerWidth}px)`}
       display="flex"
       justifyContent="center"

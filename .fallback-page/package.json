@@ -7,7 +7,7 @@
     "build": "parcel build index.html --public-url ./ --no-source-maps -o index.html",
     "prebuild": "rm -rf dist",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
+    "deploy": "gh-pages -d dist --dotfiles",
     "prettier": "prettier --write \"./**/*.js\"",
     "lint": "eslint ."
   },

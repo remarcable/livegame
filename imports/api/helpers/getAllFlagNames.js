@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
 export const getAllFlagNames = (users) =>
   users
     .map((u) => Object.keys(u.flags || {}))

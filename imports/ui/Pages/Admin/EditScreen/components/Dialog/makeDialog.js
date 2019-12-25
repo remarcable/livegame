@@ -17,7 +17,6 @@ const propTypes = {
   AdditionalContent: PropTypes.element,
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export const makeDialog = (DialogForm) => {
   const Dialog = ({ title, model = {}, open, handleClose, AdditionalContent = null }) => {
     const classes = useStyles();

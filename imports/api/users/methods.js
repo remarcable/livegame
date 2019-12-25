@@ -4,7 +4,6 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
 import { userIsLoggedInMixin } from '/imports/api/helpers/validatedMethodMixins';
 
-/* eslint-disable import/prefer-default-export */
 export const setUserFlag = new ValidatedMethod({
   name: 'users.setFlag',
   mixins: [userIsLoggedInMixin],

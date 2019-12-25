@@ -112,7 +112,6 @@ const getEstimationGameSubmissions = [
   },
 ];
 
-// eslint-disable-next-line import/prefer-default-export
 export function aggregateUsersAndInteractionsAndSubmissions(usersCollection) {
   return (
     usersCollection.aggregate([

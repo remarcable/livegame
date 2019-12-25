@@ -14,7 +14,6 @@ import EditAdmins from './EditAdmins';
 const makeSettingsLink = (to) =>
   React.forwardRef((props, ref) => <Link {...props} innerRef={ref} to={`/admin/edit/${to}`} />);
 
-// eslint-disable-next-line import/prefer-default-export
 export const screens = [
   [
     {

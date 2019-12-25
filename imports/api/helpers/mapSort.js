@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
 export function mapSort(linkedList) {
   if (linkedList.length <= 1) {
     return linkedList;

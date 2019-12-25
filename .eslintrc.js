@@ -20,6 +20,7 @@ module.exports = {
     ],
     'import/no-absolute-path': [0],
     'import/no-extraneous-dependencies': 'off',
+    'import/prefer-default-export': 'off',
     'import/extensions': 'off',
     'no-use-before-define': [
       'warn',

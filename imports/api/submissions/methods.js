@@ -14,7 +14,6 @@ const submittableInteractionTypeNames = [...interactionTypes.values()]
   .filter((type) => type.submittable)
   .map((type) => type.typeName);
 
-/* eslint-disable import/prefer-default-export */
 export const submit = new ValidatedMethod({
   name: 'submissions.insert',
   mixins: [userIsLoggedInMixin],

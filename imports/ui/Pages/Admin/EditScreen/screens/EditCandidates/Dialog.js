@@ -29,7 +29,6 @@ const schema = new SimpleSchema({
 
 const schemaBridge = new SimpleSchemaBridge(schema);
 
-// eslint-disable-next-line import/prefer-default-export
 const DialogForm = ({ setForm, handleClose, model }) => {
   const classes = useStyles();
 

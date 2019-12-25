@@ -14,7 +14,6 @@ const propTypes = {
   handleClose: PropTypes.func.isRequired,
 };
 
-// eslint-disable-next-line import/prefer-default-export
 const ImageUrlInfoDialog = ({ open, handleClose }) => (
   <MuiDialog open={open} onClose={handleClose}>
     <DialogTitle>Kandidaten-Bilder</DialogTitle>

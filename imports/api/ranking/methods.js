@@ -6,7 +6,6 @@ import { userIsAdminMixin } from '/imports/api/helpers/validatedMethodMixins';
 import { aggregateUsersAndInteractionsAndSubmissions } from './aggregateUsersWithSubmissions';
 import { rankUsers as calculateRanks } from './calculate-points/scoringAlgorithm';
 
-/* eslint-disable import/prefer-default-export */
 export const calculateScores = new ValidatedMethod({
   name: 'ranking.calculateScore',
   mixins: [userIsAdminMixin],

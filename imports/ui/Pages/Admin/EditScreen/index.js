@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { filterDOMProps } from 'uniforms';
+
 import DocumentTitle from '/imports/ui/components/DocumentTitle';
 
 import Navigation from './components/Navigation';
@@ -16,6 +18,9 @@ const propTypes = {
 };
 
 const DRAWER_WIDTH = 240;
+
+// "publish" is used by 'interactions.active' publication to whitelist properties to be published
+filterDOMProps.register('publish');
 
 const EditScreen = ({ match }) => {
   const {

@@ -1,5 +1,12 @@
 import InteractionType from './InteractionType';
 
+const allowedValues = {
+  NONE: 'Kein Template',
+  SHOWSTART: 'Vor der Show',
+  MIDBREAK: 'Pause',
+  SHOWEND: 'Nach der Show',
+};
+
 export const showBreak = new InteractionType({
   typeName: 'SHOW_BREAK',
   label: 'Show • Pause',
@@ -9,7 +16,10 @@ export const showBreak = new InteractionType({
       type: String,
       label: 'Template',
       defaultValue: 'NONE',
-      allowedValues: ['NONE', 'SHOWSTART', 'MIDBREAK', 'SHOWEND'],
+      allowedValues: Object.keys(allowedValues),
+      uniforms: {
+        transform: (key) => allowedValues[key],
+      },
       publish: true,
     },
   },

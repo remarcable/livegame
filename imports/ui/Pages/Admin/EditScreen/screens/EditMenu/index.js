@@ -82,7 +82,7 @@ const EditMenu = ({ menuItems, openModal, closeModal, modalIsOpened, isReady }) 
       />
       <Dialog
         title="Abschnitt bearbeiten"
-        menuModel={editDialogId ? menuItems.find(({ _id }) => _id === editDialogId) : undefined}
+        model={editDialogId ? menuItems.find(({ _id }) => _id === editDialogId) : undefined}
         open={editDialogIsOpened}
         handleClose={(data) => {
           closeEditDialog();

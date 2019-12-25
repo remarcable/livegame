@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { AutoFields } from 'uniforms-material';
 import SimpleSchemaBridge from 'uniforms-bridge-simple-schema-2';
 
 import schema from '/imports/api/menu/schema';
@@ -24,7 +25,10 @@ const DialogForm = ({ model = {}, setForm, handleClose }) => {
       }}
       model={model}
       ref={(form) => setForm(form)}
-    />
+    >
+      {/* sortIndex is set using sorting */}
+      <AutoFields omitFields={['sortIndex']} />
+    </AutoForm>
   );
 };
 

@@ -77,9 +77,7 @@ const EditCandidates = ({ candidates, openModal, closeModal, modalIsOpened, isRe
 
       <Dialog
         title="Kandidat bearbeiten"
-        candidateModel={
-          editDialogId ? candidates.find(({ _id }) => _id === editDialogId) : undefined
-        }
+        model={editDialogId ? candidates.find(({ _id }) => _id === editDialogId) : undefined}
         open={editDialogIsOpened}
         handleClose={(data) => {
           closeEditDialog();

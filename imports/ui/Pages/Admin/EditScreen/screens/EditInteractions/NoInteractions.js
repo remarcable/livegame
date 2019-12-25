@@ -5,6 +5,8 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+import OfflineBoltIcon from '@material-ui/icons/OfflineBolt';
+
 const propTypes = {
   handleClick: PropTypes.func.isRequired,
 };
@@ -16,10 +18,12 @@ const NoInteractions = ({ handleClick }) => (
         Keine Interaktionen gefunden
       </Typography>
       <Typography variant="body2" align="center">
-        Möchtest du jetzt eine Interaktion erstellen?
+        Möchtest du jetzt den Setup-Wizard starten?
       </Typography>
       <Box m={2}>
-        <Button onClick={handleClick}>Interaktion erstellen</Button>
+        <Button onClick={handleClick} startIcon={<OfflineBoltIcon />}>
+          Setup-Wizard starten
+        </Button>
       </Box>
     </Box>
   </>

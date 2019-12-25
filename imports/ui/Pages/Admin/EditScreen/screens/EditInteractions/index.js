@@ -6,9 +6,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 
 import Interactions from '/imports/api/interactions/collection';
 import {
-  moveToPosition,
   createInteraction,
-  createManyInteractions,
   updateInteractionDetails,
   removeInteraction,
 } from '/imports/api/interactions/methods';
@@ -108,8 +106,8 @@ const EditInteractions = ({
       </Menu>
 
       <Dialog
-        dialogTitle={`${getLabelForInteractionTypeName(createInteractionDialogType)} erstellen`}
-        interactionModel={{ type: createInteractionDialogType }}
+        title={`${getLabelForInteractionTypeName(createInteractionDialogType)} erstellen`}
+        model={{ type: createInteractionDialogType }}
         open={createInteractionDialogIsOpened}
         handleClose={(submittedData) => {
           closeCreateInteractionDialog();
@@ -123,10 +121,8 @@ const EditInteractions = ({
       />
 
       <Dialog
-        dialogTitle="Interaktion bearbeiten"
-        interactionModel={
-          editDialogId ? interactions.find(({ _id }) => _id === editDialogId) : undefined
-        }
+        title="Interaktion bearbeiten"
+        model={editDialogId ? interactions.find(({ _id }) => _id === editDialogId) : undefined}
         open={editDialogIsOpened}
         handleClose={(submittedData) => {
           closeEditDialog();

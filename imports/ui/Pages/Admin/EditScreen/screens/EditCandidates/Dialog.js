@@ -61,7 +61,6 @@ const DialogForm = ({ setForm, handleClose, model }) => {
         }}
         model={{ name: model.name, imageUrl: model.imageUrl }}
         ref={(form) => setForm(form)}
-        submitField={() => <input type="submit" hidden />}
         onChange={(key, value) => {
           // for automatically updaing the avatar
           if (key === 'imageUrl') {
@@ -82,6 +81,7 @@ const DialogForm = ({ setForm, handleClose, model }) => {
             </IconButton>
           </Box>
         </Box>
+        <input type="submit" hidden />
       </AutoForm>
       <ImageUrlInfoDialog open={imageUrlDialogOpened} handleClose={closeImageUrlDialog} />
     </>

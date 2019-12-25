@@ -28,6 +28,7 @@ const DialogForm = ({ model = {}, setForm, handleClose }) => {
     >
       {/* sortIndex is set using sorting */}
       <AutoFields omitFields={['sortIndex']} />
+      <input type="submit" hidden />
     </AutoForm>
   );
 };

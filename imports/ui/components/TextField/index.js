@@ -24,7 +24,7 @@ const TextField = ({ classes, className, ...props }) => (
 
 TextField.propTypes = propTypes;
 
-const styles = (theme) => ({
+const styles = {
   textField: {
     fontSize: 10,
     borderRadius: 2,
@@ -37,6 +37,6 @@ const styles = (theme) => ({
     fontFamily: 'GothamBold',
     textTransform: 'uppercase',
   },
-});
+};
 
 export default withStyles(styles)(TextField);

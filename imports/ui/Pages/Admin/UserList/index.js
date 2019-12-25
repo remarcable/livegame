@@ -9,8 +9,6 @@ import { Helmet } from 'react-helmet';
 import { withTracker } from 'meteor/react-meteor-data';
 import { withStyles } from '@material-ui/styles';
 
-import Typography from '@material-ui/core/Typography';
-
 import sumFromIndexToEnd from '/imports/api/helpers/sumFromIndexToEnd';
 import { getAllFlagNames } from '/imports/api/helpers/getAllFlagNames';
 

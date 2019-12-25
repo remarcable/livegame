@@ -300,9 +300,9 @@ const styles = {
 LiveViewControl.propTypes = propTypes;
 
 export default withTracker(() => {
-  const interactionsHandle = Meteor.subscribe('interactions.allInteractions');
-  const appStateHandle = Meteor.subscribe('appState.admin');
-  const candidatesHandle = Meteor.subscribe('candidates.allCandidates');
+  Meteor.subscribe('interactions.allInteractions');
+  Meteor.subscribe('appState.admin');
+  Meteor.subscribe('candidates.allCandidates');
 
   const interactions = Interactions.find().fetch();
   const { interactionToShow = '', rankDisplayMode = 'ALL' } = AppState.findOne() || {};

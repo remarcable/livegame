@@ -23,7 +23,7 @@ const InteractionIcon = ({ type, disableTooltip = false }) => {
   const icon = typeToIcon[type];
 
   if (!icon) {
-    console.error(`Icon for type ${type} not implemented`);
+    console.error(`Icon for type ${type} not implemented`); // eslint-disable-line no-console
   }
 
   return (

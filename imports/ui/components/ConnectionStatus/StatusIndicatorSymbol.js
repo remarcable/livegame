@@ -11,6 +11,8 @@ const propTypes = {
 class StatusIndicatorSymbol extends Component {
   state = { active: false };
 
+  // This fixes a bug in Safari where the CSS animation wouldn't start when
+  // directly mounted
   componentDidMount() {
     window.setTimeout(() => {
       this.setState(() => ({ active: true }));

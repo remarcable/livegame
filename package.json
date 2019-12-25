@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "start": "meteor run",
-    "lint": "eslint .",
+    "lint": "eslint client server imports .meteorMocks",
     "deploy": "DEPLOY_HOSTNAME=eu-west-1.galaxy.meteor.com meteor deploy wbplive-test.eu.meteorapp.com --settings settings.json",
     "test": "jest --watch",
     "test:meteor": "TEST_WATCH=1 meteor test --driver-package meteortesting:mocha --port 4000 --extra-packages jquery",

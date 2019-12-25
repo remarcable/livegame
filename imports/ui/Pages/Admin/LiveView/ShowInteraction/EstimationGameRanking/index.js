@@ -21,8 +21,8 @@ const EstimationGameRanking = ({ users }) => <ScoreboardList onClick={toggleAlia
 EstimationGameRanking.propTypes = propTypes;
 
 export default withTracker(() => {
-  const usersHandle = Meteor.subscribe('users.liveview.topTen');
-  const appStateHandle = Meteor.subscribe('appState');
+  Meteor.subscribe('users.liveview.topTen');
+  Meteor.subscribe('appState');
 
   const { rankDisplayMode = 'ALL' } = AppState.findOne() || {};
   const users = Meteor.users

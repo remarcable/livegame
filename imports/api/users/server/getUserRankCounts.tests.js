@@ -69,7 +69,11 @@ describe('getUserRankCounts(interactionsCollection)', () => {
       const [result = {}] = InteractionsCollection.aggregate(aggregation);
 
       expect(result.counts.sort(sortingFunc)).to.deep.equal(
-        [{ _id: 0, count: 2 }, { _id: 2, count: 2 }, { _id: 3, count: 1 }].sort(sortingFunc),
+        [
+          { _id: 0, count: 2 },
+          { _id: 2, count: 2 },
+          { _id: 3, count: 1 },
+        ].sort(sortingFunc),
       );
     });
 
@@ -99,7 +103,10 @@ describe('getUserRankCounts(interactionsCollection)', () => {
       const [result = {}] = InteractionsCollection.aggregate(aggregation);
 
       expect(result.counts.sort(sortingFunc)).to.deep.equal(
-        [{ _id: 0, count: 1 }, { _id: 1, count: 2 }].sort(sortingFunc),
+        [
+          { _id: 0, count: 1 },
+          { _id: 1, count: 2 },
+        ].sort(sortingFunc),
       );
     });
 

@@ -72,7 +72,12 @@ export default withTracker(() => {
     ...JoinClient.get('additionalData'),
   };
 
-  const isReady = appStateHandle.ready() && (!!interactionsHandle && interactionsHandle.ready());
+  const isReady =
+    appStateHandle.ready() &&
+    candidatesHandle.ready() &&
+    !!interactionsHandle &&
+    interactionsHandle.ready();
+
   return {
     interaction: { ...interaction, additionalData, _id: interactionToShow },
     isReady,

@@ -8,12 +8,11 @@ import Chart from '/imports/ui/components/Chart';
 
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  title: PropTypes.string.isRequired,
   question: PropTypes.string.isRequired,
   additionalData: PropTypes.object.isRequired, // TODO: better type
 };
 
-const EstimationVoting = ({ classes, title, question, additionalData = {} }) => (
+const EstimationVoting = ({ classes, question, additionalData = {} }) => (
   <div className={classes.wrapper}>
     <Chart
       perc1={Math.round(additionalData.yesPercentage)}

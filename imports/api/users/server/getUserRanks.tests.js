@@ -125,9 +125,10 @@ describe('getUserRanks(interactionsCollection)', () => {
       const result = getUserRanks(InteractionsCollection);
 
       expect(result.sort(sortingFunc)).to.deep.equal(
-        [{ _id: 'U00', correctSubmissions: 0 }, { _id: 'U01', correctSubmissions: 0 }].sort(
-          sortingFunc,
-        ),
+        [
+          { _id: 'U00', correctSubmissions: 0 },
+          { _id: 'U01', correctSubmissions: 0 },
+        ].sort(sortingFunc),
       );
     });
 
@@ -165,9 +166,10 @@ describe('getUserRanks(interactionsCollection)', () => {
 
       expect(result.sort(sortingFunc)).to.deep.equal(
         // for U02 "correctSubmissions: 4" would be incorrect
-        [{ _id: 'U01', correctSubmissions: 2 }, { _id: 'U02', correctSubmissions: 1 }].sort(
-          sortingFunc,
-        ),
+        [
+          { _id: 'U01', correctSubmissions: 2 },
+          { _id: 'U02', correctSubmissions: 1 },
+        ].sort(sortingFunc),
       );
     });
   });

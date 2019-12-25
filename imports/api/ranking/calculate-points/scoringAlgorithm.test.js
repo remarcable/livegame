@@ -39,14 +39,24 @@ describe('rankUsers(users, games, submissions)', () => {
 describe('getAbsoluteUserPointsForGame(users, game, submissions', () => {
   it('correctly gets the points for a game for all users', () => {
     const game = sampleGames[2];
-    const correctResult = new Map([[101, 1], [102, 3], [103, 4], [104, 1]]);
+    const correctResult = new Map([
+      [101, 1],
+      [102, 3],
+      [103, 4],
+      [104, 1],
+    ]);
     const result = getAbsoluteUserPointsForGame(sampleUsers, game, sampleSubmissions);
     expect(result).toEqual(correctResult);
   });
 
   it('handles case that user did not submit anything', () => {
     const game = sampleGames[0];
-    const correctResult = new Map([[101, 3], [102, 2], [103, 1], [104, 4]]);
+    const correctResult = new Map([
+      [101, 3],
+      [102, 2],
+      [103, 1],
+      [104, 4],
+    ]);
     const result = getAbsoluteUserPointsForGame(
       sampleUsers,
       game,
@@ -59,7 +69,14 @@ describe('getAbsoluteUserPointsForGame(users, game, submissions', () => {
 describe('getRankingForAbsolutePoints(absolutePoints)', () => {
   it('turns array of points into map with correct ranks', () => {
     const absolutePoints = [10, 11, 11, 12, 13, 13, 13, 14];
-    const correctResult = new Map([[10, 1], [11, 2], [12, 4], [13, 5], [14, 8], ['HIGHEST', 9]]);
+    const correctResult = new Map([
+      [10, 1],
+      [11, 2],
+      [12, 4],
+      [13, 5],
+      [14, 8],
+      ['HIGHEST', 9],
+    ]);
     const result = getRankingForAbsolutePoints(absolutePoints);
     expect(result).toEqual(correctResult);
   });
@@ -83,7 +100,13 @@ describe('getAbsolutePointsForSubmissions(submissions, game)', () => {
       { value: 400 },
       { value: 500 },
     ];
-    const correctResult = new Map([[0, 1], [100, 2], [200, 4], [300, 6], ['HIGHEST', 7]]);
+    const correctResult = new Map([
+      [0, 1],
+      [100, 2],
+      [200, 4],
+      [300, 6],
+      ['HIGHEST', 7],
+    ]);
 
     const result = getAbsolutePointsForSubmissions(submissions, game);
     expect(result).toEqual(correctResult);
@@ -108,10 +131,22 @@ describe('getAbsolutePointsForSubmissions(submissions, game)', () => {
 describe('sumPoints(userPoints)', () => {
   it('correctly sums points in array', () => {
     const unorderedMaps = [
-      new Map([[110, 10], [120, 20], [130, 30]]),
-      new Map([[110, 100], [120, 100], [130, 100]]),
+      new Map([
+        [110, 10],
+        [120, 20],
+        [130, 30],
+      ]),
+      new Map([
+        [110, 100],
+        [120, 100],
+        [130, 100],
+      ]),
     ];
-    const correctResult = new Map([[110, 110], [120, 120], [130, 130]]);
+    const correctResult = new Map([
+      [110, 110],
+      [120, 120],
+      [130, 130],
+    ]);
     const result = sumPoints(unorderedMaps);
     expect(result.size).toEqual(correctResult.size);
     expect(result).toEqual(correctResult);
@@ -119,10 +154,21 @@ describe('sumPoints(userPoints)', () => {
 
   it('correctly sums points if one map does not have all submissions', () => {
     const unorderedMaps = [
-      new Map([[110, 10], [120, 20]]),
-      new Map([[110, 100], [120, 100], [130, 100]]),
+      new Map([
+        [110, 10],
+        [120, 20],
+      ]),
+      new Map([
+        [110, 100],
+        [120, 100],
+        [130, 100],
+      ]),
     ];
-    const correctResult = new Map([[110, 110], [120, 120], [130, 100]]);
+    const correctResult = new Map([
+      [110, 110],
+      [120, 120],
+      [130, 100],
+    ]);
     const result = sumPoints(unorderedMaps);
     expect(result.size).toEqual(correctResult.size);
     expect(result).toEqual(correctResult);

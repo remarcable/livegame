@@ -13,6 +13,9 @@ const propTypes = {
   perc2: PropTypes.number.isRequired,
   leftColors: PropTypes.array.isRequired,
   rightColors: PropTypes.array.isRequired,
+  id: PropTypes.string.isRequired,
+  leftText: PropTypes.string,
+  rightText: PropTypes.string,
 };
 
 const Chart = ({ classes, perc1, perc2, id, leftColors, rightColors, leftText, rightText }) => {

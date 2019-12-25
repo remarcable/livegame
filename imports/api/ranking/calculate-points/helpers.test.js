@@ -1,4 +1,3 @@
-/* globals describe it expect */
 import { getDeviation, addItemToMap, getNumberOfOccurences } from './helpers';
 
 describe('getDeviation(n, m)', () => {

@@ -33,10 +33,11 @@ export default withTracker(() => {
     }));
 
   const userIds = userRanks.map((u) => u._id);
-  const appStateHandle = Meteor.subscribe('appState');
-  const usersHandle = Meteor.subscribe('users.fullShowGameRanks', userIds);
-  const usersHandle2 = Meteor.subscribe('users.count');
-  const usersHandle3 = Meteor.subscribe('users.loggedIn');
+
+  Meteor.subscribe('appState');
+  Meteor.subscribe('users.fullShowGameRanks', userIds);
+  Meteor.subscribe('users.count');
+  Meteor.subscribe('users.loggedIn');
 
   const { rankDisplayMode = 'ALL' } = AppState.findOne() || {};
 

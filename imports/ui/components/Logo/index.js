@@ -1,16 +1,20 @@
 import React from 'react';
 
 import classnames from 'classnames';
-import { withStyles } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/styles';
 
-const Logo = ({ classes }) => (
-  <div className={classes.wrapper}>
-    <img className={classes.image} src="/img/logo2x.png" alt="Wer besiegt Paul? Logo" />
-    <div className={classnames(classes.image, classes.shadow)} />
-  </div>
-);
+const Logo = () => {
+  const classes = useStyles();
 
-const styles = (theme) => ({
+  return (
+    <div className={classes.wrapper}>
+      <img className={classes.image} src="/img/logo2x.png" alt="Wer besiegt Paul? Logo" />
+      <div className={classnames(classes.image, classes.shadow)} />
+    </div>
+  );
+};
+
+const useStyles = makeStyles((theme) => ({
   wrapper: {
     position: 'relative',
     width: 150,
@@ -30,6 +34,6 @@ const styles = (theme) => ({
     borderRadius: '50%',
     boxShadow: theme.shadows[20],
   },
-});
+}));
 
-export default withStyles(styles)(Logo);
+export default Logo;

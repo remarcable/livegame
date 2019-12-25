@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import SimpleSchemaBridge from 'uniforms-bridge-simple-schema-2';
-import { AutoForm, AutoField } from 'uniforms-material';
 
 import schema from '/imports/api/menu/schema';
+import AutoForm from '/imports/ui/Pages/Admin/EditScreen/components/AutoFormWithDefaultFields';
 
 const propTypes = {
   model: PropTypes.object, // TODO: better type
@@ -13,10 +13,6 @@ const propTypes = {
 };
 
 const schemaBridge = new SimpleSchemaBridge(schema);
-
-const AutoFieldWithInlineErrors = (props) => <AutoField showInlineError {...props} />;
-const HiddenSubmitField = () => <input type="submit" hidden />;
-const ErrorsField = () => null;
 
 const DialogForm = ({ model = {}, setForm, handleClose }) => {
   return (
@@ -27,9 +23,6 @@ const DialogForm = ({ model = {}, setForm, handleClose }) => {
       }}
       model={model}
       ref={(form) => setForm(form)}
-      submitField={HiddenSubmitField}
-      autoField={AutoFieldWithInlineErrors}
-      errorsField={ErrorsField}
     />
   );
 };

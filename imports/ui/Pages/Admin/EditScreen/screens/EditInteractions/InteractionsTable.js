@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import { sortableContainer, sortableElement, sortableHandle } from 'react-sortable-hoc';
 
@@ -40,24 +41,26 @@ const SortableItem = sortableElement(({ interaction, onEditInteraction, onDelete
   return (
     <TableRow key={interaction._id} className={classes.tableRow}>
       <TableCell padding="checkbox">
-        <Box m={2}>
+        <Box m={2} className={classes.centerItem}>
           <DragHandle />
         </Box>
       </TableCell>
       <TableCell padding="checkbox">
-        <Box m={2}>
+        <Box m={2} className={classes.centerItem}>
           <InteractionIcon type={interaction.type} />
         </Box>
       </TableCell>
-      <TableCell className={classes.textTableCell}>{getTextForInteraction(interaction)}</TableCell>
-      <TableCell padding="checkbox">
+      <TableCell className={classnames(classes.textTableCell, classes.centerItem)}>
+        {getTextForInteraction(interaction)}
+      </TableCell>
+      <TableCell padding="checkbox" className={classes.centerItem}>
         <Tooltip title="Bearbeiten">
           <IconButton onClick={() => onEditInteraction(interaction._id)}>
             <EditIcon />
           </IconButton>
         </Tooltip>
       </TableCell>
-      <TableCell padding="checkbox">
+      <TableCell padding="checkbox" className={classes.centerItem}>
         <Tooltip title="Löschen">
           <IconButton onClick={() => onDeleteInteraction(interaction._id)}>
             <DeleteIcon />
@@ -106,13 +109,16 @@ const InteractionsTable = ({ interactions, onEditInteraction, onDeleteInteractio
 const useStyles = makeStyles({
   tableRow: {
     display: 'flex',
-    alignItems: 'center',
   },
   textTableCell: {
     flexGrow: 1,
   },
   dragHandle: {
     cursor: 'ns-resize',
+  },
+  centerItem: {
+    display: 'flex',
+    alignItems: 'center',
   },
 });
 

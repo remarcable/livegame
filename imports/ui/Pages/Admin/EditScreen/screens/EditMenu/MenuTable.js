@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import { sortableContainer, sortableElement, sortableHandle } from 'react-sortable-hoc';
 
@@ -36,19 +37,21 @@ const SortableItem = sortableElement(({ menuItem, onEditMenuItem, onDeleteMenuIt
   return (
     <TableRow key={menuItem._id} className={classes.tableRow}>
       <TableCell padding="checkbox">
-        <Box m={2}>
+        <Box m={2} className={classes.centerItem}>
           <DragHandle />
         </Box>
       </TableCell>
-      <TableCell className={classes.textTableCell}>{menuItem.title}</TableCell>
-      <TableCell padding="checkbox">
+      <TableCell className={classnames(classes.textTableCell, classes.centerItem)}>
+        {menuItem.title}
+      </TableCell>
+      <TableCell padding="checkbox" className={classes.centerItem}>
         <Tooltip title="Bearbeiten">
           <IconButton onClick={() => onEditMenuItem(menuItem._id)}>
             <EditIcon />
           </IconButton>
         </Tooltip>
       </TableCell>
-      <TableCell padding="checkbox">
+      <TableCell padding="checkbox" className={classes.centerItem}>
         <Tooltip title="Löschen">
           <IconButton onClick={() => onDeleteMenuItem(menuItem._id)}>
             <DeleteIcon />
@@ -97,13 +100,16 @@ const MenuTable = ({ menuItems, onEditMenuItem, onDeleteMenuItem }) => {
 const useStyles = makeStyles({
   tableRow: {
     display: 'flex',
-    alignItems: 'center',
   },
   textTableCell: {
     flexGrow: 1,
   },
   dragHandle: {
     cursor: 'ns-resize',
+  },
+  centerItem: {
+    display: 'flex',
+    alignItems: 'center',
   },
 });
 

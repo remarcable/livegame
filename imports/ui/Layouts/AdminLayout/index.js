@@ -11,28 +11,33 @@ import { ThemeProvider } from '@material-ui/styles';
 
 import ErrorBoundary from 'react-error-boundary';
 
+import AppState from '/imports/api/appState/collection';
 import { theme } from '/imports/ui/styles/theme';
 
 import DocumentTitle from '/imports/ui/components/DocumentTitle';
 import Login from '/imports/ui/Pages/Admin/Login';
+import Onboarding from '/imports/ui/Pages/Admin/Onboarding';
 
 const propTypes = {
   isReady: PropTypes.bool.isRequired,
+  shouldShowOnboarding: PropTypes.bool.isRequired,
   userIsLoggedInAndAdmin: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
 };
 
-const AdminLayout = ({ children, isReady, userIsLoggedInAndAdmin }) => {
+const AdminLayout = ({ children, isReady, shouldShowOnboarding, userIsLoggedInAndAdmin }) => {
   if (!isReady) {
     return null;
   }
 
   const component = userIsLoggedInAndAdmin ? children : <Login />;
+  const componentWithOnboarding = shouldShowOnboarding ? <Onboarding /> : component;
+
   return (
     <ErrorBoundary onError={console.log}>
       <ThemeProvider theme={theme}>
         <DocumentTitle />
-        {component}
+        {componentWithOnboarding}
       </ThemeProvider>
     </ErrorBoundary>
   );
@@ -41,8 +46,13 @@ const AdminLayout = ({ children, isReady, userIsLoggedInAndAdmin }) => {
 AdminLayout.propTypes = propTypes;
 
 export default withTracker(() => {
-  const isReady = Meteor.subscribe('users.loggedIn').ready();
+  const appStateHandle = Meteor.subscribe('appState');
+  const isReady = Meteor.subscribe('users.loggedIn').ready() && appStateHandle.ready();
   const userIsLoggedInAndAdmin = Meteor.userIsAdmin();
 
-  return { isReady, userIsLoggedInAndAdmin };
+  return {
+    isReady,
+    shouldShowOnboarding: isReady && !AppState.findOne(),
+    userIsLoggedInAndAdmin,
+  };
 })(AdminLayout);

@@ -9,6 +9,8 @@ import interactionTypes from '/imports/api/interactions/types';
 import AutoForm from '/imports/ui/Pages/Admin/EditScreen/components/AutoFormWithDefaultFields';
 import { makeDialog } from '/imports/ui/Pages/Admin/EditScreen/components/Dialog/makeDialog';
 
+import CustomAutoField from './CustomAutoField';
+
 const propTypes = {
   model: PropTypes.object, // TODO: better type
   handleClose: PropTypes.func.isRequired,
@@ -37,6 +39,7 @@ const DialogForm = ({ model, handleClose, setForm }) => {
       ref={(form) => setForm(form)}
       model={{ title: model.title || '', ...model[schemaKey] }}
       onSubmit={({ title, ...data }) => handleClose({ id: model._id, title, data })}
+      autoField={CustomAutoField}
     />
   );
 };

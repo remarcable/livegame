@@ -21,6 +21,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Typography from '@material-ui/core/Typography';
+import Snackbar from '@material-ui/core/Snackbar';
 
 import InteractionIcon from '/imports/ui/components/InteractionIcon';
 
@@ -62,6 +63,11 @@ const EditInteractions = ({
     setCreateInteractionDialogIsOpened(true);
   };
   const closeCreateInteractionDialog = () => setCreateInteractionDialogIsOpened(false);
+
+  const [snackbarMessage, setSnackbarMessage] = useState(null);
+  function handleSnackbarClose() {
+    setSnackbarMessage(null);
+  }
 
   return (
     <>
@@ -116,7 +122,17 @@ const EditInteractions = ({
           }
 
           const { title, data } = submittedData;
-          createInteraction.call({ interactionType: createInteractionDialogType, title, data });
+          createInteraction.call(
+            { interactionType: createInteractionDialogType, title, data },
+            (err) => {
+              if (err) {
+                setSnackbarMessage(`Fehler: ${err.error}`);
+                return;
+              }
+
+              setSnackbarMessage('Interaktion erstellt');
+            },
+          );
         }}
       />
 
@@ -131,8 +147,23 @@ const EditInteractions = ({
           }
 
           const { id, title, data } = submittedData;
-          updateInteractionDetails.call({ id, title, data });
+          updateInteractionDetails.call({ id, title, data }, (err) => {
+            if (err) {
+              console.log(err);
+              setSnackbarMessage(`Fehler: ${err.error}`);
+              return;
+            }
+
+            setSnackbarMessage('Interaktion aktualisiert');
+          });
         }}
+      />
+
+      <Snackbar
+        open={!!snackbarMessage}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message={snackbarMessage}
       />
     </>
   );

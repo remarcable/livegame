@@ -1,5 +1,5 @@
 import SimpleSchema from 'simpl-schema';
-import { isInSchemaRequired, shouldNotBeSetInSchema } from '/imports/api/helpers';
+// import { isInSchemaRequired, shouldNotBeSetInSchema } from '/imports/api/helpers';
 
 import InteractionType from './InteractionType';
 
@@ -20,18 +20,18 @@ export const estimationGame = new InteractionType({
       optional: true,
       // eslint-disable-next-line consistent-return
       custom() {
-        // only one of answer and votingId is allowed
-        const answer = this.value;
-        const votingId =
-          this.field('estimationGame.votingId').value || this.field('votingId').value;
-
-        // check for undefined because answer could be 0
-        if (answer === undefined && !votingId) {
-          return isInSchemaRequired(this);
-        }
-        if (answer && votingId) {
-          return shouldNotBeSetInSchema(this);
-        }
+        // // only one of answer and votingId is allowed
+        // const answer = this.value;
+        // const votingId =
+        //   this.field('estimationGame.votingId').value || this.field('votingId').value;
+        //
+        // // check for undefined because answer could be 0
+        // if (answer === undefined && !votingId) {
+        //   return isInSchemaRequired(this);
+        // }
+        // if (answer && votingId) {
+        //   return shouldNotBeSetInSchema(this);
+        // }
       },
     },
     votingId: {
@@ -41,18 +41,18 @@ export const estimationGame = new InteractionType({
       optional: true,
       // eslint-disable-next-line consistent-return
       custom() {
-        // only one of answer and votingId is allowed
-        const answerValue = this.field('estimationGame.answer').value;
-        const answer = answerValue !== undefined ? answerValue : this.field('answer').value;
-        const votingId = this.value;
-
-        // check for undefined because answer could be 0
-        if (answer === undefined && !votingId) {
-          return isInSchemaRequired(this);
-        }
-        if (answer && votingId) {
-          return shouldNotBeSetInSchema(this);
-        }
+        // // only one of answer and votingId is allowed
+        // const answerValue = this.field('estimationGame.answer').value;
+        // const answer = answerValue !== undefined ? answerValue : this.field('answer').value;
+        // const votingId = this.value;
+        //
+        // // check for undefined because answer could be 0
+        // if (answer === undefined && !votingId) {
+        //   return isInSchemaRequired(this);
+        // }
+        // if (answer && votingId) {
+        //   return shouldNotBeSetInSchema(this);
+        // }
       },
     },
   },

@@ -8,10 +8,28 @@ import { mapSort } from '/imports/api/helpers/mapSort';
 
 import Interactions from './collection';
 
-import interactionTypes from './types';
+import interactionTypes, { interactionTypeNames } from './types';
 import * as interactionStates from './states';
 
 import generateInteractionDocsFromCSV from './generateInteractionDocsFromCSV';
+
+function validateEstimationGameData(data) {
+  if (data.answer !== undefined && data.votingId !== undefined) {
+    throw new Meteor.Error('Entweder Antwort oder Voting ist erlaubt, aber nicht beide');
+  }
+
+  if (data.answer === undefined && data.votingId === undefined) {
+    throw new Meteor.Error('Antwort / Voting ist notwendig');
+  }
+
+  if (data.answer) {
+    check(data.answer, Number);
+  }
+
+  if (data.votingId) {
+    check(data.votingId, String);
+  }
+}
 
 export const startInteraction = new ValidatedMethod({
   name: 'interactions.startInteraction',
@@ -125,7 +143,11 @@ export const createInteraction = new ValidatedMethod({
   mixins: [userIsAdminMixin],
   validate({ interactionType, title, data }) {
     check(title, String);
-    interactionTypes.get(interactionType).validate({ data });
+    if (interactionType === interactionTypeNames.ESTIMATION_GAME) {
+      validateEstimationGameData(data);
+    } else {
+      interactionTypes.get(interactionType).validate({ data });
+    }
   },
   run({ interactionType, title, data }) {
     const { schemaKey } = interactionTypes.get(interactionType);
@@ -177,20 +199,36 @@ export const updateInteractionDetails = new ValidatedMethod({
     check(title, Match.Optional(String));
     const { type: interactionTypeName, ...interaction } = Interactions.findOne(id) || {};
     const interactionType = interactionTypes.get(interactionTypeName);
-    // apply updated fields on fields that are already in the document to not fail validation
-    interactionType.validate({ data: { ...interaction[interactionType.schemaKey], ...data } });
+
+    // TODO HACK: Validation for answer/votingId is not really nice
+    if (interactionTypeName === interactionTypeNames.ESTIMATION_GAME) {
+      validateEstimationGameData(data);
+    } else {
+      // apply updated fields on fields that are already in the document to not fail validation
+      interactionType.validate({ data: { ...interaction[interactionType.schemaKey], ...data } });
+    }
   },
   run({ id, title, data }) {
-    const { type, ...interaction } = Interactions.findOne(id);
+    const { type } = Interactions.findOne(id);
     const { schemaKey } = interactionTypes.get(type);
-    const currentData = interaction[schemaKey];
-    const updateQuery = { [schemaKey]: { ...currentData, ...data } };
+    const setQuery = { [schemaKey]: data };
+    const unsetQuery = {};
 
     if (title) {
-      updateQuery.title = title;
+      setQuery.title = title;
     }
 
-    return Interactions.update(id, { $set: updateQuery });
+    if (data.answer === undefined) {
+      unsetQuery[`${schemaKey}.answer`] = 1;
+      Interactions.update(id, { $unset: unsetQuery });
+    }
+
+    if (data.votingId === undefined) {
+      unsetQuery[`${schemaKey}.votingId`] = 1;
+      Interactions.update(id, { $unset: unsetQuery });
+    }
+
+    return Interactions.update(id, { $set: setQuery });
   },
 });
 

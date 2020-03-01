@@ -18,7 +18,7 @@ const fullShowGame = {
 };
 
 const showBreak = {
-  template: 'template',
+  template: 'NONE',
 };
 
 describe('interactionsSchema', () => {

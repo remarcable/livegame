@@ -8,7 +8,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import AppState from '/imports/api/appState/collection';
 
 import { toggleAlias } from '/imports/api/alias/methods';
-import sumFromIndexToEnd from '/imports/api/helpers/sumFromIndexToEnd';
+// import sumFromIndexToEnd from '/imports/api/helpers/sumFromIndexToEnd';
 import xStringForString from '/imports/api/helpers/xStringForString';
 import { shouldDisplayRank } from '/imports/api/appState/rank-display-modes';
 
@@ -22,13 +22,16 @@ const FullShowGameRanking = ({ users }) => <ScoreboardList onClick={toggleAlias}
 FullShowGameRanking.propTypes = propTypes;
 
 export default withTracker(() => {
-  const userRankCounts = JoinClient.get('userRankCounts') || [];
+  // const userRankCounts = JoinClient.get('userRankCounts') || [];
   const userRanks = (JoinClient.get('userRanks') || [])
     .sort((a, b) => b.correctSubmissions - a.correctSubmissions)
-    .filter((el, i) => i < 10)
-    .map((u) => ({
+    .slice(0, 10)
+    .map((u, i) => ({
       _id: u._id,
-      rank: sumFromIndexToEnd(u.correctSubmissions, userRankCounts) + 1,
+      // XXX: Even though the commented out line is more correct
+      // for the show it is much more practical to have an absolute ranking
+      // rank: sumFromIndexToEnd(u.correctSubmissions, userRankCounts) + 1,
+      rank: i + 1,
       s: u.correctSubmissions,
     }));
 

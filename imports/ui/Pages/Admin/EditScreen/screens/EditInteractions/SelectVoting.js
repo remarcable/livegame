@@ -3,6 +3,7 @@ import React from 'react';
 
 import { useTracker } from 'meteor/react-meteor-data';
 
+import { BaseField } from 'uniforms';
 import { SelectField } from 'uniforms-material';
 
 import { interactionTypeNames } from '/imports/api/interactions/types';
@@ -25,11 +26,25 @@ const getVotings = () => {
   };
 };
 
-const SelectVoting = (props) => {
+const SelectVoting = (props, { uniforms }) => {
   const { votings } = useTracker(getVotings, []);
-
   const options = votings.map((v) => ({ label: v.estimationVoting?.question, value: v._id }));
-  return <SelectField options={options} {...props} />;
+
+  return (
+    <SelectField
+      options={options}
+      helperText="Nur wählbar wenn Antwort leer ist"
+      {...props}
+      onChange={(value) => {
+        if (value) {
+          uniforms.onChange('answer', undefined);
+        }
+
+        props.onChange(value);
+      }}
+    />
+  );
 };
 
+SelectVoting.contextTypes = BaseField.contextTypes;
 export default SelectVoting;

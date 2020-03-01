@@ -11,9 +11,9 @@ const CustomAuto = (props) => {
 };
 
 const CustomAutoField = connectField(CustomAuto, {
-  ensureValue: false,
+  ensureValue: true,
   includeInChain: false,
-  initialValue: false,
+  initialValue: true,
 });
 
 export default CustomAutoField;

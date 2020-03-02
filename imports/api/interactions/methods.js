@@ -14,7 +14,7 @@ import * as interactionStates from './states';
 import generateInteractionDocsFromCSV from './generateInteractionDocsFromCSV';
 
 function validateEstimationGameData(data) {
-  if (data.answer !== undefined && data.votingId !== undefined) {
+  if (data.answer !== undefined && !!data.votingId) {
     throw new Meteor.Error('Entweder Antwort oder Voting ist erlaubt, aber nicht beide');
   }
 
@@ -209,23 +209,36 @@ export const updateInteractionDetails = new ValidatedMethod({
     }
   },
   run({ id, title, data }) {
-    const { type } = Interactions.findOne(id);
+    const { type, ...interaction } = Interactions.findOne(id);
+    // TODO HACK: quick fix
+    if (type === interactionTypeNames.ESTIMATION_GAME) {
+      const { schemaKey } = interactionTypes.get(type);
+      const setQuery = { [schemaKey]: data };
+      const unsetQuery = {};
+
+      if (title) {
+        setQuery.title = title;
+      }
+
+      if (data.answer === undefined) {
+        unsetQuery[`${schemaKey}.answer`] = 1;
+        Interactions.update(id, { $unset: unsetQuery });
+      }
+
+      if (data.votingId === undefined) {
+        unsetQuery[`${schemaKey}.votingId`] = 1;
+        Interactions.update(id, { $unset: unsetQuery });
+      }
+
+      return Interactions.update(id, { $set: setQuery });
+    }
+
     const { schemaKey } = interactionTypes.get(type);
-    const setQuery = { [schemaKey]: data };
-    const unsetQuery = {};
+    const currentData = interaction[schemaKey];
+    const setQuery = { [schemaKey]: { ...currentData, ...data } };
 
     if (title) {
       setQuery.title = title;
-    }
-
-    if (data.answer === undefined) {
-      unsetQuery[`${schemaKey}.answer`] = 1;
-      Interactions.update(id, { $unset: unsetQuery });
-    }
-
-    if (data.votingId === undefined) {
-      unsetQuery[`${schemaKey}.votingId`] = 1;
-      Interactions.update(id, { $unset: unsetQuery });
     }
 
     return Interactions.update(id, { $set: setQuery });

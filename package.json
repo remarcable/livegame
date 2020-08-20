@@ -17,7 +17,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/styles": "^4.9.0",
     "@react-hook/window-size": "^1.0.13",
-    "bcrypt": "^4.0.0",
+    "bcrypt": "^5.0.0",
     "classnames": "^2.2.6",
     "just-random": "^2.1.0",
     "material-table": "^1.57.2",

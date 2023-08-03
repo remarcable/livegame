@@ -21,7 +21,7 @@ const singleEstimationGameSchema = new SimpleSchema({
   hasVoting: {
     type: Boolean,
     optional: true,
-    label: 'Votingfrage?',
+    label: 'Zuschauervoting?',
   },
 });
 

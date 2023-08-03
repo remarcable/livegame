@@ -6,6 +6,8 @@ import Typography from '@material-ui/core/Typography';
 
 import WarningIcon from '@material-ui/icons/Warning';
 
+import { resetGameData } from '/imports/api/reset/methods';
+
 const ResetShow = () => (
   <>
     <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
@@ -16,8 +18,9 @@ const ResetShow = () => (
         <Typography variant="body2">
           Wenn die Proben vorbei sind und die Show demnächst beginnt, ist es nützlich alle
           Spieldaten zu entfernen. Mit dem Klick auf den unteren Button werden alle Spieler und
-          deren Spieldaten entfernt. Erhalten bleiben dabei die Interaktionen, Kandidaten,
-          Adminnutzer und die Menukarte.
+          deren Spieldaten entfernt. Außerdem werden Punktestände und Gewinner für die Spiele
+          zurückgesetzt. Erhalten bleiben dabei der Rest – die Spiele und Schätzenfragen,
+          Kandidaten, Adminnutzer und die Menukarte.
         </Typography>
       </Box>
       <Box m={2}>
@@ -27,7 +30,7 @@ const ResetShow = () => (
               'Möchten Sie wirklich WBP Live zurücksetzen und alle Spieler löschen? Die Aktion kann nicht rückgängig gemacht werden!',
             ) &&
               confirm('Ganz sicher?') &&
-              console.log('done');
+              resetGameData.call({}, console.log);
           }}
           startIcon={<WarningIcon />}
           color="primary"

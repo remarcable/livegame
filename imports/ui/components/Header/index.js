@@ -16,16 +16,11 @@ const propTypes = {
 };
 
 const Header = ({ classes, title, isEstimationGame }) => {
-  const currentClientHeight = useWindowHeight();
-  const isSmallScreen = currentClientHeight < 600;
-
   return (
-    <div className={classnames(classes.header, { [classes.small]: isSmallScreen })}>
-      <div
-        className={classnames(classes.estimationGameHeader, { [classes.active]: isEstimationGame })}
-      />
-      <div className={classnames(classes.logoWrapper, { [classes.small]: isSmallScreen })}>
-        <Logo classes={{ wrapper: classnames({ [classes.smallLogo]: isSmallScreen }) }} />
+    <div className={classes.header}>
+      <div className={classes.estimationGameHeader} />
+      <div className={classes.logoWrapper}>
+        <Logo />
       </div>
       <div className={classes.titleWrapper}>
         <ReactCSSTransitionReplace
@@ -54,11 +49,6 @@ const styles = (theme) => ({
 
     textTransform: 'uppercase',
     textAlign: 'center',
-
-    '&$small': {
-      height: 'auto',
-      paddingBottom: 10,
-    },
   },
   estimationGameHeader: {
     position: 'absolute',
@@ -75,25 +65,11 @@ const styles = (theme) => ({
     },
   },
   active: {},
-  smallLogo: {
-    height: 40,
-    width: 40,
-    minHeight: 40,
-    minWidth: 40,
-  },
   logoWrapper: {
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
     marginBottom: 15,
-
-    '&$small': {
-      position: 'fixed',
-      left: 4,
-      top: 10,
-      width: 'auto',
-      marginBottom: 0,
-    },
   },
   titleWrapper: {
     display: 'block',
@@ -102,7 +78,6 @@ const styles = (theme) => ({
     fontSize: 20,
     margin: '0 20px',
   },
-  small: {},
 });
 
 export default withStyles(styles)(Header);

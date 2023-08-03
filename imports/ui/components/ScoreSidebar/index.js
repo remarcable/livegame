@@ -60,7 +60,7 @@ const styles = () => ({
     height: '100%',
     overflowY: 'scroll',
 
-    backgroundColor: '#232D33',
+    backgroundColor: '#0f172a',
     color: '#ddd',
 
     textAlign: 'center',

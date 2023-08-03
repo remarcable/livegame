@@ -20,7 +20,7 @@ const Menu = ({ menuItems, isReady, handleClose }) => {
   return (
     <Box width={1} height={1}>
       <AppBar handleClose={handleClose} />
-      <Box px={2}>
+      <Box px={2} pb={2}>
         {!isReady && <Headline className={classes.loading}>Lädt...</Headline>}
         {menuItems.map(({ title, sections }, i) => (
           <div key={i}>

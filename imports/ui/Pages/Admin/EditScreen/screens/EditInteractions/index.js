@@ -9,6 +9,7 @@ import {
   createInteraction,
   updateInteractionDetails,
   removeInteraction,
+  bulkInsertInteractions,
 } from '/imports/api/interactions/methods';
 
 import { interactionTypeNames } from '/imports/api/interactions/types';
@@ -27,6 +28,7 @@ import InteractionIcon from '/imports/ui/components/InteractionIcon';
 
 import InteractionsTable from './InteractionsTable';
 import Dialog from './Dialog';
+import SetupWizard from './SetupWizard';
 import NoInteractions from './NoInteractions';
 
 const propTypes = {
@@ -56,6 +58,10 @@ const EditInteractions = ({
   };
   const closeEditDialog = () => setEditDialogIsOpened(false);
 
+  const [setupWizardIsOpen, setSetupWizardIsOpen] = useState(false);
+  const openSetupWizard = () => setSetupWizardIsOpen(true);
+  const closeSetupWizard = () => setSetupWizardIsOpen(false);
+
   const [createInteractionDialogType, setCreateInteractionDialogType] = useState(null);
   const [createInteractionDialogIsOpened, setCreateInteractionDialogIsOpened] = useState(false);
   const openCreateInteractionDialog = (type) => {
@@ -65,27 +71,27 @@ const EditInteractions = ({
   const closeCreateInteractionDialog = () => setCreateInteractionDialogIsOpened(false);
 
   const [snackbarMessage, setSnackbarMessage] = useState(null);
-  function handleSnackbarClose() {
-    setSnackbarMessage(null);
-  }
+  const handleSnackbarClose = () => setSnackbarMessage(null);
 
   return (
     <>
       <Box display="flex" justifyContent="center">
         {!isReady && <CircularProgress />}
       </Box>
-      {isReady && interactions.length === 0 && <NoInteractions handleClick={openModal} />}
+      {isReady && interactions.length === 0 && <NoInteractions handleClick={openSetupWizard} />}
       {isReady && (
-        <InteractionsTable
-          interactions={interactions}
-          onEditInteraction={(_id) => openEditDialog(_id)}
-          onDeleteInteraction={(_id) => {
-            const shouldDelete = confirm('Soll die Interaction wirklich gelöscht werden?');
-            if (shouldDelete) {
-              removeInteraction.call({ id: _id });
-            }
-          }}
-        />
+        <Box mb={8}>
+          <InteractionsTable
+            interactions={interactions}
+            onEditInteraction={(_id) => openEditDialog(_id)}
+            onDeleteInteraction={(_id) => {
+              const shouldDelete = confirm('Soll die Interaction wirklich gelöscht werden?');
+              if (shouldDelete) {
+                removeInteraction.call({ id: _id });
+              }
+            }}
+          />
+        </Box>
       )}
 
       <Menu
@@ -155,6 +161,27 @@ const EditInteractions = ({
             }
 
             setSnackbarMessage('Interaktion aktualisiert');
+          });
+        }}
+      />
+
+      <SetupWizard
+        title="Setup Wizard"
+        open={setupWizardIsOpen}
+        handleClose={(submittedData) => {
+          closeSetupWizard();
+          if (!submittedData) {
+            return;
+          }
+
+          bulkInsertInteractions.call(submittedData, (err) => {
+            if (err) {
+              console.log(err);
+              setSnackbarMessage(`Fehler: ${err.error}`);
+              return;
+            }
+
+            setSnackbarMessage('Interaktionen erstellt');
           });
         }}
       />

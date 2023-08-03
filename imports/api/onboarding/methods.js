@@ -11,8 +11,6 @@ import Menu from '/imports/api/menu/collection';
 import menuFixtures from '/imports/api/menu/fixtures';
 
 import { createAdminAccountSchema } from './schema';
-import { interactionTypeNames } from '../interactions/types';
-import { createInteraction } from '../interactions/methods';
 
 export const createAdminUser = new ValidatedMethod({
   name: 'onboarding.createAdmin',
@@ -44,25 +42,9 @@ export const seedDatabase = new ValidatedMethod({
       Menu.insert(menuItem);
     });
 
-    createInteraction.call(
-      {
-        interactionType: interactionTypeNames.SHOW_BREAK,
-        title: 'Herzlich Willkommen',
-        data: {
-          template: 'SHOWSTART',
-        },
-      },
-      (err, res) => {
-        if (err) {
-          console.log('createInteraction', err);
-          return;
-        }
-
-        AppState.insert({
-          interactionToShow: res,
-          rankDisplayMode: 'ALL',
-        });
-      },
-    );
+    AppState.insert({
+      interactionToShow: null,
+      rankDisplayMode: 'ALL',
+    });
   },
 });

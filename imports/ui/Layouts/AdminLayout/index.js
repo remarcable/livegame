@@ -16,7 +16,7 @@ import { theme } from '/imports/ui/styles/theme';
 
 import DocumentTitle from '/imports/ui/components/DocumentTitle';
 import Login from '/imports/ui/Pages/Admin/Login';
-import Onboarding from '/imports/ui/Pages/Admin/Onboarding';
+import Onboarding from '/imports/ui/Pages/Admin/NewOnboarding';
 
 const propTypes = {
   isReady: PropTypes.bool.isRequired,

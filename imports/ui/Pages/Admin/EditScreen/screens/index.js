@@ -38,13 +38,13 @@ export const screens = [
       Component: EditMenu,
     },
   ],
-  [
-    {
-      id: 'admins',
-      Link: makeSettingsLink('admins'),
-      title: 'Adminbenutzer',
-      Icon: GroupIcon,
-      Component: EditAdmins,
-    },
-  ],
+  // [
+  //   {
+  //     id: 'admins',
+  //     Link: makeSettingsLink('admins'),
+  //     title: 'Adminbenutzer',
+  //     Icon: GroupIcon,
+  //     Component: EditAdmins,
+  //   },
+  // ],
 ];

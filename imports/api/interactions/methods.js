@@ -6,12 +6,15 @@ import SimpleSchema from 'simpl-schema';
 import { userIsAdminMixin } from '/imports/api/helpers/validatedMethodMixins';
 import { mapSort } from '/imports/api/helpers/mapSort';
 
+import { createEstimationGamesSchema, createShowGamesSchema } from '/imports/api/onboarding/schema';
+
 import Interactions from './collection';
 
 import interactionTypes, { interactionTypeNames } from './types';
 import * as interactionStates from './states';
 
 import generateInteractionDocsFromCSV from './generateInteractionDocsFromCSV';
+import generateInteractionDocsFromData from './generateInteractionDocsFromData';
 
 function validateEstimationGameData(data) {
   if (data.answer !== undefined && !!data.votingId) {
@@ -290,5 +293,24 @@ export const unsetClosedState = new ValidatedMethod({
   }).validator(),
   run({ interactionId }) {
     return Interactions.update({ _id: interactionId, state: 'CLOSED' }, { $set: { state: null } });
+  },
+});
+
+export const bulkInsertInteractions = new ValidatedMethod({
+  name: 'onboarding.bulkInsertInteractions',
+  mixins: [userIsAdminMixin],
+  validate: new SimpleSchema({
+    fullShowGameData: createShowGamesSchema,
+    estimationGameData: createEstimationGamesSchema,
+  }).validator(),
+  run({ fullShowGameData, estimationGameData }) {
+    if (!fullShowGameData || !estimationGameData) {
+      throw new Meteor.Error('Missing data');
+    }
+
+    const interactions = generateInteractionDocsFromData(fullShowGameData, estimationGameData);
+    interactions.forEach((interaction) => {
+      createInteraction.call(interaction);
+    });
   },
 });

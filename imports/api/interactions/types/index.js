@@ -1,6 +1,6 @@
 import { showBreak } from './showBreak';
 import { estimationGame, estimationVoting, estimationWaiting } from './estimation';
-import { fullShowGame, fullShowWaiting } from './fullShowGame';
+import { fullShowGame, fullShowWaiting, participationVoting } from './fullShowGame';
 
 const interactionTypes = [
   showBreak,
@@ -9,6 +9,7 @@ const interactionTypes = [
   estimationWaiting,
   fullShowGame,
   fullShowWaiting,
+  participationVoting,
 ];
 
 const interactionTypesMap = new Map();

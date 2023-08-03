@@ -35,6 +35,15 @@ Stelle sicher, dass alle Webfonts, die in `client/main.css` definiert sind auch 
 - `npm test` startet `jest --watch` und führt alle Tests der Form `*.test.js` aus
 - `npm test:meteor` startet Meteor im Testmode und führt alle Tests in `/imports/testing/clientTests.js` und `/imports/testing/serverTests.js` aus. Damit die Testfiles nicht von jest geladen werden, haben sie den Namen `*.tests.js`
 
+## Neue Interaction hinzufügen
+
+Erstelle dafür neue Einträge in folgenden Orten. Für die Interaktionen mit Implementation kannst du die bereits existierenden Interaktionen als Startpunkt nehmen
+
+- `imports/api/interactions/types/index.js` + Implementation
+- `imports/api/helpers/getTextForInteraction.js`
+- `imports/ui/components/InteractionIcon/index.js`
+- `imports/ui/Pages/LiveGame/Interactions/index.js` + Implementation
+
 ## Mitentwickeln
 
 Bitte bei der Entwicklung auf folgende Dinge achten:

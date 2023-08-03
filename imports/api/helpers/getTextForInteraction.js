@@ -26,6 +26,10 @@ export default ({ type, ...i }) => {
     return `${i.title} • Warten`;
   }
 
+  if (type === 'PARTICIPATION_VOTING') {
+    return `${i.title} • Zuschaueraktivierung`;
+  }
+
   console.error(`No text for type ${type} implemented`);
   return `${label}: ${i.title}`;
 };

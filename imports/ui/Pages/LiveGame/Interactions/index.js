@@ -11,6 +11,7 @@ import InteractionWrapper from '/imports/ui/components/InteractionWrapper';
 
 import FullShowGame from './FullShowGame';
 import FullShowWaiting from './FullShowWaiting';
+import ParticipationVoting from './ParticipationVoting';
 
 import EstimationGame from './EstimationGame';
 import EstimationVoting from './EstimationVoting';
@@ -21,6 +22,7 @@ import ShowBreak from './ShowBreak';
 const interactionsMap = new Map([
   [interactionTypeNames.FULL_SHOW_GAME, FullShowGame],
   [interactionTypeNames.FULL_SHOW_WAITING, FullShowWaiting],
+  [interactionTypeNames.PARTICIPATION_VOTING, ParticipationVoting],
 
   [interactionTypeNames.ESTIMATION_GAME, EstimationGame],
   [interactionTypeNames.ESTIMATION_VOTING, EstimationVoting],
@@ -31,6 +33,7 @@ const interactionsMap = new Map([
 
 const hasSubmittedMap = new Map([
   [interactionTypeNames.FULL_SHOW_GAME, FullShowWaiting],
+  [interactionTypeNames.PARTICIPATION_VOTING, FullShowWaiting],
   [interactionTypeNames.ESTIMATION_GAME, EstimationWaiting],
   [interactionTypeNames.ESTIMATION_VOTING, EstimationWaiting],
 ]);

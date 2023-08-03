@@ -39,3 +39,11 @@ export const fullShowWaiting = new InteractionType({
   typeName: 'FULL_SHOW_WAITING',
   label: 'Show • Warten',
 });
+
+export const participationVoting = new InteractionType({
+  typeName: 'PARTICIPATION_VOTING',
+  label: 'Show • Zuschaueraktivierung',
+  schemaKey: 'participationVoting',
+  submittable: true,
+  fields: {},
+});

@@ -14,9 +14,10 @@ const ResetShow = () => (
       </Typography>
       <Box maxWidth={500} my={2}>
         <Typography variant="body2">
-          Mit dem Klick auf den unteren Button werden alle Spieler und deren Spieldaten werden
-          entfernt. Dies ist nützlich um WBP Live nach der Probe für die echte Show vorzubereiten.
-          Die Interaktionen, Kandidaten, Adminnutzer und das Menu bleiben dabei erhalten.
+          Wenn die Proben vorbei sind und die Show demnächst beginnt, ist es nützlich alle
+          Spieldaten zu entfernen. Mit dem Klick auf den unteren Button werden alle Spieler und
+          deren Spieldaten entfernt. Erhalten bleiben dabei die Interaktionen, Kandidaten,
+          Adminnutzer und die Menukarte.
         </Typography>
       </Box>
       <Box m={2}>
@@ -24,7 +25,9 @@ const ResetShow = () => (
           onClick={() => {
             confirm(
               'Möchten Sie wirklich WBP Live zurücksetzen und alle Spieler löschen? Die Aktion kann nicht rückgängig gemacht werden!',
-            ) && console.log('done');
+            ) &&
+              confirm('Ganz sicher?') &&
+              console.log('done');
           }}
           startIcon={<WarningIcon />}
           color="primary"

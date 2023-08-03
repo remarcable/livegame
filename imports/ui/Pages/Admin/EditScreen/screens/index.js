@@ -5,11 +5,13 @@ import ViewListIcon from '@material-ui/icons/ViewList';
 import HowToRegIcon from '@material-ui/icons/HowToReg';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
 import GroupIcon from '@material-ui/icons/Group';
+import WarningIcon from '@material-ui/icons/Warning';
 
 import EditCandidates from './EditCandidates';
 import EditInteractions from './EditInteractions';
 import EditMenu from './EditMenu';
 import EditAdmins from './EditAdmins';
+import ResetShow from './ResetShow';
 
 const makeSettingsLink = (to) =>
   React.forwardRef((props, ref) => <Link {...props} innerRef={ref} to={`/admin/edit/${to}`} />);
@@ -36,6 +38,15 @@ export const screens = [
       title: 'Speisen / Getränke',
       Icon: FastfoodIcon,
       Component: EditMenu,
+    },
+  ],
+  [
+    {
+      id: 'reset-show',
+      Link: makeSettingsLink('reset-show'),
+      title: 'WBP Live Reset',
+      Icon: WarningIcon,
+      Component: ResetShow,
     },
   ],
   // [

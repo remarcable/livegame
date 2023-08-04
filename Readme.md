@@ -43,6 +43,7 @@ Erstelle dafür neue Einträge in folgenden Orten. Für die Interaktionen mit Im
 - `imports/api/helpers/getTextForInteraction.js`
 - `imports/ui/components/InteractionIcon/index.js`
 - `imports/ui/Pages/LiveGame/Interactions/index.js` + Implementation
+- Zusätzlich eventuell noch ein Admininterface zur Steuerung während der Show und eine Liveview-Ansicht
 
 ## Mitentwickeln
 

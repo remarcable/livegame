@@ -5,25 +5,15 @@ import { withTracker } from 'meteor/react-meteor-data';
 
 import { JoinClient } from 'meteor-publish-join';
 
-import classnames from 'classnames';
-
 import KeyHandler from 'react-key-handler';
 
 import { withStyles } from '@material-ui/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 import IconButton from '@material-ui/core/IconButton';
 
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
-
-import blue from '@material-ui/core/colors/blue';
 
 import Candidates from '/imports/api/candidates/collection';
 
@@ -38,10 +28,10 @@ import {
 import { interactionTypeNames } from '/imports/api/interactions/types';
 import { mapSort } from '/imports/api/helpers/mapSort';
 import sortFullShowGames from '/imports/api/helpers/sortFullShowGames';
-import getTextForInteraction from '/imports/api/helpers/getTextForInteraction';
 
-import InteractionIcon from '/imports/ui/components/InteractionIcon';
 import UpdateGames from './UpdateGames';
+import ShowParticipantsSelection from './ShowParticipantsSelection';
+import InteractionLauncher from './InteractionLauncher';
 
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
@@ -82,45 +72,14 @@ const ShowScreen = ({
     <KeyHandler keyValue="ArrowRight" onKeyHandle={() => hasNext && nextInteraction.call()} />
     <KeyHandler keyValue="ArrowDown" onKeyHandle={() => hasNext && nextInteraction.call()} />
     <KeyHandler keyValue=" " onKeyHandle={() => hasNext && nextInteraction.call()} />
+
     <div className={classes.wrapper}>
       <Paper className={classes.interactions}>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell>Typ</TableCell>
-              <TableCell>Nr, Titel, Frage</TableCell>
-              <TableCell />
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {isReady &&
-              interactions.map((i) => (
-                <TableRow
-                  key={i._id}
-                  selected={i.state === 'ACTIVE'}
-                  classes={{
-                    root: classnames(classes.tableRowRoot, {
-                      [classes.estimationGame]: i.type.startsWith('ESTIMATION'),
-                    }),
-                    selected: classes.selected,
-                  }}
-                >
-                  <TableCell>
-                    <InteractionIcon type={i.type} />
-                  </TableCell>
-                  <TableCell>{getTextForInteraction(i)}</TableCell>
-                  <TableCell>
-                    <IconButton
-                      onClick={() => startInteraction.call({ interactionId: i._id })}
-                      disabled={i.state === 'ACTIVE'}
-                    >
-                      <PlayArrowIcon />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
+        <InteractionLauncher
+          isReady={isReady}
+          interactions={interactions}
+          startInteraction={startInteraction}
+        />
       </Paper>
 
       <Paper className={classes.games}>
@@ -136,6 +95,10 @@ const ShowScreen = ({
           candidate2Name={candidate2Name}
           scoreText={scoreText}
         />
+      </Paper>
+
+      <Paper className={classes.games}>
+        <ShowParticipantsSelection />
       </Paper>
 
       <div className={classes.navigation}>
@@ -157,16 +120,6 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-evenly',
   },
-  selected: {
-    backgroundColor: [blue.A400, '!important'],
-  },
-  tableRowRoot: {
-    transition: `background-color 200ms`, // TODO: use theme.transitions.duration.shorter
-    '&$estimationGame': {
-      backgroundColor: 'rgba(255, 255, 255, 0.08)',
-    },
-  },
-  estimationGame: {},
   interactions: {
     maxWidth: '80%',
     maxHeight: '85vh',

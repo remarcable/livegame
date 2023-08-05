@@ -37,7 +37,7 @@ const UpdateGames = ({
   scoreText,
 }) => (
   <>
-    <Table className={classes.table}>
+    <Table>
       <DocumentTitle>App-Steuerung</DocumentTitle>
       <TableHead>
         <TableRow className={classes.gamesHeader}>

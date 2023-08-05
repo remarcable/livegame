@@ -1,3 +1,4 @@
+import SimpleSchema from 'simpl-schema';
 import InteractionType from './InteractionType';
 
 export const fullShowGame = new InteractionType({
@@ -45,5 +46,13 @@ export const participationVoting = new InteractionType({
   label: 'Show • Zuschaueraktivierung',
   schemaKey: 'participationVoting',
   submittable: true,
-  fields: {},
+  fields: {
+    selectedParticipant: {
+      type: String,
+      label: 'Gewinner',
+      optional: true,
+      regEx: SimpleSchema.RegEx.Id,
+      defaultValue: null,
+    },
+  },
 });

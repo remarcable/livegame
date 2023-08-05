@@ -23,7 +23,7 @@ const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   interactions: PropTypes.array.isRequired, // TODO: better proptype
   isReady: PropTypes.bool.isRequired,
-  startInteraction: PropTypes.func.isRequired,
+  startInteraction: PropTypes.object.isRequired,
 };
 
 const InteractionLauncher = ({ classes, isReady, interactions, startInteraction }) => (

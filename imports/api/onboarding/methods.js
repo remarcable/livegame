@@ -29,7 +29,14 @@ export const createAdminUser = new ValidatedMethod({
       password,
     });
 
-    return Meteor.users.update(userId, { $set: { role: 'admin' } });
+    return Meteor.users.update(userId, {
+      $set: {
+        role: 'admin',
+        firstName: 'Admin',
+        lastName: 'Admin',
+        email: 'admin@wer-besiegt-paul.de',
+      },
+    });
   },
 });
 

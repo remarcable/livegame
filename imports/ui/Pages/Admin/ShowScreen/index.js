@@ -30,12 +30,13 @@ import { mapSort } from '/imports/api/helpers/mapSort';
 import sortFullShowGames from '/imports/api/helpers/sortFullShowGames';
 
 import UpdateGames from './UpdateGames';
-import ShowParticipantsSelection from './ShowParticipantsSelection';
+import ParticipantsSelection from './ParticipantsSelection';
 import InteractionLauncher from './InteractionLauncher';
 
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   interactions: PropTypes.array.isRequired, // TODO: better type!
+  participationVotings: PropTypes.array.isRequired, // TODO: better type!
   games: PropTypes.array.isRequired, // TODO: better type!
   isReady: PropTypes.bool.isRequired,
   hasNext: PropTypes.bool.isRequired,
@@ -56,6 +57,7 @@ const ShowScreen = ({
   classes,
   isReady,
   interactions,
+  participationVotings,
   games,
   hasNext,
   hasPrevious,
@@ -98,7 +100,7 @@ const ShowScreen = ({
       </Paper>
 
       <Paper className={classes.games}>
-        <ShowParticipantsSelection />
+        <ParticipantsSelection participationVotings={participationVotings} />
       </Paper>
 
       <div className={classes.navigation}>
@@ -150,9 +152,22 @@ export default withTracker(() => {
   const isReady = interactionsHandle.ready() && candidatesHandle.ready();
 
   const interactions = Interactions.find().fetch();
+
+  let sortedInteractions = [];
+
+  try {
+    sortedInteractions = mapSort(interactions);
+  } catch (e) {
+    console.log(`Fehler beim Sortieren!`, e.message);
+  }
+
   const games = interactions
     .filter((i) => i.type === interactionTypeNames.FULL_SHOW_GAME)
     .sort(sortFullShowGames);
+
+  const participationVotings = sortedInteractions.filter(
+    (i) => i.type === interactionTypeNames.PARTICIPATION_VOTING,
+  );
 
   const { name: candidate1Name } = Candidates.findOne({ candidateNumber: 1 }) || {};
   const { name: candidate2Name } = Candidates.findOne({ candidateNumber: 2 }) || {};
@@ -166,15 +181,9 @@ export default withTracker(() => {
 
   const scoreText = `${scoreCandidate1} : ${scoreCandidate2}`;
 
-  let sortedInteractions = [];
-
-  try {
-    sortedInteractions = mapSort(interactions);
-  } catch (e) {
-    console.log(`Fehler beim Sortieren!`, e.message);
-  }
   return {
     interactions: sortedInteractions,
+    participationVotings,
     games,
     hasNext,
     hasPrevious,

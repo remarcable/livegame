@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import SimpleSchema from 'simpl-schema';
+import random from 'just-random';
 
 import { userIsAdminMixin } from '/imports/api/helpers/validatedMethodMixins';
 import { mapSort } from '/imports/api/helpers/mapSort';
@@ -9,6 +10,7 @@ import { mapSort } from '/imports/api/helpers/mapSort';
 import { createEstimationGamesSchema, createShowGamesSchema } from '/imports/api/onboarding/schema';
 
 import Interactions from './collection';
+import Submissions from '../submissions/collection';
 
 import interactionTypes, { interactionTypeNames } from './types';
 import * as interactionStates from './states';
@@ -312,5 +314,36 @@ export const bulkInsertInteractions = new ValidatedMethod({
     interactions.forEach((interaction) => {
       createInteraction.call(interaction);
     });
+  },
+});
+
+export const selectRandomParticipant = new ValidatedMethod({
+  name: 'participationVotings.selectRandomParticipant',
+  mixins: [userIsAdminMixin],
+  validate: new SimpleSchema({
+    participationVotingId: String,
+  }).validator(),
+  run({ participationVotingId }) {
+    if (this.isSimulation) {
+      return null;
+    }
+    const submissionsForVoting = Submissions.find(
+      {
+        interactionId: participationVotingId,
+        value: 'YES',
+      },
+      { fields: { userId: 1 } },
+    )
+      .fetch()
+      .map(({ userId }) => userId);
+
+    const randomUserId = random(submissionsForVoting) ?? null; // set to null when submissionsForVoting is empty
+
+    Interactions.update(
+      { _id: participationVotingId },
+      { $set: { 'participationVoting.selectedParticipant': randomUserId } },
+    );
+
+    return randomUserId;
   },
 });

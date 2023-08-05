@@ -90,3 +90,63 @@ Meteor.publish('interactions.scoreboard', function interactionsActivePublication
 
   return Interactions.find();
 });
+
+Meteor.publish(
+  'participationVotings.selectedParticipants',
+  function selectedParticipantsPublication() {
+    if (!this.userId || !Meteor.userIsAdmin(this.userId)) {
+      return this.ready();
+    }
+
+    JoinServer.publish({
+      context: this,
+      name: 'selectedParticipants',
+      interval: 1000,
+      isShared: true,
+      doJoin() {
+        const interactions = Interactions.find({ type: 'PARTICIPATION_VOTING' }).fetch() ?? [];
+        const selectedParticipantIds = interactions
+          .map((interaction) => interaction?.participationVoting?.selectedParticipant ?? null)
+          .filter((id) => id !== null);
+
+        const selectedParticipants =
+          Meteor.users
+            .find(
+              { _id: { $in: selectedParticipantIds } },
+              { fields: { firstName: 1, lastName: 1, email: 1 } },
+            )
+            .fetch() ?? [];
+
+        const participationVotingsWithSelectedParticipants = interactions.map((interaction) => {
+          const selectedParticipant = selectedParticipants.find(
+            (participant) =>
+              participant._id === interaction?.participationVoting?.selectedParticipant,
+          );
+
+          const fullName = `${selectedParticipant?.firstName} ${selectedParticipant?.lastName}`;
+          const email = selectedParticipant?.email ?? null;
+
+          if (!selectedParticipant?._id) {
+            return {
+              _id: interaction._id,
+              selectedParticipant: null,
+            };
+          }
+
+          return {
+            _id: interaction._id,
+            selectedParticipant: {
+              _id: selectedParticipant?._id,
+              fullName,
+              email,
+            },
+          };
+        });
+
+        return participationVotingsWithSelectedParticipants;
+      },
+    });
+
+    return this.ready();
+  },
+);

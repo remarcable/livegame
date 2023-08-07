@@ -30,7 +30,7 @@ const styles = (theme) => ({
     fontFamily: 'GothamBold',
     color: '#000',
     boxShadow: theme.shadows[5],
-    backgroundColor: '#fff',
+    backgroundColor: '#f8fafc',
     transition: `all ${theme.transitions.duration.short}ms ${theme.transitions.easing.easeInOut}`,
     cursor: 'pointer',
 

@@ -40,7 +40,7 @@ MenuItem.propTypes = propTypes;
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     width: '100%',
-    backgroundColor: '#fff',
+    backgroundColor: '#f8fafc',
     color: theme.palette.background.default,
     boxShadow: theme.shadows[15],
     marginBottom: 10,
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     height: 150,
     minHeight: 150,
     minWidth: '100%',
-    backgroundImage: 'linear-gradient(#fff, rgba(0,0,0,0.4))',
+    backgroundImage: 'linear-gradient(#f8fafc, rgba(0,0,0,0.4))',
     objectFit: 'cover',
   },
   title: {

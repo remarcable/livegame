@@ -121,7 +121,7 @@ const styles = {
   },
   root: {
     '&$checked': {
-      color: '#fff',
+      color: '##f8fafc',
     },
   },
   checked: {},
@@ -130,10 +130,10 @@ const styles = {
     color: 'rgba(255,255,255,0.80)',
   },
   termsLink: {
-    color: '#fff',
+    color: '##f8fafc',
     textDecoration: 'underline',
     '&:visited': {
-      color: '#fff',
+      color: '##f8fafc',
     },
     '&:active': {
       color: 'blue',

@@ -36,7 +36,7 @@ const useStyles = makeStyles({
     backgroundImage: gradient,
   },
   closeButton: {
-    color: '#fff',
+    color: '#f8fafc',
     borderRadius: '50%',
     padding: 10,
     width: 30,

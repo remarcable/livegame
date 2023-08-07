@@ -17,7 +17,7 @@ const EstimationWaiting = ({ hasSubmitted, classes }) => {
     return (
       <div className={classes.wrapper}>
         <PlaylistAddCheckIcon className={classes.icon} />
-        <span>Ihre Antwort wurde erfolgreich abgegeben.</span>
+        <span className={classes.text}>Ihre Antwort wurde erfolgreich abgegeben.</span>
       </div>
     );
   }
@@ -48,6 +48,7 @@ const styles = {
   },
   text: {
     marginBottom: 20,
+    padding: '0 16px',
   },
   icon: {
     width: 50,

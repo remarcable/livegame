@@ -41,9 +41,10 @@ html {
   height: 100%;
   box-sizing: border-box;
   font-family: 'MyriadProLight', Roboto, sans-serif;
+  color: #f8fafc;
   background-color: #283339;
   background-image: linear-gradient(135deg, #334155 15%, #020617 90%);
-  color: #fff;
+  background-attachment: fixed;
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;

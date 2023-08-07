@@ -31,7 +31,7 @@ export default () => (
           <polygon id="Shape" points="0 0 16 0 16 16 0 16" />
           <g id="Oval">
             <use fill="black" fillOpacity="1" filter="url(#filter-2)" xlinkHref="#path-1" />
-            <use fill="#FFFFFF" fillRule="evenodd" xlinkHref="#path-1" />
+            <use fill="#f8fafc" fillRule="evenodd" xlinkHref="#path-1" />
           </g>
           <path
             d="M8.5,1 C4.36,1 1,4.36 1,8.5 C1,12.64 4.36,16 8.5,16 C12.64,16 16,12.64 16,8.5 C16,4.36 12.64,1 8.5,1 Z M7,12.25 L3.25,8.5 L4.3075,7.4425 L7,10.1275 L12.6925,4.435 L13.75,5.5 L7,12.25 Z"

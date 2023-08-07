@@ -25,7 +25,7 @@ const SelectAdminPage = ({ classes }) => (
       <Paper className={classes.content}>
         <List
           component="nav"
-          subheader={<ListSubheader component="div">Adminseiten</ListSubheader>}
+          subheader={<ListSubheader component="div">Adminbereich</ListSubheader>}
         >
           <LinkItems />
           <ListSubheader component="div">Funktionen</ListSubheader>
@@ -49,7 +49,7 @@ const styles = {
   },
   content: {
     minWidth: 300,
-    marginTop: 32,
+    marginTop: 48,
   },
 };
 

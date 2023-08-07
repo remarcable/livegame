@@ -7,11 +7,14 @@ import { withStyles } from '@material-ui/styles';
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   className: PropTypes.string,
+  style: PropTypes.string,
   children: PropTypes.node.isRequired,
 };
 
-const Headline = ({ classes, children, className }) => (
-  <span className={classnames(classes.text, className)}>{children}</span>
+const Headline = ({ classes, children, className, style }) => (
+  <span className={classnames(classes.text, className)} style={style}>
+    {children}
+  </span>
 );
 
 Headline.propTypes = propTypes;

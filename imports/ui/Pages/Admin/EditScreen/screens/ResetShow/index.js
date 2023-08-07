@@ -30,7 +30,7 @@ const ResetShow = () => (
               'Möchten Sie wirklich WBP Live zurücksetzen und alle Spieler löschen? Die Aktion kann nicht rückgängig gemacht werden!',
             ) &&
               confirm('Ganz sicher?') &&
-              resetGameData.call({}, console.log);
+              resetGameData.call({});
           }}
           startIcon={<WarningIcon />}
           color="primary"

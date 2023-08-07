@@ -31,5 +31,15 @@ export const resetGameData = new ValidatedMethod({
       },
       { multi: true },
     );
+    Interactions.update(
+      { type: 'PARTICIPATION_VOTING' },
+      {
+        $set: {
+          'participationVoting.selectedParticipant': null,
+          'participationVoting.selectionState': 'WAITING',
+        },
+      },
+      { multi: true },
+    );
   },
 });

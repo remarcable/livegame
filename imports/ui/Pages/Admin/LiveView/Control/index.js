@@ -222,103 +222,109 @@ const LiveViewControl = ({
             <LiveView />
           </div>
         </Paper>
-        <Paper
-          className={classnames(classes.actionWrapper, {
-            [classes.activePaper]:
-              activeInteraction === 'ESTIMATION_GAME_RANKING' ||
-              activeInteraction === 'FULL_SHOW_GAME_RANKING',
-          })}
-        >
-          <div className={classnames(classes.estimationGameHalf, classes.buttonGroup)}>
-            <Button
-              onClick={() => displayInteraction.call({ interactionId: 'FULL_SHOW_GAME_RANKING' })}
-              color={activeInteraction === 'FULL_SHOW_GAME_RANKING' ? 'primary' : 'default'}
-            >
-              Full Show Ranking
-            </Button>
-            <Button
-              onClick={() => {
-                Meteor.call('ranking.calculateScore');
-                displayInteraction.call({ interactionId: 'ESTIMATION_GAME_RANKING' });
-              }}
-              color={activeInteraction === 'ESTIMATION_GAME_RANKING' ? 'primary' : 'default'}
-            >
-              Schätzen Ranking
-            </Button>
-            <Tooltip title="Für Schätzen müssen die Ränge manuell berechnet werden, da dies sehr aufwändig ist. Diesen Button klicken sobald alle User abgestimmt haben.">
-              <span>
-                <Button onClick={() => Meteor.call('ranking.calculateScore')}>
-                  Schätzen-R. aktualisieren
+        <div>
+          <Paper
+            className={classnames(classes.actionWrapper, {
+              [classes.activePaper]:
+                activeInteraction === 'ESTIMATION_GAME_RANKING' ||
+                activeInteraction === 'FULL_SHOW_GAME_RANKING',
+            })}
+          >
+            <Box>
+              <div className={classes.buttonGroup}>
+                <Button
+                  onClick={() =>
+                    displayInteraction.call({ interactionId: 'FULL_SHOW_GAME_RANKING' })
+                  }
+                  color={activeInteraction === 'FULL_SHOW_GAME_RANKING' ? 'primary' : 'default'}
+                >
+                  Full Show Ranking
                 </Button>
-              </span>
-            </Tooltip>
-          </div>
-          <div className={classes.estimationGameHalf}>
+                <Button
+                  onClick={() => {
+                    Meteor.call('ranking.calculateScore');
+                    displayInteraction.call({ interactionId: 'ESTIMATION_GAME_RANKING' });
+                  }}
+                  color={activeInteraction === 'ESTIMATION_GAME_RANKING' ? 'primary' : 'default'}
+                >
+                  Schätzen Ranking
+                </Button>
+                <Tooltip title="Für Schätzen müssen die Ränge manuell berechnet werden, da dies sehr aufwändig ist. Diesen Button klicken sobald alle User abgestimmt haben.">
+                  <span>
+                    <Button onClick={() => Meteor.call('ranking.calculateScore')}>
+                      Schätzen-R. aktualisieren
+                    </Button>
+                  </span>
+                </Tooltip>
+              </div>
+            </Box>
+            <Box>
+              <FormControl component="fieldset">
+                <RadioGroup
+                  aria-label="Ränge anzeigen"
+                  className={classes.group}
+                  onChange={(e) => showRanksUpTo.call({ mode: e.target.value })}
+                  value={rankDisplayMode}
+                >
+                  <FormControlLabel
+                    value="NONE"
+                    control={<Radio color="primary" />}
+                    label="Keine Ränge anzeigen"
+                  />
+                  <FormControlLabel
+                    value="FOUR_TO_TEN"
+                    control={<Radio color="primary" />}
+                    label="Platz 4 bis 10"
+                  />
+                  <FormControlLabel
+                    value="THREE_TO_TEN"
+                    control={<Radio color="primary" />}
+                    label="Platz 3 bis 10"
+                  />
+                  <FormControlLabel
+                    value="TWO_TO_TEN"
+                    control={<Radio color="primary" />}
+                    label="Platz 2 bis 10"
+                  />
+                  <FormControlLabel
+                    value="ALL"
+                    control={<Radio color="primary" />}
+                    label="Alle Ränge anzeigen"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </Box>
+          </Paper>
+          <Paper className={classnames(classes.actionWrapper)}>
             <FormControl component="fieldset">
               <RadioGroup
-                aria-label="Ränge anzeigen"
-                className={classes.group}
-                onChange={(e) => showRanksUpTo.call({ mode: e.target.value })}
-                value={rankDisplayMode}
+                aria-label="Kandidat auswählen"
+                className={classes.candidatesForm}
+                onChange={(e) => setCandidate.call({ _id: e.target.value, candidateNumber: 1 })}
+                value={(candidates.find((c) => c.candidateNumber === 1) || {})._id || 'NONE'}
               >
                 <FormControlLabel
                   value="NONE"
                   control={<Radio color="primary" />}
-                  label="Keine Ränge anzeigen"
+                  label="Kein Kandidat"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    unsetCandidate.call({ candidateNumber: 1 });
+                  }}
                 />
-                <FormControlLabel
-                  value="FOUR_TO_TEN"
-                  control={<Radio color="primary" />}
-                  label="Platz 4 bis 10"
-                />
-                <FormControlLabel
-                  value="THREE_TO_TEN"
-                  control={<Radio color="primary" />}
-                  label="Platz 3 bis 10"
-                />
-                <FormControlLabel
-                  value="TWO_TO_TEN"
-                  control={<Radio color="primary" />}
-                  label="Platz 2 bis 10"
-                />
-                <FormControlLabel
-                  value="ALL"
-                  control={<Radio color="primary" />}
-                  label="Alle Ränge anzeigen"
-                />
+                {candidates.map((c) => (
+                  <FormControlLabel
+                    key={c._id}
+                    value={c._id}
+                    control={<Radio color="primary" />}
+                    label={c.name}
+                  />
+                ))}
               </RadioGroup>
             </FormControl>
-          </div>
-        </Paper>
-        <Paper className={classnames(classes.actionWrapper)}>
-          <FormControl component="fieldset">
-            <RadioGroup
-              aria-label="Kandidat auswählen"
-              className={classes.candidatesForm}
-              onChange={(e) => setCandidate.call({ _id: e.target.value, candidateNumber: 1 })}
-              value={(candidates.find((c) => c.candidateNumber === 1) || {})._id || 'NONE'}
-            >
-              <FormControlLabel
-                value="NONE"
-                control={<Radio color="primary" />}
-                label="Kein Kandidat"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  unsetCandidate.call({ candidateNumber: 1 });
-                }}
-              />
-              {candidates.map((c) => (
-                <FormControlLabel
-                  key={c._id}
-                  value={c._id}
-                  control={<Radio color="primary" />}
-                  label={c.name}
-                />
-              ))}
-            </RadioGroup>
-          </FormControl>
-        </Paper>
+          </Paper>
+        </div>
         {/* <Paper className={classes.games}>
           <ParticipantsSelection participationVotings={participationVotings} />
         </Paper> */}
@@ -328,12 +334,17 @@ const LiveViewControl = ({
   </>
 );
 
-const styles = {
+const styles = ({ breakpoints }) => ({
   wrapper: {
     paddingTop: 20,
     width: '100%',
     display: 'flex',
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
+    gap: 32,
+    [breakpoints.down('sm')]: {
+      flexDirection: 'column-reverse',
+      alignItems: 'center',
+    },
   },
   selected: {
     backgroundColor: [blue[800], '!important'],
@@ -346,9 +357,15 @@ const styles = {
   },
   estimationGame: {},
   interactions: {
-    maxWidth: '40%',
+    maxWidth: '50%',
+    minWidth: '40%',
     maxHeight: '85vh',
     overflow: 'scroll',
+    [breakpoints.down('sm')]: {
+      maxWidth: '80%',
+      minWidth: '80%',
+      maxHeight: '50vh',
+    },
   },
   liveViewWrapper: {
     maxWidth: 512,
@@ -370,9 +387,6 @@ const styles = {
   activePaper: {
     backgroundColor: [blue[800], '!important'],
   },
-  estimationGameHalf: {
-    width: '50%',
-  },
   buttonGroup: {
     display: 'flex',
     flexDirection: 'column',
@@ -391,6 +405,10 @@ const styles = {
     maxHeight: '85vh',
     display: 'flex',
     flexDirection: 'column',
+    [breakpoints.down('sm')]: {
+      flexDirection: 'row',
+      gap: 16,
+    },
   },
   currentInteraction: {
     position: 'absolute',
@@ -407,7 +425,7 @@ const styles = {
   candidatesForm: {
     flexDirection: 'row',
   },
-};
+});
 
 LiveViewControl.propTypes = propTypes;
 

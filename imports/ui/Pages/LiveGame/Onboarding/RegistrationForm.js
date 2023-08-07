@@ -119,7 +119,7 @@ const styles = {
   },
   checked: {},
   checkboxText: {
-    fontFamily: 'MyriadProLight',
+    fontFamily: 'MyriadProLight, Inter, sans-serif',
     color: 'rgba(255,255,255,0.80)',
   },
   termsLink: {

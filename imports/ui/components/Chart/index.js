@@ -111,11 +111,11 @@ const styles = {
     left: -230,
   },
   leftText: {
-    fontFamily: 'MyriadProLight',
+    fontFamily: 'MyriadProLight, Inter, sans-serif',
     fontSize: 18,
   },
   rightText: {
-    fontFamily: 'MyriadProLight',
+    fontFamily: 'MyriadProLight, Inter, sans-serif',
     textAlign: 'left',
     fontSize: 18,
   },

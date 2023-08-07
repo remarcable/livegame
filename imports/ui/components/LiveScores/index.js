@@ -133,7 +133,7 @@ const styles = {
     transform: 'translateX(-50%)',
     transition: 'all .3s',
     fontSize: 36,
-    fontFamily: 'MyriadPro-Semibold',
+    fontFamily: 'MyriadPro-Semibold, Inter, sans-serif',
     '&$smallWindow': {
       fontSize: 30,
     },

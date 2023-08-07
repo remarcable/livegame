@@ -25,7 +25,11 @@ const ParticipationVotingResult = ({
   selectionState,
   classes,
 }) => {
-  const { allParticipantNames, selectedParticipantFullName } = useTracker(() => {
+  const {
+    allParticipantNames,
+    selectedParticipantFullName,
+    selectedParticipantAlias,
+  } = useTracker(() => {
     Meteor.subscribe('participationVotings.allParticipantsForInteraction', interactionId);
 
     // TODO: if we oversubscribed to users, then more participants
@@ -41,19 +45,17 @@ const ParticipationVotingResult = ({
       return {
         allParticipantNames: [],
         selectedParticipantFullName: null,
+        selectedParticipantAlias: null,
       };
     }
 
     const selectedParticipantFullName = `${selectedUser.firstName} ${selectedUser.lastName}`;
-
-    // todo:
-    // subscribe to all users for this interaction (create new publication) and create a list of names to cycle through
-    // also include selected participant.
-    // Then create animation component. First need to save somehow that the animation has started
+    const selectedParticipantAlias = selectedUser.alias;
 
     return {
       allParticipantNames,
       selectedParticipantFullName,
+      selectedParticipantAlias,
     };
   }, [selectedParticipant]);
 
@@ -79,7 +81,8 @@ const ParticipationVotingResult = ({
 
       <AnimatedParticipantsText
         allParticipants={allParticipantNames}
-        selectedParticipant={selectedParticipantFullName}
+        selectedParticipant={selectedParticipantAlias || selectedParticipantFullName}
+        hasAlias={!!selectedParticipantAlias}
         animationState={selectionState}
       />
 

@@ -108,7 +108,7 @@ Meteor.publish(
       .filter((id) => id !== null);
     return Meteor.users.find(
       { _id: { $in: selectedParticipantIds } },
-      { fields: { firstName: 1, lastName: 1, email: 1 } },
+      { fields: { firstName: 1, lastName: 1, email: 1, alias: 1 } },
     );
   },
 );
@@ -129,7 +129,7 @@ Meteor.publish(
 
     return Meteor.users.find(
       { _id: { $in: userIds } },
-      { fields: { firstName: 1, lastName: 1, email: 1 } },
+      { fields: { firstName: 1, lastName: 1, email: 1, alias: 1 } },
     );
   },
 );

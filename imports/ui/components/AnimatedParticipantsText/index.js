@@ -12,6 +12,7 @@ import Headline from '../Headline';
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   allParticipants: PropTypes.array.isRequired,
+  hasAlias: PropTypes.bool.isRequired,
   selectedParticipant: PropTypes.string,
   animationState: PropTypes.oneOf(['WAITING', 'ANIMATING', 'CONFIRMED']).isRequired,
 };
@@ -22,6 +23,7 @@ const AnimatedParticipantsText = ({
   classes,
   allParticipants,
   selectedParticipant,
+  hasAlias,
   animationState,
 }) => {
   const [currentText, setCurrentText] = useState(DEFAULT_TEXT);
@@ -84,7 +86,13 @@ const AnimatedParticipantsText = ({
                 [classes.highlightBox]: highlightBox,
               })}
             >
-              <Headline className={classes.nameText}>{currentText}</Headline>
+              <Headline
+                className={classNames(classes.nameText, {
+                  [classes.withAlias]: hasAlias && currentText === selectedParticipant,
+                })}
+              >
+                {currentText}
+              </Headline>
             </div>
           </div>
         </ReactCSSTransitionReplace>
@@ -139,6 +147,9 @@ const styles = (theme) => ({
       backgroundImage: 'linear-gradient(#F4CB44 0%, #CD790C 100%)',
       animation: 'grow 2s ease-in-out forwards',
     },
+  },
+  withAlias: {
+    fontStyle: 'italic',
   },
   highlightBox: {},
 });

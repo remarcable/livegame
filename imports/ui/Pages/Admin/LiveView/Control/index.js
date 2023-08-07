@@ -167,9 +167,11 @@ const LiveViewControl = ({
                   )}
                   {i.participationVoting?.selectedParticipant && (
                     <Box mt={1}>
-                      <Tooltip title={i.participationVoting?.email}>
+                      <Tooltip title={i.participationVoting?.email || ''}>
                         <Box color="text.secondary" width="fit-content">
-                          Kandidat: {i.participationVoting?.fullName}{' '}
+                          Kandidat: {i.participationVoting?.fullName}
+                          {i.participationVoting?.alias &&
+                            ` (${i.participationVoting?.alias})`}{' '}
                           {i.participationVoting?.selectionState === 'CONFIRMED' && '✅'}
                         </Box>
                       </Tooltip>
@@ -180,9 +182,13 @@ const LiveViewControl = ({
                   <Box display="flex" flexDirection="column" gap={2}>
                     {i.state === 'CLOSED' && (
                       <Tooltip title="Interaktion wurde bereits angezeigt. Dadurch wird ein Stern in der Stern-Leiste in der App markiert. Ein Klick auf den Button setzt diesen Zustand zurück.">
-                        <IconButton onClick={() => unsetClosedState.call({ interactionId: i._id })}>
-                          <StarIcon />
-                        </IconButton>
+                        <span>
+                          <IconButton
+                            onClick={() => unsetClosedState.call({ interactionId: i._id })}
+                          >
+                            <StarIcon />
+                          </IconButton>
+                        </span>
                       </Tooltip>
                     )}
                     {(i.state === null || i.state === 'ACTIVE') && (
@@ -448,6 +454,7 @@ export default withTracker(() => {
         participationVoting: {
           ...interaction.participationVoting,
           fullName: `${selectedParticipant.firstName} ${selectedParticipant.lastName}`,
+          alias: selectedParticipant.alias,
           email: selectedParticipant.email,
         },
       };

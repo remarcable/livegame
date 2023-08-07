@@ -8,7 +8,7 @@ html {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  font-family: Roboto, sans-serif;
+  font-family: Inter, Roboto, sans-serif;
   background-color: #283339;
   color: #fff;
   user-select: none;
@@ -36,9 +36,15 @@ body {
 #logo {
   width: 50vw;
   height: 50vw;
+  max-width: 400px;
+  max-height: 400px;
   margin: 50px 0;
 }
 
 #countdown {
   font-family: sans-serif;
+  font-size: 24px;
+  line-height: 1.4;
+  padding: 8px;
+  text-align: center;
 }

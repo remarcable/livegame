@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 import { JoinServer } from 'meteor-publish-join';
 
 import Submissions from '/imports/api/submissions/collection';
@@ -120,9 +121,7 @@ Meteor.publish(
       return this.ready();
     }
 
-    if (!interactionId) {
-      return this.ready();
-    }
+    check(interactionId, String);
 
     const submissions = Submissions.find({ interactionId, value: 'YES' }).fetch() ?? [];
     const userIds = submissions.map((submission) => submission.userId);

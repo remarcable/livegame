@@ -2,21 +2,16 @@ import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import SimpleSchema from 'simpl-schema';
-import random from 'just-random';
 
 import { userIsAdminMixin } from '/imports/api/helpers/validatedMethodMixins';
 import { mapSort } from '/imports/api/helpers/mapSort';
 
-import { createEstimationGamesSchema, createShowGamesSchema } from '/imports/api/onboarding/schema';
-
 import Interactions from './collection';
-import Submissions from '../submissions/collection';
 
 import interactionTypes, { interactionTypeNames } from './types';
 import * as interactionStates from './states';
 
 import generateInteractionDocsFromCSV from './generateInteractionDocsFromCSV';
-import generateInteractionDocsFromData from './generateInteractionDocsFromData';
 
 function validateEstimationGameData(data) {
   if (data.answer !== undefined && !!data.votingId) {
@@ -295,129 +290,5 @@ export const unsetClosedState = new ValidatedMethod({
   }).validator(),
   run({ interactionId }) {
     return Interactions.update({ _id: interactionId, state: 'CLOSED' }, { $set: { state: null } });
-  },
-});
-
-export const bulkInsertInteractions = new ValidatedMethod({
-  name: 'onboarding.bulkInsertInteractions',
-  mixins: [userIsAdminMixin],
-  validate: new SimpleSchema({
-    fullShowGameData: createShowGamesSchema,
-    estimationGameData: createEstimationGamesSchema,
-  }).validator(),
-  async run({ fullShowGameData, estimationGameData }) {
-    if (!fullShowGameData || !estimationGameData) {
-      throw new Meteor.Error('Missing data');
-    }
-
-    const interactions = generateInteractionDocsFromData(fullShowGameData, estimationGameData);
-
-    await Promise.all(interactions.map((interaction) => createInteraction.callAsync(interaction)));
-
-    // Link estimationVotings with estimationGames
-    // This works well for the setup wizard but the questions
-    // will have to be updated later to ask for the result,
-    // not the same question again
-    const estimationVotings = Interactions.find({
-      type: interactionTypeNames.ESTIMATION_VOTING,
-    }).fetch();
-    const estimationGames = Interactions.find({
-      type: interactionTypeNames.ESTIMATION_GAME,
-      'estimationGame.question': { $in: estimationVotings.map((i) => i.estimationVoting.question) },
-    }).fetch();
-
-    estimationGames.forEach((estimationGame) => {
-      const estimationVoting = estimationVotings.find(
-        (voting) => voting.estimationVoting?.question === estimationGame.estimationGame?.question,
-      );
-
-      Interactions.update(
-        { _id: estimationGame._id },
-        { $set: { 'estimationGame.votingId': estimationVoting._id } },
-      );
-    });
-  },
-});
-
-export const selectRandomParticipant = new ValidatedMethod({
-  name: 'participationVotings.selectRandomParticipant',
-  mixins: [userIsAdminMixin],
-  validate: new SimpleSchema({
-    participationVotingId: String,
-  }).validator(),
-  run({ participationVotingId }) {
-    if (this.isSimulation) {
-      return null;
-    }
-    const submissionsForVoting = Submissions.find(
-      {
-        interactionId: participationVotingId,
-        value: 'YES',
-      },
-      { fields: { userId: 1 } },
-    )
-      .fetch()
-      .map(({ userId }) => userId);
-
-    const randomUserId = random(submissionsForVoting) ?? null; // set to null when submissionsForVoting is empty
-
-    Interactions.update(
-      { _id: participationVotingId },
-      { $set: { 'participationVoting.selectedParticipant': randomUserId } },
-    );
-
-    return randomUserId;
-  },
-});
-
-export const startParticipantAnimation = new ValidatedMethod({
-  name: 'participationVotings.startAnimation',
-  mixins: [userIsAdminMixin],
-  validate: new SimpleSchema({
-    participationVotingId: String,
-  }).validator(),
-  run({ participationVotingId }) {
-    if (this.isSimulation) {
-      return;
-    }
-
-    Interactions.update(
-      { _id: participationVotingId },
-      { $set: { 'participationVoting.selectionState': 'ANIMATING' } },
-    );
-
-    const ANIMATION_DELAY = 8 * 1000;
-    Meteor.setTimeout(() => {
-      // Only set state to CONFIRMED if the animation is still running.
-      // Prevent race condition when state is reset during animation
-      const isAnimating =
-        Interactions.findOne({ _id: participationVotingId }).participationVoting.selectionState ===
-        'ANIMATING';
-
-      if (isAnimating) {
-        Interactions.update(
-          { _id: participationVotingId },
-          { $set: { 'participationVoting.selectionState': 'CONFIRMED' } },
-        );
-      }
-    }, ANIMATION_DELAY);
-  },
-});
-
-export const resetParticipationVotingAnimation = new ValidatedMethod({
-  name: 'participationVotings.resetAnimation',
-  mixins: [userIsAdminMixin],
-  validate: new SimpleSchema({
-    participationVotingId: String,
-  }).validator(),
-  run({ participationVotingId }) {
-    if (this.isSimulation) {
-      return;
-    }
-
-    Interactions.update(
-      { _id: participationVotingId },
-      { $set: { 'participationVoting.selectionState': 'WAITING' } },
-    );
   },
 });

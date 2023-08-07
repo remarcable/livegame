@@ -9,8 +9,8 @@ import {
   createInteraction,
   updateInteractionDetails,
   removeInteraction,
-  bulkInsertInteractions,
 } from '/imports/api/interactions/methods';
+import { bulkInsertInteractions } from '/imports/api/onboarding/methods';
 
 import { interactionTypeNames } from '/imports/api/interactions/types';
 import { getLabelForInteractionTypeName } from '/imports/api/helpers/getLabelForInteractionTypeName';

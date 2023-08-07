@@ -40,12 +40,12 @@ import { setCandidate, unsetCandidate } from '/imports/api/candidates/methods';
 
 import Interactions from '/imports/api/interactions/collection';
 import { interactionTypeNames } from '/imports/api/interactions/types';
+import { setClosedState, unsetClosedState } from '/imports/api/interactions/methods';
 import {
-  setClosedState,
-  unsetClosedState,
+  selectRandomParticipant,
   resetParticipationVotingAnimation,
   startParticipantAnimation,
-} from '/imports/api/interactions/methods';
+} from '/imports/api/interactions/participationVotingMethods';
 import getTextForInteraction from '/imports/api/helpers/getTextForInteraction';
 
 import { showRanksUpTo, displayInteraction } from '/imports/api/appState/methods';
@@ -115,7 +115,9 @@ const LiveViewControl = ({
                     <Box mt={2}>
                       <Button
                         size="small"
-                        onClick={() => selectRandomParticipantForGame(i._id)}
+                        onClick={() =>
+                          selectRandomParticipant.callAsync({ participationVotingId: i._id })
+                        }
                         startIcon={i.participationVoting?.selectedParticipant ? <DoneIcon /> : null}
                         disabled={i._id !== activeInteraction}
                       >
@@ -434,14 +436,6 @@ const styles = ({ breakpoints, palette }) => ({
 });
 
 LiveViewControl.propTypes = propTypes;
-
-async function selectRandomParticipantForGame(participationVotingId) {
-  const selectedUserId = await Meteor.callAsync('participationVotings.selectRandomParticipant', {
-    participationVotingId,
-  });
-
-  return selectedUserId;
-}
 
 export default withTracker(() => {
   Meteor.subscribe('interactions.allInteractions');

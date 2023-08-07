@@ -305,14 +305,36 @@ export const bulkInsertInteractions = new ValidatedMethod({
     fullShowGameData: createShowGamesSchema,
     estimationGameData: createEstimationGamesSchema,
   }).validator(),
-  run({ fullShowGameData, estimationGameData }) {
+  async run({ fullShowGameData, estimationGameData }) {
     if (!fullShowGameData || !estimationGameData) {
       throw new Meteor.Error('Missing data');
     }
 
     const interactions = generateInteractionDocsFromData(fullShowGameData, estimationGameData);
-    interactions.forEach((interaction) => {
-      createInteraction.call(interaction);
+
+    await Promise.all(interactions.map((interaction) => createInteraction.callAsync(interaction)));
+
+    // Link estimationVotings with estimationGames
+    // This works well for the setup wizard but the questions
+    // will have to be updated later to ask for the result,
+    // not the same question again
+    const estimationVotings = Interactions.find({
+      type: interactionTypeNames.ESTIMATION_VOTING,
+    }).fetch();
+    const estimationGames = Interactions.find({
+      type: interactionTypeNames.ESTIMATION_GAME,
+      'estimationGame.question': { $in: estimationVotings.map((i) => i.estimationVoting.question) },
+    }).fetch();
+
+    estimationGames.forEach((estimationGame) => {
+      const estimationVoting = estimationVotings.find(
+        (voting) => voting.estimationVoting?.question === estimationGame.estimationGame?.question,
+      );
+
+      Interactions.update(
+        { _id: estimationGame._id },
+        { $set: { 'estimationGame.votingId': estimationVoting._id } },
+      );
     });
   },
 });

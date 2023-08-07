@@ -31,9 +31,8 @@ const SetupWizard = ({ handleClose, setForm }) => {
         Tragen Sie die Namen für alle Spiele und für alle Schätzen-Fragen in der Form ein. Die
         Schätzenfragen ("Estimation Game") werden zu Spiel 5 einsortiert, das normalerweise das
         Schätzen-Spiel ist. Falls eine Frage eine interaktive Zuschauerfrage ist, muss das Häkchen
-        zu "Voting" gesetzt werden. Für jede solcher Votingfragen muss aus technischen Gründen im
-        Nachhinein die "Schätzen/Frage" Interaktion noch einmal bearbeitet werden und die
-        Votingfrage unter "Voting" ausgewählt werden.
+        zu "Voting" gesetzt werden. Für alle anderen Fragen muss die Antwort noch nachgetragen
+        werden, ggf. auch während der Show.
       </Typography>
 
       <AutoForm

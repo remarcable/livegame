@@ -23,7 +23,11 @@ Meteor.publish('interactions.active', function interactionsActivePublication() {
   return Interactions.find(
     {
       $or: [
-        { type: interactionTypeNames.FULL_SHOW_GAME },
+        {
+          type: {
+            $in: [interactionTypeNames.FULL_SHOW_GAME, interactionTypeNames.PARTICIPATION_VOTING],
+          },
+        },
         { state: { $in: [interactionStates.ACTIVE, interactionStates.CLOSED] } },
       ],
     },

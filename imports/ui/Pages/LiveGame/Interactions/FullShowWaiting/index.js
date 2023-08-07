@@ -10,9 +10,10 @@ import UserInformation from '/imports/ui/components/UserInformation';
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   hasSubmitted: PropTypes.bool.isRequired,
+  userIsSelectedAsParticipantForCurrentGame: PropTypes.bool.isRequired,
 };
 
-const FullShowWaiting = ({ hasSubmitted, classes }) => {
+const FullShowWaiting = ({ hasSubmitted, userIsSelectedAsParticipantForCurrentGame, classes }) => {
   if (hasSubmitted) {
     return (
       <div className={classes.wrapper}>
@@ -24,7 +25,11 @@ const FullShowWaiting = ({ hasSubmitted, classes }) => {
 
   return (
     <div className={classes.wrapper}>
-      <span className={classes.text}>Bitte warten Sie auf die nächste Runde.</span>
+      <span className={classes.text}>
+        {userIsSelectedAsParticipantForCurrentGame
+          ? 'Bitte gehen Sie vor zur Bühne.'
+          : 'Bitte warten Sie auf die nächste Runde.'}
+      </span>
       <ConnectionStatus />
       <UserInformation fullShow />
     </div>

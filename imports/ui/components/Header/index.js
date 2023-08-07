@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import ReactCSSTransitionReplace from 'react-css-transition-replace';
 import classnames from 'classnames';
 
-import { useWindowHeight } from '@react-hook/window-size';
 import { withStyles } from '@material-ui/styles';
 
 import Logo from '../Logo';
@@ -11,14 +10,17 @@ import Headline from '../Headline';
 
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  isEstimationGame: PropTypes.bool.isRequired,
   title: PropTypes.string,
+  userIsSelectedAsParticipantForCurrentGame: PropTypes.bool.isRequired,
 };
 
-const Header = ({ classes, title, isEstimationGame }) => {
+const Header = ({ classes, title, userIsSelectedAsParticipantForCurrentGame }) => {
   return (
-    <div className={classes.header}>
-      <div className={classes.estimationGameHeader} />
+    <div
+      className={classnames(classes.header, {
+        [classes.userWasSelected]: userIsSelectedAsParticipantForCurrentGame,
+      })}
+    >
       <div className={classes.logoWrapper}>
         <Logo />
       </div>
@@ -32,6 +34,12 @@ const Header = ({ classes, title, isEstimationGame }) => {
             <Headline>{title}</Headline>
           </h2>
         </ReactCSSTransitionReplace>
+
+        {userIsSelectedAsParticipantForCurrentGame && (
+          <h2 className={classnames(classes.title, classes.candidateTitle)} key="candidate">
+            <Headline>Sie wurden als Kandidat ausgewählt.</Headline>
+          </h2>
+        )}
       </div>
     </div>
   );
@@ -49,20 +57,16 @@ const styles = (theme) => ({
 
     textTransform: 'uppercase',
     textAlign: 'center',
+    backgroundImage: 'none',
+    transition: `all ${theme.transitions.duration.short}ms ${theme.transitions.easing.easeInOut}`,
   },
-  estimationGameHeader: {
-    position: 'absolute',
+  userWasSelected: {
+    height: 260,
     zIndex: -1,
     top: 0,
     left: 0,
     width: '100%',
-    height: '100%',
     backgroundImage: 'linear-gradient(#FFB13D 0%, #CD790C 100%)',
-    opacity: 0,
-    transition: `all ${theme.transitions.duration.short}ms ${theme.transitions.easing.easeInOut}`,
-    '&$active': {
-      opacity: 1,
-    },
   },
   active: {},
   logoWrapper: {
@@ -77,6 +81,9 @@ const styles = (theme) => ({
   title: {
     fontSize: 20,
     margin: '0 20px',
+  },
+  candidateTitle: {
+    marginTop: 24,
   },
 });
 

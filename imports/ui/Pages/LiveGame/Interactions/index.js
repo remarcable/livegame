@@ -42,6 +42,7 @@ const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   interaction: PropTypes.object.isRequired, // TODO: better type
   hasSubmitted: PropTypes.bool.isRequired,
+  userIsSelectedAsParticipantForCurrentGame: PropTypes.bool.isRequired,
   submittedFor: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   submit: PropTypes.func.isRequired,
   candidate1: PropTypes.object.isRequired, // TODO: better type,
@@ -55,6 +56,7 @@ const Interactions = ({
   classes,
   interaction,
   hasSubmitted,
+  userIsSelectedAsParticipantForCurrentGame,
   submittedFor,
   submit,
   candidate1,
@@ -106,6 +108,7 @@ const Interactions = ({
       submit={submit}
       liveScoreProps={liveScoreProps}
       isEstimationGame={isEstimationGame}
+      userIsSelectedAsParticipantForCurrentGame={userIsSelectedAsParticipantForCurrentGame}
     >
       <ReactCSSTransitionReplace
         transitionName="fade-wait"
@@ -116,6 +119,7 @@ const Interactions = ({
           <Component
             {...interaction[schemaKey]}
             submit={submit}
+            userIsSelectedAsParticipantForCurrentGame={userIsSelectedAsParticipantForCurrentGame}
             hasSubmitted={hasSubmitted}
             user={user}
           />

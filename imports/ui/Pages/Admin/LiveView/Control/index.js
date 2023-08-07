@@ -385,12 +385,14 @@ const styles = ({ breakpoints, palette }) => ({
   },
   actionWrapper: {
     marginTop: 8,
+    padding: 16,
     maxWidth: 512,
     flexGrow: 1,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     transition: 'background-color .3s',
+    gap: 8,
   },
   activePaper: {
     backgroundColor: [blue[800], '!important'],

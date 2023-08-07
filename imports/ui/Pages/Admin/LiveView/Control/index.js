@@ -181,7 +181,7 @@ const LiveViewControl = ({
                 <TableCell>
                   <Box display="flex" flexDirection="column" gap={2}>
                     {i.state === 'CLOSED' && (
-                      <Tooltip title="Interaktion wurde bereits angezeigt. Dadurch wird ein Stern in der Stern-Leiste in der App markiert. Ein Klick auf den Button setzt diesen Zustand zurück.">
+                      <Tooltip title="Interaktion wurde bereits angezeigt und wurde durch einen Stern in der App markiert. Ein Klick auf den Button setzt diesen Zustand zurück.">
                         <span>
                           <IconButton
                             onClick={() => unsetClosedState.call({ interactionId: i._id })}
@@ -196,7 +196,7 @@ const LiveViewControl = ({
                         title={
                           i.state === 'ACTIVE'
                             ? 'Interaktion wird gerade angezeigt'
-                            : 'Interaktion wurde noch nicht angezeigt. Klick auf den Button setzt diese Interaktion in den Zustand als wäre sie bereits angezeigt worden womit ein Stern in der App markiert wird.'
+                            : 'Interaktion wurde bisher noch nicht angezeigt. Mit Klick auf den Button wird die Interaktion mit einem Stern in der App markiert.'
                         }
                       >
                         <span>
@@ -224,27 +224,34 @@ const LiveViewControl = ({
         </Paper>
         <Paper
           className={classnames(classes.actionWrapper, {
-            [classes.activePaper]: activeInteraction === 'FULL_SHOW_GAME_RANKING',
-          })}
-        >
-          <Button
-            onClick={() => displayInteraction.call({ interactionId: 'FULL_SHOW_GAME_RANKING' })}
-          >
-            Full Show Ranking
-          </Button>
-        </Paper>
-        <Paper
-          className={classnames(classes.actionWrapper, {
-            [classes.activePaper]: activeInteraction === 'ESTIMATION_GAME_RANKING',
+            [classes.activePaper]:
+              activeInteraction === 'ESTIMATION_GAME_RANKING' ||
+              activeInteraction === 'FULL_SHOW_GAME_RANKING',
           })}
         >
           <div className={classnames(classes.estimationGameHalf, classes.buttonGroup)}>
             <Button
-              onClick={() => displayInteraction.call({ interactionId: 'ESTIMATION_GAME_RANKING' })}
+              onClick={() => displayInteraction.call({ interactionId: 'FULL_SHOW_GAME_RANKING' })}
+              color={activeInteraction === 'FULL_SHOW_GAME_RANKING' ? 'primary' : 'default'}
+            >
+              Full Show Ranking
+            </Button>
+            <Button
+              onClick={() => {
+                Meteor.call('ranking.calculateScore');
+                displayInteraction.call({ interactionId: 'ESTIMATION_GAME_RANKING' });
+              }}
+              color={activeInteraction === 'ESTIMATION_GAME_RANKING' ? 'primary' : 'default'}
             >
               Schätzen Ranking
             </Button>
-            <Button onClick={() => Meteor.call('ranking.calculateScore')}>Ränge berechnen</Button>
+            <Tooltip title="Für Schätzen müssen die Ränge manuell berechnet werden, da dies sehr aufwändig ist. Diesen Button klicken sobald alle User abgestimmt haben.">
+              <span>
+                <Button onClick={() => Meteor.call('ranking.calculateScore')}>
+                  Schätzen-R. aktualisieren
+                </Button>
+              </span>
+            </Tooltip>
           </div>
           <div className={classes.estimationGameHalf}>
             <FormControl component="fieldset">
@@ -254,11 +261,6 @@ const LiveViewControl = ({
                 onChange={(e) => showRanksUpTo.call({ mode: e.target.value })}
                 value={rankDisplayMode}
               >
-                <FormControlLabel
-                  value="ALL"
-                  control={<Radio color="primary" />}
-                  label="Alle Ränge anzeigen"
-                />
                 <FormControlLabel
                   value="NONE"
                   control={<Radio color="primary" />}
@@ -279,6 +281,11 @@ const LiveViewControl = ({
                   control={<Radio color="primary" />}
                   label="Platz 2 bis 10"
                 />
+                <FormControlLabel
+                  value="ALL"
+                  control={<Radio color="primary" />}
+                  label="Alle Ränge anzeigen"
+                />
               </RadioGroup>
             </FormControl>
           </div>
@@ -294,7 +301,7 @@ const LiveViewControl = ({
               <FormControlLabel
                 value="NONE"
                 control={<Radio color="primary" />}
-                label="Keiner"
+                label="Kein Kandidat"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
@@ -329,7 +336,7 @@ const styles = {
     justifyContent: 'space-evenly',
   },
   selected: {
-    backgroundColor: [blue.A400, '!important'],
+    backgroundColor: [blue[800], '!important'],
   },
   tableRowRoot: {
     transition: `background-color 200ms`, // TODO: use theme.transitions.duration.shorter
@@ -347,6 +354,9 @@ const styles = {
     maxWidth: 512,
     maxHeight: 384,
     overflow: 'hidden',
+    backgroundImage: 'linear-gradient(135deg, #334155 15%, #020617 90%)',
+    border: '2px solid #37474f',
+    borderRadius: 8,
   },
   actionWrapper: {
     marginTop: 8,
@@ -358,7 +368,7 @@ const styles = {
     transition: 'background-color .3s',
   },
   activePaper: {
-    backgroundColor: [blue.A400, '!important'],
+    backgroundColor: [blue[800], '!important'],
   },
   estimationGameHalf: {
     width: '50%',

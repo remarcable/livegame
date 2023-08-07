@@ -6,7 +6,7 @@
 
 One important part of the show is our motto "participate instead of just consuming" ("mittendrin statt nur dabei"). The audience gets the opportunity to become part of the show through an online app and influence the course of the event.
 
-This project is that app and includes all the code for it.
+This repository contains all the code for that app.
 
 ## Getting Started
 

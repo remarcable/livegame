@@ -14,6 +14,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+import { Box } from '@material-ui/core';
+
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -23,6 +25,7 @@ import IconButton from '@material-ui/core/IconButton';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
+import DoneIcon from '@material-ui/icons/Done';
 
 import Button from '@material-ui/core/Button';
 
@@ -39,6 +42,7 @@ import { setClosedState, unsetClosedState } from '/imports/api/interactions/meth
 import getTextForInteraction from '/imports/api/helpers/getTextForInteraction';
 
 import { showRanksUpTo, displayInteraction } from '/imports/api/appState/methods';
+import { mapSort } from '/imports/api/helpers/mapSort';
 
 import DocumentTitle from '/imports/ui/components/DocumentTitle';
 import LiveView from '..';
@@ -47,18 +51,18 @@ const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   activeInteraction: PropTypes.string.isRequired,
   rankDisplayMode: PropTypes.string.isRequired,
-  games: PropTypes.array.isRequired, // TODO: Better proptype
-  candidates: PropTypes.array.isRequired, // TODO: Better proptype
   interactions: PropTypes.array.isRequired, // TODO: Better proptype
+  candidates: PropTypes.array.isRequired, // TODO: Better proptype
+  currentInteractionText: PropTypes.string,
 };
 
 const LiveViewControl = ({
   classes,
-  games,
   interactions,
   candidates,
   activeInteraction,
   rankDisplayMode,
+  currentInteractionText,
 }) => (
   <>
     <DocumentTitle>Liveview-Steuerung</DocumentTitle>
@@ -73,44 +77,70 @@ const LiveViewControl = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {true &&
-              games.map((i) => (
-                <TableRow
-                  key={i._id}
-                  selected={i._id === activeInteraction}
-                  classes={{
-                    root: classnames(classes.tableRowRoot, {
-                      [classes.estimationGame]: i.type.startsWith('ESTIMATION'),
-                    }),
-                    selected: classes.selected,
-                  }}
-                >
-                  <TableCell>
-                    <IconButton
-                      onClick={() => displayInteraction.call({ interactionId: i._id })}
-                      disabled={i.state !== 'CLOSED'}
-                    >
-                      <PlayArrowIcon />
+            {interactions.map((i) => (
+              <TableRow
+                key={i._id}
+                selected={i._id === activeInteraction}
+                classes={{
+                  root: classnames(classes.tableRowRoot, {
+                    [classes.estimationGame]: i.type.startsWith('ESTIMATION'),
+                  }),
+                  selected: classes.selected,
+                }}
+              >
+                <TableCell>
+                  <IconButton
+                    onClick={() => displayInteraction.call({ interactionId: i._id })}
+                    disabled={i.state !== 'CLOSED'}
+                  >
+                    <PlayArrowIcon />
+                  </IconButton>
+                </TableCell>
+                <TableCell>
+                  {i.estimationVoting && i.estimationVoting.question}
+                  {i.fullShowGame && `${i.fullShowGame.gameNumber}. ${i.title}`}
+                  {i.participationVoting && `Zuschauer-Auswahl: ${i.title}`}
+                  {i.participationVoting && (
+                    <Box mt={2}>
+                      <Button
+                        size="small"
+                        onClick={() => selectRandomParticipantForGame(i._id)}
+                        startIcon={i.participationVoting?.selectedParticipant ? <DoneIcon /> : null}
+                      >
+                        1. Zufälligen Kandidaten auswählen
+                      </Button>
+                      <br />
+                      <Button size="small" onClick={() => console.log('show on livescreen')}>
+                        2. Auf Livescreen anzeigen
+                      </Button>
+                      <br />
+                      <Button size="small" onClick={() => console.log('start animation')}>
+                        3. Animation starten und bestätigen
+                      </Button>
+                    </Box>
+                  )}
+                  {i.participationVoting?.selectedParticipant && (
+                    <Box mt={1}>
+                      <Box color="text.secondary">
+                        Kandidat: {i.participationVoting?.fullName} ({i.participationVoting?.email})
+                      </Box>
+                    </Box>
+                  )}
+                </TableCell>
+                <TableCell>
+                  {i.state === 'CLOSED' && (
+                    <IconButton onClick={() => unsetClosedState.call({ interactionId: i._id })}>
+                      <StarIcon />
                     </IconButton>
-                  </TableCell>
-                  <TableCell>
-                    {i.estimationVoting && i.estimationVoting.question}
-                    {i.fullShowGame && `${i.fullShowGame.gameNumber}. ${i.title}`}
-                  </TableCell>
-                  <TableCell>
-                    {i.state === 'CLOSED' && (
-                      <IconButton onClick={() => unsetClosedState.call({ interactionId: i._id })}>
-                        <StarIcon />
-                      </IconButton>
-                    )}
-                    {i.state === null && (
-                      <IconButton onClick={() => setClosedState.call({ interactionId: i._id })}>
-                        <StarBorderIcon />
-                      </IconButton>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
+                  )}
+                  {i.state === null && (
+                    <IconButton onClick={() => setClosedState.call({ interactionId: i._id })}>
+                      <StarBorderIcon />
+                    </IconButton>
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </Paper>
@@ -210,12 +240,12 @@ const LiveViewControl = ({
             </RadioGroup>
           </FormControl>
         </Paper>
+        {/* <Paper className={classes.games}>
+          <ParticipantsSelection participationVotings={participationVotings} />
+        </Paper> */}
       </div>
     </div>
-    <div className={classes.currentInteraction}>
-      {interactions.find((i) => i.state === 'ACTIVE') &&
-        getTextForInteraction(interactions.find((i) => i.state === 'ACTIVE'))}
-    </div>
+    <div className={classes.currentInteraction}>{currentInteractionText}</div>
   </>
 );
 
@@ -299,29 +329,73 @@ const styles = {
 
 LiveViewControl.propTypes = propTypes;
 
+async function selectRandomParticipantForGame(participationVotingId) {
+  const selectedUserId = await Meteor.callAsync('participationVotings.selectRandomParticipant', {
+    participationVotingId,
+  });
+
+  return selectedUserId;
+}
+
 export default withTracker(() => {
   Meteor.subscribe('interactions.allInteractions');
   Meteor.subscribe('appState.admin');
   Meteor.subscribe('candidates.allCandidates');
+  Meteor.subscribe('participationVotings.selectedParticipants');
 
   const interactions = Interactions.find().fetch();
+  const users = Meteor.users.find().fetch();
+
+  let sortedInteractions = [];
+
+  try {
+    sortedInteractions = mapSort(interactions);
+  } catch (e) {
+    console.log(`Fehler beim Sortieren!`, e.message);
+  }
+
   const { interactionToShow = '', rankDisplayMode = 'ALL' } = AppState.findOne() || {};
 
-  const games = interactions
-    .filter((i) => [interactionTypeNames.FULL_SHOW_GAME].includes(i.type))
-    .sort((a, b) => {
-      const n1 = a.fullShowGame.gameNumber;
-      const n2 = b.fullShowGame.gameNumber;
-      return n1 - n2;
-    });
+  const filteredInteractions = sortedInteractions.filter((i) =>
+    [
+      interactionTypeNames.FULL_SHOW_GAME,
+      interactionTypeNames.ESTIMATION_VOTING,
+      interactionTypeNames.PARTICIPATION_VOTING,
+    ].includes(i.type),
+  );
 
-  const votings = interactions.filter((i) => i.type === interactionTypeNames.ESTIMATION_VOTING);
+  const filteredInteractionsWithParticipationVotingData = filteredInteractions.map(
+    (interaction) => {
+      if (interaction.type !== interactionTypeNames.PARTICIPATION_VOTING) {
+        return interaction;
+      }
+
+      const selectedParticipantId = interaction.participationVoting.selectedParticipant;
+      if (!selectedParticipantId) {
+        return interaction;
+      }
+
+      const selectedParticipant = users.find((u) => u._id === selectedParticipantId) || {};
+
+      return {
+        ...interaction,
+        participationVoting: {
+          ...interaction.participationVoting,
+          fullName: `${selectedParticipant.firstName} ${selectedParticipant.lastName}`,
+          email: selectedParticipant.email,
+        },
+      };
+    },
+  );
 
   const candidates = Candidates.find({ name: { $ne: 'Paul' } }).fetch();
+
+  const currentInteraction = interactions.find((i) => i.state === 'ACTIVE');
+  const currentInteractionText = currentInteraction && getTextForInteraction(currentInteraction);
+
   return {
-    games: [...games, ...votings],
-    votings,
-    interactions,
+    currentInteractionText,
+    interactions: filteredInteractionsWithParticipationVotingData,
     candidates,
     activeInteraction: interactionToShow,
     rankDisplayMode,

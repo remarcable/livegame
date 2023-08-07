@@ -30,13 +30,11 @@ import { mapSort } from '/imports/api/helpers/mapSort';
 import sortFullShowGames from '/imports/api/helpers/sortFullShowGames';
 
 import UpdateGames from './UpdateGames';
-import ParticipantsSelection from './ParticipantsSelection';
 import InteractionLauncher from './InteractionLauncher';
 
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   interactions: PropTypes.array.isRequired, // TODO: better type!
-  participationVotings: PropTypes.array.isRequired, // TODO: better type!
   games: PropTypes.array.isRequired, // TODO: better type!
   isReady: PropTypes.bool.isRequired,
   hasNext: PropTypes.bool.isRequired,
@@ -57,7 +55,6 @@ const ShowScreen = ({
   classes,
   isReady,
   interactions,
-  participationVotings,
   games,
   hasNext,
   hasPrevious,
@@ -97,10 +94,6 @@ const ShowScreen = ({
           candidate2Name={candidate2Name}
           scoreText={scoreText}
         />
-      </Paper>
-
-      <Paper className={classes.games}>
-        <ParticipantsSelection participationVotings={participationVotings} />
       </Paper>
 
       <div className={classes.navigation}>
@@ -165,10 +158,6 @@ export default withTracker(() => {
     .filter((i) => i.type === interactionTypeNames.FULL_SHOW_GAME)
     .sort(sortFullShowGames);
 
-  const participationVotings = sortedInteractions.filter(
-    (i) => i.type === interactionTypeNames.PARTICIPATION_VOTING,
-  );
-
   const { name: candidate1Name } = Candidates.findOne({ candidateNumber: 1 }) || {};
   const { name: candidate2Name } = Candidates.findOne({ candidateNumber: 2 }) || {};
 
@@ -183,7 +172,6 @@ export default withTracker(() => {
 
   return {
     interactions: sortedInteractions,
-    participationVotings,
     games,
     hasNext,
     hasPrevious,

@@ -108,3 +108,24 @@ Meteor.publish(
     );
   },
 );
+
+Meteor.publish(
+  'participationVotings.allParticipantsForInteraction',
+  function allParticipantsPublication(interactionId) {
+    if (!this.userId || !Meteor.userIsAdmin(this.userId)) {
+      return this.ready();
+    }
+
+    if (!interactionId) {
+      return this.ready();
+    }
+
+    const submissions = Submissions.find({ interactionId, value: 'YES' }).fetch() ?? [];
+    const userIds = submissions.map((submission) => submission.userId);
+
+    return Meteor.users.find(
+      { _id: { $in: userIds } },
+      { fields: { firstName: 1, lastName: 1, email: 1 } },
+    );
+  },
+);

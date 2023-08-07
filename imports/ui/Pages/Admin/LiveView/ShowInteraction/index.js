@@ -5,10 +5,12 @@ import interactionTypes, { interactionTypeNames } from '/imports/api/interaction
 
 import FullShowGame from './FullShowGame';
 import EstimationVoting from './EstimationVoting';
+import ParticipationVotingResult from './ParticipationVotingResult';
 
 const interactionsMap = new Map([
   [interactionTypeNames.FULL_SHOW_GAME, FullShowGame],
   [interactionTypeNames.ESTIMATION_VOTING, EstimationVoting],
+  [interactionTypeNames.PARTICIPATION_VOTING, ParticipationVotingResult],
 ]);
 
 const propTypes = {
@@ -19,7 +21,7 @@ const propTypes = {
 
 // TODO we have almost the same component for LiveGame => should be split out to helper component
 const ShowInteraction = ({ interaction, candidate1Name, candidate2Name }) => {
-  const { type, additionalData } = interaction;
+  const { _id, type, additionalData } = interaction;
   const Component = interactionsMap.get(type);
 
   if (!Component) {
@@ -31,6 +33,7 @@ const ShowInteraction = ({ interaction, candidate1Name, candidate2Name }) => {
     <Component
       title={interaction.title}
       {...interaction[schemaKey]}
+      interactionId={_id}
       additionalData={additionalData}
       candidate1Name={candidate1Name}
       candidate2Name={candidate2Name}

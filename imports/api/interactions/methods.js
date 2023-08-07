@@ -347,3 +347,55 @@ export const selectRandomParticipant = new ValidatedMethod({
     return randomUserId;
   },
 });
+
+export const startParticipantAnimation = new ValidatedMethod({
+  name: 'participationVotings.startAnimation',
+  mixins: [userIsAdminMixin],
+  validate: new SimpleSchema({
+    participationVotingId: String,
+  }).validator(),
+  run({ participationVotingId }) {
+    if (this.isSimulation) {
+      return;
+    }
+
+    Interactions.update(
+      { _id: participationVotingId },
+      { $set: { 'participationVoting.selectionState': 'ANIMATING' } },
+    );
+
+    const ANIMATION_DELAY = 8 * 1000;
+    Meteor.setTimeout(() => {
+      // Only set state to CONFIRMED if the animation is still running.
+      // Prevent race condition when state is reset during animation
+      const isAnimating =
+        Interactions.findOne({ _id: participationVotingId }).participationVoting.selectionState ===
+        'ANIMATING';
+
+      if (isAnimating) {
+        Interactions.update(
+          { _id: participationVotingId },
+          { $set: { 'participationVoting.selectionState': 'CONFIRMED' } },
+        );
+      }
+    }, ANIMATION_DELAY);
+  },
+});
+
+export const resetParticipationVotingAnimation = new ValidatedMethod({
+  name: 'participationVotings.resetAnimation',
+  mixins: [userIsAdminMixin],
+  validate: new SimpleSchema({
+    participationVotingId: String,
+  }).validator(),
+  run({ participationVotingId }) {
+    if (this.isSimulation) {
+      return;
+    }
+
+    Interactions.update(
+      { _id: participationVotingId },
+      { $set: { 'participationVoting.selectionState': 'WAITING' } },
+    );
+  },
+});

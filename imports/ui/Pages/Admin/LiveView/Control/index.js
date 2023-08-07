@@ -13,6 +13,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { Box } from '@material-ui/core';
 
@@ -26,6 +27,7 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import DoneIcon from '@material-ui/icons/Done';
+import HistoryIcon from '@material-ui/icons/History';
 
 import Button from '@material-ui/core/Button';
 
@@ -38,7 +40,12 @@ import { setCandidate, unsetCandidate } from '/imports/api/candidates/methods';
 
 import Interactions from '/imports/api/interactions/collection';
 import { interactionTypeNames } from '/imports/api/interactions/types';
-import { setClosedState, unsetClosedState } from '/imports/api/interactions/methods';
+import {
+  setClosedState,
+  unsetClosedState,
+  resetParticipationVotingAnimation,
+  startParticipantAnimation,
+} from '/imports/api/interactions/methods';
 import getTextForInteraction from '/imports/api/helpers/getTextForInteraction';
 
 import { showRanksUpTo, displayInteraction } from '/imports/api/appState/methods';
@@ -89,12 +96,16 @@ const LiveViewControl = ({
                 }}
               >
                 <TableCell>
-                  <IconButton
-                    onClick={() => displayInteraction.call({ interactionId: i._id })}
-                    disabled={i.state !== 'CLOSED'}
-                  >
-                    <PlayArrowIcon />
-                  </IconButton>
+                  <Tooltip title="Auf Liveview anzeigen">
+                    <span>
+                      <IconButton
+                        onClick={() => displayInteraction.call({ interactionId: i._id })}
+                        disabled={i.state !== 'CLOSED'}
+                      >
+                        <PlayArrowIcon />
+                      </IconButton>
+                    </span>
+                  </Tooltip>
                 </TableCell>
                 <TableCell>
                   {i.estimationVoting && i.estimationVoting.question}
@@ -106,38 +117,93 @@ const LiveViewControl = ({
                         size="small"
                         onClick={() => selectRandomParticipantForGame(i._id)}
                         startIcon={i.participationVoting?.selectedParticipant ? <DoneIcon /> : null}
+                        disabled={i._id !== activeInteraction}
                       >
                         1. Zufälligen Kandidaten auswählen
                       </Button>
                       <br />
-                      <Button size="small" onClick={() => console.log('show on livescreen')}>
-                        2. Auf Livescreen anzeigen
-                      </Button>
-                      <br />
-                      <Button size="small" onClick={() => console.log('start animation')}>
-                        3. Animation starten und bestätigen
-                      </Button>
+                      <span>
+                        <Button
+                          size="small"
+                          onClick={() =>
+                            startParticipantAnimation.call({ participationVotingId: i._id })
+                          }
+                          startIcon={
+                            ['ANIMATING', 'CONFIRMED'].includes(
+                              i.participationVoting?.selectionState,
+                            ) ? (
+                              <DoneIcon />
+                            ) : null
+                          }
+                          disabled={
+                            i.participationVoting?.selectedParticipant === null ||
+                            i.participationVoting?.selectionState === 'ANIMATING' ||
+                            i.participationVoting?.selectionState === 'CONFIRMED' ||
+                            i._id !== activeInteraction
+                          }
+                        >
+                          2. Animation starten
+                        </Button>
+                        <Tooltip title="Animation zurücksetzen">
+                          <Box ml={1} display="inline-block">
+                            <IconButton
+                              size="small"
+                              disabled={
+                                i.participationVoting?.selectionState === 'WAITING' ||
+                                i._id !== activeInteraction
+                              }
+                              onClick={() =>
+                                resetParticipationVotingAnimation.call({
+                                  participationVotingId: i._id,
+                                })
+                              }
+                            >
+                              <HistoryIcon />
+                            </IconButton>
+                          </Box>
+                        </Tooltip>
+                      </span>
                     </Box>
                   )}
                   {i.participationVoting?.selectedParticipant && (
                     <Box mt={1}>
-                      <Box color="text.secondary">
-                        Kandidat: {i.participationVoting?.fullName} ({i.participationVoting?.email})
-                      </Box>
+                      <Tooltip title={i.participationVoting?.email}>
+                        <Box color="text.secondary" width="fit-content">
+                          Kandidat: {i.participationVoting?.fullName}{' '}
+                          {i.participationVoting?.selectionState === 'CONFIRMED' && '✅'}
+                        </Box>
+                      </Tooltip>
                     </Box>
                   )}
                 </TableCell>
                 <TableCell>
-                  {i.state === 'CLOSED' && (
-                    <IconButton onClick={() => unsetClosedState.call({ interactionId: i._id })}>
-                      <StarIcon />
-                    </IconButton>
-                  )}
-                  {i.state === null && (
-                    <IconButton onClick={() => setClosedState.call({ interactionId: i._id })}>
-                      <StarBorderIcon />
-                    </IconButton>
-                  )}
+                  <Box display="flex" flexDirection="column" gap={2}>
+                    {i.state === 'CLOSED' && (
+                      <Tooltip title="Interaktion wurde bereits angezeigt. Klick auf den Button setzt diesen Zustand zurück.">
+                        <IconButton onClick={() => unsetClosedState.call({ interactionId: i._id })}>
+                          <StarIcon />
+                        </IconButton>
+                      </Tooltip>
+                    )}
+                    {(i.state === null || i.state === 'ACTIVE') && (
+                      <Tooltip
+                        title={
+                          i.state === 'ACTIVE'
+                            ? 'Interaktion wird gerade angezeigt'
+                            : 'Interaktion wurde noch nicht angezeigt. Klick auf den Button setzt diese Interaktion in den Zustand als wäre sie bereits angezeigt worden.'
+                        }
+                      >
+                        <span>
+                          <IconButton
+                            onClick={() => setClosedState.call({ interactionId: i._id })}
+                            disabled={i.state === 'ACTIVE'}
+                          >
+                            <StarBorderIcon />
+                          </IconButton>
+                        </span>
+                      </Tooltip>
+                    )}
+                  </Box>
                 </TableCell>
               </TableRow>
             ))}

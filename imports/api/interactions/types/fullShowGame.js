@@ -54,5 +54,11 @@ export const participationVoting = new InteractionType({
       regEx: SimpleSchema.RegEx.Id,
       defaultValue: null,
     },
+    selectionState: {
+      type: String,
+      label: 'Auswahl-/Animationsstatus',
+      defaultValue: 'WAITING',
+      allowedValues: ['WAITING', 'ANIMATING', 'CONFIRMED'],
+    },
   },
 });

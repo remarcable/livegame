@@ -27,7 +27,7 @@ const styles = (theme) => ({
     borderRadius: 2,
     fontSize: 16,
     textAlign: 'center',
-    fontFamily: 'GothamBold',
+    fontFamily: 'GothamBold, Inter, Roboto, sans-serif',
     color: '#000',
     boxShadow: theme.shadows[5],
     backgroundColor: '#f8fafc',

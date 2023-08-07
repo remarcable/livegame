@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontSize: 22,
-    fontFamily: 'GothamBold',
+    fontFamily: 'GothamBold, Inter, Roboto, sans-serif',
     subtitleTransform: 'uppercase',
     textAlign: 'left',
   },

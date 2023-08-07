@@ -34,7 +34,7 @@ MenuItemText.propTypes = propTypes;
 const useStyles = makeStyles({
   title: {
     fontSize: 22,
-    fontFamily: 'GothamBold',
+    fontFamily: 'GothamBold, Inter, Roboto, sans-serif',
     textAlign: 'left',
     paddingBottom: ({ hasSubtitle }) => (hasSubtitle ? 5 : 0),
   },
@@ -47,7 +47,7 @@ const useStyles = makeStyles({
   },
   price: {
     fontSize: 22,
-    fontFamily: 'GothamBold',
+    fontFamily: 'GothamBold, Inter, Roboto, sans-serif',
     textAlign: 'right',
     whiteSpace: 'nowrap',
     paddingBottom: ({ hasPriceOverwrite }) => (hasPriceOverwrite ? 5 : 0),

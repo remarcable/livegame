@@ -21,7 +21,7 @@ Headline.propTypes = propTypes;
 
 const styles = {
   text: {
-    fontFamily: 'GothamBold',
+    fontFamily: 'GothamBold, Inter, Roboto, sans-serif',
     textTransform: 'uppercase',
     textShadow: '0px 2px 10px rgba(0, 0, 0, .7)',
   },

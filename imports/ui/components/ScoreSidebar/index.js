@@ -96,7 +96,7 @@ const styles = () => ({
     flexDirection: 'column',
   },
   score: {
-    fontFamily: 'GothamBold',
+    fontFamily: 'GothamBold, Inter, Roboto, sans-serif',
     fontSize: 25,
   },
   scoreDescription: {

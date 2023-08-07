@@ -22,13 +22,12 @@ Button.propTypes = propTypes;
 
 const styles = (theme) => ({
   button: {
-    padding: 10,
+    padding: '10px 20px',
     border: 0,
     borderRadius: 2,
-    fontSize: 10,
+    fontSize: 16,
     textAlign: 'center',
     fontFamily: 'GothamBold',
-    textTransform: 'uppercase',
     color: '#000',
     boxShadow: theme.shadows[5],
     backgroundColor: '#fff',

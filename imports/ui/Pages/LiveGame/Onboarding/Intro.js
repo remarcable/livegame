@@ -115,7 +115,6 @@ const styles = {
   bodyText: {
     fontSize: 18,
     textAlign: 'center',
-    textTransform: 'uppercase',
     textShadow: '0 2px 7px rgba(0,0,0,0.43)',
     maxWidth: '85%',
   },

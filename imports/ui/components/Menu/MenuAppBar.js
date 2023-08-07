@@ -38,10 +38,13 @@ const useStyles = makeStyles({
   closeButton: {
     color: '#fff',
     borderRadius: '50%',
+    padding: 10,
     width: 30,
     height: 30,
     backgroundImage: gradient,
     boxShadow: 0,
+    textAlign: 'center',
+    lineHeight: '0.7',
   },
 });
 

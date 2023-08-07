@@ -36,7 +36,7 @@ const UpdateGames = ({
 }) => (
   <>
     <Table>
-      <TableHead>
+      <TableHead className={classes.stickyHeader}>
         <TableRow className={classes.gamesHeader}>
           <TableCell>Spiel</TableCell>
           <TableCell>{scoreText}</TableCell>
@@ -47,7 +47,7 @@ const UpdateGames = ({
           <TableRow key={_id} selected={state === 'ACTIVE'}>
             <TableCell>{title}</TableCell>
             <TableCell>
-              <form onSubmit={(e) => handleSubmit(e, updateScores, _id)}>
+              <form onSubmit={(e) => handleSubmit(e, updateScores, _id)} className={classes.form}>
                 <TextField
                   type="number"
                   name="candidate1"
@@ -55,9 +55,7 @@ const UpdateGames = ({
                   defaultValue={fullShowGame.pointsCandidate1}
                   className={classes.textField}
                 />
-                <IconButton type="submit" size="small">
-                  <DoneIcon />
-                </IconButton>
+                <input type="submit" style={{ display: 'none' }} />
                 <Button
                   size="small"
                   disabled={fullShowGame.winner === 'CANDIDATE1'}
@@ -100,9 +98,15 @@ function handleSubmit(e, updateScores, _id) {
   updateScores({ _id, pointsCandidate1, pointsCandidate2: 0 });
 }
 
-const styles = {
+const styles = ({ palette }) => ({
   textField: {
     width: 50,
+  },
+  stickyHeader: {
+    position: 'sticky',
+    top: 0,
+    backgroundColor: palette.background.paper,
+    zIndex: 5,
   },
   gamesHeader: {
     textAlign: 'center',
@@ -110,7 +114,12 @@ const styles = {
   disabledButton: {
     color: [blue.A400, '!important'],
   },
-};
+  form: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 UpdateGames.propTypes = propTypes;
 

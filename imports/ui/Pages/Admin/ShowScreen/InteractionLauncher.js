@@ -28,7 +28,7 @@ const propTypes = {
 
 const InteractionLauncher = ({ classes, isReady, interactions, startInteraction }) => (
   <Table>
-    <TableHead>
+    <TableHead className={classes.stickyHeader}>
       <TableRow>
         <TableCell>Typ</TableCell>
         <TableCell>Nr, Titel, Frage</TableCell>
@@ -66,7 +66,13 @@ const InteractionLauncher = ({ classes, isReady, interactions, startInteraction 
   </Table>
 );
 
-const styles = {
+const styles = ({ palette }) => ({
+  stickyHeader: {
+    position: 'sticky',
+    top: 0,
+    backgroundColor: palette.background.paper,
+    zIndex: 5,
+  },
   tableRowRoot: {
     transition: `background-color 200ms`, // TODO: use theme.transitions.duration.shorter
     '&$estimationGame': {
@@ -77,7 +83,7 @@ const styles = {
     backgroundColor: [blue.A400, '!important'],
   },
   estimationGame: {},
-};
+});
 
 InteractionLauncher.propTypes = propTypes;
 

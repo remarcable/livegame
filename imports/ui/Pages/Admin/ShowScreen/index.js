@@ -115,10 +115,11 @@ const ShowScreen = ({
 
 const styles = {
   wrapper: {
-    paddingTop: 20,
-    width: '100%',
+    width: 'calc(100% - 64px)',
+    padding: 32,
     display: 'flex',
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
+    gap: 32,
   },
   interactions: {
     maxWidth: '80%',
@@ -137,7 +138,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-around',
     padding: 10,
-    backgroundColor: 'rgba(0, 0, 0, 0.08)',
+    backgroundColor: 'rgba(0, 0, 0, 0.16)',
     borderRadius: 4,
   },
 };

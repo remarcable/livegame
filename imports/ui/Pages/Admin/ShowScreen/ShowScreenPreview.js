@@ -39,7 +39,6 @@ const useStyles = makeStyles({
     paddingBottom: 16,
   },
   menuPreview: {
-    position: 'relative',
     borderRadius: 8,
     border: '2px solid #37474f',
     overflow: 'scroll',

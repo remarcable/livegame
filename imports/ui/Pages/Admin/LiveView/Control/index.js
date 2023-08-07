@@ -76,7 +76,7 @@ const LiveViewControl = ({
     <div className={classes.wrapper}>
       <Paper className={classes.interactions}>
         <Table className={classes.table}>
-          <TableHead>
+          <TableHead className={classes.stickyHeader}>
             <TableRow>
               <TableCell>Start</TableCell>
               <TableCell>Titel</TableCell>
@@ -334,7 +334,7 @@ const LiveViewControl = ({
   </>
 );
 
-const styles = ({ breakpoints }) => ({
+const styles = ({ breakpoints, palette }) => ({
   wrapper: {
     paddingTop: 20,
     width: '100%',
@@ -348,6 +348,12 @@ const styles = ({ breakpoints }) => ({
   },
   selected: {
     backgroundColor: [blue[800], '!important'],
+  },
+  stickyHeader: {
+    position: 'sticky',
+    top: 0,
+    backgroundColor: palette.background.paper,
+    zIndex: 5,
   },
   tableRowRoot: {
     transition: `background-color 200ms`, // TODO: use theme.transitions.duration.shorter

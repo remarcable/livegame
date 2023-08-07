@@ -4,19 +4,12 @@ import React, { useState, useCallback } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Box from '@material-ui/core/Box';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import { AutoForm } from 'uniforms-material';
 
-import {
-  createAdminAccountSchema,
-  createShowGamesSchema,
-  createEstimationGamesSchema,
-} from '/imports/api/onboarding/schema';
+import { createAdminAccountSchema } from '/imports/api/onboarding/schema';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -43,20 +36,9 @@ const makeAutoForm = (schema) => ({ model, onSubmit, setForm }) => {
 
 const steps = [
   {
-    label: 'Admin-Account',
-    helpText: 'Mit diesem Account kannst du dich dann im Adminbereich anmelden',
+    label: 'Admin-Account erstellen',
+    helpText: 'Erstelle einen Account mit dem du dich im Adminbereich anmelden kannst.',
     Component: makeAutoForm(createAdminAccountSchema),
-  },
-  {
-    label: 'Spiele der Show',
-    helpText: 'Gib bitte die Namen der Spiele für diese Show ein.',
-    Component: makeAutoForm(createShowGamesSchema),
-  },
-  {
-    label: 'Fragen für Schätzen',
-    helpText:
-      'Gibt bitte die Schätzenfragen mit ihrem Typ ein. WICHTIG: Die Antworten müssen im Dashboard noch angepasst werden.',
-    Component: makeAutoForm(createEstimationGamesSchema),
   },
 ];
 
@@ -102,13 +84,6 @@ const Onboarding = () => {
   );
   return (
     <Box width={1} height={1} display="flex" flexDirection="column">
-      <Stepper activeStep={activeStep}>
-        {steps.map(({ label }) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
       <Box width={1} display="flex" alignItems="center" justifyContent="center" flexGrow={1}>
         {activeStep === steps.length ? (
           <Box>
@@ -152,7 +127,7 @@ const Onboarding = () => {
                 }}
                 className={classes.button}
               >
-                {activeStep === steps.length - 1 ? 'Abschließen' : 'Nächster Schritt'}
+                Nächster Schritt
               </Button>
             </Box>
           </Box>
@@ -169,23 +144,22 @@ function doOnboarding(state) {
     }),
   );
 
-  Meteor.call('onboarding.createAdmin', data, (err) => {
+  const { username, password } = data[0];
+  Meteor.call('onboarding.createAdmin', { username, password }, (err) => {
     if (err) {
       console.log('createAdmin', err);
       return;
     }
 
-    const { username, password } = data['0'];
     Meteor.loginWithPassword(username, password, (err) => {
       if (err) {
         console.log('loginWithPassword', err);
         return;
       }
 
-      Meteor.call('onboarding.insert', data, (err, res) => {
+      Meteor.call('onboarding.seedDatabase', {}, (err, res) => {
         if (err) {
-          console.log('onboarding.insert', err);
-          return;
+          console.log('onboarding.seedDatabase', err);
         }
       });
     });

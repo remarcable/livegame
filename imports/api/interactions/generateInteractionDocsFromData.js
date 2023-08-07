@@ -29,6 +29,13 @@ const makeShowBreakDoc = ({ title, template }) => {
 const makeFullShowGame = ({ title, gameNumber }) => {
   const data = { gameNumber };
   return [
+    makeDoc({ interactionType: 'FULL_SHOW_WAITING', title }),
+    makeDoc({
+      interactionType: 'PARTICIPATION_VOTING',
+      title,
+      data: { selectionState: 'WAITING' },
+    }),
+    makeDoc({ interactionType: 'FULL_SHOW_WAITING', title }),
     makeDoc({ interactionType: 'FULL_SHOW_GAME', title, data }),
     makeDoc({ interactionType: 'FULL_SHOW_WAITING', title }),
   ];

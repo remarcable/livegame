@@ -7,13 +7,12 @@ import Button from '/imports/ui/components/Button';
 
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  question: PropTypes.string.isRequired,
   submit: PropTypes.func.isRequired,
 };
 
-const EstimationVoting = ({ question, submit, classes }) => (
+const ParticipationVoting = ({ submit, classes }) => (
   <div className={classes.wrapper}>
-    <span className={classes.text}>{question}</span>
+    <span className={classes.text}>Möchten Sie an diesem Spiel teilnehmen?</span>
     <div className={classes.buttonWrapper}>
       <Button className={classes.button} onClick={() => submit('YES')}>
         Ja
@@ -25,7 +24,7 @@ const EstimationVoting = ({ question, submit, classes }) => (
   </div>
 );
 
-EstimationVoting.propTypes = propTypes;
+ParticipationVoting.propTypes = propTypes;
 
 const styles = {
   wrapper: {
@@ -51,4 +50,4 @@ const styles = {
   },
 };
 
-export default withStyles(styles)(EstimationVoting);
+export default withStyles(styles)(ParticipationVoting);

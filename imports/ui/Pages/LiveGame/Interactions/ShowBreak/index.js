@@ -215,7 +215,7 @@ const styles = {
     backgroundImage: 'linear-gradient(#FFB13D 0%, #CD790C 100%)',
   },
   estimationGameRank: {
-    fontFamily: 'GothamBold',
+    fontFamily: 'GothamBold, Inter, Roboto, sans-serif',
     textTransform: 'uppercase',
     fontSize: 18,
   },

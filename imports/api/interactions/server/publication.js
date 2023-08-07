@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 import { JoinServer } from 'meteor-publish-join';
 
 import Submissions from '/imports/api/submissions/collection';
@@ -23,7 +24,11 @@ Meteor.publish('interactions.active', function interactionsActivePublication() {
   return Interactions.find(
     {
       $or: [
-        { type: interactionTypeNames.FULL_SHOW_GAME },
+        {
+          type: {
+            $in: [interactionTypeNames.FULL_SHOW_GAME, interactionTypeNames.PARTICIPATION_VOTING],
+          },
+        },
         { state: { $in: [interactionStates.ACTIVE, interactionStates.CLOSED] } },
       ],
     },
@@ -90,3 +95,40 @@ Meteor.publish('interactions.scoreboard', function interactionsActivePublication
 
   return Interactions.find();
 });
+
+Meteor.publish(
+  'participationVotings.selectedParticipants',
+  function selectedParticipantsPublication() {
+    if (!this.userId || !Meteor.userIsAdmin(this.userId)) {
+      return this.ready();
+    }
+
+    const interactions = Interactions.find({ type: 'PARTICIPATION_VOTING' }).fetch() ?? [];
+    const selectedParticipantIds = interactions
+      .map((interaction) => interaction?.participationVoting?.selectedParticipant ?? null)
+      .filter((id) => id !== null);
+    return Meteor.users.find(
+      { _id: { $in: selectedParticipantIds } },
+      { fields: { firstName: 1, lastName: 1, email: 1, alias: 1 } },
+    );
+  },
+);
+
+Meteor.publish(
+  'participationVotings.allParticipantsForInteraction',
+  function allParticipantsPublication(interactionId) {
+    if (!this.userId || !Meteor.userIsAdmin(this.userId)) {
+      return this.ready();
+    }
+
+    check(interactionId, String);
+
+    const submissions = Submissions.find({ interactionId, value: 'YES' }).fetch() ?? [];
+    const userIds = submissions.map((submission) => submission.userId);
+
+    return Meteor.users.find(
+      { _id: { $in: userIds } },
+      { fields: { firstName: 1, lastName: 1, email: 1, alias: 1 } },
+    );
+  },
+);

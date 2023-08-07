@@ -30,11 +30,11 @@ const styles = {
     borderRadius: 2,
   },
   label: {
-    fontFamily: 'GothamBold',
+    fontFamily: 'GothamBold, Inter, Roboto, sans-serif',
     textTransform: 'uppercase',
   },
   input: {
-    fontFamily: 'GothamBold',
+    fontFamily: 'GothamBold, Inter, Roboto, sans-serif',
     textTransform: 'uppercase',
   },
 };

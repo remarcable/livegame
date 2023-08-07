@@ -3,27 +3,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 
-import { JoinClient } from 'meteor-publish-join';
-
-import classnames from 'classnames';
-
 import KeyHandler from 'react-key-handler';
 
 import { withStyles } from '@material-ui/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 import IconButton from '@material-ui/core/IconButton';
 
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
-
-import blue from '@material-ui/core/colors/blue';
 
 import Candidates from '/imports/api/candidates/collection';
 
@@ -38,10 +26,12 @@ import {
 import { interactionTypeNames } from '/imports/api/interactions/types';
 import { mapSort } from '/imports/api/helpers/mapSort';
 import sortFullShowGames from '/imports/api/helpers/sortFullShowGames';
-import getTextForInteraction from '/imports/api/helpers/getTextForInteraction';
 
-import InteractionIcon from '/imports/ui/components/InteractionIcon';
+import DocumentTitle from '/imports/ui/components/DocumentTitle';
+
 import UpdateGames from './UpdateGames';
+import InteractionLauncher from './InteractionLauncher';
+import ShowScreenPreview from './ShowScreenPreview';
 
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
@@ -74,6 +64,8 @@ const ShowScreen = ({
   scoreText,
 }) => (
   <>
+    <DocumentTitle>App-Steuerung</DocumentTitle>
+
     <KeyHandler keyValue="ArrowUp" onKeyHandle={() => hasPrevious && previousInteraction.call()} />
     <KeyHandler
       keyValue="ArrowLeft"
@@ -82,45 +74,14 @@ const ShowScreen = ({
     <KeyHandler keyValue="ArrowRight" onKeyHandle={() => hasNext && nextInteraction.call()} />
     <KeyHandler keyValue="ArrowDown" onKeyHandle={() => hasNext && nextInteraction.call()} />
     <KeyHandler keyValue=" " onKeyHandle={() => hasNext && nextInteraction.call()} />
+
     <div className={classes.wrapper}>
       <Paper className={classes.interactions}>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell>Typ</TableCell>
-              <TableCell>Nr, Titel, Frage</TableCell>
-              <TableCell />
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {isReady &&
-              interactions.map((i) => (
-                <TableRow
-                  key={i._id}
-                  selected={i.state === 'ACTIVE'}
-                  classes={{
-                    root: classnames(classes.tableRowRoot, {
-                      [classes.estimationGame]: i.type.startsWith('ESTIMATION'),
-                    }),
-                    selected: classes.selected,
-                  }}
-                >
-                  <TableCell>
-                    <InteractionIcon type={i.type} />
-                  </TableCell>
-                  <TableCell>{getTextForInteraction(i)}</TableCell>
-                  <TableCell>
-                    <IconButton
-                      onClick={() => startInteraction.call({ interactionId: i._id })}
-                      disabled={i.state === 'ACTIVE'}
-                    >
-                      <PlayArrowIcon />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
+        <InteractionLauncher
+          isReady={isReady}
+          interactions={interactions}
+          startInteraction={startInteraction}
+        />
       </Paper>
 
       <Paper className={classes.games}>
@@ -138,6 +99,8 @@ const ShowScreen = ({
         />
       </Paper>
 
+      <ShowScreenPreview />
+
       <div className={classes.navigation}>
         <IconButton onClick={() => previousInteraction.call()} disabled={!hasPrevious}>
           <NavigateBeforeIcon />
@@ -152,21 +115,12 @@ const ShowScreen = ({
 
 const styles = {
   wrapper: {
-    paddingTop: 20,
-    width: '100%',
+    width: 'calc(100% - 64px)',
+    padding: 32,
     display: 'flex',
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
+    gap: 32,
   },
-  selected: {
-    backgroundColor: [blue.A400, '!important'],
-  },
-  tableRowRoot: {
-    transition: `background-color 200ms`, // TODO: use theme.transitions.duration.shorter
-    '&$estimationGame': {
-      backgroundColor: 'rgba(255, 255, 255, 0.08)',
-    },
-  },
-  estimationGame: {},
   interactions: {
     maxWidth: '80%',
     maxHeight: '85vh',
@@ -184,7 +138,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-around',
     padding: 10,
-    backgroundColor: 'rgba(0, 0, 0, 0.08)',
+    backgroundColor: 'rgba(0, 0, 0, 0.16)',
     borderRadius: 4,
   },
 };
@@ -197,6 +151,15 @@ export default withTracker(() => {
   const isReady = interactionsHandle.ready() && candidatesHandle.ready();
 
   const interactions = Interactions.find().fetch();
+
+  let sortedInteractions = [];
+
+  try {
+    sortedInteractions = mapSort(interactions);
+  } catch (e) {
+    console.log(`Fehler beim Sortieren!`, e.message);
+  }
+
   const games = interactions
     .filter((i) => i.type === interactionTypeNames.FULL_SHOW_GAME)
     .sort(sortFullShowGames);
@@ -208,18 +171,17 @@ export default withTracker(() => {
   const hasNext = !!currentInteraction.next;
   const hasPrevious = !!currentInteraction.previous;
 
-  const { candidate1: scoreCandidate1 = 0, candidate2: scoreCandidate2 = 0 } =
-    JoinClient.get('candidateScores') || {};
+  const getScores = (winner, allGames) =>
+    allGames
+      .filter((game) => game.fullShowGame.winner === winner)
+      .map((game) => game.fullShowGame.pointsCandidate1 + game.fullShowGame.pointsCandidate2)
+      .reduce((acc, curr) => acc + curr, 0);
+
+  const scoreCandidate1 = getScores('CANDIDATE1', games);
+  const scoreCandidate2 = getScores('CANDIDATE2', games);
 
   const scoreText = `${scoreCandidate1} : ${scoreCandidate2}`;
 
-  let sortedInteractions = [];
-
-  try {
-    sortedInteractions = mapSort(interactions);
-  } catch (e) {
-    console.log(`Fehler beim Sortieren!`, e.message);
-  }
   return {
     interactions: sortedInteractions,
     games,

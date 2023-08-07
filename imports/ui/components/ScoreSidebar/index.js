@@ -18,16 +18,21 @@ const propTypes = {
         .isRequired,
     }),
   ).isRequired,
+  isAdminPreview: PropTypes.bool.isRequired,
 };
 
-const ScoreSidebar = ({ classes, games }) => {
+const ScoreSidebar = ({ classes, games, isAdminPreview }) => {
   // TODO create isSmallScreen hook
   const currentClientHeight = useWindowHeight();
   const isSmallScreen = currentClientHeight < 600;
 
   const correctGamesCount = games.filter((g) => g.state === 'CORRECT').length;
   return (
-    <div className={classes.outerWrapper}>
+    <div
+      className={classnames(classes.outerWrapper, {
+        [classes.adminPreview]: isAdminPreview,
+      })}
+    >
       <div className={classnames(classes.wrapper, { [classes.small]: isSmallScreen })}>
         {games.map(({ fullShowGame: { gameNumber }, state }) => (
           <Star
@@ -60,7 +65,7 @@ const styles = () => ({
     height: '100%',
     overflowY: 'scroll',
 
-    backgroundColor: '#232D33',
+    backgroundColor: '#0f172a',
     color: '#ddd',
 
     textAlign: 'center',
@@ -68,6 +73,7 @@ const styles = () => ({
 
     boxShadow: 'inset -13px 0px 17px -8px rgba(0, 0, 0, .5)',
   },
+  adminPreview: { position: 'absolute' },
   wrapper: {
     minHeight: 500,
     display: 'flex',
@@ -90,7 +96,7 @@ const styles = () => ({
     flexDirection: 'column',
   },
   score: {
-    fontFamily: 'GothamBold',
+    fontFamily: 'GothamBold, Inter, Roboto, sans-serif',
     fontSize: 25,
   },
   scoreDescription: {

@@ -1,3 +1,4 @@
+import SimpleSchema from 'simpl-schema';
 import InteractionType from './InteractionType';
 
 export const fullShowGame = new InteractionType({
@@ -38,4 +39,28 @@ export const fullShowGame = new InteractionType({
 export const fullShowWaiting = new InteractionType({
   typeName: 'FULL_SHOW_WAITING',
   label: 'Show • Warten',
+});
+
+export const participationVoting = new InteractionType({
+  typeName: 'PARTICIPATION_VOTING',
+  label: 'Show • Zuschaueraktivierung',
+  schemaKey: 'participationVoting',
+  submittable: true,
+  fields: {
+    selectedParticipant: {
+      type: String,
+      label: 'Gewinner',
+      optional: true,
+      regEx: SimpleSchema.RegEx.Id,
+      defaultValue: null,
+      publish: true,
+    },
+    selectionState: {
+      type: String,
+      label: 'Auswahl-/Animationsstatus',
+      defaultValue: 'WAITING',
+      allowedValues: ['WAITING', 'ANIMATING', 'CONFIRMED'],
+      publish: true,
+    },
+  },
 });

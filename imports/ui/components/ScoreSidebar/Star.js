@@ -41,7 +41,7 @@ const styles = () => ({
   },
   ACTIVE: {
     fill: '#F4CB44',
-    filter: 'drop-shadow(0px 0px 5px #FFF)',
+    filter: 'drop-shadow(0px 0px 5px #f8fafc)',
   },
   CORRECT: {
     fill: '#E9B60F',

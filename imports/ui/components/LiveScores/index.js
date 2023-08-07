@@ -147,13 +147,13 @@ const styles = {
   smallPictureLeft: {
     transform: 'translate(-20%, 10%)',
     '&$smallWindow': {
-      transform: 'translate(-10%, 0)',
+      transform: 'translate(-20%, 0)',
     },
   },
   smallPictureRight: {
-    transform: 'translate(20%, 10%)',
+    transform: 'translate(25%, 10%)',
     '&$smallWindow': {
-      transform: 'translate(10%, 0)',
+      transform: 'translate(25%, 0)',
     },
   },
   smallWindow: {},

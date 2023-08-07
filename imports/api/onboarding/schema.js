@@ -21,7 +21,7 @@ const singleEstimationGameSchema = new SimpleSchema({
   hasVoting: {
     type: Boolean,
     optional: true,
-    label: 'Votingfrage?',
+    label: 'Zuschauervoting?',
   },
 });
 
@@ -49,10 +49,4 @@ export const createAdminAccountSchema = new SimpleSchema({
     },
     min: 6,
   },
-});
-
-export const schema = new SimpleSchema({
-  '0': createAdminAccountSchema,
-  '1': createShowGamesSchema,
-  '2': createEstimationGamesSchema,
 });

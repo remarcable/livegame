@@ -1,14 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import classnames from 'classnames';
-
 import { withStyles } from '@material-ui/styles';
-import { useWindowHeight } from '@react-hook/window-size';
 
 import ReactCSSTransitionReplace from 'react-css-transition-replace';
 
-import Logo from '/imports/ui/components/Logo';
 import Headline from '/imports/ui/components/Headline';
 import Button from '/imports/ui/components/Button';
 
@@ -37,57 +33,36 @@ const texts = [
   },
 ];
 
-const Intro = ({ classes, step, goToNextStep }) => {
-  const windowHeight = useWindowHeight();
-  const isSmallScreen = windowHeight < 550;
-
-  return (
-    <div className={classes.wrapper}>
-      <div className={classes.heading}>
-        <Logo classes={{ wrapper: classnames({ [classes.smallLogo]: isSmallScreen }) }} />
-      </div>
-      <div>
-        <ReactCSSTransitionReplace
-          transitionName="slide-left"
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={200}
-        >
-          <div className={classes.body} key={step}>
-            <Headline className={classes.headline}>{texts[step].headline}</Headline>
-            <span className={classes.bodyText}>{texts[step].body}</span>
-          </div>
-        </ReactCSSTransitionReplace>
-      </div>
-      <div className={classes.footer}>
-        <Button onClick={goToNextStep}>{texts[step].nextButton}</Button>
-      </div>
+const Intro = ({ classes, step, goToNextStep }) => (
+  <div className={classes.wrapper}>
+    <div>
+      <ReactCSSTransitionReplace
+        transitionName="slide-left"
+        transitionEnterTimeout={500}
+        transitionLeaveTimeout={200}
+      >
+        <div className={classes.body} key={step}>
+          <Headline className={classes.headline}>{texts[step].headline}</Headline>
+          <span className={classes.bodyText}>{texts[step].body}</span>
+        </div>
+      </ReactCSSTransitionReplace>
     </div>
-  );
-};
+    <div className={classes.footer}>
+      <Button onClick={goToNextStep}>{texts[step].nextButton}</Button>
+    </div>
+  </div>
+);
 
 Intro.propTypes = propTypes;
 
 const styles = {
   wrapper: {
     width: '100%',
-    height: '100%',
+    height: '50%',
 
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-  },
-  heading: {
-    width: '100%',
-    marginTop: 10,
-    display: 'flex',
-    justifyContent: 'center',
-  },
-
-  smallLogo: {
-    width: 100,
-    height: 100,
-    minWidth: 100,
-    minHeight: 100,
   },
 
   body: {
@@ -95,7 +70,6 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    minHeight: 180,
   },
 
   footer: {
@@ -115,7 +89,6 @@ const styles = {
   bodyText: {
     fontSize: 18,
     textAlign: 'center',
-    textTransform: 'uppercase',
     textShadow: '0 2px 7px rgba(0,0,0,0.43)',
     maxWidth: '85%',
   },

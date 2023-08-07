@@ -47,9 +47,8 @@ const styles = {
   text: {
     width: '90%',
     display: 'block',
-    fontSize: 18,
+    fontSize: 24,
     textAlign: 'center',
-    textTransform: 'uppercase',
   },
   textField: {
     width: '60%',

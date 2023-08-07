@@ -10,21 +10,26 @@ import UserInformation from '/imports/ui/components/UserInformation';
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   hasSubmitted: PropTypes.bool.isRequired,
+  userIsSelectedAsParticipantForCurrentGame: PropTypes.bool.isRequired,
 };
 
-const FullShowWaiting = ({ hasSubmitted, classes }) => {
+const FullShowWaiting = ({ hasSubmitted, userIsSelectedAsParticipantForCurrentGame, classes }) => {
   if (hasSubmitted) {
     return (
       <div className={classes.wrapper}>
         <PlaylistAddCheckIcon className={classes.icon} />
-        <span>Ihre Antwort wurde erfolgreich abgegeben.</span>
+        <span className={classes.text}>Ihre Antwort wurde erfolgreich abgegeben.</span>
       </div>
     );
   }
 
   return (
     <div className={classes.wrapper}>
-      <span className={classes.text}>Bitte warten Sie auf die nächste Runde.</span>
+      <span className={classes.text}>
+        {userIsSelectedAsParticipantForCurrentGame
+          ? 'Bitte gehen Sie vor zur Bühne.'
+          : 'Bitte warten Sie auf die nächste Runde.'}
+      </span>
       <ConnectionStatus />
       <UserInformation fullShow />
     </div>
@@ -44,10 +49,10 @@ const styles = {
 
     fontSize: 24,
     textAlign: 'center',
-    textTransform: 'uppercase',
   },
   text: {
     marginBottom: 20,
+    padding: '0 16px',
   },
   icon: {
     width: 50,

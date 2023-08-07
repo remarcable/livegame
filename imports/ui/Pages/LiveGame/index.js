@@ -29,12 +29,14 @@ const propTypes = {
   games: PropTypes.array.isRequired, // TODO: better type
   loading: PropTypes.bool.isRequired,
   hasSubmitted: PropTypes.bool.isRequired,
+  userIsSelectedAsParticipantForCurrentGame: PropTypes.bool.isRequired,
   submittedFor: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   candidate1: PropTypes.object.isRequired, // TODO: better type
   candidate2: PropTypes.object.isRequired, // TODO: better type
   scoreCandidate1: PropTypes.number.isRequired,
   scoreCandidate2: PropTypes.number.isRequired,
   user: PropTypes.object.isRequired, // TODO: better type
+  isAdminPreview: PropTypes.bool,
 };
 
 const LiveGame = ({
@@ -43,21 +45,24 @@ const LiveGame = ({
   interaction,
   games,
   hasSubmitted,
+  userIsSelectedAsParticipantForCurrentGame,
   submittedFor,
   candidate1,
   candidate2,
   scoreCandidate1,
   scoreCandidate2,
   user,
+  isAdminPreview = false,
 }) => (
   <PlayerLayout loading={loading}>
     <div className={classes.wrapper}>
-      <ScoreSidebar games={games} />
+      <ScoreSidebar games={games} isAdminPreview={isAdminPreview} />
       <div className={classes.interactionsWrapper}>
         <Interactions
           interaction={interaction}
           submit={submitValue}
           hasSubmitted={hasSubmitted}
+          userIsSelectedAsParticipantForCurrentGame={userIsSelectedAsParticipantForCurrentGame}
           submittedFor={submittedFor}
           candidate1={candidate1}
           candidate2={candidate2}
@@ -107,6 +112,7 @@ export default withTracker(() => {
   const ownInteractionsHandle = Meteor.subscribe('interactions.active');
   const ownSubmissionsHandle = Meteor.subscribe('submissions.own');
   const candidatesHandle = Meteor.subscribe('candidates.active');
+
   const isReady =
     ownInteractionsHandle.ready() && ownSubmissionsHandle.ready() && candidatesHandle.ready();
 
@@ -116,6 +122,23 @@ export default withTracker(() => {
     // reset isSubmitting state for every new interaction
     isSubmitting.set(false);
   }
+
+  const participationVotings =
+    InteractionsCollection.find({
+      type: interactionTypeNames.PARTICIPATION_VOTING,
+    }).fetch() || [];
+
+  const interactionTitle = interaction?.title;
+  const participationVotingForInteraction = participationVotings.find(
+    (el) => el.title === interactionTitle,
+  );
+
+  const selectedParticipantIdForCurrentGame =
+    participationVotingForInteraction?.participationVoting?.selectedParticipant;
+  const selectedParticipantIsConfirmed =
+    participationVotingForInteraction?.participationVoting?.selectionState === 'CONFIRMED';
+  const userIsSelectedAsParticipantForCurrentGame =
+    selectedParticipantIdForCurrentGame === Meteor.userId() && selectedParticipantIsConfirmed;
 
   const { value: submissionValueForCurrentInteraction } =
     SubmissionsCollection.findOne({
@@ -155,6 +178,7 @@ export default withTracker(() => {
     interaction: lastInteraction,
     games: isReady ? games : [],
     hasSubmitted: !!submissionValueForCurrentInteraction || isSubmitting.get(),
+    userIsSelectedAsParticipantForCurrentGame,
     submittedFor: submissionValueForCurrentInteraction,
     loading: !isReady,
     candidate1,

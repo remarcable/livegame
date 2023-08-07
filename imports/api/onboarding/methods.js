@@ -2,21 +2,29 @@ import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { Accounts } from 'meteor/accounts-base';
 
+import SimpleSchema from 'simpl-schema';
+
 import { userIsAdminMixin } from '/imports/api/helpers/validatedMethodMixins';
 
 import AppState from '/imports/api/appState/collection';
-import generateInteractionDocsFromData from '/imports/api/interactions/generateInteractionDocsFromData';
-import { createInteraction } from '/imports/api/interactions/methods';
 import Menu from '/imports/api/menu/collection';
 import menuFixtures from '/imports/api/menu/fixtures';
-import { insertCandidate, setCandidate } from '/imports/api/candidates/methods';
 
-import { schema } from './schema';
+import Interactions from '/imports/api/interactions/collection';
+import { interactionTypeNames } from '/imports/api/interactions/types';
+import generateInteractionDocsFromData from '/imports/api/interactions/generateInteractionDocsFromData';
+import { createInteraction } from '/imports/api/interactions/methods';
+
+import {
+  createEstimationGamesSchema,
+  createShowGamesSchema,
+  createAdminAccountSchema,
+} from './schema';
 
 export const createAdminUser = new ValidatedMethod({
   name: 'onboarding.createAdmin',
-  validate: schema.validator(),
-  run(data) {
+  validate: createAdminAccountSchema.validator(),
+  run({ username, password }) {
     const hasAdmin = !!Meteor.users.findOne({ role: 'admin' });
     const hasAppState = !!AppState.findOne();
     if (hasAdmin || hasAppState) {
@@ -25,37 +33,75 @@ export const createAdminUser = new ValidatedMethod({
       );
     }
 
-    const adminUserData = data['0'];
-    const { username, password } = adminUserData;
     const userId = Accounts.createUser({
       username,
       password,
     });
 
-    return Meteor.users.update(userId, { $set: { role: 'admin' } });
+    return Meteor.users.update(userId, {
+      $set: {
+        role: 'admin',
+        firstName: 'Admin',
+        lastName: 'Admin',
+        email: 'admin@wer-besiegt-paul.de',
+      },
+    });
   },
 });
 
-export const insertInitialItems = new ValidatedMethod({
-  name: 'onboarding.insert',
+export const seedDatabase = new ValidatedMethod({
+  name: 'onboarding.seedDatabase',
   mixins: [userIsAdminMixin],
-  validate: schema.validator(),
-  run(data) {
-    const fullShowGameData = data['1'];
-    const estimationGameData = data['2'];
-
-    const interactions = generateInteractionDocsFromData(fullShowGameData, estimationGameData);
-    interactions.forEach((interaction) => {
-      createInteraction.call(interaction);
+  validate: new SimpleSchema({}).validator(),
+  run() {
+    menuFixtures.forEach((menuItem) => {
+      Menu.insert(menuItem);
     });
 
     AppState.insert({
       interactionToShow: null,
       rankDisplayMode: 'ALL',
     });
+  },
+});
 
-    menuFixtures.forEach((menuItem) => {
-      Menu.insert(menuItem);
+export const bulkInsertInteractions = new ValidatedMethod({
+  name: 'onboarding.bulkInsertInteractions',
+  mixins: [userIsAdminMixin],
+  validate: new SimpleSchema({
+    fullShowGameData: createShowGamesSchema,
+    estimationGameData: createEstimationGamesSchema,
+  }).validator(),
+  async run({ fullShowGameData, estimationGameData }) {
+    if (!fullShowGameData || !estimationGameData) {
+      throw new Meteor.Error('Missing data');
+    }
+
+    const interactions = generateInteractionDocsFromData(fullShowGameData, estimationGameData);
+
+    await Promise.all(interactions.map((interaction) => createInteraction.callAsync(interaction)));
+
+    // Link estimationVotings with estimationGames
+    // This works well for the setup wizard but the questions
+    // will have to be updated later to ask for the result,
+    // not the same question again
+    const estimationVotings = Interactions.find({
+      type: interactionTypeNames.ESTIMATION_VOTING,
+    }).fetch();
+    const estimationGames = Interactions.find({
+      type: interactionTypeNames.ESTIMATION_GAME,
+      'estimationGame.question': { $in: estimationVotings.map((i) => i.estimationVoting.question) },
+    }).fetch();
+
+    estimationGames.forEach((estimationGame) => {
+      const estimationVoting = estimationVotings.find(
+        (voting) => voting.estimationVoting?.question === estimationGame.estimationGame?.question,
+      );
+
+      Interactions.update(
+        { _id: estimationGame._id },
+        { $set: { 'estimationGame.votingId': estimationVoting._id } },
+      );
     });
   },
 });

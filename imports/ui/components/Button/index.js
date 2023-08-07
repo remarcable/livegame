@@ -22,16 +22,15 @@ Button.propTypes = propTypes;
 
 const styles = (theme) => ({
   button: {
-    padding: 10,
+    padding: '10px 20px',
     border: 0,
     borderRadius: 2,
-    fontSize: 10,
+    fontSize: 16,
     textAlign: 'center',
-    fontFamily: 'GothamBold',
-    textTransform: 'uppercase',
+    fontFamily: 'GothamBold, Inter, Roboto, sans-serif',
     color: '#000',
     boxShadow: theme.shadows[5],
-    backgroundColor: '#fff',
+    backgroundColor: '#f8fafc',
     transition: `all ${theme.transitions.duration.short}ms ${theme.transitions.easing.easeInOut}`,
     cursor: 'pointer',
 

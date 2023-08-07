@@ -12,6 +12,7 @@ const propTypes = {
   title: PropTypes.string,
   submit: PropTypes.func.isRequired,
   isEstimationGame: PropTypes.bool.isRequired,
+  userIsSelectedAsParticipantForCurrentGame: PropTypes.bool.isRequired,
   liveScoreProps: PropTypes.shape({
     // TODO: duplicate proptypes with LiveScores
     mode: PropTypes.oneOf(['HIDE', 'SMALL', 'BIG']).isRequired,
@@ -31,10 +32,15 @@ const InteractionWrapper = ({
   submit,
   liveScoreProps,
   isEstimationGame,
+  userIsSelectedAsParticipantForCurrentGame,
 }) => (
   <div className={classes.outerWrapper}>
     <div className={classes.innerWrapper}>
-      <Header title={title} isEstimationGame={isEstimationGame} />
+      <Header
+        title={title}
+        isEstimationGame={isEstimationGame}
+        userIsSelectedAsParticipantForCurrentGame={userIsSelectedAsParticipantForCurrentGame}
+      />
       {children}
     </div>
     <LiveScores

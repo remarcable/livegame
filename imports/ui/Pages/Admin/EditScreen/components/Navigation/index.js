@@ -7,6 +7,8 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 
+import { Link } from 'react-router-dom';
+
 import ListItems from './ListItems';
 
 const propTypes = {
@@ -40,9 +42,11 @@ const Navigation = (props) => {
     >
       <div className={classes.toolbar}>
         <Box display="flex" justifyContent="center" alignItems="center" height={1}>
-          <Typography variant="h6" align="center">
-            WBP Live Admin
-          </Typography>
+          <Link to="/admin">
+            <Typography variant="h6" align="center" style={{ color: 'white' }}>
+              WBP Live Admin
+            </Typography>
+          </Link>
         </Box>
       </div>
       {screens.map((division) => (

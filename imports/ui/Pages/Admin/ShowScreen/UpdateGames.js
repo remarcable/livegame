@@ -15,8 +15,6 @@ import DoneIcon from '@material-ui/icons/Done';
 
 import blue from '@material-ui/core/colors/blue';
 
-import DocumentTitle from '/imports/ui/components/DocumentTitle';
-
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   games: PropTypes.array.isRequired, // TODO: better proptype
@@ -37,9 +35,8 @@ const UpdateGames = ({
   scoreText,
 }) => (
   <>
-    <Table className={classes.table}>
-      <DocumentTitle>App-Steuerung</DocumentTitle>
-      <TableHead>
+    <Table>
+      <TableHead className={classes.stickyHeader}>
         <TableRow className={classes.gamesHeader}>
           <TableCell>Spiel</TableCell>
           <TableCell>{scoreText}</TableCell>
@@ -50,7 +47,7 @@ const UpdateGames = ({
           <TableRow key={_id} selected={state === 'ACTIVE'}>
             <TableCell>{title}</TableCell>
             <TableCell>
-              <form onSubmit={(e) => handleSubmit(e, updateScores, _id)}>
+              <form onSubmit={(e) => handleSubmit(e, updateScores, _id)} className={classes.form}>
                 <TextField
                   type="number"
                   name="candidate1"
@@ -58,9 +55,7 @@ const UpdateGames = ({
                   defaultValue={fullShowGame.pointsCandidate1}
                   className={classes.textField}
                 />
-                <IconButton type="submit" size="small">
-                  <DoneIcon />
-                </IconButton>
+                <input type="submit" style={{ display: 'none' }} />
                 <Button
                   size="small"
                   disabled={fullShowGame.winner === 'CANDIDATE1'}
@@ -96,15 +91,22 @@ const UpdateGames = ({
 
 function handleSubmit(e, updateScores, _id) {
   e.preventDefault();
+  e.target.candidate1.blur();
 
   const pointsCandidate1 = +e.target.candidate1.value;
 
   updateScores({ _id, pointsCandidate1, pointsCandidate2: 0 });
 }
 
-const styles = {
+const styles = ({ palette }) => ({
   textField: {
     width: 50,
+  },
+  stickyHeader: {
+    position: 'sticky',
+    top: 0,
+    backgroundColor: palette.background.paper,
+    zIndex: 5,
   },
   gamesHeader: {
     textAlign: 'center',
@@ -112,7 +114,12 @@ const styles = {
   disabledButton: {
     color: [blue.A400, '!important'],
   },
-};
+  form: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 UpdateGames.propTypes = propTypes;
 

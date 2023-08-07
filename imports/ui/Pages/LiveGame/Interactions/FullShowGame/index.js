@@ -19,7 +19,6 @@ const styles = {
     width: '100%',
     fontSize: 24,
     textAlign: 'center',
-    textTransform: 'uppercase',
   },
 };
 

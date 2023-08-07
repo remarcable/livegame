@@ -6,13 +6,11 @@ import { withStyles } from '@material-ui/styles';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-import Headline from '/imports/ui/components/Headline';
 import TextField from '/imports/ui/components/TextField';
 import Button from '/imports/ui/components/Button';
 
 const RegistrationForm = ({ classes }) => (
   <form onSubmit={handleOnSubmit} className={classes.form}>
-    <Headline className={classes.headline}>Wer besiegt Paul?</Headline>
     <TextField
       type="text"
       label="Vorname"
@@ -96,17 +94,12 @@ const handleOnSubmit = (e) => {
 
 const styles = {
   form: {
-    width: '100%',
+    width: 'calc(100% - 32px)',
+    padding: 16,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  headline: {
-    marginTop: 10,
-    marginBottom: 10,
-    fontSize: 24,
-    textShadow: '0 2px 7px rgba(0,0,0,0.43)',
   },
   button: {
     marginTop: 20,
@@ -121,7 +114,7 @@ const styles = {
   },
   root: {
     '&$checked': {
-      color: '#fff',
+      color: '#f8fafc',
     },
   },
   checked: {},
@@ -130,10 +123,10 @@ const styles = {
     color: 'rgba(255,255,255,0.80)',
   },
   termsLink: {
-    color: '#fff',
+    color: '#bfdbfe',
     textDecoration: 'underline',
     '&:visited': {
-      color: '#fff',
+      color: '#bfdbfe',
     },
     '&:active': {
       color: 'blue',

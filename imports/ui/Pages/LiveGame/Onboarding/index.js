@@ -6,6 +6,8 @@ import ReactCSSTransitionReplace from 'react-css-transition-replace';
 
 import { withStyles } from '@material-ui/styles';
 
+import Logo from '/imports/ui/components/Logo';
+
 import Intro from './Intro';
 import RegistrationForm from './RegistrationForm';
 
@@ -17,9 +19,7 @@ class Onboarding extends Component {
   constructor() {
     super();
 
-    const completedOnboarding = !!localStorage.getItem('completedOnboarding');
-
-    this.state = { step: completedOnboarding ? 3 : 0 };
+    this.state = { step: 0 };
   }
 
   goToNextStep = () => {
@@ -28,10 +28,6 @@ class Onboarding extends Component {
     this.setState((oldState) => {
       const nextStep = Math.min(oldState.step + 1, MAX_STEP);
 
-      if (nextStep === 3) {
-        localStorage.setItem('completedOnboarding', true);
-      }
-
       return { step: nextStep };
     });
   };
@@ -39,10 +35,14 @@ class Onboarding extends Component {
   render() {
     const { classes } = this.props;
     const { step } = this.state;
-    window.x = this.goToNextStep;
+
     return (
       <div className={classnames(classes.outerWrapper, classes[`step${step}`])}>
-        <div className={classnames(classes.innerWrapper, classes[`step${step}`])}>
+        <div className={classnames(classes.innerWrapper)}>
+          <div className={classes.heading}>
+            <Logo />
+          </div>
+
           <ReactCSSTransitionReplace
             transitionName="fade-wait"
             transitionEnterTimeout={500}
@@ -76,42 +76,45 @@ const TransitionChildWrapper = ({ children, ...props }) => (
 
 Onboarding.propTypes = propTypes;
 
-const styles = ({ transitions, shadows }) => ({
+const styles = ({ transitions }) => ({
   outerWrapper: {
     width: '100%',
     height: '100%',
 
+    overflowY: 'scroll',
+
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
 
-    backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .4) 100%)',
     willChange: 'backgroundColor',
+    backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .5) 100%)',
+    backgroundAttachment: 'fixed',
     transition: `all ${transitions.duration.standard}ms ${transitions.easing.easeInOut} .5s`,
   },
   innerWrapper: {
-    width: '85%',
+    width: '100%',
     height: '75%',
+    marginTop: 32,
     minHeight: 430,
-    padding: 10,
-
-    boxShadow: shadows[24],
-
-    backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .4) 100%)',
-    willChange: 'backgroundColor',
-    transition: `all ${transitions.duration.standard}ms ${transitions.easing.easeInOut} .5s`,
+  },
+  heading: {
+    width: '100%',
+    marginTop: 10,
+    marginBottom: 32,
+    display: 'flex',
+    justifyContent: 'center',
   },
   step0: {
-    backgroundColor: '#287DED',
+    backgroundColor: '#2563eb',
   },
   step1: {
-    backgroundColor: '#FFB13D',
+    backgroundColor: '#d97706',
   },
   step2: {
-    backgroundColor: '#E5402A',
+    backgroundColor: '#dc2626',
   },
   step3: {
-    backgroundColor: '#4EA1CA',
+    backgroundColor: '#0369a1',
   },
 });
 

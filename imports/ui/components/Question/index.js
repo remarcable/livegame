@@ -21,7 +21,6 @@ const questionNumberStyles = {
   paddingRight: '.75em',
   fontSize: '.8em',
   fontWeight: 700,
-  textTransform: 'uppercase',
 };
 
 export default Question;

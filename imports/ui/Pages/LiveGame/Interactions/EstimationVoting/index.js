@@ -36,9 +36,8 @@ const styles = {
   text: {
     display: 'block',
     width: '90%',
-    fontSize: 18,
+    fontSize: 24,
     textAlign: 'center',
-    textTransform: 'uppercase',
   },
   buttonWrapper: {
     width: '80%',

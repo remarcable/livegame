@@ -51,7 +51,7 @@ const styles = (theme) => ({
   header: {
     position: 'relative',
     width: '100%',
-    height: 200,
+    height: 225,
     paddingTop: 20,
     marginBottom: 20,
 
@@ -61,7 +61,7 @@ const styles = (theme) => ({
     transition: `all ${theme.transitions.duration.short}ms ${theme.transitions.easing.easeInOut}`,
   },
   userWasSelected: {
-    height: 260,
+    height: 275,
     zIndex: -1,
     top: 0,
     left: 0,

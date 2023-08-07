@@ -44,7 +44,6 @@ const styles = {
 
     fontSize: 24,
     textAlign: 'center',
-    textTransform: 'uppercase',
   },
   text: {
     marginBottom: 20,

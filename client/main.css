@@ -40,7 +40,7 @@ html {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  font-family: 'MyriadProLight', Roboto, sans-serif;
+  font-family: 'MyriadProLight', Inter, Roboto, sans-serif;
   color: #f8fafc;
   background-color: #283339;
   background-image: linear-gradient(135deg, #334155 15%, #020617 90%);

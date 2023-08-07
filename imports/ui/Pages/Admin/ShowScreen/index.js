@@ -29,6 +29,8 @@ import { interactionTypeNames } from '/imports/api/interactions/types';
 import { mapSort } from '/imports/api/helpers/mapSort';
 import sortFullShowGames from '/imports/api/helpers/sortFullShowGames';
 
+import DocumentTitle from '/imports/ui/components/DocumentTitle';
+
 import UpdateGames from './UpdateGames';
 import InteractionLauncher from './InteractionLauncher';
 
@@ -63,6 +65,8 @@ const ShowScreen = ({
   scoreText,
 }) => (
   <>
+    <DocumentTitle>App-Steuerung</DocumentTitle>
+
     <KeyHandler keyValue="ArrowUp" onKeyHandle={() => hasPrevious && previousInteraction.call()} />
     <KeyHandler
       keyValue="ArrowLeft"
@@ -165,8 +169,14 @@ export default withTracker(() => {
   const hasNext = !!currentInteraction.next;
   const hasPrevious = !!currentInteraction.previous;
 
-  const { candidate1: scoreCandidate1 = 0, candidate2: scoreCandidate2 = 0 } =
-    JoinClient.get('candidateScores') || {};
+  const getScores = (winner, allGames) =>
+    allGames
+      .filter((game) => game.fullShowGame.winner === winner)
+      .map((game) => game.fullShowGame.pointsCandidate1 + game.fullShowGame.pointsCandidate2)
+      .reduce((acc, curr) => acc + curr, 0);
+
+  const scoreCandidate1 = getScores('CANDIDATE1', games);
+  const scoreCandidate2 = getScores('CANDIDATE2', games);
 
   const scoreText = `${scoreCandidate1} : ${scoreCandidate2}`;
 

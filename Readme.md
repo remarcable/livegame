@@ -1,7 +1,5 @@
 # Wer Besiegt Paul Live
 
-## About this project
-
 [Wer besiegt Paul?](https://wer-besiegt-paul.de/) is Germany's largest gameshow produced entirely by volunteers. We meet once a year to transform a sports hall into a big TV studio with over 800 guests – fully non profit. During the show, one candidate competes against Paul in 15 games for a jackpot of more than €4000.
 
 One important part of the show is our motto "participate instead of just consuming" ("mittendrin statt nur dabei"). The audience gets the opportunity to become part of the show through an online app and influence the course of the event.
@@ -58,6 +56,8 @@ Interactions are the main data model around which everything else revolves. To c
 - (Optional): Update the admin interface to control the interaction during the show and for the LiveView
 
 ## Meteor Resources
+
+These resources will help you getting started with this project and Meteor:
 
 - [Meteor Guide](https://guide.meteor.com)
 - [Meteor Code Style](https://guide.meteor.com/code-style.html)

@@ -3,8 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 
-import { JoinClient } from 'meteor-publish-join';
-
 import KeyHandler from 'react-key-handler';
 
 import { withStyles } from '@material-ui/styles';
@@ -33,6 +31,7 @@ import DocumentTitle from '/imports/ui/components/DocumentTitle';
 
 import UpdateGames from './UpdateGames';
 import InteractionLauncher from './InteractionLauncher';
+import ShowScreenPreview from './ShowScreenPreview';
 
 const propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
@@ -99,6 +98,8 @@ const ShowScreen = ({
           scoreText={scoreText}
         />
       </Paper>
+
+      <ShowScreenPreview />
 
       <div className={classes.navigation}>
         <IconButton onClick={() => previousInteraction.call()} disabled={!hasPrevious}>

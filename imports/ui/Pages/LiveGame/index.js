@@ -36,6 +36,7 @@ const propTypes = {
   scoreCandidate1: PropTypes.number.isRequired,
   scoreCandidate2: PropTypes.number.isRequired,
   user: PropTypes.object.isRequired, // TODO: better type
+  isAdminPreview: PropTypes.bool,
 };
 
 const LiveGame = ({
@@ -51,10 +52,11 @@ const LiveGame = ({
   scoreCandidate1,
   scoreCandidate2,
   user,
+  isAdminPreview = false,
 }) => (
   <PlayerLayout loading={loading}>
     <div className={classes.wrapper}>
-      <ScoreSidebar games={games} />
+      <ScoreSidebar games={games} isAdminPreview={isAdminPreview} />
       <div className={classes.interactionsWrapper}>
         <Interactions
           interaction={interaction}

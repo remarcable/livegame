@@ -179,7 +179,7 @@ const LiveViewControl = ({
                 <TableCell>
                   <Box display="flex" flexDirection="column" gap={2}>
                     {i.state === 'CLOSED' && (
-                      <Tooltip title="Interaktion wurde bereits angezeigt. Klick auf den Button setzt diesen Zustand zurück.">
+                      <Tooltip title="Interaktion wurde bereits angezeigt. Dadurch wird ein Stern in der Stern-Leiste in der App markiert. Ein Klick auf den Button setzt diesen Zustand zurück.">
                         <IconButton onClick={() => unsetClosedState.call({ interactionId: i._id })}>
                           <StarIcon />
                         </IconButton>
@@ -190,7 +190,7 @@ const LiveViewControl = ({
                         title={
                           i.state === 'ACTIVE'
                             ? 'Interaktion wird gerade angezeigt'
-                            : 'Interaktion wurde noch nicht angezeigt. Klick auf den Button setzt diese Interaktion in den Zustand als wäre sie bereits angezeigt worden.'
+                            : 'Interaktion wurde noch nicht angezeigt. Klick auf den Button setzt diese Interaktion in den Zustand als wäre sie bereits angezeigt worden womit ein Stern in der App markiert wird.'
                         }
                       >
                         <span>

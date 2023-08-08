@@ -55,6 +55,20 @@ Interactions are the main data model around which everything else revolves. To c
 - `imports/ui/Pages/LiveGame/Interactions/index.js` + Implementation
 - (Optional): Update the admin interface to control the interaction during the show and for the LiveView
 
+## MongoDB Backups
+
+Run the following command to backup the database locally:
+
+```
+mongodump --uri mongodb://<db_username>:<db_password>@<db_server_host>:<db_server_port>/<db_name>
+```
+
+Use the following command to restore the database:
+
+```
+mongorestore --uri mongodb://<db_username>:<db_password>@<db_server_host>:<db_server_port>/<db_name> <path to database dump>
+```
+
 ## Meteor Resources
 
 These resources will help you getting started with this project and Meteor:

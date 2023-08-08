@@ -4,7 +4,7 @@
   "scripts": {
     "start": "meteor run",
     "lint": "eslint client server imports .meteorMocks",
-    "deploy": "DEPLOY_HOSTNAME=eu-west-1.galaxy.meteor.com meteor deploy wbplive-test.eu.meteorapp.com --settings settings.json",
+    "deploy": "DEPLOY_HOSTNAME=eu-west-1.galaxy.meteor.com meteor deploy wbplive2023.eu.meteorapp.com --settings settings.json",
     "test": "jest --watch",
     "test:meteor": "TEST_WATCH=1 meteor test --driver-package meteortesting:mocha --port 4000 --extra-packages jquery",
     "prettier": "prettier --write \"./{imports,client,server}/**/*.js\"",

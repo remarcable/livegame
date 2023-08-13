@@ -6,11 +6,16 @@ One important part of the show is our motto "participate instead of just consumi
 
 This repository contains all the code for that app.
 
+### Admin Interface
+
 <p float="left" align="middle">
-    <img src="./screenshots/App%20Control%201.png" width="40%">
-    <img src="./screenshots/LiveView%20Control%201.png" width="40%">
-    <img src="./screenshots/Audience%20App%201.png" width="19%">
+    <img src="./screenshots/App%20Control%201.png" width="45%">
+    <img src="./screenshots/LiveView%20Control%201.png" width="45%">
 </p>
+
+### User Interface
+
+<img src="./screenshots/Audience%20App%201.png" width="30%">
 
 ## Getting Started
 

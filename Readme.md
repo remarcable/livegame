@@ -7,9 +7,9 @@ One important part of the show is our motto "participate instead of just consumi
 This repository contains all the code for that app.
 
 <p float="left">
-    <img src="./screenshots/Audience%20App%201.png" width="300">
     <img src="./screenshots/App%20Control%201.png" width="450">
     <img src="./screenshots/LiveView%20Control%201.png" width="450">
+    <img src="./screenshots/Audience%20App%201.png" width="250">
 </p>
 
 ## Getting Started

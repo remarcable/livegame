@@ -10,6 +10,7 @@ This repository contains all the code for that app.
 
 <p float="left" align="middle">
     <img src="./screenshots/App%20Control%201.png" width="45%">
+    &nbsp; &nbsp; &nbsp; &nbsp;
     <img src="./screenshots/LiveView%20Control%201.png" width="45%">
 </p>
 
